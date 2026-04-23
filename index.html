@@ -1,732 +1,1047 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roadside Intelligence Network — AI-Powered Dispatch for Tow Operators</title>
-  <meta name="description" content="RIN connects Toronto's top tow companies with enterprise clients through AI-powered dispatch. More jobs. Faster pay. Zero overhead." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Roadside Intelligence Network - AI dispatch platform for tow operators. More jobs, faster pay, zero overhead.">
+  <title>RIN - AI Dispatch Network for Tow Operators</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg:        #0f172a;
-      --surface:   #1e293b;
-      --border:    #334155;
-      --accent:    #3b82f6;
-      --accent-h:  #2563eb;
-      --success:   #22c55e;
-      --warning:   #f59e0b;
-      --danger:    #ef4444;
-      --text:      #f1f5f9;
-      --muted:     #94a3b8;
-      --subtle:    #475569;
-      --orange:    #f97316;
+      --bg-primary: #0f172a;
+      --bg-secondary: #1a2341;
+      --bg-tertiary: #243455;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-tertiary: #94a3b8;
+      --accent: #3b82f6;
+      --accent-dark: #1e40af;
+      --accent-light: #60a5fa;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --border: #334155;
     }
 
-    html { scroll-behavior: smooth; }
-
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
       line-height: 1.6;
     }
 
     a { color: inherit; text-decoration: none; }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(15,23,42,0.92);
-      backdrop-filter: blur(12px);
+    /* ── HEADER ── */
+    header {
       border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
+      padding: 12px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(26, 35, 65, 0.9);
     }
 
-    .nav-logo {
-      display: flex; align-items: center; gap: 0.6rem;
-      font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px;
+    .logo-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
 
-    .nav-logo-dot {
-      width: 10px; height: 10px; border-radius: 50%;
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      animation: pulse 2s infinite;
+      box-shadow: 0 0 6px var(--accent);
+      animation: blink 2s infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.2); }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
 
-    .nav-links {
-      display: flex; align-items: center; gap: 2rem;
+    #navTagline {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      padding-left: 16px;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+
+    nav ul {
+      display: flex;
       list-style: none;
+      gap: 32px;
     }
 
-    .nav-links a {
-      font-size: 0.9rem; color: var(--muted);
-      transition: color 0.2s;
+    nav a {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 150ms;
     }
 
-    .nav-links a:hover { color: var(--text); }
+    nav a:hover { color: var(--accent-light); }
 
-    .nav-cta {
+    .header-btn {
       background: var(--accent);
-      color: white !important;
-      padding: 0.5rem 1.25rem;
+      color: white;
+      padding: 8px 16px;
+      border: none;
       border-radius: 6px;
+      font-size: 14px;
       font-weight: 600;
-      font-size: 0.85rem;
-      transition: background 0.2s;
+      cursor: pointer;
+      transition: all 150ms;
+      text-decoration: none;
+      display: inline-block;
     }
 
-    .nav-cta:hover { background: var(--accent-h) !important; color: white !important; }
+    .header-btn:hover {
+      background: var(--accent-light);
+      transform: translateY(-1px);
+    }
 
     /* ── HERO ── */
     .hero {
-      padding: 7rem 2rem 5rem;
-      max-width: 1100px; margin: 0 auto;
+      padding: 100px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
 
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: rgba(59,130,246,0.12);
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 400px;
+      background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+      z-index: 0; pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-block;
+      background: rgba(59,130,246,0.2);
+      color: var(--accent-light);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
       border: 1px solid rgba(59,130,246,0.3);
-      color: var(--accent);
-      padding: 0.35rem 1rem;
-      border-radius: 100px;
-      font-size: 0.8rem; font-weight: 600;
-      letter-spacing: 0.5px; text-transform: uppercase;
-      margin-bottom: 2rem;
     }
 
-    .hero h1 {
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      margin-bottom: 1.5rem;
+    h1 {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      color: var(--text-primary);
     }
 
-    .hero h1 span { color: var(--accent); }
-
-    .hero p {
-      font-size: 1.15rem;
-      color: var(--muted);
-      max-width: 620px; margin: 0 auto 2.5rem;
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
       line-height: 1.7;
     }
 
-    .hero-ctas {
-      display: flex; gap: 1rem;
-      justify-content: center; flex-wrap: wrap;
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 80px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 32px;
+      border-radius: 6px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 150ms;
+      display: inline-block;
     }
 
     .btn-primary {
       background: var(--accent);
       color: white;
-      padding: 0.85rem 2rem;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      transition: all 0.2s;
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      cursor: pointer; border: none;
     }
 
     .btn-primary:hover {
-      background: var(--accent-h);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(59,130,246,0.3);
+      background: var(--accent-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(59,130,246,0.3);
     }
 
     .btn-secondary {
-      background: transparent;
-      color: var(--text);
-      padding: 0.85rem 2rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.95rem;
+      background: var(--bg-secondary);
+      color: var(--accent-light);
       border: 1px solid var(--border);
-      transition: all 0.2s;
-      cursor: pointer;
     }
 
     .btn-secondary:hover {
+      background: var(--bg-tertiary);
       border-color: var(--accent);
-      color: var(--accent);
     }
 
-    /* ── STATS BAR ── */
-    .stats-bar {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 2.5rem 2rem;
-    }
-
-    .stats-inner {
-      max-width: 1100px; margin: 0 auto;
+    /* ── METRICS ── */
+    .metrics {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 2rem;
-      text-align: center;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .stat-number {
-      font-size: 2.2rem; font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -1px;
-      margin-bottom: 0.25rem;
+    .metric { text-align: center; }
+
+    .metric-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent-light);
+      margin-bottom: 8px;
     }
 
-    .stat-label {
-      font-size: 0.85rem; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.5px;
+    .metric-label {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      font-weight: 500;
     }
 
-    /* ── SECTION BASE ── */
-    section { padding: 6rem 2rem; }
+    /* ── SECTIONS ── */
+    section {
+      padding: 80px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-    .section-inner { max-width: 1100px; margin: 0 auto; }
+    section h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
 
     .section-label {
-      font-size: 0.75rem; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 0.75rem;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
     }
 
-    .section-title {
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
-      font-weight: 800; letter-spacing: -0.5px;
-      margin-bottom: 1rem; line-height: 1.2;
+    .section-intro {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      max-width: 600px;
     }
 
-    .section-sub {
-      color: var(--muted); font-size: 1.05rem;
-      max-width: 560px; line-height: 1.7; margin-bottom: 3rem;
-    }
-
-    /* ── WHY GRID ── */
-    .why-grid {
+    /* ── FEATURES ── */
+    .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
     }
 
-    .why-card {
-      background: var(--surface);
+    .feature-card {
+      padding: 32px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
       border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.75rem;
-      transition: border-color 0.2s, transform 0.2s;
+      transition: all 200ms;
       cursor: default;
     }
 
-    .why-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-
-    .why-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: rgba(59,130,246,0.12);
-      border: 1px solid rgba(59,130,246,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.25rem; margin-bottom: 1.25rem;
+    .feature-card:hover {
+      border-color: var(--accent);
+      background: var(--bg-tertiary);
+      transform: translateY(-4px);
     }
 
-    .why-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
-    .why-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .feature-icon { font-size: 28px; margin-bottom: 16px; }
 
-    /* ── STEPS ── */
-    .steps {
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-it-works {
+      background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      padding: 80px 32px;
+    }
+
+    .steps-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    .step { text-align: center; padding: 1.5rem; }
-
-    .step-num {
-      width: 52px; height: 52px; border-radius: 50%;
-      background: var(--accent); color: white;
-      font-weight: 800; font-size: 1.2rem;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1.25rem;
-    }
-
-    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .step p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
-
-    /* ── PLANS ── */
-    .plans-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem; max-width: 850px;
-    }
-
-    .plan-card {
-      background: var(--surface);
+    .step {
+      background: var(--bg-secondary);
+      padding: 32px;
+      border-radius: 12px;
       border: 1px solid var(--border);
-      border-radius: 16px; padding: 2rem;
       position: relative;
     }
 
-    .plan-card.featured { border-color: var(--accent); }
-
-    .plan-badge {
-      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-      background: var(--accent); color: white;
-      font-size: 0.7rem; font-weight: 700;
-      letter-spacing: 1px; text-transform: uppercase;
-      padding: 0.25rem 1rem; border-radius: 100px;
+    .step::after {
+      content: '';
+      position: absolute;
+      right: -24px; top: 50%;
+      transform: translateY(-50%);
+      width: 16px; height: 2px;
+      background: var(--border);
     }
 
-    .plan-name { font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
-    .plan-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; }
-    .plan-price { font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 0.25rem; }
-    .plan-price-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .step:last-child::after { display: none; }
 
-    .plan-features { list-style: none; margin-bottom: 2rem; }
-    .plan-features li {
-      font-size: 0.875rem; color: var(--muted);
-      padding: 0.4rem 0;
-      display: flex; align-items: flex-start; gap: 0.6rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .plan-features li:last-child { border-bottom: none; }
-    .plan-features li::before { content: '✓'; color: var(--success); font-weight: 700; flex-shrink: 0; }
-
-    .plan-cta {
-      display: block; width: 100%; text-align: center;
-      padding: 0.85rem; border-radius: 8px;
-      font-weight: 700; font-size: 0.9rem;
-      transition: all 0.2s; cursor: pointer; border: none;
-      text-decoration: none;
-    }
-    .plan-cta.primary { background: var(--accent); color: white; }
-    .plan-cta.primary:hover { background: var(--accent-h); }
-    .plan-cta.outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    .plan-cta.outline:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* ── ENTERPRISE ── */
-    .enterprise-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 4rem; align-items: center;
+    .step-number {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      color: white;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-bottom: 16px;
+      font-size: 18px;
     }
 
-    .enterprise-logos { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .step h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
 
-    .ent-card {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1.25rem;
-    }
-    .ent-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    .ent-card h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem; }
-    .ent-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
-
-    /* ── OPERATOR CARDS ── */
-    .op-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .op-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.75rem;
-      display: flex; flex-direction: column; gap: 1rem;
-    }
-
-    .op-header { display: flex; align-items: center; gap: 1rem; }
-
-    .op-avatar {
-      width: 48px; height: 48px; border-radius: 10px;
-      background: rgba(59,130,246,0.15);
-      border: 1px solid rgba(59,130,246,0.3);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-    }
-
-    .op-name { font-weight: 700; font-size: 0.95rem; }
-    .op-type { font-size: 0.78rem; color: var(--muted); }
-
-    .op-status {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      font-size: 0.75rem; font-weight: 600; color: var(--success);
-    }
-    .op-status::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--success);
-    }
-
-    .op-stat {
-      display: flex; justify-content: space-between;
-      font-size: 0.82rem; padding: 0.3rem 0;
-      border-bottom: 1px solid var(--border); color: var(--muted);
-    }
-    .op-stat:last-child { border-bottom: none; }
-    .op-stat span:last-child { color: var(--text); font-weight: 600; }
-
-    /* ── FORM ── */
-    .cta-section {
-      background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%);
-      text-align: center; padding: 7rem 2rem;
+    /* ── DEMO SECTION ── */
+    .demo-section {
+      background: var(--bg-primary);
+      padding: 80px 32px;
       border-top: 1px solid var(--border);
     }
 
-    .cta-section h2 {
-      font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;
-      margin-bottom: 1rem; letter-spacing: -1px;
+    .demo-inner {
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    .cta-section > p {
-      color: var(--muted); font-size: 1.05rem;
-      max-width: 500px; margin: 0 auto 2.5rem;
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .demo-video-wrap {
+      position: relative;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 200ms;
+    }
+
+    .demo-video-wrap:hover { border-color: var(--accent); }
+
+    .demo-play {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .demo-play-btn {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 0 40px rgba(59,130,246,0.4);
+      transition: transform 200ms;
+    }
+
+    .demo-video-wrap:hover .demo-play-btn { transform: scale(1.08); }
+
+    .demo-play-title { font-weight: 700; font-size: 15px; }
+    .demo-play-sub { font-size: 13px; color: var(--text-tertiary); }
+
+    .demo-chips {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(15,23,42,0.9));
+      padding: 12px 16px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .chip {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .chip-blue {
+      background: rgba(59,130,246,0.2);
+      border: 1px solid rgba(59,130,246,0.35);
+      color: var(--accent-light);
+    }
+
+    .chip-green {
+      background: rgba(16,185,129,0.15);
+      border: 1px solid rgba(16,185,129,0.35);
+      color: var(--success);
+    }
+
+    .demo-portal-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .portal-link {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: border-color 150ms;
+    }
+
+    .portal-link:hover { border-color: var(--accent); color: var(--accent-light); }
+
+    .demo-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .demo-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .demo-card-icon { font-size: 24px; margin-bottom: 10px; }
+
+    .demo-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+
+    .demo-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; }
+
+    .demo-checklist { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+
+    .demo-checklist li {
+      font-size: 13px; color: var(--text-secondary);
+      display: flex; gap: 8px;
+    }
+
+    .demo-checklist li::before { content: '✓'; color: var(--success); font-weight: 700; flex-shrink: 0; }
+
+    /* ── PRICING ── */
+    .pricing-section {
+      background: var(--bg-secondary);
+      padding: 80px 32px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 40px;
+      transition: all 200ms;
+    }
+
+    .pricing-card.featured {
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 30px rgba(59,130,246,0.2);
+      transform: scale(1.05);
+    }
+
+    .pricing-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+
+    .pricing-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent-light);
+      margin-bottom: 4px;
+    }
+
+    .pricing-meta {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-bottom: 32px;
+      font-weight: 500;
+    }
+
+    .pricing-features { list-style: none; margin-bottom: 32px; }
+
+    .pricing-features li {
+      padding: 10px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pricing-features li:last-child { border-bottom: none; }
+
+    .pricing-features li::before { content: '✓'; color: var(--success); font-weight: 700; flex-shrink: 0; }
+
+    /* ── OPERATORS ── */
+    .operators-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .operator-card {
+      background: var(--bg-secondary);
+      padding: 32px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: all 200ms;
+    }
+
+    .operator-card:hover { border-color: var(--accent); background: var(--bg-tertiary); }
+
+    .operator-header { display: flex; gap: 12px; margin-bottom: 20px; }
+
+    .operator-icon {
+      font-size: 28px;
+      width: 48px; height: 48px;
+      background: rgba(59,130,246,0.2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .operator-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+
+    .operator-status { font-size: 12px; color: var(--success); font-weight: 600; }
+
+    .operator-meta { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .operator-meta:last-of-type { border-bottom: none; margin-bottom: 16px; }
+
+    .meta-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .meta-value { font-size: 13px; color: var(--text-primary); font-weight: 600; }
+
+    .operator-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .tag {
+      background: rgba(59,130,246,0.2);
+      color: var(--accent-light);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(59,130,246,0.3);
+    }
+
+    /* ── APPLY FORM ── */
+    .apply-section {
+      background: linear-gradient(135deg, #1e3a8a 0%, var(--bg-secondary) 100%);
+      padding: 80px 32px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .apply-section h2 { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
+
+    .apply-section > p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      max-width: 480px;
+      margin: 0 auto 40px;
     }
 
     .form-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1rem; max-width: 560px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      max-width: 560px;
+      margin: 0 auto;
+      text-align: left;
     }
 
-    .form-field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .form-field { display: flex; flex-direction: column; gap: 6px; }
     .form-field.full { grid-column: 1 / -1; }
 
     .form-field label {
-      font-size: 0.78rem; font-weight: 600;
-      color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-tertiary);
     }
 
     .form-field input,
     .form-field select,
     .form-field textarea {
-      background: var(--bg); border: 1px solid var(--border);
-      color: var(--text); padding: 0.7rem 1rem;
-      border-radius: 6px; font-size: 0.9rem;
-      font-family: inherit; outline: none; transition: border-color 0.2s;
+      background: rgba(15,23,42,0.7);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 150ms;
     }
 
     .form-field input:focus,
     .form-field select:focus,
     .form-field textarea:focus { border-color: var(--accent); }
 
-    .form-field textarea { min-height: 100px; resize: vertical; }
-    .form-field select option { background: var(--surface); }
+    .form-field textarea { min-height: 90px; resize: vertical; }
+    .form-field select option { background: var(--bg-secondary); }
 
     .form-submit {
       grid-column: 1 / -1;
-      background: var(--accent); color: white; border: none;
-      padding: 0.9rem; border-radius: 8px;
-      font-size: 1rem; font-weight: 700; cursor: pointer;
-      transition: all 0.2s;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 150ms;
     }
 
-    .form-submit:hover {
-      background: var(--accent-h);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(59,130,246,0.35);
-    }
-
-    .form-submit:disabled { background: var(--subtle); cursor: not-allowed; transform: none; box-shadow: none; }
+    .form-submit:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .form-submit:disabled { background: #475569; cursor: not-allowed; transform: none; }
 
     .form-msg {
       grid-column: 1 / -1;
-      padding: 0.75rem 1rem; border-radius: 6px;
-      font-size: 0.875rem; font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
       display: none;
     }
 
-    .form-msg.success { background: rgba(34,197,94,0.12); border: 1px solid var(--success); color: var(--success); display: block; }
-    .form-msg.error { background: rgba(239,68,68,0.12); border: 1px solid var(--danger); color: var(--danger); display: block; }
+    .form-msg.success {
+      background: rgba(16,185,129,0.12);
+      border: 1px solid var(--success);
+      color: var(--success);
+      display: block;
+    }
+
+    .form-msg.error {
+      background: rgba(239,68,68,0.12);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      display: block;
+    }
 
     /* ── FOOTER ── */
     footer {
-      background: var(--surface);
+      background: var(--bg-secondary);
+      padding: 60px 32px 24px;
       border-top: 1px solid var(--border);
-      padding: 3rem 2rem;
     }
 
-    .footer-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: 2fr 1fr 1fr;
-      gap: 3rem;
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
     }
 
-    .footer-brand p {
-      font-size: 0.875rem; color: var(--muted);
-      max-width: 300px; margin-top: 0.75rem; line-height: 1.6;
+    .footer-section h4 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      color: var(--text-secondary);
     }
 
-    .footer-col h4 {
-      font-size: 0.78rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1px;
-      color: var(--muted); margin-bottom: 1rem;
+    .footer-section ul { list-style: none; }
+
+    .footer-section a {
+      color: var(--text-tertiary);
+      font-size: 13px;
+      display: block;
+      padding: 6px 0;
+      transition: color 150ms;
     }
 
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 0.5rem; }
-    .footer-col ul li a { font-size: 0.875rem; color: var(--subtle); transition: color 0.2s; }
-    .footer-col ul li a:hover { color: var(--text); }
+    .footer-section a:hover { color: var(--accent-light); }
 
     .footer-bottom {
-      max-width: 1100px; margin: 2rem auto 0;
-      padding-top: 1.5rem; border-top: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.8rem; color: var(--subtle);
-      flex-wrap: wrap; gap: 0.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .status-badge {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      font-size: 0.75rem; color: var(--success);
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--success);
     }
-    .status-badge::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--success); animation: pulse 2s infinite;
+
+    .status-pill::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: blink 2s infinite;
+    }
+
+    /* ── VIDEO MODAL ── */
+    #videoModal {
+      display: none;
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    #videoModal.open { display: flex; }
+
+    .modal-inner {
+      width: 100%;
+      max-width: 900px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -2.5rem; right: 0;
+      background: none; border: none;
+      color: white; font-size: 1.1rem;
+      cursor: pointer; font-weight: 600;
+    }
+
+    .modal-video {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .modal-video iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; border: none;
+    }
+
+    .modal-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 16px; color: white;
+      background: var(--bg-secondary);
+      text-align: center; padding: 2rem;
     }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .enterprise-grid { grid-template-columns: 1fr; }
-      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      h1 { font-size: 36px; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .features-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .step::after { display: none; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-card.featured { transform: scale(1); }
+      .operators-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+      nav ul { gap: 16px; }
+      section { padding: 60px 20px; }
+      .demo-grid { grid-template-columns: 1fr; }
       .form-grid { grid-template-columns: 1fr; }
       .form-field.full { grid-column: 1; }
-      section { padding: 4rem 1.25rem; }
-      .hero { padding: 4rem 1.25rem 3rem; }
+      #navTagline { display: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo" style="flex-direction:column;align-items:flex-start;gap:0.1rem;">
-    <div style="display:flex;align-items:center;gap:0.6rem;">
-      <div class="nav-logo-dot"></div>
+<!-- HEADER -->
+<header>
+  <div class="logo-wrap">
+    <div class="logo">
+      <div class="logo-dot"></div>
       RIN
     </div>
-    <div id="navTagline" style="font-size:0.75rem;font-weight:500;color:var(--muted);letter-spacing:0.3px;padding-left:1.4rem;white-space:nowrap;transition:opacity 0.3s;">
-      Faster Dispatch. Better Driver Utilization. No Workflow Change.
-    </div>
+    <div id="navTagline">Faster Dispatch. Better Driver Utilization. No Workflow Change.</div>
   </div>
-  <ul class="nav-links">
-    <li><a href="#operators" data-track="nav_operators">For Operators</a></li>
-    <li><a href="#how" data-track="nav_how">How It Works</a></li>
-    <li><a href="#demo" data-track="nav_demo">Demo</a></li>
-    <li><a href="#plans" data-track="nav_plans">Plans</a></li>
-    <li><a href="#enterprise" data-track="nav_enterprise">Enterprise</a></li>
-    <li><a href="#contact" class="nav-cta" data-track="nav_apply">Apply to Join</a></li>
-  </ul>
-</nav>
+  <nav>
+    <ul>
+      <li><a href="#why" data-track="nav_operators">For Operators</a></li>
+      <li><a href="#how" data-track="nav_how">How It Works</a></li>
+      <li><a href="#demo" data-track="nav_demo">Demo</a></li>
+      <li><a href="#pricing" data-track="nav_plans">Pricing</a></li>
+      <li><a href="#operators" data-track="nav_network">Network</a></li>
+    </ul>
+  </nav>
+  <a href="#apply" class="header-btn" data-track="nav_apply">Get Started</a>
+</header>
 
 <!-- HERO -->
 <section class="hero" data-section="hero">
-  <div class="hero-badge">
-    <span>🟢</span> Now accepting operators — Toronto &amp; GTA
-  </div>
-  <h1>
-    The <span>AI dispatch network</span><br/>
-    built for tow operators
-  </h1>
-  <p>
-    Roadside Intelligence Network connects your company to enterprise clients — insurance, fleet, and dealerships — through intelligent AI dispatch. More jobs. Faster pay. Zero overhead.
-  </p>
-  <div class="hero-ctas">
-    <a href="#contact" class="btn-primary" data-track="hero_apply">
-      Apply to Join the Network →
-    </a>
-    <a href="#enterprise" class="btn-secondary" data-track="hero_enterprise">
-      Enterprise Partnerships
-    </a>
+  <div class="hero-content">
+    <span class="hero-tag">✓ Now Accepting Operators — Toronto &amp; GTA</span>
+    <h1>More jobs. Faster pay.<br>Zero overhead.</h1>
+    <p class="hero-subtitle">Connect directly to insurance companies, fleet operators, and dealerships. Let AI handle dispatch. You handle income.</p>
+
+    <div class="hero-cta">
+      <a href="#apply" class="btn btn-primary" data-track="hero_apply">Apply to Join Network</a>
+      <a href="#demo" class="btn btn-secondary" data-track="hero_demo">Schedule 30-Min Demo</a>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-value">80%</div>
+        <div class="metric-label">Payout Per Job</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">&lt;15 min</div>
+        <div class="metric-label">Avg Dispatch Time</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">48 hrs</div>
+        <div class="metric-label">Onboarding</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">$0</div>
+        <div class="metric-label">Setup Cost</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- STATS -->
-<div class="stats-bar" data-section="stats">
-  <div class="stats-inner">
-    <div class="stat-item"><div class="stat-number">80%</div><div class="stat-label">Payout per job</div></div>
-    <div class="stat-item"><div class="stat-number">&lt;15min</div><div class="stat-label">Avg dispatch time</div></div>
-    <div class="stat-item"><div class="stat-number">48hr</div><div class="stat-label">Onboarding time</div></div>
-    <div class="stat-item"><div class="stat-number">GTA</div><div class="stat-label">Coverage area</div></div>
-    <div class="stat-item"><div class="stat-number">0</div><div class="stat-label">Setup cost</div></div>
-  </div>
-</div>
+<!-- WHY CHOOSE RIN -->
+<section id="why" data-section="operators">
+  <div class="section-label">For Tow Operators</div>
+  <h2>Why Operators Choose RIN</h2>
+  <p class="section-intro">Designed by people who understand the dispatch business. Built for operators who want control, transparency, and volume.</p>
 
-<!-- FOR OPERATORS -->
-<section id="operators" data-section="operators">
-  <div class="section-inner">
-    <div class="section-label">For Tow Operators</div>
-    <h2 class="section-title">Why tow companies choose RIN</h2>
-    <p class="section-sub">We handle the dispatch intelligence so you can focus on what you do best — running jobs and serving customers.</p>
-    <div class="why-grid">
-      <div class="why-card" data-track="card_jobs"><div class="why-icon">📋</div><h3>Enterprise job volume</h3><p>Get dispatched directly by insurance companies, fleet operators, and dealerships. Steady, pre-qualified jobs without the phone tag.</p></div>
-      <div class="why-card" data-track="card_ai"><div class="why-icon">🤖</div><h3>AI handles the logistics</h3><p>Our dispatch engine matches jobs to the right driver automatically — closest, highest rated, available. You just confirm and go.</p></div>
-      <div class="why-card" data-track="card_pay"><div class="why-icon">💸</div><h3>80% per job, fast</h3><p>You keep 80% of every job. Transparent pricing, automatic billing. No chasing invoices, no surprises at end of month.</p></div>
-      <div class="why-card" data-track="card_sms"><div class="why-icon">📱</div><h3>No extra software needed</h3><p>Drivers respond by SMS. The dispatcher portal handles everything else. No new apps to train your team on.</p></div>
-      <div class="why-card" data-track="card_rating"><div class="why-icon">⭐</div><h3>Build your reputation</h3><p>Every job adds to your performance score. High-rated operators get priority dispatch — more volume automatically.</p></div>
-      <div class="why-card" data-track="card_pricing"><div class="why-icon">🔒</div><h3>Price protection built in</h3><p>AI-calculated pricing for every job type. Tow, battery, tire, lockout, winch — rates are set and customer-approved before you roll.</p></div>
+  <div class="features-grid">
+    <div class="feature-card" data-track="card_jobs">
+      <div class="feature-icon">📊</div>
+      <h3>Enterprise Job Volume</h3>
+      <p>Dispatched directly by insurance companies, fleet operators, and dealerships. Pre-qualified jobs. No phone tag.</p>
+    </div>
+    <div class="feature-card" data-track="card_ai">
+      <div class="feature-icon">🤖</div>
+      <h3>AI Handles Logistics</h3>
+      <p>Automatic driver matching by location, rating, and availability. One SMS confirmation. You're on your way.</p>
+    </div>
+    <div class="feature-card" data-track="card_pay">
+      <div class="feature-icon">💰</div>
+      <h3>Transparent 80% Payout</h3>
+      <p>No hidden fees. You keep 80 cents of every dollar. Automatic billing. No invoices to chase.</p>
+    </div>
+    <div class="feature-card" data-track="card_sms">
+      <div class="feature-icon">📱</div>
+      <h3>SMS-Based Workflow</h3>
+      <p>Drivers text to confirm. Portal handles the rest. No new apps. No training needed.</p>
+    </div>
+    <div class="feature-card" data-track="card_rating">
+      <div class="feature-icon">⭐</div>
+      <h3>Build Your Reputation</h3>
+      <p>Every job adds to your score. Higher ratings = priority dispatch. More volume automatically.</p>
+    </div>
+    <div class="feature-card" data-track="card_pricing">
+      <div class="feature-icon">🔒</div>
+      <h3>Price Protection</h3>
+      <p>AI-set pricing for every job type. Rates locked in before you roll. No negotiation at the scene.</p>
     </div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section id="how" data-section="how" style="background:var(--surface);">
-  <div class="section-inner">
-    <div class="section-label">How It Works</div>
-    <h2 class="section-title">From dispatch to payment — automated</h2>
-    <p class="section-sub">RIN handles customer intake, pricing, and confirmation. Your driver gets a clean job with an approved price.</p>
-    <div class="steps">
-      <div class="step"><div class="step-num">1</div><h3>Job comes in</h3><p>Customer or enterprise client submits a roadside request — location, vehicle, incident type.</p></div>
-      <div class="step"><div class="step-num">2</div><h3>AI prices the job</h3><p>RIN calculates a fair price based on incident type, distance, time of day. Customer approves via SMS.</p></div>
-      <div class="step"><div class="step-num">3</div><h3>Your driver is matched</h3><p>The nearest available, qualified driver from your fleet gets the offer. Confirm by SMS — no app needed.</p></div>
-      <div class="step"><div class="step-num">4</div><h3>Complete &amp; get paid</h3><p>Driver marks job done. Customer confirms. Payment is captured. Your 80% is tracked automatically in your portal.</p></div>
+<div class="how-it-works" data-section="how">
+  <section id="how" style="padding-top:0;padding-bottom:0;">
+    <div class="section-label">The Process</div>
+    <h2>How It Works</h2>
+    <p class="section-intro">From job intake to payment in four simple steps. RIN automates everything so you focus on driving.</p>
+
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Job Comes In</h3>
+        <p>Customer or enterprise client submits a roadside request. Location, vehicle type, incident — all in RIN.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>AI Prices It</h3>
+        <p>RIN calculates pricing based on incident type, distance, and time. Customer approves via SMS.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Driver Matched</h3>
+        <p>Nearest available, qualified driver gets the offer. One text to confirm. No app needed.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Get Paid</h3>
+        <p>Job done. Customer confirms. Payment captured. Your 80% tracked automatically in your portal.</p>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
 <!-- DEMO -->
-<section id="demo" data-section="demo" style="background:var(--surface);">
-  <div class="section-inner">
+<div class="demo-section" id="demo" data-section="demo">
+  <div class="demo-inner">
     <div class="section-label">See It In Action</div>
-    <h2 class="section-title">Watch how RIN works</h2>
-    <p class="section-sub">A 3-minute walkthrough of the dispatch flow — from job intake to driver assignment to payment.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+    <h2 style="font-size:36px;font-weight:700;margin-bottom:16px;">Watch how RIN works</h2>
+    <p class="section-intro">A 3-minute walkthrough of the full dispatch flow — intake, AI pricing, driver match, payment.</p>
 
-      <!-- Video embed -->
+    <div class="demo-grid">
+      <!-- Video -->
       <div>
-        <div id="demoVideo" style="
-          position:relative;background:#0f172a;border:1px solid var(--border);
-          border-radius:12px;overflow:hidden;aspect-ratio:16/9;
-          display:flex;flex-direction:column;align-items:center;justify-content:center;
-          cursor:pointer;gap:1rem;
-        " onclick="openDemo()" data-track="demo_video_play">
-          <!-- Portal screenshots as blurred background preview -->
-          <div style="
-            position:absolute;inset:0;
-            background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);
-            display:flex;align-items:center;justify-content:center;
-          ">
-            <div style="text-align:center;padding:2rem;">
-              <div style="
-                width:72px;height:72px;border-radius:50%;
-                background:var(--accent);
-                display:flex;align-items:center;justify-content:center;
-                margin:0 auto 1rem;
-                box-shadow:0 0 40px rgba(59,130,246,0.5);
-                font-size:1.8rem;
-              ">▶</div>
-              <div style="font-weight:700;font-size:1rem;margin-bottom:0.25rem;">Watch the Demo</div>
-              <div style="font-size:0.82rem;color:var(--muted);">3 min · Full dispatch walkthrough</div>
-            </div>
+        <div class="demo-video-wrap" onclick="openDemo()" data-track="demo_video_play">
+          <div class="demo-play">
+            <div class="demo-play-btn">▶</div>
+            <div class="demo-play-title">Watch the Demo</div>
+            <div class="demo-play-sub">3 min · Full dispatch walkthrough</div>
           </div>
-          <!-- Portal preview cards overlay -->
-          <div style="
-            position:absolute;bottom:0;left:0;right:0;
-            background:linear-gradient(transparent,rgba(15,23,42,0.9));
-            padding:1rem 1.25rem;
-            display:flex;gap:0.5rem;
-          ">
-            <span style="font-size:0.72rem;background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.3);color:var(--accent);padding:0.2rem 0.6rem;border-radius:100px;">Dispatch Portal</span>
-            <span style="font-size:0.72rem;background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.3);color:var(--accent);padding:0.2rem 0.6rem;border-radius:100px;">Partner Portal</span>
-            <span style="font-size:0.72rem;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:var(--success);padding:0.2rem 0.6rem;border-radius:100px;">Live AI Pricing</span>
+          <div class="demo-chips">
+            <span class="chip chip-blue">Dispatch Portal</span>
+            <span class="chip chip-blue">Partner Portal</span>
+            <span class="chip chip-green">Live AI Pricing</span>
           </div>
         </div>
 
-        <!-- Portal quick links -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem;">
-          <a href="https://x-rin-dispatcher.netlify.app" target="_blank" data-track="demo_dispatcher_portal"
-            style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0.85rem;display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;font-weight:600;transition:border-color 0.2s;"
-            onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
-            <span style="font-size:1.1rem;">🖥️</span> Dispatch Portal
+        <div class="demo-portal-links">
+          <a href="https://x-rin-dispatcher.netlify.app" target="_blank" class="portal-link" data-track="demo_dispatcher_portal">
+            🖥️ Dispatch Portal
           </a>
-          <a href="https://x-rin-partner-portal.netlify.app" target="_blank" data-track="demo_partner_portal"
-            style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0.85rem;display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;font-weight:600;transition:border-color 0.2s;"
-            onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
-            <span style="font-size:1.1rem;">🤝</span> Partner Portal
+          <a href="https://x-rin-partner-portal.netlify.app" target="_blank" class="portal-link" data-track="demo_partner_portal">
+            🤝 Partner Portal
           </a>
         </div>
       </div>
 
-      <!-- Schedule demo -->
-      <div style="display:flex;flex-direction:column;gap:1.25rem;">
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.75rem;">
-          <div style="font-size:1.4rem;margin-bottom:0.75rem;">📅</div>
-          <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:0.5rem;">Schedule a Live Demo</h3>
-          <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;margin-bottom:1.25rem;">
-            30 minutes with Barnes — see the full dispatch flow live, ask questions, and find out if RIN is the right fit for your operation.
-          </p>
+      <!-- Schedule -->
+      <div class="demo-cards">
+        <div class="demo-card">
+          <div class="demo-card-icon">📅</div>
+          <h3>Schedule a Live Demo</h3>
+          <p>30 minutes with Barnes — see the full dispatch flow live, ask questions, and find out if RIN is right for your operation.</p>
           <a href="https://calendly.com/barnes-thestrategypitch/30min" target="_blank"
-            class="btn-primary" data-track="demo_schedule_calendly"
-            style="display:flex;justify-content:center;text-decoration:none;">
+            class="btn btn-primary" style="display:block;text-align:center;width:100%;" data-track="demo_schedule_calendly">
             Book a 30-Min Demo →
           </a>
         </div>
-
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.75rem;">
-          <div style="font-size:1.4rem;margin-bottom:0.75rem;">💬</div>
-          <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:0.5rem;">What you'll see</h3>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
-            <li style="font-size:0.85rem;color:var(--muted);display:flex;gap:0.5rem;"><span style="color:var(--success);font-weight:700;">✓</span>Live job intake → AI pricing → SMS confirmation</li>
-            <li style="font-size:0.85rem;color:var(--muted);display:flex;gap:0.5rem;"><span style="color:var(--success);font-weight:700;">✓</span>Driver matching and dispatch flow</li>
-            <li style="font-size:0.85rem;color:var(--muted);display:flex;gap:0.5rem;"><span style="color:var(--success);font-weight:700;">✓</span>Partner portal — jobs, earnings, billing</li>
-            <li style="font-size:0.85rem;color:var(--muted);display:flex;gap:0.5rem;"><span style="color:var(--success);font-weight:700;">✓</span>Your ROI based on your current volume</li>
-            <li style="font-size:0.85rem;color:var(--muted);display:flex;gap:0.5rem;"><span style="color:var(--success);font-weight:700;">✓</span>Onboarding timeline for your company</li>
+        <div class="demo-card">
+          <div class="demo-card-icon">💬</div>
+          <h3>What you'll see</h3>
+          <ul class="demo-checklist">
+            <li>Live job intake → AI pricing → SMS confirmation</li>
+            <li>Driver matching and dispatch flow</li>
+            <li>Partner portal — jobs, earnings, billing</li>
+            <li>Your ROI based on current volume</li>
+            <li>Onboarding timeline for your company</li>
           </ul>
         </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- Video modal -->
-<div id="videoModal" style="
-  display:none;position:fixed;inset:0;z-index:999;
-  background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);
-  align-items:center;justify-content:center;padding:2rem;
-" onclick="closeDemo()">
-  <div style="width:100%;max-width:900px;position:relative;" onclick="event.stopPropagation()">
-    <button onclick="closeDemo()" style="
-      position:absolute;top:-2.5rem;right:0;
-      background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;
-    ">✕ Close</button>
-    <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;background:#000;">
-      <iframe id="demoFrame" src="" allow="autoplay;fullscreen" allowfullscreen
-        style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>
-      <!-- Replace the src above with your Loom or YouTube embed URL -->
-      <div id="demoPlaceholder" style="
-        position:absolute;inset:0;display:flex;flex-direction:column;
-        align-items:center;justify-content:center;gap:1rem;color:white;
-        background:var(--surface);
-      ">
-        <div style="font-size:3rem;">🎬</div>
-        <div style="font-size:1.1rem;font-weight:700;">Demo video coming soon</div>
-        <div style="font-size:0.875rem;color:var(--muted);">In the meantime, book a live walkthrough below</div>
-        <a href="https://calendly.com/barnes-thestrategypitch/30min" target="_blank"
-          class="btn-primary" style="margin-top:0.5rem;">Book a Live Demo →</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- PLANS -->
-<section id="plans" data-section="plans">
-  <div class="section-inner">
-    <div class="section-label">Plans</div>
-    <h2 class="section-title">Simple, transparent pricing</h2>
-    <p class="section-sub">Join the network that works for your size. No lock-in, no monthly fees — we succeed when you succeed.</p>
-    <div class="plans-grid">
-      <div class="plan-card">
-        <div class="plan-name">Platform Only</div>
-        <div class="plan-title">Your Own Dispatch</div>
-        <div class="plan-price">10%</div>
-        <div class="plan-price-note">commission per completed job · no monthly fee</div>
-        <ul class="plan-features">
+<!-- PRICING -->
+<div class="pricing-section" data-section="plans">
+  <section id="pricing" style="padding-top:0;padding-bottom:0;">
+    <div class="section-label">Pricing</div>
+    <h2>Simple Pricing. No Lock-In.</h2>
+    <p class="section-intro">Choose the plan that fits your operation. We succeed when you succeed.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Platform Only</h3>
+        <div class="pricing-value">10%</div>
+        <div class="pricing-meta">Per completed job · no monthly fee</div>
+        <ul class="pricing-features">
           <li>Use your own driver network</li>
           <li>RIN dispatcher portal included</li>
           <li>AI-powered pricing engine</li>
@@ -734,15 +1049,14 @@
           <li>Job history &amp; billing dashboard</li>
           <li>Real-time job monitoring</li>
         </ul>
-        <a href="#contact" class="plan-cta outline" data-track="plan_platform_apply">Apply for Platform Only</a>
+        <a href="#apply" class="btn btn-secondary" style="display:block;text-align:center;width:100%;" data-track="plan_platform_apply">Apply for Platform Only</a>
       </div>
-      <div class="plan-card featured">
-        <div class="plan-badge">Most Popular</div>
-        <div class="plan-name">Platform + Network</div>
-        <div class="plan-title">Network Dispatch</div>
-        <div class="plan-price">20%</div>
-        <div class="plan-price-note">commission per completed job · no monthly fee</div>
-        <ul class="plan-features">
+
+      <div class="pricing-card featured">
+        <h3>Network Dispatch ✦ Most Popular</h3>
+        <div class="pricing-value">20%</div>
+        <div class="pricing-meta">Per completed job · no monthly fee</div>
+        <ul class="pricing-features">
           <li>Everything in Platform Only</li>
           <li>Enterprise job volume from RIN clients</li>
           <li>Insurance &amp; fleet partner referrals</li>
@@ -750,66 +1064,80 @@
           <li>Network performance dashboard</li>
           <li>Dedicated onboarding support</li>
         </ul>
-        <a href="#contact" class="plan-cta primary" data-track="plan_network_apply">Apply to Join Network</a>
+        <a href="#apply" class="btn btn-primary" style="display:block;text-align:center;width:100%;" data-track="plan_network_apply">Apply to Join Network</a>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ENTERPRISE -->
-<section id="enterprise" data-section="enterprise" style="background:var(--surface);">
-  <div class="section-inner">
-    <div class="enterprise-grid">
-      <div>
-        <div class="section-label">Enterprise Partners</div>
-        <h2 class="section-title">Guaranteed roadside coverage for your clients</h2>
-        <p class="section-sub">RIN connects insurance companies, fleet operators, and dealerships to a vetted network of tow operators — with AI dispatch, real-time tracking, and transparent pricing.</p>
-        <a href="#contact" class="btn-primary" data-track="enterprise_cta">Book a Partnership Call →</a>
-      </div>
-      <div class="enterprise-logos">
-        <div class="ent-card"><div class="ent-icon">🏛️</div><h4>Insurance</h4><p>Guaranteed dispatch SLAs for your policyholders. Real-time status updates.</p></div>
-        <div class="ent-card"><div class="ent-icon">🚛</div><h4>Fleet Operators</h4><p>Coverage across the GTA for your commercial vehicles, 24/7.</p></div>
-        <div class="ent-card"><div class="ent-icon">🏎️</div><h4>Dealerships</h4><p>Branded roadside service for your customers — powered by RIN.</p></div>
-        <div class="ent-card"><div class="ent-icon">🏢</div><h4>Municipal</h4><p>Coordinated dispatch for city contracts with full audit trail.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+</div>
 
 <!-- NETWORK OPERATORS -->
-<section id="network" data-section="network">
-  <div class="section-inner">
-    <div class="section-label">Network Operators</div>
-    <h2 class="section-title">Built with the best in the business</h2>
-    <p class="section-sub">RIN's network is built with established, vetted tow operators across the GTA.</p>
-    <div class="op-grid">
-      <div class="op-card">
-        <div class="op-header"><div class="op-avatar">🚚</div><div><div class="op-name">Company A</div><div class="op-type">Flatbed · Light &amp; Medium Duty</div></div></div>
-        <div class="op-status">Active on RIN Network</div>
-        <div class="op-stat"><span>Coverage</span><span>Toronto &amp; North York</span></div>
-        <div class="op-stat"><span>Truck Types</span><span>Flatbed, Wheel-lift</span></div>
-        <div class="op-stat"><span>Specialties</span><span>Accident recovery, Lockout</span></div>
+<section id="operators" data-section="network">
+  <div class="section-label">Network Operators</div>
+  <h2>Network Operators</h2>
+  <p class="section-intro">Built with established, vetted tow operators across the GTA. From light duty to heavy commercial.</p>
+
+  <div class="operators-grid">
+    <div class="operator-card">
+      <div class="operator-header">
+        <div class="operator-icon">🚚</div>
+        <div class="operator-info">
+          <h3>Company A</h3>
+          <div class="operator-status">● Active on RIN Network</div>
+        </div>
       </div>
-      <div class="op-card">
-        <div class="op-header"><div class="op-avatar">🔧</div><div><div class="op-name">Company B</div><div class="op-type">Full-Service Roadside</div></div></div>
-        <div class="op-status">Active on RIN Network</div>
-        <div class="op-stat"><span>Coverage</span><span>Mississauga &amp; Brampton</span></div>
-        <div class="op-stat"><span>Truck Types</span><span>Heavy Duty, Flatbed</span></div>
-        <div class="op-stat"><span>Specialties</span><span>Commercial fleet, Winching</span></div>
+      <div class="operator-meta">
+        <div class="meta-label">Coverage</div>
+        <div class="meta-value">Toronto &amp; North York</div>
       </div>
-      <div class="op-card">
-        <div class="op-header"><div class="op-avatar">⚡</div><div><div class="op-name">Company C</div><div class="op-type">Light Duty &amp; Mobile Repair</div></div></div>
-        <div class="op-status">Active on RIN Network</div>
-        <div class="op-stat"><span>Coverage</span><span>Scarborough &amp; East GTA</span></div>
-        <div class="op-stat"><span>Truck Types</span><span>Wheel-lift, Service van</span></div>
-        <div class="op-stat"><span>Specialties</span><span>Battery, Tire, Fuel delivery</span></div>
+      <div class="operator-tags">
+        <span class="tag">Flatbed</span>
+        <span class="tag">Accidents</span>
+        <span class="tag">Lockouts</span>
+      </div>
+    </div>
+
+    <div class="operator-card">
+      <div class="operator-header">
+        <div class="operator-icon">🔧</div>
+        <div class="operator-info">
+          <h3>Company B</h3>
+          <div class="operator-status">● Active on RIN Network</div>
+        </div>
+      </div>
+      <div class="operator-meta">
+        <div class="meta-label">Coverage</div>
+        <div class="meta-value">Mississauga &amp; Brampton</div>
+      </div>
+      <div class="operator-tags">
+        <span class="tag">Heavy Duty</span>
+        <span class="tag">Commercial</span>
+        <span class="tag">Winching</span>
+      </div>
+    </div>
+
+    <div class="operator-card">
+      <div class="operator-header">
+        <div class="operator-icon">⚡</div>
+        <div class="operator-info">
+          <h3>Company C</h3>
+          <div class="operator-status">● Active on RIN Network</div>
+        </div>
+      </div>
+      <div class="operator-meta">
+        <div class="meta-label">Coverage</div>
+        <div class="meta-value">Scarborough &amp; East GTA</div>
+      </div>
+      <div class="operator-tags">
+        <span class="tag">Battery</span>
+        <span class="tag">Tire</span>
+        <span class="tag">Fuel Delivery</span>
       </div>
     </div>
   </div>
 </section>
 
 <!-- APPLY FORM -->
-<section class="cta-section" id="contact" data-section="contact">
+<div class="apply-section" id="apply" data-section="contact">
   <h2>Ready to join the network?</h2>
   <p>Tell us about your company and we'll be in touch within 24 hours.</p>
   <form class="form-grid" id="applyForm" novalidate>
@@ -851,115 +1179,76 @@
     <div class="form-msg" id="formMsg"></div>
     <button type="submit" class="form-submit" id="formSubmit">Submit Application →</button>
   </form>
-</section>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="nav-logo" style="font-size:1.1rem;"><div class="nav-logo-dot"></div>Roadside Intelligence Network</div>
-      <p>AI-powered dispatch infrastructure for tow operators and enterprise clients across the Greater Toronto Area.</p>
-    </div>
-    <div class="footer-col">
+  <div class="footer-grid">
+    <div class="footer-section">
       <h4>Platform</h4>
       <ul>
-        <li><a href="#operators" data-track="footer_operators">For Operators</a></li>
-        <li><a href="#enterprise" data-track="footer_enterprise">For Enterprise</a></li>
+        <li><a href="#why" data-track="footer_operators">For Operators</a></li>
+        <li><a href="#pricing" data-track="footer_plans">Pricing</a></li>
         <li><a href="#how" data-track="footer_how">How It Works</a></li>
-        <li><a href="#plans" data-track="footer_plans">Plans</a></li>
+        <li><a href="#demo" data-track="footer_demo">Demo</a></li>
       </ul>
     </div>
-    <div class="footer-col">
+    <div class="footer-section">
       <h4>Portals</h4>
       <ul>
         <li><a href="https://x-rin-dispatcher.netlify.app" target="_blank" data-track="footer_dispatcher">Dispatch Portal</a></li>
         <li><a href="https://x-rin-partner-portal.netlify.app" target="_blank" data-track="footer_partner">Partner Portal</a></li>
         <li><a href="https://rintowquote.online" target="_blank" data-track="footer_quote">Get a Quote</a></li>
-        <li><a href="#contact" data-track="footer_contact">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#operators" data-track="footer_network">Our Network</a></li>
+        <li><a href="#apply" data-track="footer_contact">Contact Us</a></li>
+        <li><a href="https://calendly.com/barnes-thestrategypitch/30min" target="_blank" data-track="footer_demo_book">Book a Demo</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Status</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
     <span>© 2026 Roadside Intelligence Network. Toronto, ON.</span>
-    <span class="status-badge">All systems operational</span>
+    <span class="status-pill">All systems operational</span>
   </div>
 </footer>
 
+<!-- VIDEO MODAL -->
+<div id="videoModal" onclick="closeDemo()">
+  <div class="modal-inner" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeDemo()">✕ Close</button>
+    <div class="modal-video">
+      <iframe id="demoFrame" src="" allow="autoplay;fullscreen" allowfullscreen></iframe>
+      <div class="modal-placeholder" id="demoPlaceholder">
+        <div style="font-size:3rem;">🎬</div>
+        <div style="font-size:1.1rem;font-weight:700;">Demo video coming soon</div>
+        <div style="font-size:13px;color:#94a3b8;">In the meantime, book a live walkthrough</div>
+        <a href="https://calendly.com/barnes-thestrategypitch/30min" target="_blank" class="btn btn-primary" style="margin-top:8px;">Book a Live Demo →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-// ── NAV TAGLINE ───────────────────────────────────────────────────────────
-const taglines = {
-  default:    'Faster Dispatch. Better Driver Utilization. No Workflow Change.',
-  operators:  'Dispatch Intelligence for Towing Operations',
-  how:        'From Intake to Payment — Fully Automated',
-  demo:       'See the Full Dispatch Flow in 3 Minutes',
-  plans:      'No Monthly Fees. We Succeed When You Succeed.',
-  enterprise: 'Guaranteed Roadside Coverage for Your Clients',
-  network:    'Vetted Operators. AI Dispatch. One Platform.',
-  contact:    'Join the Network — Onboard in 48 Hours',
-};
-
-function setTagline(key) {
-  const el = document.getElementById('navTagline');
-  if (!el) return;
-  el.style.opacity = '0';
-  setTimeout(() => {
-    el.textContent = taglines[key] || taglines.default;
-    el.style.opacity = '1';
-  }, 150);
-}
-
-// Change on nav click
-document.querySelectorAll('.nav-links a[data-track]').forEach(link => {
-  link.addEventListener('click', () => {
-    const track = link.dataset.track.replace('nav_', '');
-    setTagline(track);
-  });
-});
-
-// Change on scroll (section enters viewport)
-const taglineObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const section = entry.target.dataset.section;
-      if (section && taglines[section]) setTagline(section);
-    }
-  });
-}, { threshold: 0.4 });
-
-document.querySelectorAll('[data-section]').forEach(el => taglineObserver.observe(el));
-
-// ── DEMO MODAL ────────────────────────────────────────────────────────────
-const DEMO_VIDEO_URL = ''; // Paste your Loom or YouTube embed URL here
-
-function openDemo() {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('demoFrame');
-  const placeholder = document.getElementById('demoPlaceholder');
-  modal.style.display = 'flex';
-  if (DEMO_VIDEO_URL) {
-    frame.src = DEMO_VIDEO_URL;
-    placeholder.style.display = 'none';
-  }
-  document.body.style.overflow = 'hidden';
-}
-
-function closeDemo() {
-  const modal = document.getElementById('videoModal');
-  document.getElementById('demoFrame').src = '';
-  modal.style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDemo(); });
-
-// ── CONFIG ────────────────────────────────────────────────────────────────
+// ── CONFIG ────────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDU3OTMsImV4cCI6MjA4OTA4MTc5M30.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
-const FN_BASE = `${SUPABASE_URL}/functions/v1`;
+const DEMO_VIDEO_URL = ''; // Paste Loom or YouTube embed URL here
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ── SESSION ───────────────────────────────────────────────────────────────
+// ── SESSION ───────────────────────────────────────────────────────
 function uuid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     const r = Math.random() * 16 | 0;
@@ -969,37 +1258,38 @@ function uuid() {
 
 let SESSION_ID = sessionStorage.getItem('rin_sid');
 if (!SESSION_ID) { SESSION_ID = uuid(); sessionStorage.setItem('rin_sid', SESSION_ID); }
-
 const SESSION_START = Date.now();
 const REFERRER = document.referrer || 'direct';
-const UA = navigator.userAgent;
 
-// ── EVENT TRACKER ─────────────────────────────────────────────────────────
 async function track(event_type, data = {}) {
   try {
     await sb.from('ui_events').insert({
-      session_id: SESSION_ID,
-      event_type,
-      event_data: data,
-      page: 'marketing_home',
-      referrer: REFERRER,
-      user_agent: UA,
+      session_id: SESSION_ID, event_type, event_data: data,
+      page: 'marketing_home', referrer: REFERRER, user_agent: navigator.userAgent,
     });
   } catch (_) {}
 }
 
-// Page view on load
-track('page_view', { title: document.title, referrer: REFERRER, screen: `${screen.width}x${screen.height}` });
+track('page_view', { referrer: REFERRER, screen: `${screen.width}x${screen.height}` });
 
-// ── CLICK TRACKING ────────────────────────────────────────────────────────
+// ── CTA CLICKS ────────────────────────────────────────────────────
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-track]');
   if (el) track('cta_click', { label: el.dataset.track, text: el.innerText?.trim().slice(0, 80) });
 });
 
-// ── SECTION VISIBILITY (IntersectionObserver) ─────────────────────────────
+// ── SCROLL DEPTH ──────────────────────────────────────────────────
+const depths = new Set();
+window.addEventListener('scroll', () => {
+  const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+  [25, 50, 75, 100].forEach(d => {
+    if (pct >= d && !depths.has(d)) { depths.add(d); track('scroll_depth', { depth_pct: d }); }
+  });
+}, { passive: true });
+
+// ── SECTION DWELL ─────────────────────────────────────────────────
 const sectionTimes = {};
-const observer = new IntersectionObserver(entries => {
+const sectionObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     const name = entry.target.dataset.section;
     if (!name) return;
@@ -1014,48 +1304,87 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.3 });
 
-document.querySelectorAll('[data-section]').forEach(el => observer.observe(el));
+document.querySelectorAll('[data-section]').forEach(el => sectionObserver.observe(el));
 
-// ── SCROLL DEPTH ──────────────────────────────────────────────────────────
-const depths = new Set();
-window.addEventListener('scroll', () => {
-  const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-  [25, 50, 75, 100].forEach(d => {
-    if (pct >= d && !depths.has(d)) {
-      depths.add(d);
-      track('scroll_depth', { depth_pct: d });
-    }
-  });
-}, { passive: true });
-
-// ── TIME ON PAGE ──────────────────────────────────────────────────────────
+// ── PAGE EXIT ─────────────────────────────────────────────────────
 window.addEventListener('beforeunload', () => {
   const seconds = Math.round((Date.now() - SESSION_START) / 1000);
   navigator.sendBeacon(`${SUPABASE_URL}/rest/v1/ui_events`, JSON.stringify({
     session_id: SESSION_ID, event_type: 'page_exit',
     event_data: { time_on_page_seconds: seconds },
-    page: 'marketing_home', referrer: REFERRER, user_agent: UA,
+    page: 'marketing_home', referrer: REFERRER, user_agent: navigator.userAgent,
   }));
 });
 
-// ── FORM INTERACTIONS ─────────────────────────────────────────────────────
+// ── NAV TAGLINE ───────────────────────────────────────────────────
+const taglines = {
+  default:   'Faster Dispatch. Better Driver Utilization. No Workflow Change.',
+  operators: 'Dispatch Intelligence for Towing Operations',
+  how:       'From Intake to Payment — Fully Automated',
+  demo:      'See the Full Dispatch Flow in 3 Minutes',
+  plans:     'No Monthly Fees. We Succeed When You Succeed.',
+  network:   'Vetted Operators. AI Dispatch. One Platform.',
+  contact:   'Join the Network — Onboard in 48 Hours',
+};
+
+function setTagline(key) {
+  const el = document.getElementById('navTagline');
+  if (!el) return;
+  el.style.opacity = '0';
+  setTimeout(() => { el.textContent = taglines[key] || taglines.default; el.style.opacity = '1'; }, 150);
+}
+
+document.querySelectorAll('nav a[data-track]').forEach(link => {
+  link.addEventListener('click', () => setTagline(link.dataset.track.replace('nav_', '')));
+});
+
+const taglineObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const s = entry.target.dataset.section;
+      if (s && taglines[s]) setTagline(s);
+    }
+  });
+}, { threshold: 0.4 });
+
+document.querySelectorAll('[data-section]').forEach(el => taglineObserver.observe(el));
+
+// ── DEMO MODAL ────────────────────────────────────────────────────
+function openDemo() {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('demoFrame');
+  const placeholder = document.getElementById('demoPlaceholder');
+  modal.classList.add('open');
+  if (DEMO_VIDEO_URL) { frame.src = DEMO_VIDEO_URL; placeholder.style.display = 'none'; }
+  document.body.style.overflow = 'hidden';
+  track('demo_open', {});
+}
+
+function closeDemo() {
+  document.getElementById('videoModal').classList.remove('open');
+  document.getElementById('demoFrame').src = '';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDemo(); });
+
+// ── FORM ──────────────────────────────────────────────────────────
 let formStarted = false;
 document.getElementById('applyForm').addEventListener('focusin', () => {
   if (!formStarted) { formStarted = true; track('form_start', { form: 'apply' }); }
 });
 
-// ── FORM SUBMISSION → SUPABASE ────────────────────────────────────────────
 document.getElementById('applyForm').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = document.getElementById('formSubmit');
   const msg = document.getElementById('formMsg');
 
-  const company  = document.getElementById('f_company').value.trim();
-  const name     = document.getElementById('f_name').value.trim();
-  const phone    = document.getElementById('f_phone').value.trim();
-  const trucks   = document.getElementById('f_trucks').value;
-  const type     = document.getElementById('f_type').value;
-  const message  = document.getElementById('f_message').value.trim();
+  const company = document.getElementById('f_company').value.trim();
+  const name    = document.getElementById('f_name').value.trim();
+  const phone   = document.getElementById('f_phone').value.trim();
+  const trucks  = document.getElementById('f_trucks').value;
+  const type    = document.getElementById('f_type').value;
+  const message = document.getElementById('f_message').value.trim();
 
   if (!company || !name || !phone) {
     msg.className = 'form-msg error';
@@ -1067,31 +1396,26 @@ document.getElementById('applyForm').addEventListener('submit', async e => {
   btn.textContent = 'Submitting...';
   msg.className = 'form-msg';
 
-  track('form_submit', { inquiry_type: type, truck_count: trucks, has_message: !!message });
+  track('form_submit', { inquiry_type: type, truck_count: trucks });
 
   const { error } = await sb.from('marketing_leads').insert({
-    session_id: SESSION_ID,
-    company_name: company,
-    contact_name: name,
-    phone,
-    truck_count: trucks || null,
-    inquiry_type: type,
-    message: message || null,
-    referrer: REFERRER,
-    page: 'marketing_home',
+    session_id: SESSION_ID, company_name: company,
+    contact_name: name, phone, truck_count: trucks || null,
+    inquiry_type: type, message: message || null,
+    referrer: REFERRER, page: 'marketing_home',
   });
 
   if (error) {
     btn.disabled = false;
     btn.textContent = 'Submit Application →';
     msg.className = 'form-msg error';
-    msg.textContent = 'Something went wrong. Please try again or call us directly.';
+    msg.textContent = 'Something went wrong. Please try again.';
     track('form_error', { error: error.message });
   } else {
     msg.className = 'form-msg success';
     msg.textContent = '✓ Application received! We\'ll be in touch within 24 hours.';
     btn.textContent = 'Submitted';
-    document.getElementById('applyForm').querySelectorAll('input, select, textarea').forEach(el => el.disabled = true);
+    document.getElementById('applyForm').querySelectorAll('input,select,textarea').forEach(el => el.disabled = true);
     track('form_success', { inquiry_type: type });
   }
 });
