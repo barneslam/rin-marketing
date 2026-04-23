@@ -609,6 +609,117 @@
       border: 1px solid rgba(59,130,246,0.3);
     }
 
+    /* ── AUDIENCE TABS ── */
+    .tab-nav {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 32px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0;
+    }
+
+    .tab-btn {
+      background: none; border: none;
+      padding: 10px 20px;
+      font-size: 14px; font-weight: 600;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 150ms;
+      border-radius: 6px 6px 0 0;
+    }
+
+    .tab-btn:hover { color: var(--text-primary); background: var(--bg-secondary); }
+
+    .tab-btn.active {
+      color: var(--accent-light);
+      border-bottom-color: var(--accent);
+      background: var(--bg-secondary);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── CALCULATOR ── */
+    .calc-field { display: flex; flex-direction: column; gap: 8px; }
+
+    .calc-label-row {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .calc-label-row label {
+      font-size: 13px; font-weight: 600; color: var(--text-secondary);
+    }
+
+    .calc-val {
+      font-size: 14px; font-weight: 700; color: var(--accent-light);
+      min-width: 56px; text-align: right;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none; width: 100%; height: 4px;
+      border-radius: 2px;
+      background: var(--border); outline: none;
+      cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 6px rgba(59,130,246,0.4);
+      cursor: pointer;
+    }
+
+    .calc-range-hint {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--text-tertiary);
+    }
+
+    .plan-toggle {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px;
+      color: var(--text-secondary);
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; text-align: center;
+      transition: all 150ms; line-height: 1.4;
+    }
+
+    .plan-toggle.active {
+      border-color: var(--accent);
+      background: rgba(59,130,246,0.1);
+      color: var(--text-primary);
+    }
+
+    .result-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+
+    .result-card.highlight {
+      background: var(--bg-tertiary);
+      border-color: var(--success);
+    }
+
+    .result-label {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--text-tertiary); margin-bottom: 6px;
+    }
+
+    .result-value {
+      font-size: 28px; font-weight: 800;
+      color: var(--success); line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .result-card.highlight .result-value { font-size: 36px; }
+
+    .result-sub { font-size: 12px; color: var(--text-tertiary); }
+
     /* ── APPLY FORM ── */
     .apply-section {
       background: linear-gradient(135deg, #1e3a8a 0%, var(--bg-secondary) 100%);
@@ -897,42 +1008,77 @@
   </div>
 </section>
 
-<!-- WHY CHOOSE RIN -->
+<!-- AUDIENCE TABS -->
 <section id="why" data-section="operators">
-  <div class="section-label">For Tow Operators</div>
-  <h2>Why Operators Choose RIN</h2>
-  <p class="section-intro">Designed by people who understand the dispatch business. Built for operators who want control, transparency, and volume.</p>
+  <div class="section-label">Who RIN Serves</div>
+  <h2>Built for Every Side of the Road</h2>
+  <p class="section-intro">Whether you operate tow trucks, manage insurance claims, run a dealership, or oversee a fleet — RIN works for you.</p>
 
-  <div class="features-grid">
-    <div class="feature-card" data-track="card_jobs">
-      <div class="feature-icon">📊</div>
-      <h3>Enterprise Job Volume</h3>
-      <p>Dispatched directly by insurance companies, fleet operators, and dealerships. Pre-qualified jobs. No phone tag.</p>
+  <!-- Tab Nav -->
+  <div class="tab-nav" role="tablist">
+    <button class="tab-btn active" onclick="switchTab('operators')" data-track="tab_operators">🚚 Tow Operators</button>
+    <button class="tab-btn" onclick="switchTab('insurance')" data-track="tab_insurance">🏛️ Insurance Companies</button>
+    <button class="tab-btn" onclick="switchTab('dealerships')" data-track="tab_dealerships">🏎️ Dealerships</button>
+    <button class="tab-btn" onclick="switchTab('fleet')" data-track="tab_fleet">🚛 Fleet Operators</button>
+  </div>
+
+  <!-- Operators Tab -->
+  <div class="tab-panel active" id="tab-operators">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">📋</div><h3>Enterprise Job Volume</h3><p>Get dispatched by insurance companies, fleet operators, and dealerships. Pre-qualified jobs. No phone tag.</p></div>
+      <div class="feature-card"><div class="feature-icon">🤖</div><h3>AI Handles Logistics</h3><p>Automatic driver matching by location, rating, and availability. One SMS confirmation. You're on your way.</p></div>
+      <div class="feature-card"><div class="feature-icon">💰</div><h3>Transparent 80% Payout</h3><p>No hidden fees. No chasing invoices. Automatic billing. Your 80% tracked in your portal every job.</p></div>
+      <div class="feature-card"><div class="feature-icon">📱</div><h3>No Workflow Change</h3><p>Drivers confirm via SMS. No new app. No retraining. Your team works exactly as they do today.</p></div>
+      <div class="feature-card"><div class="feature-icon">⏱️</div><h3>Eliminate Scheduling Chaos</h3><p>Stop spending 2–4 hrs/day on the phone. RIN dispatches automatically. You focus on running jobs.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔒</div><h3>Price Lock-In Before You Roll</h3><p>AI-set pricing locked in before dispatch. Customer-approved via SMS. No disputes at the scene.</p></div>
     </div>
-    <div class="feature-card" data-track="card_ai">
-      <div class="feature-icon">🤖</div>
-      <h3>AI Handles Logistics</h3>
-      <p>Automatic driver matching by location, rating, and availability. One SMS confirmation. You're on your way.</p>
+    <div style="margin-top:2rem;text-align:center;">
+      <a href="#calculator" class="btn btn-primary" data-track="tab_operators_calc">Calculate Your Earnings →</a>
     </div>
-    <div class="feature-card" data-track="card_pay">
-      <div class="feature-icon">💰</div>
-      <h3>Transparent 80% Payout</h3>
-      <p>No hidden fees. You keep 80 cents of every dollar. Automatic billing. No invoices to chase.</p>
+  </div>
+
+  <!-- Insurance Tab -->
+  <div class="tab-panel" id="tab-insurance">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">⚡</div><h3>Guaranteed Response SLAs</h3><p>Sub-15 minute dispatch times backed by a vetted operator network. Your policyholders never wait in the dark.</p></div>
+      <div class="feature-card"><div class="feature-icon">📍</div><h3>Real-Time Job Tracking</h3><p>Know exactly where the tow truck is at every moment. Driver status updates flow automatically to your team.</p></div>
+      <div class="feature-card"><div class="feature-icon">📄</div><h3>Full Audit Trail</h3><p>Every job logged — location, time, price, driver, completion. Clean records for claims processing.</p></div>
+      <div class="feature-card"><div class="feature-icon">💳</div><h3>Transparent Pricing Per Incident</h3><p>AI-calculated rates by incident type. No surprise invoices. Customer approves before work starts.</p></div>
+      <div class="feature-card"><div class="feature-icon">🌐</div><h3>GTA-Wide Coverage</h3><p>Toronto, Mississauga, Brampton, Scarborough, North York — one network, one dispatch platform.</p></div>
+      <div class="feature-card"><div class="feature-icon">🤝</div><h3>White-Label Integration</h3><p>RIN can operate under your brand. Your policyholders see your service — we power it behind the scenes.</p></div>
     </div>
-    <div class="feature-card" data-track="card_sms">
-      <div class="feature-icon">📱</div>
-      <h3>SMS-Based Workflow</h3>
-      <p>Drivers text to confirm. Portal handles the rest. No new apps. No training needed.</p>
+    <div style="margin-top:2rem;text-align:center;">
+      <a href="#apply" class="btn btn-primary" data-track="tab_insurance_cta">Book a Partnership Call →</a>
     </div>
-    <div class="feature-card" data-track="card_rating">
-      <div class="feature-icon">⭐</div>
-      <h3>Build Your Reputation</h3>
-      <p>Every job adds to your score. Higher ratings = priority dispatch. More volume automatically.</p>
+  </div>
+
+  <!-- Dealerships Tab -->
+  <div class="tab-panel" id="tab-dealerships">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">🏷️</div><h3>Branded Roadside Experience</h3><p>Your customers get a seamless roadside experience under your dealership brand — powered by RIN's network.</p></div>
+      <div class="feature-card"><div class="feature-icon">📞</div><h3>Zero Coordination Overhead</h3><p>No more staff time managing tow calls. RIN handles dispatch, driver comms, and customer updates automatically.</p></div>
+      <div class="feature-card"><div class="feature-icon">⭐</div><h3>Protect Your CSI Score</h3><p>Fast, professional roadside response directly impacts customer satisfaction. RIN makes your brand look good.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔁</div><h3>Drive Service Bay Referrals</h3><p>Every roadside job is an opportunity to bring the vehicle back to your service bay. RIN closes that loop.</p></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><h3>Monthly Reporting</h3><p>Job volume, response times, customer feedback — all in one monthly report you can share with your GM.</p></div>
+      <div class="feature-card"><div class="feature-icon">💼</div><h3>Simple Billing</h3><p>One monthly invoice from RIN. No per-call billing surprises. Predictable cost for roadside coverage.</p></div>
     </div>
-    <div class="feature-card" data-track="card_pricing">
-      <div class="feature-icon">🔒</div>
-      <h3>Price Protection</h3>
-      <p>AI-set pricing for every job type. Rates locked in before you roll. No negotiation at the scene.</p>
+    <div style="margin-top:2rem;text-align:center;">
+      <a href="#apply" class="btn btn-primary" data-track="tab_dealership_cta">Talk to Us About Your Dealership →</a>
+    </div>
+  </div>
+
+  <!-- Fleet Tab -->
+  <div class="tab-panel" id="tab-fleet">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">🕐</div><h3>24/7 Commercial Coverage</h3><p>Your vehicles don't stop at 5pm. RIN's network is available around the clock across the GTA.</p></div>
+      <div class="feature-card"><div class="feature-icon">🚛</div><h3>Heavy Duty Capable</h3><p>Light, medium, and heavy-duty incidents. Flatbed, wheel-lift, winching — matched to your vehicle type.</p></div>
+      <div class="feature-card"><div class="feature-icon">📡</div><h3>Fleet-Wide Visibility</h3><p>Track all active roadside incidents across your fleet in real time. One dashboard. No phone calls needed.</p></div>
+      <div class="feature-card"><div class="feature-icon">📉</div><h3>Reduce Downtime Cost</h3><p>Faster dispatch = less time your vehicle and driver are stuck on the side of the road. Revenue-hours saved.</p></div>
+      <div class="feature-card"><div class="feature-icon">📋</div><h3>Per-Vehicle Job History</h3><p>Every incident logged by vehicle. Useful for maintenance tracking, insurance claims, and driver accountability.</p></div>
+      <div class="feature-card"><div class="feature-icon">🤝</div><h3>Custom SLA Agreements</h3><p>Enterprise fleet accounts get dedicated coverage commitments, priority dispatch, and dedicated account support.</p></div>
+    </div>
+    <div style="margin-top:2rem;text-align:center;">
+      <a href="#apply" class="btn btn-primary" data-track="tab_fleet_cta">Set Up Fleet Coverage →</a>
     </div>
   </div>
 </section>
@@ -1068,6 +1214,124 @@
       </div>
     </div>
   </section>
+</div>
+
+<!-- ROI CALCULATOR -->
+<div id="calculator" data-section="calculator" style="background:var(--bg-primary);padding:80px 32px;border-top:1px solid var(--border);">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div class="section-label">Earnings Calculator</div>
+    <h2 style="font-size:36px;font-weight:700;margin-bottom:16px;">See what RIN puts in your pocket</h2>
+    <p class="section-intro">Enter your current numbers. See exactly what you'd earn — and what you'd save — on the RIN network.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;">
+
+      <!-- Inputs -->
+      <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:32px;display:flex;flex-direction:column;gap:28px;">
+
+        <div class="calc-field">
+          <div class="calc-label-row">
+            <label>Jobs per month</label>
+            <span class="calc-val" id="v_jobs">60</span>
+          </div>
+          <input type="range" id="r_jobs" min="10" max="300" value="60" step="5" oninput="calcUpdate()">
+          <div class="calc-range-hint"><span>10</span><span>300</span></div>
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-label-row">
+            <label>Average revenue per job</label>
+            <span class="calc-val" id="v_rate">$200</span>
+          </div>
+          <input type="range" id="r_rate" min="100" max="600" value="200" step="10" oninput="calcUpdate()">
+          <div class="calc-range-hint"><span>$100</span><span>$600</span></div>
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-label-row">
+            <label>Hours/week spent on dispatch coordination</label>
+            <span class="calc-val" id="v_hours">10</span>
+          </div>
+          <input type="range" id="r_hours" min="1" max="40" value="10" step="1" oninput="calcUpdate()">
+          <div class="calc-range-hint"><span>1 hr</span><span>40 hrs</span></div>
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-label-row">
+            <label>Days to get paid (current average)</label>
+            <span class="calc-val" id="v_days">45</span>
+          </div>
+          <input type="range" id="r_days" min="1" max="90" value="45" step="1" oninput="calcUpdate()">
+          <div class="calc-range-hint"><span>1 day</span><span>90 days</span></div>
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-label-row">
+            <label>Number of trucks in your fleet</label>
+            <span class="calc-val" id="v_trucks">3</span>
+          </div>
+          <input type="range" id="r_trucks" min="1" max="30" value="3" step="1" oninput="calcUpdate()">
+          <div class="calc-range-hint"><span>1</span><span>30</span></div>
+        </div>
+
+        <!-- Plan toggle -->
+        <div>
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-tertiary);margin-bottom:10px;">Your Plan</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <button id="plan_platform" class="plan-toggle active" onclick="setPlan('platform')" data-track="calc_plan_platform">
+              Platform Only<br><span style="font-size:18px;font-weight:700;color:var(--accent-light);">10%</span>
+            </button>
+            <button id="plan_network" class="plan-toggle" onclick="setPlan('network')" data-track="calc_plan_network">
+              Network Dispatch<br><span style="font-size:18px;font-weight:700;color:var(--accent-light);">20%</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <div class="result-card highlight">
+          <div class="result-label">Monthly Take-Home</div>
+          <div class="result-value" id="r_monthly">$9,600</div>
+          <div class="result-sub" id="r_monthly_sub">After 20% RIN commission</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">Annual Earnings</div>
+          <div class="result-value" id="r_annual">$115,200</div>
+          <div class="result-sub">Projected yearly take-home</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">Hours Saved per Month</div>
+          <div class="result-value" id="r_hours_saved">40 hrs</div>
+          <div class="result-sub" id="r_hours_value">Worth ~$2,000/mo at $50/hr</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">Payment Cycle</div>
+          <div class="result-value" id="r_payment">45 days → 7 days</div>
+          <div class="result-sub" id="r_payment_sub">38 days faster cash in hand</div>
+        </div>
+
+        <div class="result-card" id="r_network_card" style="display:none;">
+          <div class="result-label">Estimated Enterprise Bonus Jobs</div>
+          <div class="result-value" id="r_bonus_jobs">+18 jobs/mo</div>
+          <div class="result-sub" id="r_bonus_value">+$2,880/mo from RIN enterprise clients</div>
+        </div>
+
+        <div class="result-card" style="background:rgba(59,130,246,0.08);border-color:rgba(59,130,246,0.3);">
+          <div class="result-label">Total Monthly Value with RIN</div>
+          <div class="result-value" id="r_total" style="color:var(--accent-light);">$11,600</div>
+          <div class="result-sub">Earnings + time savings + faster pay</div>
+        </div>
+
+        <a href="#apply" class="btn btn-primary" style="text-align:center;display:block;" data-track="calc_apply_cta">
+          Apply to Join — Start Earning This →
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- NETWORK OPERATORS -->
@@ -1241,6 +1505,83 @@
 </div>
 
 <script>
+// ── AUDIENCE TABS ────────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  track('tab_switch', { tab });
+}
+
+// ── CALCULATOR ────────────────────────────────────────────────────
+let currentPlan = 'platform';
+
+function setPlan(plan) {
+  currentPlan = plan;
+  document.getElementById('plan_platform').classList.toggle('active', plan === 'platform');
+  document.getElementById('plan_network').classList.toggle('active', plan === 'network');
+  calcUpdate();
+  track('calc_plan_change', { plan });
+}
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+
+function calcUpdate() {
+  const jobs   = +document.getElementById('r_jobs').value;
+  const rate   = +document.getElementById('r_rate').value;
+  const hours  = +document.getElementById('r_hours').value;
+  const days   = +document.getElementById('r_days').value;
+  const trucks = +document.getElementById('r_trucks').value;
+
+  document.getElementById('v_jobs').textContent   = jobs;
+  document.getElementById('v_rate').textContent   = '$' + rate;
+  document.getElementById('v_hours').textContent  = hours;
+  document.getElementById('v_days').textContent   = days;
+  document.getElementById('v_trucks').textContent = trucks;
+
+  const commission  = currentPlan === 'platform' ? 0.10 : 0.20;
+  const payout      = 1 - commission;
+  const gross       = jobs * rate;
+  const monthly     = gross * payout;
+  const annual      = monthly * 12;
+
+  // Time savings: eliminate ~80% of coordination hours
+  const hoursSaved  = Math.round(hours * 4.3 * 0.80); // weekly → monthly
+  const hourValue   = hoursSaved * 50; // $50/hr operator value
+
+  // Payment cycle: RIN pays in 7 days
+  const daysSaved   = Math.max(0, days - 7);
+
+  // Network bonus: +30% job volume from enterprise (network plan only)
+  const bonusJobs   = currentPlan === 'network' ? Math.round(jobs * 0.30) : 0;
+  const bonusValue  = bonusJobs * rate * 0.80;
+
+  const totalValue  = monthly + hourValue + bonusValue;
+
+  document.getElementById('r_monthly').textContent      = fmt(monthly);
+  document.getElementById('r_monthly_sub').textContent  = `After ${commission * 100}% RIN commission on ${fmt(gross)} gross`;
+  document.getElementById('r_annual').textContent       = fmt(annual);
+  document.getElementById('r_hours_saved').textContent  = hoursSaved + ' hrs';
+  document.getElementById('r_hours_value').textContent  = `Worth ~${fmt(hourValue)}/mo at $50/hr`;
+  document.getElementById('r_payment').textContent      = days + ' days → 7 days';
+  document.getElementById('r_payment_sub').textContent  = daysSaved > 0 ? `${daysSaved} days faster cash in hand` : 'Already fast — RIN keeps you there';
+
+  const netCard = document.getElementById('r_network_card');
+  if (currentPlan === 'network') {
+    netCard.style.display = 'block';
+    document.getElementById('r_bonus_jobs').textContent  = `+${bonusJobs} jobs/mo`;
+    document.getElementById('r_bonus_value').textContent = `+${fmt(bonusValue)}/mo from RIN enterprise clients`;
+  } else {
+    netCard.style.display = 'none';
+  }
+
+  document.getElementById('r_total').textContent = fmt(totalValue);
+}
+
+// Init calculator
+calcUpdate();
+
 // ── CONFIG ────────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDU3OTMsImV4cCI6MjA4OTA4MTc5M30.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
