@@ -510,7 +510,7 @@
       <div class="nav-logo-dot"></div>
       RIN
     </div>
-    <div style="font-size:0.75rem;font-weight:500;color:var(--muted);letter-spacing:0.3px;padding-left:1.4rem;white-space:nowrap;">
+    <div id="navTagline" style="font-size:0.75rem;font-weight:500;color:var(--muted);letter-spacing:0.3px;padding-left:1.4rem;white-space:nowrap;transition:opacity 0.3s;">
       Faster Dispatch. Better Driver Utilization. No Workflow Change.
     </div>
   </div>
@@ -886,6 +886,48 @@
 </footer>
 
 <script>
+// ── NAV TAGLINE ───────────────────────────────────────────────────────────
+const taglines = {
+  default:    'Faster Dispatch. Better Driver Utilization. No Workflow Change.',
+  operators:  'Dispatch Intelligence for Towing Operations',
+  how:        'From Intake to Payment — Fully Automated',
+  demo:       'See the Full Dispatch Flow in 3 Minutes',
+  plans:      'No Monthly Fees. We Succeed When You Succeed.',
+  enterprise: 'Guaranteed Roadside Coverage for Your Clients',
+  network:    'Vetted Operators. AI Dispatch. One Platform.',
+  contact:    'Join the Network — Onboard in 48 Hours',
+};
+
+function setTagline(key) {
+  const el = document.getElementById('navTagline');
+  if (!el) return;
+  el.style.opacity = '0';
+  setTimeout(() => {
+    el.textContent = taglines[key] || taglines.default;
+    el.style.opacity = '1';
+  }, 150);
+}
+
+// Change on nav click
+document.querySelectorAll('.nav-links a[data-track]').forEach(link => {
+  link.addEventListener('click', () => {
+    const track = link.dataset.track.replace('nav_', '');
+    setTagline(track);
+  });
+});
+
+// Change on scroll (section enters viewport)
+const taglineObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const section = entry.target.dataset.section;
+      if (section && taglines[section]) setTagline(section);
+    }
+  });
+}, { threshold: 0.4 });
+
+document.querySelectorAll('[data-section]').forEach(el => taglineObserver.observe(el));
+
 // ── DEMO MODAL ────────────────────────────────────────────────────────────
 const DEMO_VIDEO_URL = ''; // Paste your Loom or YouTube embed URL here
 
