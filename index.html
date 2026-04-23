@@ -512,6 +512,7 @@
   <ul class="nav-links">
     <li><a href="#operators" data-track="nav_operators">For Operators</a></li>
     <li><a href="#how" data-track="nav_how">How It Works</a></li>
+    <li><a href="#demo" data-track="nav_demo">Demo</a></li>
     <li><a href="#plans" data-track="nav_plans">Plans</a></li>
     <li><a href="#enterprise" data-track="nav_enterprise">Enterprise</a></li>
     <li><a href="#contact" class="nav-cta" data-track="nav_apply">Apply to Join</a></li>
@@ -582,6 +583,131 @@
     </div>
   </div>
 </section>
+
+<!-- DEMO -->
+<section id="demo" data-section="demo" style="background:var(--surface);">
+  <div class="section-inner">
+    <div class="section-label">See It In Action</div>
+    <h2 class="section-title">Watch how RIN works</h2>
+    <p class="section-sub">A 3-minute walkthrough of the dispatch flow — from job intake to driver assignment to payment.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+
+      <!-- Video embed -->
+      <div>
+        <div id="demoVideo" style="
+          position:relative;background:#0f172a;border:1px solid var(--border);
+          border-radius:12px;overflow:hidden;aspect-ratio:16/9;
+          display:flex;flex-direction:column;align-items:center;justify-content:center;
+          cursor:pointer;gap:1rem;
+        " onclick="openDemo()" data-track="demo_video_play">
+          <!-- Portal screenshots as blurred background preview -->
+          <div style="
+            position:absolute;inset:0;
+            background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);
+            display:flex;align-items:center;justify-content:center;
+          ">
+            <div style="text-align:center;padding:2rem;">
+              <div style="
+                width:72px;height:72px;border-radius:50%;
+                background:var(--accent);
+                display:flex;align-items:center;justify-content:center;
+                margin:0 auto 1rem;
+                box-shadow:0 0 40px rgba(59,130,246,0.5);
+                font-size:1.8rem;
+              ">▶</div>
+              <div style="font-weight:700;font-size:1rem;margin-bottom:0.25rem;">Watch the Demo</div>
+              <div style="font-size:0.82rem;color:var(--muted);">3 min · Full dispatch walkthrough</div>
+            </div>
+          </div>
+          <!-- Portal preview cards overlay -->
+          <div style="
+            position:absolute;bottom:0;left:0;right:0;
+            background:linear-gradient(transparent,rgba(15,23,42,0.9));
+            padding:1rem 1.25rem;
+            display:flex;gap:0.5rem;
+          ">
+            <span style="font-size:0.72rem;background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.3);color:var(--accent);padding:0.2rem 0.6rem;border-radius:100px;">Dispatch Portal</span>
+            <span style="font-size:0.72rem;background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.3);color:var(--accent);padding:0.2rem 0.6rem;border-radius:100px;">Partner Portal</span>
+            <span style="font-size:0.72rem;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:var(--success);padding:0.2rem 0.6rem;border-radius:100px;">Live AI Pricing</span>
+          </div>
+        </div>
+
+        <!-- Portal quick links -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem;">
+          <a href="https://x-rin-dispatcher.netlify.app" target="_blank" data-track="demo_dispatcher_portal"
+            style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0.85rem;display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;font-weight:600;transition:border-color 0.2s;"
+            onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:1.1rem;">🖥️</span> Dispatch Portal
+          </a>
+          <a href="https://x-rin-partner-portal.netlify.app" target="_blank" data-track="demo_partner_portal"
+            style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0.85rem;display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;font-weight:600;transition:border-color 0.2s;"
+            onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:1.1rem;">🤝</span> Partner Portal
+          </a>
+        </div>
+      </div>
+
+      <!-- Schedule demo -->
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.75rem;">
+          <div style="font-size:1.4rem;margin-bottom:0.75rem;">📅</div>
+          <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:0.5rem;">Schedule a Live Demo</h3>
+          <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;margin-bottom:1.25rem;">
+            30 minutes with Barnes — see the full dispatch flow live, ask questions, and find out if RIN is the right fit for your operation.
+          </p>
+          <a href="https://calendly.com/barnes-thestrategypitch/30min" target="_blank"
+            class="btn-primary" data-track="demo_schedule_calendly"
+            style="display:flex;justify-content:center;text-decoration:none;">
+            Book a 30-Min Demo →
+          </a>
+        </div>
+
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.75rem;">
+          <div style="font-size:1.4rem;margin-bottom:0.75rem;">💬</div>
+          <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:0.5rem;">What you'll see</h3>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+            <li style="font-size:0.85rem;color:var(--muted);display:flex;gap:0.5rem;"><span style="color:var(--success);font-weight:700;">✓</span>Live job intake → AI pricing → SMS confirmation</li>
+            <li style="font-size:0.85rem;color:var(--muted);display:flex;gap:0.5rem;"><span style="color:var(--success);font-weight:700;">✓</span>Driver matching and dispatch flow</li>
+            <li style="font-size:0.85rem;color:var(--muted);display:flex;gap:0.5rem;"><span style="color:var(--success);font-weight:700;">✓</span>Partner portal — jobs, earnings, billing</li>
+            <li style="font-size:0.85rem;color:var(--muted);display:flex;gap:0.5rem;"><span style="color:var(--success);font-weight:700;">✓</span>Your ROI based on your current volume</li>
+            <li style="font-size:0.85rem;color:var(--muted);display:flex;gap:0.5rem;"><span style="color:var(--success);font-weight:700;">✓</span>Onboarding timeline for your company</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Video modal -->
+<div id="videoModal" style="
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:2rem;
+" onclick="closeDemo()">
+  <div style="width:100%;max-width:900px;position:relative;" onclick="event.stopPropagation()">
+    <button onclick="closeDemo()" style="
+      position:absolute;top:-2.5rem;right:0;
+      background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;
+    ">✕ Close</button>
+    <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;background:#000;">
+      <iframe id="demoFrame" src="" allow="autoplay;fullscreen" allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>
+      <!-- Replace the src above with your Loom or YouTube embed URL -->
+      <div id="demoPlaceholder" style="
+        position:absolute;inset:0;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;gap:1rem;color:white;
+        background:var(--surface);
+      ">
+        <div style="font-size:3rem;">🎬</div>
+        <div style="font-size:1.1rem;font-weight:700;">Demo video coming soon</div>
+        <div style="font-size:0.875rem;color:var(--muted);">In the meantime, book a live walkthrough below</div>
+        <a href="https://calendly.com/barnes-thestrategypitch/30min" target="_blank"
+          class="btn-primary" style="margin-top:0.5rem;">Book a Live Demo →</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- PLANS -->
 <section id="plans" data-section="plans">
@@ -755,6 +881,30 @@
 </footer>
 
 <script>
+// ── DEMO MODAL ────────────────────────────────────────────────────────────
+const DEMO_VIDEO_URL = ''; // Paste your Loom or YouTube embed URL here
+
+function openDemo() {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('demoFrame');
+  const placeholder = document.getElementById('demoPlaceholder');
+  modal.style.display = 'flex';
+  if (DEMO_VIDEO_URL) {
+    frame.src = DEMO_VIDEO_URL;
+    placeholder.style.display = 'none';
+  }
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDemo() {
+  const modal = document.getElementById('videoModal');
+  document.getElementById('demoFrame').src = '';
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDemo(); });
+
 // ── CONFIG ────────────────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDU3OTMsImV4cCI6MjA4OTA4MTc5M30.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
