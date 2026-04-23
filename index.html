@@ -160,7 +160,9 @@
       line-height: 1.2;
       margin-bottom: 24px;
       color: var(--text-primary);
+      transition: opacity 0.5s ease;
     }
+    h1.fading { opacity: 0; }
 
     .hero-subtitle {
       font-size: 18px;
@@ -979,7 +981,7 @@
 <section class="hero" data-section="hero">
   <div class="hero-content">
     <span class="hero-tag">✓ Now Accepting Operators — Toronto &amp; GTA</span>
-    <h1>More jobs. Faster pay.<br>Zero overhead.</h1>
+    <h1 id="hero-headline">More jobs. Faster pay.<br>Zero overhead.</h1>
     <p class="hero-subtitle">Connect directly to insurance companies, fleet operators, and dealerships. Let AI handle dispatch. You handle income.</p>
 
     <div class="hero-cta">
@@ -1463,6 +1465,25 @@
 </div>
 
 <script>
+// ── HERO HEADLINE ROTATION ───────────────────────────────────────
+(function() {
+  const lines = [
+    'More jobs. Faster pay.<br>Zero overhead.',
+    'AI dispatch. Less chaos.<br>More income.',
+    'Vetted clients. Guaranteed pay.<br>No scheduling headaches.',
+  ];
+  let idx = 0;
+  const el = document.getElementById('hero-headline');
+  setInterval(() => {
+    el.classList.add('fading');
+    setTimeout(() => {
+      idx = (idx + 1) % lines.length;
+      el.innerHTML = lines[idx];
+      el.classList.remove('fading');
+    }, 500);
+  }, 4000);
+})();
+
 // ── AUDIENCE TABS ────────────────────────────────────────────────
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
