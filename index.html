@@ -1018,15 +1018,54 @@
 
   <!-- Tab Nav -->
   <div class="tab-nav" role="tablist">
-    <button class="tab-btn active" onclick="switchTab('operators')" data-track="tab_operators">🚚 Tow Operators</button>
+    <button class="tab-btn active" onclick="switchTab('whoweserve')" data-track="tab_whoweserve">👥 Who We Serve</button>
+    <button class="tab-btn" onclick="switchTab('operators')" data-track="tab_operators">🚚 Tow Operators</button>
     <button class="tab-btn" onclick="switchTab('insurance')" data-track="tab_insurance">🏛️ Insurance Companies</button>
     <button class="tab-btn" onclick="switchTab('dealerships')" data-track="tab_dealerships">🏎️ Dealerships</button>
     <button class="tab-btn" onclick="switchTab('fleet')" data-track="tab_fleet">🚛 Fleet Operators</button>
     <button class="tab-btn" onclick="switchTab('calculator')" data-track="tab_calculator">📊 ROI Calculator</button>
   </div>
 
+  <!-- Who We Serve Tab -->
+  <div class="tab-panel active" id="tab-whoweserve">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;">
+
+      <div class="feature-card" style="cursor:pointer;" onclick="switchTab('operators')" data-track="whoweserve_operators">
+        <div class="feature-icon">🚚</div>
+        <h3>Tow Operators</h3>
+        <p>More jobs from vetted enterprise clients. Automated dispatch, guaranteed pay, zero scheduling overhead.</p>
+        <div style="margin-top:16px;font-size:13px;font-weight:600;color:var(--accent-light);">Learn more →</div>
+      </div>
+
+      <div class="feature-card" style="cursor:pointer;" onclick="switchTab('insurance')" data-track="whoweserve_insurance">
+        <div class="feature-icon">🏛️</div>
+        <h3>Insurance Companies</h3>
+        <p>Faster claims processing with real-time dispatch visibility, verified operators, and full audit trails per incident.</p>
+        <div style="margin-top:16px;font-size:13px;font-weight:600;color:var(--accent-light);">Learn more →</div>
+      </div>
+
+      <div class="feature-card" style="cursor:pointer;" onclick="switchTab('dealerships')" data-track="whoweserve_dealerships">
+        <div class="feature-icon">🏎️</div>
+        <h3>Dealerships</h3>
+        <p>Branded roadside coverage for your customers. Protect CSI scores, drive service bay returns, zero coordination effort.</p>
+        <div style="margin-top:16px;font-size:13px;font-weight:600;color:var(--accent-light);">Learn more →</div>
+      </div>
+
+      <div class="feature-card" style="cursor:pointer;" onclick="switchTab('fleet')" data-track="whoweserve_fleet">
+        <div class="feature-icon">🚛</div>
+        <h3>Fleet Operators</h3>
+        <p>24/7 commercial coverage, heavy-duty capable, per-vehicle incident history, and custom SLA agreements.</p>
+        <div style="margin-top:16px;font-size:13px;font-weight:600;color:var(--accent-light);">Learn more →</div>
+      </div>
+
+    </div>
+    <div style="margin-top:2rem;text-align:center;">
+      <a href="#apply" class="btn btn-primary" data-track="whoweserve_apply">Apply to Join the Network →</a>
+    </div>
+  </div>
+
   <!-- Operators Tab -->
-  <div class="tab-panel active" id="tab-operators">
+  <div class="tab-panel" id="tab-operators">
     <div class="features-grid">
       <div class="feature-card"><div class="feature-icon">📋</div><h3>Enterprise Job Volume</h3><p>Get dispatched by insurance companies, fleet operators, and dealerships. Pre-qualified jobs. No phone tag.</p></div>
       <div class="feature-card"><div class="feature-icon">🤖</div><h3>AI Handles Logistics</h3><p>Automatic driver matching by location, rating, and availability. One SMS confirmation. You're on your way.</p></div>
