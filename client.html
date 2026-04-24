@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIN Client Portal</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #05091a;
+      --bg2:     #0c1428;
+      --bg3:     #162040;
+      --bg4:     #1e2d50;
+      --border:  #1e2d50;
+      --border2: #2e4070;
+      --text:    #f0f4ff;
+      --text2:   #9aabc8;
+      --text3:   #7a90b0;
+      --blue:    #3b82f6;
+      --blue-l:  #60a5fa;
+      --blue-d:  #2563eb;
+      --blue-g:  rgba(59,130,246,0.10);
+      --green:   #34d399;
+      --green-d: #10b981;
+      --green-g: rgba(52,211,153,0.10);
+      --red:     #fb923c;
+      --fleet:   #f59e0b;
+      --fleet-l: #fbbf24;
+      --fleet-g: rgba(245,158,11,0.10);
+      --purple:  #a78bfa;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    a{text-decoration:none;color:inherit;}
+
+    /* Views */
+    .view{display:none;}
+    .view.active{display:block;}
+
+    /* Shared inputs */
+    .fg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+    .fg label{font-size:13px;font-weight:600;color:var(--text2);}
+    .fg input,.fg textarea,.fg select{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:13px 15px;font-size:15px;color:var(--text);font-family:inherit;outline:none;width:100%;transition:border-color 200ms;}
+    .fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--blue);}
+    .fg textarea{resize:vertical;}
+    .fg select option{background:var(--bg3);}
+
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+
+    /* ── LOGIN ── */
+    .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;
+      background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(59,130,246,0.08),transparent 70%);}
+    .login-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:48px;width:100%;max-width:420px;}
+    .login-logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;color:var(--blue-l);margin-bottom:32px;}
+    .login-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:blink 2s infinite;}
+    .login-title{font-size:26px;font-weight:800;letter-spacing:-0.8px;margin-bottom:8px;}
+    .login-sub{font-size:14px;color:var(--text2);margin-bottom:32px;line-height:1.65;}
+    .login-err{background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.35);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--red);margin-bottom:20px;display:none;}
+    .login-err.show{display:block;}
+    .btn-login{width:100%;background:var(--blue-d);color:white;padding:16px;border-radius:10px;font-size:16px;font-weight:700;border:none;cursor:pointer;font-family:inherit;margin-top:4px;transition:opacity 150ms;}
+    .btn-login:hover{opacity:0.85;}
+    .btn-login:disabled{opacity:0.5;cursor:not-allowed;}
+    .login-footer{text-align:center;margin-top:24px;font-size:13px;color:var(--text3);}
+    .login-footer a{color:var(--blue-l);text-decoration:underline;text-underline-offset:3px;}
+
+    /* ── HEADER ── */
+    .portal-header{position:sticky;top:0;z-index:200;background:rgba(5,9,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:64px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;}
+    .header-left{display:flex;align-items:center;gap:16px;}
+    .header-logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;color:var(--blue-l);}
+    .header-company{font-size:13px;color:var(--text3);padding-left:16px;border-left:1px solid var(--border2);}
+    .header-right{display:flex;align-items:center;gap:16px;}
+    .header-email{font-size:13px;color:var(--text2);}
+    .btn-logout{background:none;border:1px solid var(--border2);color:var(--text2);padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 150ms;}
+    .btn-logout:hover{border-color:var(--red);color:var(--red);}
+
+    /* ── DASHBOARD ── */
+    .dash-body{max-width:1020px;margin:0 auto;padding:40px;}
+    .dash-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:16px;}
+    .dash-greeting{font-size:28px;font-weight:800;letter-spacing:-1px;}
+    .dash-date{font-size:13px;color:var(--text3);margin-top:4px;}
+    .btn-new{background:var(--blue-d);color:white;padding:14px 26px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:8px;transition:all 150ms;box-shadow:0 0 24px rgba(59,130,246,0.2);}
+    .btn-new:hover{opacity:0.85;transform:translateY(-1px);}
+
+    /* Stats */
+    .dash-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px;}
+    .dstat{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;}
+    .dstat-val{font-size:32px;font-weight:900;letter-spacing:-1.5px;line-height:1;margin-bottom:4px;}
+    .dstat-lbl{font-size:12px;color:var(--text3);}
+    .dstat-active .dstat-val{color:var(--blue-l);}
+    .dstat-month .dstat-val{color:var(--green);}
+    .dstat-avg .dstat-val{color:var(--purple);}
+
+    /* Section */
+    .section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+    .section-title{font-size:16px;font-weight:700;}
+    .section-meta{font-size:12px;color:var(--text3);}
+
+    /* Job cards */
+    .jobs-list{display:flex;flex-direction:column;gap:10px;}
+    .job-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 24px;display:flex;align-items:center;gap:18px;transition:border-color 150ms;}
+    .job-card:hover{border-color:var(--border2);}
+    .jdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+    .jdot.pending{background:var(--fleet);box-shadow:0 0 8px var(--fleet);animation:pulse 1.5s infinite;}
+    .jdot.dispatched{background:var(--blue);box-shadow:0 0 8px var(--blue);animation:pulse 1.5s infinite;}
+    .jdot.in_progress{background:var(--blue-l);}
+    .jdot.complete{background:var(--green);}
+    .jdot.cancelled{background:var(--text3);}
+    .jinfo{flex:1;min-width:0;}
+    .jref{font-size:12px;font-weight:700;color:var(--blue-l);margin-bottom:2px;letter-spacing:0.3px;}
+    .jdesc{font-size:14px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .jmeta{font-size:12px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .jbadge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;white-space:nowrap;flex-shrink:0;}
+    .jbadge.pending{background:var(--fleet-g);color:var(--fleet-l);border:1px solid rgba(245,158,11,0.3);}
+    .jbadge.dispatched,.jbadge.in_progress{background:var(--blue-g);color:var(--blue-l);border:1px solid rgba(59,130,246,0.3);}
+    .jbadge.complete{background:var(--green-g);color:var(--green);border:1px solid rgba(52,211,153,0.3);}
+    .jbadge.cancelled{background:rgba(122,144,176,0.08);color:var(--text3);border:1px solid var(--border);}
+    .jtime{font-size:11px;color:var(--text3);flex-shrink:0;text-align:right;min-width:56px;}
+
+    /* Empty */
+    .empty{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:56px 40px;text-align:center;}
+    .empty-icon{font-size:44px;margin-bottom:16px;}
+    .empty-title{font-size:18px;font-weight:700;margin-bottom:8px;}
+    .empty-sub{font-size:14px;color:var(--text2);line-height:1.65;max-width:360px;margin:0 auto 24px;}
+    .btn-empty{display:inline-block;background:var(--blue-d);color:white;padding:13px 26px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:opacity 150ms;}
+    .btn-empty:hover{opacity:0.85;}
+
+    /* ── REQUEST MODAL ── */
+    .overlay{position:fixed;inset:0;background:rgba(5,9,26,0.88);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;}
+    .overlay.hidden{display:none;}
+    .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:40px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;position:relative;}
+    .modal-x{position:absolute;top:18px;right:20px;background:none;border:none;color:var(--text3);font-size:26px;line-height:1;cursor:pointer;transition:color 150ms;}
+    .modal-x:hover{color:var(--text);}
+    .modal-title{font-size:24px;font-weight:800;letter-spacing:-0.6px;margin-bottom:6px;}
+    .modal-sub{font-size:14px;color:var(--text2);margin-bottom:28px;line-height:1.6;}
+    .modal-label{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:10px;display:block;}
+
+    /* Incident type picker */
+    .itype-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;}
+    .itype{background:var(--bg3);border:1.5px solid var(--border2);border-radius:10px;padding:12px 10px;cursor:pointer;transition:all 150ms;text-align:center;}
+    .itype:hover{border-color:var(--blue);}
+    .itype.sel{border-color:var(--blue);background:var(--blue-g);}
+    .itype-ico{font-size:20px;margin-bottom:5px;}
+    .itype-lbl{font-size:12px;font-weight:600;color:var(--text2);}
+    .itype.sel .itype-lbl{color:var(--blue-l);}
+
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .modal-err{background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.35);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--red);margin-bottom:14px;display:none;}
+    .modal-err.show{display:block;}
+    .btn-dispatch{width:100%;background:var(--blue-d);color:white;padding:16px;border-radius:10px;font-size:16px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:opacity 150ms;}
+    .btn-dispatch:hover{opacity:0.85;}
+    .btn-dispatch:disabled{opacity:0.5;cursor:not-allowed;}
+    .modal-note{text-align:center;font-size:12px;color:var(--text3);margin-top:12px;line-height:1.5;}
+
+    /* ── CONFIRM ── */
+    .confirm-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;}
+    .confirm-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:52px 48px;width:100%;max-width:500px;text-align:center;}
+    .confirm-emo{font-size:56px;margin-bottom:20px;}
+    .confirm-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--blue-l);margin-bottom:6px;}
+    .confirm-ref{font-size:38px;font-weight:900;letter-spacing:-2px;margin-bottom:24px;}
+    .confirm-title{font-size:22px;font-weight:800;margin-bottom:10px;}
+    .confirm-sub{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:32px;}
+    .confirm-steps{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:20px 24px;text-align:left;margin-bottom:28px;}
+    .cstep{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);}
+    .cstep:last-child{border-bottom:none;}
+    .cnum{width:24px;height:24px;border-radius:50%;background:var(--blue-g);border:1px solid rgba(59,130,246,0.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blue-l);flex-shrink:0;margin-top:1px;}
+    .cbody{font-size:13px;color:var(--text2);line-height:1.55;}
+    .cbody strong{color:var(--text);}
+    .btn-back{background:none;border:1px solid var(--border2);color:var(--text2);padding:13px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 150ms;}
+    .btn-back:hover{border-color:var(--blue);color:var(--blue-l);}
+
+    /* Responsive */
+    @media(max-width:768px){
+      .portal-header{padding:0 20px;}
+      .header-company,.header-email{display:none;}
+      .dash-body{padding:24px 20px;}
+      .dash-stats{grid-template-columns:1fr 1fr;}
+      .itype-grid{grid-template-columns:repeat(2,1fr);}
+      .two-col{grid-template-columns:1fr;}
+      .modal{padding:28px 20px;}
+      .confirm-card{padding:40px 24px;}
+    }
+    @media(max-width:480px){
+      .dash-stats{grid-template-columns:1fr;}
+      .job-card{flex-wrap:wrap;}
+      .jbadge{order:3;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="view-login" class="view active">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo"><div class="login-dot"></div>RIN</div>
+      <h1 class="login-title">Client Portal</h1>
+      <p class="login-sub">Request roadside assistance, track active jobs, and access incident reports for your fleet.</p>
+      <div class="login-err" id="login-err"></div>
+      <div class="fg">
+        <label>Email address</label>
+        <input type="email" id="l-email" placeholder="ops@yourcompany.com" autocomplete="email">
+      </div>
+      <div class="fg">
+        <label>Password</label>
+        <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn-login" id="btn-login" onclick="doLogin()">Sign in to portal →</button>
+      <div class="login-footer">No account yet? <a href="/#contact-form">Request pilot access →</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="view-dashboard" class="view">
+  <header class="portal-header">
+    <div class="header-left">
+      <div class="header-logo"><div class="login-dot"></div>RIN</div>
+      <span class="header-company" id="h-company">Client Portal</span>
+    </div>
+    <div class="header-right">
+      <span class="header-email" id="h-email"></span>
+      <button class="btn-logout" onclick="doLogout()">Sign out</button>
+    </div>
+  </header>
+
+  <div class="dash-body">
+    <div class="dash-top">
+      <div>
+        <div class="dash-greeting" id="d-greeting">Good morning</div>
+        <div class="dash-date" id="d-date"></div>
+      </div>
+      <button class="btn-new" onclick="openModal()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Request a Tow
+      </button>
+    </div>
+
+    <div class="dash-stats">
+      <div class="dstat dstat-active">
+        <div class="dstat-val" id="s-active">0</div>
+        <div class="dstat-lbl">Active jobs</div>
+      </div>
+      <div class="dstat dstat-month">
+        <div class="dstat-val" id="s-month">0</div>
+        <div class="dstat-lbl">Incidents this month</div>
+      </div>
+      <div class="dstat dstat-avg">
+        <div class="dstat-val">&lt;15m</div>
+        <div class="dstat-lbl">Avg dispatch time</div>
+      </div>
+    </div>
+
+    <div class="section-hdr">
+      <span class="section-title">Jobs &amp; Incidents</span>
+      <span class="section-meta" id="s-count"></span>
+    </div>
+    <div class="jobs-list" id="jobs-list">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ══ REQUEST MODAL ══ -->
+<div class="overlay hidden" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">×</button>
+    <h2 class="modal-title">Request a Tow</h2>
+    <p class="modal-sub">Dispatch is confirmed within 15 minutes. Rate is locked before any operator moves.</p>
+
+    <label class="modal-label">Incident type</label>
+    <div class="itype-grid">
+      <div class="itype sel" data-type="Tow required" onclick="selType(this)">
+        <div class="itype-ico">🚛</div><div class="itype-lbl">Tow required</div>
+      </div>
+      <div class="itype" data-type="Flat tyre" onclick="selType(this)">
+        <div class="itype-ico">🔧</div><div class="itype-lbl">Flat tyre</div>
+      </div>
+      <div class="itype" data-type="Battery / jump" onclick="selType(this)">
+        <div class="itype-ico">⚡</div><div class="itype-lbl">Battery / jump</div>
+      </div>
+      <div class="itype" data-type="Locked out" onclick="selType(this)">
+        <div class="itype-ico">🔑</div><div class="itype-lbl">Locked out</div>
+      </div>
+      <div class="itype" data-type="Fuel delivery" onclick="selType(this)">
+        <div class="itype-ico">⛽</div><div class="itype-lbl">Fuel delivery</div>
+      </div>
+      <div class="itype" data-type="Other" onclick="selType(this)">
+        <div class="itype-ico">❓</div><div class="itype-lbl">Other</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="fg">
+        <label>Vehicle ID / plate</label>
+        <input type="text" id="r-vehicle" placeholder="TRUCK-04 or ABCD 123">
+      </div>
+      <div class="fg">
+        <label>On-scene contact phone</label>
+        <input type="tel" id="r-phone" placeholder="+1 (416) 000-0000">
+      </div>
+    </div>
+    <div class="fg">
+      <label>Pickup location</label>
+      <input type="text" id="r-location" placeholder="e.g. Hwy 401 & Keele St, Toronto, ON">
+    </div>
+    <div class="fg">
+      <label>Destination <span style="color:var(--text3);font-weight:400">(if tow — optional)</span></label>
+      <input type="text" id="r-dest" placeholder="e.g. 123 Service Rd, Brampton">
+    </div>
+    <div class="fg">
+      <label>Additional notes <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+      <textarea id="r-notes" rows="2" placeholder="e.g. flatbed required, driver on shoulder with hazards on"></textarea>
+    </div>
+    <div class="modal-err" id="modal-err"></div>
+    <button class="btn-dispatch" id="btn-dispatch" onclick="submitRequest()">Dispatch RIN →</button>
+    <div class="modal-note">Rate is locked before any operator is dispatched — no surprises after the job.</div>
+  </div>
+</div>
+
+<!-- ══ CONFIRMATION ══ -->
+<div id="view-confirm" class="view">
+  <div class="confirm-wrap">
+    <div class="confirm-card">
+      <div class="confirm-emo">✅</div>
+      <div class="confirm-lbl">Reference number</div>
+      <div class="confirm-ref" id="c-refnum">RIN-0000</div>
+      <h2 class="confirm-title">Request received.</h2>
+      <p class="confirm-sub">A certified operator is being dispatched now. You'll receive a text update when they're confirmed and en route.</p>
+      <div class="confirm-steps">
+        <div class="cstep">
+          <div class="cnum">1</div>
+          <div class="cbody"><strong>RIN dispatch engine is running</strong> — scanning operators in your coverage area now.</div>
+        </div>
+        <div class="cstep">
+          <div class="cnum">2</div>
+          <div class="cbody"><strong>Rate locked before dispatch</strong> — you'll receive a text to confirm the rate before any operator moves.</div>
+        </div>
+        <div class="cstep">
+          <div class="cnum">3</div>
+          <div class="cbody"><strong>Full incident report on completion</strong> — timestamp, GPS, operator, rate, all included.</div>
+        </div>
+      </div>
+      <button class="btn-back" onclick="backToDash()">Back to dashboard</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MDc2MjYsImV4cCI6MjA1OTI4MzYyNn0.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+let user = null;
+let incidentType = 'Tow required';
+
+// ── VIEWS ──
+function show(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── AUTH ──
+async function doLogin() {
+  const email = document.getElementById('l-email').value.trim();
+  const pass  = document.getElementById('l-pass').value;
+  const errEl = document.getElementById('login-err');
+  const btn   = document.getElementById('btn-login');
+  errEl.classList.remove('show');
+  if (!email || !pass) { errEl.textContent = 'Please enter your email and password.'; errEl.classList.add('show'); return; }
+  btn.textContent = 'Signing in…'; btn.disabled = true;
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) {
+    errEl.textContent = 'Invalid credentials. Contact RIN to get access.';
+    errEl.classList.add('show');
+    btn.textContent = 'Sign in to portal →'; btn.disabled = false;
+    return;
+  }
+  user = data.user;
+  await initDash();
+  show('view-dashboard');
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  user = null;
+  document.getElementById('l-email').value = '';
+  document.getElementById('l-pass').value = '';
+  show('view-login');
+}
+
+// ── DASHBOARD ──
+async function initDash() {
+  const h = new Date().getHours();
+  document.getElementById('d-greeting').textContent = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('d-date').textContent = new Date().toLocaleDateString('en-CA', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('h-email').textContent = user.email;
+  const co = user.user_metadata?.company_name || '';
+  document.getElementById('h-company').textContent = co || 'Client Portal';
+  await loadJobs();
+}
+
+async function loadJobs() {
+  const { data: jobs } = await sb
+    .from('tow_requests')
+    .select('*')
+    .eq('client_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(25);
+
+  const list = document.getElementById('jobs-list');
+  if (!jobs || jobs.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">🚛</div>
+        <div class="empty-title">No incidents yet</div>
+        <div class="empty-sub">When you request a tow, it appears here with real-time status. Your team never has to call dispatch again.</div>
+        <button class="btn-empty" onclick="openModal()">Request your first tow →</button>
+      </div>`;
+    document.getElementById('s-active').textContent = '0';
+    document.getElementById('s-month').textContent  = '0';
+    document.getElementById('s-count').textContent  = '';
+    return;
+  }
+
+  const active    = jobs.filter(j => ['pending','dispatched','in_progress'].includes(j.status)).length;
+  const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0,0,0,0);
+  const thisMonth = jobs.filter(j => new Date(j.created_at) >= monthStart).length;
+
+  document.getElementById('s-active').textContent = active;
+  document.getElementById('s-month').textContent  = thisMonth;
+  document.getElementById('s-count').textContent  = `${jobs.length} total`;
+
+  list.innerHTML = jobs.map(j => `
+    <div class="job-card">
+      <div class="jdot ${j.status}"></div>
+      <div class="jinfo">
+        <div class="jref">${j.reference_number}</div>
+        <div class="jdesc">${j.incident_type} — ${j.vehicle_id}</div>
+        <div class="jmeta">${j.pickup_location}</div>
+      </div>
+      <span class="jbadge ${j.status}">${statusLabel(j.status)}</span>
+      <div class="jtime">${timeAgo(j.created_at)}</div>
+    </div>`).join('');
+}
+
+const statusLabel = s => ({ pending:'Pending', dispatched:'Dispatched', in_progress:'En Route', complete:'Complete', cancelled:'Cancelled' }[s] || s);
+
+function timeAgo(ts) {
+  const m = Math.floor((Date.now() - new Date(ts)) / 60000);
+  if (m < 1) return 'Just now';
+  if (m < 60) return `${m}m ago`;
+  if (m < 1440) return `${Math.floor(m/60)}h ago`;
+  return new Date(ts).toLocaleDateString('en-CA', { month:'short', day:'numeric' });
+}
+
+// ── REQUEST MODAL ──
+function openModal() {
+  document.getElementById('modal-overlay').classList.remove('hidden');
+  document.getElementById('r-vehicle').focus();
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.add('hidden');
+  document.getElementById('modal-err').classList.remove('show');
+}
+function selType(el) {
+  document.querySelectorAll('.itype').forEach(i => i.classList.remove('sel'));
+  el.classList.add('sel');
+  incidentType = el.dataset.type;
+}
+
+async function submitRequest() {
+  const vehicle  = document.getElementById('r-vehicle').value.trim();
+  const phone    = document.getElementById('r-phone').value.trim();
+  const location = document.getElementById('r-location').value.trim();
+  const dest     = document.getElementById('r-dest').value.trim();
+  const notes    = document.getElementById('r-notes').value.trim();
+  const errEl    = document.getElementById('modal-err');
+  const btn      = document.getElementById('btn-dispatch');
+
+  errEl.classList.remove('show');
+  if (!vehicle || !phone || !location) {
+    errEl.textContent = 'Please fill in vehicle ID, contact phone, and pickup location.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  btn.textContent = 'Dispatching…'; btn.disabled = true;
+
+  const ref = 'RIN-' + String(Math.floor(1000 + Math.random() * 9000));
+  const { error } = await sb.from('tow_requests').insert({
+    client_id:       user.id,
+    reference_number: ref,
+    incident_type:   incidentType,
+    vehicle_id:      vehicle,
+    contact_phone:   phone,
+    pickup_location: location,
+    destination:     dest || null,
+    notes:           notes || null,
+    status:          'pending',
+    company_name:    user.user_metadata?.company_name || null,
+  });
+
+  btn.textContent = 'Dispatch RIN →'; btn.disabled = false;
+
+  if (error) {
+    errEl.textContent = 'Something went wrong. Please try again or call us directly.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  closeModal();
+  document.getElementById('c-refnum').textContent = ref;
+  show('view-confirm');
+}
+
+async function backToDash() {
+  show('view-dashboard');
+  await loadJobs();
+}
+
+// ── KEYBOARD ──
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Enter' && document.getElementById('view-login').classList.contains('active')) doLogin();
+});
+
+// ── SESSION RESTORE ──
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (session) { user = session.user; initDash().then(() => show('view-dashboard')); }
+});
+sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') show('view-login'); });
+</script>
+</body>
+</html>
