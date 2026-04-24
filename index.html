@@ -312,6 +312,42 @@
       padding: 80px 32px;
     }
 
+    /* ── FLOW DIAGRAM ── */
+    .flow-diagram {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      overflow-x: auto;
+    }
+    .flow-node {
+      flex: 1;
+      min-width: 160px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 18px;
+      position: relative;
+    }
+    .flow-node.accent {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(59,130,246,0.04));
+    }
+    .flow-node-icon { font-size: 26px; margin-bottom: 10px; }
+    .flow-node-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent-light); margin-bottom: 6px; }
+    .flow-node-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+    .flow-node-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      color: var(--accent);
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
     .steps-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -1225,35 +1261,159 @@
     <p class="section-intro" id="how-intro">Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That's it.</p>
 
     <!-- TOW OPERATORS -->
-    <div class="steps-grid how-panel" id="how-operators">
-      <div class="step"><div class="step-number">1</div><h3>Enterprise Client Sends a Job</h3><p>An insurance company, fleet manager, or dealership submits a roadside request through RIN. No phone call to your dispatch. It lands in the system automatically.</p></div>
-      <div class="step"><div class="step-number">2</div><h3>Your Rate Is Locked In</h3><p>RIN's AI calculates a fair rate based on incident type, distance, and time of day. The client approves via SMS — your payout is confirmed before your driver leaves.</p></div>
-      <div class="step"><div class="step-number">3</div><h3>Your Driver Gets the Job</h3><p>RIN dispatches to the nearest qualified driver in your fleet via SMS. One reply to confirm. No new app. No retraining. Your driver is on the way.</p></div>
-      <div class="step"><div class="step-number">4</div><h3>You're Paid in 7 Days</h3><p>Job complete. RIN invoices the client and deposits your 80% within 7 days — automatically. No chasing invoices, no payment delays.</p></div>
+    <div class="how-panel" id="how-operators">
+      <div class="flow-diagram">
+        <div class="flow-node">
+          <div class="flow-node-icon">🏢</div>
+          <div class="flow-node-label">Step 1</div>
+          <div class="flow-node-title">Enterprise Client</div>
+          <div class="flow-node-desc">Insurance, fleet, or dealership submits a job into RIN — no call to your dispatch.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node accent">
+          <div class="flow-node-icon">🤖</div>
+          <div class="flow-node-label">Step 2</div>
+          <div class="flow-node-title">AI Prices the Job</div>
+          <div class="flow-node-desc">Rate calculated by incident, distance & time. Client approves via SMS. Your cut is locked.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">📱</div>
+          <div class="flow-node-label">Step 3</div>
+          <div class="flow-node-title">Your Driver Dispatched</div>
+          <div class="flow-node-desc">Nearest driver gets one SMS. One reply to confirm. No app. No retraining.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node accent">
+          <div class="flow-node-icon">💰</div>
+          <div class="flow-node-label">Step 4</div>
+          <div class="flow-node-title">80% Paid in 7 Days</div>
+          <div class="flow-node-desc">RIN invoices the client. Your 80% deposited automatically within 7 days.</div>
+        </div>
+      </div>
+      <div class="steps-grid">
+        <div class="step"><div class="step-number">1</div><h3>Enterprise Client Sends a Job</h3><p>An insurance company, fleet manager, or dealership submits a roadside request through RIN. No phone call to your dispatch. It lands in the system automatically.</p></div>
+        <div class="step"><div class="step-number">2</div><h3>Your Rate Is Locked In</h3><p>RIN's AI calculates a fair rate based on incident type, distance, and time of day. The client approves via SMS — your payout is confirmed before your driver leaves.</p></div>
+        <div class="step"><div class="step-number">3</div><h3>Your Driver Gets the Job</h3><p>RIN dispatches to the nearest qualified driver in your fleet via SMS. One reply to confirm. No new app. No retraining. Your driver is on the way.</p></div>
+        <div class="step"><div class="step-number">4</div><h3>You're Paid in 7 Days</h3><p>Job complete. RIN invoices the client and deposits your 80% within 7 days — automatically. No chasing invoices, no payment delays.</p></div>
+      </div>
     </div>
 
     <!-- INSURANCE COMPANIES -->
-    <div class="steps-grid how-panel" id="how-insurance" style="display:none;">
-      <div class="step"><div class="step-number">1</div><h3>Submit a Roadside Request</h3><p>File a claim request through RIN. Vehicle details, policy number, location, and incident type — all captured automatically. No back-and-forth with your team.</p></div>
-      <div class="step"><div class="step-number">2</div><h3>Pricing Verified Upfront</h3><p>RIN calculates a fair market rate for the incident. No inflated invoices, no surprise billing. Price is locked and approved before any driver rolls.</p></div>
-      <div class="step"><div class="step-number">3</div><h3>Vetted Operator Dispatched</h3><p>A rated, verified tow operator is assigned automatically. Your team gets real-time tracking — from dispatch to drop-off — with no calls required.</p></div>
-      <div class="step"><div class="step-number">4</div><h3>Clean Audit Trail Per Claim</h3><p>Job complete. Timestamps, driver ID, GPS route, and policyholder sign-off — all logged. One clean, itemized record per claim. Ready for your files.</p></div>
+    <div class="how-panel" id="how-insurance" style="display:none;">
+      <div class="flow-diagram">
+        <div class="flow-node">
+          <div class="flow-node-icon">🚗</div>
+          <div class="flow-node-label">Step 1</div>
+          <div class="flow-node-title">Policyholder Incident</div>
+          <div class="flow-node-desc">Claim request filed in RIN. Vehicle, policy, location & incident type captured instantly.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node accent">
+          <div class="flow-node-icon">🔒</div>
+          <div class="flow-node-label">Step 2</div>
+          <div class="flow-node-title">Price Verified Upfront</div>
+          <div class="flow-node-desc">AI sets a fair market rate. No inflated invoices. Locked before any driver rolls.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">🚚</div>
+          <div class="flow-node-label">Step 3</div>
+          <div class="flow-node-title">Vetted Operator Dispatched</div>
+          <div class="flow-node-desc">Rated operator assigned automatically. Real-time tracking from dispatch to drop-off.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node accent">
+          <div class="flow-node-icon">📋</div>
+          <div class="flow-node-label">Step 4</div>
+          <div class="flow-node-title">Clean Audit Trail</div>
+          <div class="flow-node-desc">Timestamps, GPS, driver ID, policyholder sign-off — one itemized record per claim.</div>
+        </div>
+      </div>
+      <div class="steps-grid">
+        <div class="step"><div class="step-number">1</div><h3>Submit a Roadside Request</h3><p>File a claim request through RIN. Vehicle details, policy number, location, and incident type — all captured automatically. No back-and-forth with your team.</p></div>
+        <div class="step"><div class="step-number">2</div><h3>Pricing Verified Upfront</h3><p>RIN calculates a fair market rate for the incident. No inflated invoices, no surprise billing. Price is locked and approved before any driver rolls.</p></div>
+        <div class="step"><div class="step-number">3</div><h3>Vetted Operator Dispatched</h3><p>A rated, verified tow operator is assigned automatically. Your team gets real-time tracking — from dispatch to drop-off — with no calls required.</p></div>
+        <div class="step"><div class="step-number">4</div><h3>Clean Audit Trail Per Claim</h3><p>Job complete. Timestamps, driver ID, GPS route, and policyholder sign-off — all logged. One clean, itemized record per claim. Ready for your files.</p></div>
+      </div>
     </div>
 
     <!-- FLEET OPERATORS -->
-    <div class="steps-grid how-panel" id="how-fleet" style="display:none;">
-      <div class="step"><div class="step-number">1</div><h3>Incident Reported</h3><p>Your driver or fleet manager reports a breakdown. Vehicle, location, and incident type are captured instantly — no manual logging, no call center.</p></div>
-      <div class="step"><div class="step-number">2</div><h3>Right Truck, Right Match</h3><p>RIN matches the incident to the correct tow type — light, medium, or heavy. The nearest qualified operator is dispatched automatically.</p></div>
-      <div class="step"><div class="step-number">3</div><h3>Real-Time Fleet Visibility</h3><p>Track the tow truck and your vehicle in real time from one dashboard. ETAs, status updates, and completion — no phone calls needed.</p></div>
-      <div class="step"><div class="step-number">4</div><h3>Per-Vehicle Job Record</h3><p>Every incident logged by vehicle ID. Useful for maintenance tracking, insurance claims, and driver accountability. Exportable any time.</p></div>
+    <div class="how-panel" id="how-fleet" style="display:none;">
+      <div class="flow-diagram">
+        <div class="flow-node">
+          <div class="flow-node-icon">🚛</div>
+          <div class="flow-node-label">Step 1</div>
+          <div class="flow-node-title">Incident Reported</div>
+          <div class="flow-node-desc">Driver or manager reports breakdown. Vehicle, location & type captured — no call center.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node accent">
+          <div class="flow-node-icon">🎯</div>
+          <div class="flow-node-label">Step 2</div>
+          <div class="flow-node-title">Right Truck Matched</div>
+          <div class="flow-node-desc">RIN matches incident to correct tow type — light, medium, or heavy. Nearest operator dispatched.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">📡</div>
+          <div class="flow-node-label">Step 3</div>
+          <div class="flow-node-title">Live Fleet Visibility</div>
+          <div class="flow-node-desc">Track tow truck and your vehicle in real time. ETAs and status from one dashboard.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node accent">
+          <div class="flow-node-icon">📁</div>
+          <div class="flow-node-label">Step 4</div>
+          <div class="flow-node-title">Per-Vehicle Record</div>
+          <div class="flow-node-desc">Every incident logged by vehicle ID. Maintenance tracking, insurance claims, exportable.</div>
+        </div>
+      </div>
+      <div class="steps-grid">
+        <div class="step"><div class="step-number">1</div><h3>Incident Reported</h3><p>Your driver or fleet manager reports a breakdown. Vehicle, location, and incident type are captured instantly — no manual logging, no call center.</p></div>
+        <div class="step"><div class="step-number">2</div><h3>Right Truck, Right Match</h3><p>RIN matches the incident to the correct tow type — light, medium, or heavy. The nearest qualified operator is dispatched automatically.</p></div>
+        <div class="step"><div class="step-number">3</div><h3>Real-Time Fleet Visibility</h3><p>Track the tow truck and your vehicle in real time from one dashboard. ETAs, status updates, and completion — no phone calls needed.</p></div>
+        <div class="step"><div class="step-number">4</div><h3>Per-Vehicle Job Record</h3><p>Every incident logged by vehicle ID. Useful for maintenance tracking, insurance claims, and driver accountability. Exportable any time.</p></div>
+      </div>
     </div>
 
     <!-- DEALERSHIPS -->
-    <div class="steps-grid how-panel" id="how-dealerships" style="display:none;">
-      <div class="step"><div class="step-number">1</div><h3>Customer Reports an Incident</h3><p>Your customer contacts roadside assistance. RIN captures the request under your dealership brand — seamlessly. No third-party branding your customer sees.</p></div>
-      <div class="step"><div class="step-number">2</div><h3>Vetted Operator Dispatched</h3><p>A qualified tow operator is assigned from RIN's network. Fast response. Professional service — presented under your dealership name, not ours.</p></div>
-      <div class="step"><div class="step-number">3</div><h3>Your Customer Stays Informed</h3><p>Real-time SMS updates to your customer: ETA, driver name, job status. All under your dealership identity. Their experience, your brand.</p></div>
-      <div class="step"><div class="step-number">4</div><h3>Vehicle Routed to Your Bay</h3><p>Job complete. RIN closes the loop — every roadside incident is an opportunity to route the vehicle back to your service department. More return visits.</p></div>
+    <div class="how-panel" id="how-dealerships" style="display:none;">
+      <div class="flow-diagram">
+        <div class="flow-node">
+          <div class="flow-node-icon">📞</div>
+          <div class="flow-node-label">Step 1</div>
+          <div class="flow-node-title">Customer Breakdown</div>
+          <div class="flow-node-desc">Customer contacts roadside assistance. RIN captures it under your dealership brand — no third-party name shown.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node accent">
+          <div class="flow-node-icon">🏎️</div>
+          <div class="flow-node-label">Step 2</div>
+          <div class="flow-node-title">Your Brand, Our Network</div>
+          <div class="flow-node-desc">Vetted operator dispatched fast. Professional service presented under your dealership identity.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">📲</div>
+          <div class="flow-node-label">Step 3</div>
+          <div class="flow-node-title">Customer Kept Informed</div>
+          <div class="flow-node-desc">Real-time SMS: driver name, ETA, job status — all in your name. Customer feels taken care of.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node accent">
+          <div class="flow-node-icon">🔧</div>
+          <div class="flow-node-label">Step 4</div>
+          <div class="flow-node-title">Vehicle to Your Bay</div>
+          <div class="flow-node-desc">Job complete. Every incident is a service bay return opportunity. RIN closes that loop for you.</div>
+        </div>
+      </div>
+      <div class="steps-grid">
+        <div class="step"><div class="step-number">1</div><h3>Customer Reports an Incident</h3><p>Your customer contacts roadside assistance. RIN captures the request under your dealership brand — seamlessly. No third-party branding your customer sees.</p></div>
+        <div class="step"><div class="step-number">2</div><h3>Vetted Operator Dispatched</h3><p>A qualified tow operator is assigned from RIN's network. Fast response. Professional service — presented under your dealership name, not ours.</p></div>
+        <div class="step"><div class="step-number">3</div><h3>Your Customer Stays Informed</h3><p>Real-time SMS updates to your customer: ETA, driver name, job status. All under your dealership identity. Their experience, your brand.</p></div>
+        <div class="step"><div class="step-number">4</div><h3>Vehicle Routed to Your Bay</h3><p>Job complete. RIN closes the loop — every roadside incident is an opportunity to route the vehicle back to your service department. More return visits.</p></div>
+      </div>
     </div>
 
   </section>
@@ -1569,7 +1729,7 @@ function switchTab(tab) {
   document.querySelectorAll('.how-panel').forEach(p => p.style.display = 'none');
   const howPanel = document.getElementById(`how-${tab}`);
   if (howPanel) {
-    howPanel.style.display = 'grid';
+    howPanel.style.display = 'block';
     if (howContent[tab]) {
       document.getElementById('how-label').textContent = howContent[tab].label;
       document.getElementById('how-intro').textContent = howContent[tab].intro;
