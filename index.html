@@ -56,9 +56,19 @@
 
     /* ── NAV ── */
     header{position:sticky;top:0;z-index:200;background:rgba(7,12,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;}
-    .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;color:var(--blue-l);}
-    .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:blink 2s infinite;}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:blink 2s infinite;flex-shrink:0;}
+    .logo-name{font-size:20px;font-weight:800;color:var(--blue-l);line-height:1.1;letter-spacing:-0.5px;}
+    .logo-tagline{font-size:9.5px;color:var(--text3);font-weight:500;letter-spacing:0.05em;text-transform:uppercase;line-height:1;margin-top:2px;}
     @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    /* hero live counter */
+    .hero-live{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13px;color:var(--text3);margin-bottom:20px;position:relative;}
+    .hero-live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green);animation:blink 1.8s infinite;flex-shrink:0;}
+    .hero-live strong{color:var(--green);}
+    /* hero sub pills */
+    .hero-sub-pills{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;position:relative;}
+    .hero-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.22);border-radius:100px;padding:8px 18px;font-size:13.5px;font-weight:600;color:var(--text);}
+    .hero-sub-note{font-size:16px;color:var(--text2);max-width:480px;margin:0 auto 52px;line-height:1.75;position:relative;}
     .nav-r{display:flex;align-items:center;gap:24px;}
     .nav-r a{font-size:14px;color:var(--text2);font-weight:500;transition:color 150ms;}
     .nav-r a:hover{color:var(--blue-l);}
@@ -565,6 +575,9 @@
       footer{flex-direction:column;align-items:flex-start;padding:28px 20px;}
     }
     @media(max-width:480px){
+      .hero-sub-pills{flex-direction:column;align-items:center;}
+      .hero-pill{font-size:13px;padding:7px 14px;}
+      .logo-tagline{display:none;}
       .hero h1{font-size:34px;}
       .hero-ctas{flex-direction:column;align-items:center;}
       .btn-primary,.btn-outline{width:100%;text-align:center;}
@@ -575,11 +588,17 @@
 <body>
 
 <header>
-  <a href="/" class="logo"><div class="logo-dot"></div> RIN</a>
+  <a href="/" class="logo">
+    <div class="logo-dot"></div>
+    <div>
+      <div class="logo-name">RIN</div>
+      <div class="logo-tagline">Roadside Intelligence Network</div>
+    </div>
+  </a>
   <div class="nav-r">
-    <a href="#demo">See Demo</a>
     <a href="#how-it-works">Who We Serve</a>
-    <a href="/for-operators">For Operators</a>
+    <a href="/for-operators">Fleet Operators</a>
+    <a href="#demo">See Demo</a>
     <a href="/client" style="font-size:14px;color:var(--text2);font-weight:500;transition:color 150ms;">Client Login</a>
     <a href="#contact-form" class="nav-cta">Book a Pilot Call</a>
   </div>
@@ -595,7 +614,16 @@
     <div class="hl-dot" id="hd-1"></div>
     <div class="hl-dot" id="hd-2"></div>
   </div>
-  <p class="hero-sub"><strong style="color:var(--text)">Under 15 minutes to dispatch. Rate locked before anyone moves. Pay per incident — no monthly fee.</strong> Your ops team gets a notification when it's done, not a task to manage.</p>
+  <div class="hero-live">
+    <span class="hero-live-dot"></span>
+    <span><strong id="live-count">847</strong> tows dispatched this month across the GTA</span>
+  </div>
+  <div class="hero-sub-pills">
+    <div class="hero-pill">⚡ Under 15 min to dispatch</div>
+    <div class="hero-pill">🔒 Rate locked before anyone moves</div>
+    <div class="hero-pill">💳 Pay per incident — no monthly fee</div>
+  </div>
+  <p class="hero-sub-note">Your ops team gets a notification when it's done, not a task to manage.</p>
   <div class="hero-ctas">
     <a href="#contact-form" class="btn-primary">Book a 20-Minute Pilot Call →</a>
     <a href="#demo" class="btn-outline">See How a Job Works</a>
@@ -1958,6 +1986,19 @@ new IntersectionObserver(entries => {
     }
   });
 }, { threshold: 0.2 }).observe(dispatchSection);
+
+// ── LIVE TOW COUNTER ──
+(function() {
+  let count = 847;
+  function tick() {
+    if (Math.random() < 0.65) {
+      count++;
+      const el = document.getElementById('live-count');
+      if (el) el.textContent = count.toLocaleString();
+    }
+  }
+  setInterval(tick, 55000); // increments roughly once per minute
+})();
 
 // ── ROI CALCULATOR ──
 function fmtMoney(n) { return '$' + Math.round(n).toLocaleString(); }
