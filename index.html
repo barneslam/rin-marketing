@@ -284,14 +284,27 @@
     .fg label{font-size:13px;font-weight:600;color:var(--text2);}
     .fg input,.fg select,.fg textarea{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;font-size:15px;color:var(--text);font-family:inherit;transition:border-color 200ms;outline:none;width:100%;}
     .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--fleet);}
+    .fg input.error,.fg select.error,.fg textarea.error{border-color:var(--red);}
+    .fg .field-err{font-size:12px;color:var(--red);margin-top:4px;display:none;}
+    .fg.has-error .field-err{display:block;}
     .fg select option{background:var(--bg3);}
+    .form-error-banner{background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.35);border-radius:10px;padding:14px 18px;font-size:14px;color:var(--red);margin-bottom:16px;display:none;}
+    .form-error-banner.visible{display:block;}
     .btn-sub{width:100%;background:var(--fleet);color:#070c1a;padding:18px;border-radius:10px;font-size:17px;font-weight:800;border:none;cursor:pointer;transition:opacity 150ms,transform 150ms;letter-spacing:-0.3px;}
     .btn-sub:hover{opacity:0.85;transform:translateY(-1px);}
+    .btn-sub:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
     .fnote{text-align:center;font-size:12px;color:var(--text3);margin-top:14px;}
+    .form-fallback{text-align:center;margin-top:20px;font-size:13px;color:var(--text3);}
+    .form-fallback a{color:var(--blue-l);text-decoration:underline;text-underline-offset:3px;}
     #f-success{display:none;text-align:center;padding:40px;}
     #f-success .sicon{font-size:56px;margin-bottom:16px;}
     #f-success h3{font-size:26px;font-weight:700;margin-bottom:10px;}
-    #f-success p{color:var(--text2);font-size:15px;}
+    #f-success p{color:var(--text2);font-size:15px;margin-bottom:24px;}
+    .btn-restart{background:none;border:1px solid var(--border2);color:var(--text2);padding:10px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 150ms;}
+    .btn-restart:hover{border-color:var(--fleet-l);color:var(--fleet-l);}
+    /* Demo progress */
+    .demo-progress{font-size:13px;font-weight:700;color:var(--text3);margin-top:4px;}
+    .demo-progress span{color:var(--fleet-l);}
 
     /* ── ROLES GRID ── */
     .roles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
@@ -589,6 +602,7 @@
           <button class="demo-btn" id="btnPrev" onclick="prevStep()" disabled>← Back</button>
           <button class="demo-btn primary" id="btnNext" onclick="nextStep()">Next Step →</button>
         </div>
+        <div class="demo-progress">Step <span id="demo-step-counter">1</span> of 5</div>
       </div>
 
       <!-- PHONE -->
@@ -1088,20 +1102,24 @@
     <h2>Book your pilot call</h2>
     <p class="fsub">We'll walk through your fleet size, coverage area, and typical incident volume. If it's a fit, we get you live within 48 hours.</p>
     <div id="fleet-form">
+      <div class="form-error-banner" id="form-error-banner"></div>
       <div class="frow">
-        <div class="fg">
+        <div class="fg" id="fg_co">
           <label>Company name</label>
-          <input type="text" id="f_co" placeholder="Acme Logistics Inc.">
+          <input type="text" id="f_co" placeholder="Acme Logistics Inc." onblur="validateField('f_co','fg_co','Company name is required.')">
+          <div class="field-err">Company name is required.</div>
         </div>
-        <div class="fg">
+        <div class="fg" id="fg_name">
           <label>Your name</label>
-          <input type="text" id="f_name" placeholder="Full name">
+          <input type="text" id="f_name" placeholder="Full name" onblur="validateField('f_name','fg_name','Your name is required.')">
+          <div class="field-err">Your name is required.</div>
         </div>
       </div>
       <div class="frow">
-        <div class="fg">
+        <div class="fg" id="fg_phone">
           <label>Phone</label>
-          <input type="tel" id="f_phone" placeholder="+1 (416) 000-0000">
+          <input type="tel" id="f_phone" placeholder="+1 (416) 000-0000" onblur="validateField('f_phone','fg_phone','Phone number is required.')">
+          <div class="field-err">Phone number is required.</div>
         </div>
         <div class="fg">
           <label>Fleet size (vehicles)</label>
@@ -1122,13 +1140,15 @@
         <label>What's your biggest pain with breakdowns right now?</label>
         <textarea id="f_pain" rows="3" placeholder="Response time, cost unpredictability, admin burden..."></textarea>
       </div>
-      <button class="btn-sub" onclick="submitFleet()">Book My Pilot Call →</button>
+      <button class="btn-sub" id="btn-sub" onclick="submitFleet()">Book My Pilot Call →</button>
       <div class="fnote">We'll reach out within 4 business hours to schedule. No sales pressure.</div>
+      <div class="form-fallback">Prefer email? <a href="mailto:hello@roadside-ai.com">hello@roadside-ai.com</a></div>
     </div>
     <div id="f-success">
       <div class="sicon">✅</div>
       <h3>Request received.</h3>
       <p>We'll contact you within 4 hours to schedule your 20-minute call. Come ready to talk fleet size and incident frequency — we'll take it from there.</p>
+      <button class="btn-restart" onclick="restartForm()">Submit another request</button>
     </div>
   </div>
 </div>
@@ -1201,10 +1221,16 @@ function goStep(step) {
   } else {
     document.getElementById('btnNext').textContent = 'Next Step →';
   }
+  document.getElementById('demo-step-counter').textContent = step + 1;
 }
 
 function nextStep() { if (currentStep < totalSteps - 1) goStep(currentStep + 1); }
 function prevStep() { if (currentStep > 0) goStep(currentStep - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') nextStep();
+  if (e.key === 'ArrowLeft') prevStep();
+});
 
 // ── WORKFLOW ANIMATION ──
 const nodes = ['n1','n2','n3','n4','n5','n6','n7'];
@@ -1246,13 +1272,48 @@ function toggleFaq(btn) {
 const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MDc2MjYsImV4cCI6MjA1OTI4MzYyNn0.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
 
+function validateField(inputId, groupId, msg) {
+  const val = document.getElementById(inputId).value.trim();
+  const fg = document.getElementById(groupId);
+  const input = document.getElementById(inputId);
+  if (!val) {
+    input.classList.add('error');
+    fg.classList.add('has-error');
+    fg.querySelector('.field-err').textContent = msg;
+  } else {
+    input.classList.remove('error');
+    fg.classList.remove('has-error');
+  }
+  return !!val;
+}
+
+function showFormError(msg) {
+  const banner = document.getElementById('form-error-banner');
+  banner.textContent = msg;
+  banner.classList.add('visible');
+}
+
+function hideFormError() {
+  document.getElementById('form-error-banner').classList.remove('visible');
+}
+
 async function submitFleet() {
   const co = document.getElementById('f_co').value.trim();
   const name = document.getElementById('f_name').value.trim();
   const phone = document.getElementById('f_phone').value.trim();
-  if (!co || !name || !phone) { alert('Please fill in company, name, and phone.'); return; }
-  const btn = document.querySelector('.btn-sub');
-  btn.textContent = 'Sending...'; btn.disabled = true;
+
+  const v1 = validateField('f_co', 'fg_co', 'Company name is required.');
+  const v2 = validateField('f_name', 'fg_name', 'Your name is required.');
+  const v3 = validateField('f_phone', 'fg_phone', 'Phone number is required.');
+
+  if (!v1 || !v2 || !v3) {
+    showFormError('Please fill in the required fields above.');
+    return;
+  }
+  hideFormError();
+
+  const btn = document.getElementById('btn-sub');
+  btn.textContent = 'Sending…'; btn.disabled = true;
   try {
     const res = await fetch(`${SB_URL}/rest/v1/marketing_leads`, {
       method: 'POST',
@@ -1273,8 +1334,22 @@ async function submitFleet() {
     document.getElementById('f-success').style.display = 'block';
   } catch {
     btn.textContent = 'Book My Pilot Call →'; btn.disabled = false;
-    alert('Something went wrong. Please try again.');
+    showFormError('Something went wrong — please try again or email us directly below.');
   }
+}
+
+function restartForm() {
+  ['f_co','f_name','f_phone','f_area','f_pain'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f_fleet').value = '';
+  ['fg_co','fg_name','fg_phone'].forEach(id => {
+    const fg = document.getElementById(id);
+    if (fg) { fg.classList.remove('has-error'); fg.querySelector('input').classList.remove('error'); }
+  });
+  hideFormError();
+  document.getElementById('btn-sub').textContent = 'Book My Pilot Call →';
+  document.getElementById('btn-sub').disabled = false;
+  document.getElementById('f-success').style.display = 'none';
+  document.getElementById('fleet-form').style.display = 'block';
 }
 </script>
 </body>
