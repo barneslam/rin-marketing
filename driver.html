@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIN Driver App — Get More Jobs. Get Paid Faster.</title>
+  <meta name="description" content="RIN Driver — the mobile app for tow operators. Accept jobs, track earnings, get paid in 7 days.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #1e293b;
+      --border: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --accent-glow: rgba(59,130,246,0.15);
+      --success: #34d399;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+
+    /* NAV */
+    header { position: sticky; top: 0; z-index: 100; background: rgba(15,23,42,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { font-size: 18px; font-weight: 800; color: var(--text-primary); text-decoration: none; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent-light); }
+    .back-link { font-size: 14px; color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .back-link:hover { color: var(--accent-light); }
+
+    /* HERO */
+    .hero { padding: 100px 32px 80px; text-align: center; background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59,130,246,0.12), transparent); }
+    .app-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 100px; padding: 6px 16px; font-size: 13px; font-weight: 600; color: var(--accent-light); margin-bottom: 28px; }
+    .app-icon { font-size: 32px; margin-bottom: 20px; }
+    h1 { font-size: 52px; font-weight: 800; line-height: 1.15; margin-bottom: 20px; letter-spacing: -1px; }
+    h1 span { color: var(--accent-light); }
+    .hero-sub { font-size: 18px; color: var(--text-secondary); max-width: 520px; margin: 0 auto 48px; line-height: 1.7; }
+
+    /* SMS FORM */
+    .sms-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 16px; padding: 40px; max-width: 480px; margin: 0 auto 80px; }
+    .sms-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .sms-card p { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
+    .phone-row { display: flex; gap: 10px; }
+    .phone-input { flex: 1; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-size: 16px; color: var(--text-primary); font-family: inherit; outline: none; transition: border-color 0.2s; }
+    .phone-input:focus { border-color: var(--accent); }
+    .phone-input::placeholder { color: var(--text-tertiary); }
+    .sms-btn { background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 14px 22px; font-size: 15px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: inherit; transition: background 0.2s; }
+    .sms-btn:hover { background: var(--accent-light); }
+    .sms-btn:disabled { background: #475569; cursor: not-allowed; }
+    .sms-note { font-size: 12px; color: var(--text-tertiary); margin-top: 12px; }
+    .sms-msg { margin-top: 14px; font-size: 14px; font-weight: 600; display: none; }
+    .sms-msg.success { color: var(--success); display: block; }
+    .sms-msg.error { color: #f87171; display: block; }
+
+    /* STORE BADGES */
+    .store-row { display: flex; justify-content: center; gap: 16px; margin-bottom: 80px; flex-wrap: wrap; }
+    .store-badge { display: flex; align-items: center; gap: 10px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 12px 24px; text-decoration: none; color: var(--text-primary); font-size: 14px; font-weight: 600; transition: border-color 0.2s; }
+    .store-badge:hover { border-color: var(--accent); }
+    .store-badge .icon { font-size: 24px; }
+
+    /* FEATURES */
+    section { max-width: 1000px; margin: 0 auto; padding: 0 32px 80px; }
+    .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-light); margin-bottom: 12px; }
+    h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+    .section-intro { font-size: 17px; color: var(--text-secondary); max-width: 580px; margin-bottom: 48px; line-height: 1.7; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .feature-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+    .feature-icon { font-size: 28px; margin-bottom: 14px; }
+    .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* HOW IT WORKS */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+    .step { text-align: center; }
+    .step-num { width: 48px; height: 48px; background: var(--accent-glow); border: 1px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: var(--accent-light); margin: 0 auto 16px; }
+    .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 14px; color: var(--text-secondary); }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 32px; text-align: center; color: var(--text-tertiary); font-size: 13px; }
+    footer a { color: var(--accent-light); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 36px; }
+      .phone-row { flex-direction: column; }
+      .sms-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">RIN <span>Driver</span></a>
+  <a href="/" class="back-link">← Back to RIN</a>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="app-badge">📱 Mobile App — iOS & Android</div>
+  <div class="app-icon">🚚</div>
+  <h1>More jobs.<br><span>Less phone tag.</span></h1>
+  <p class="hero-sub">RIN Driver connects tow operators directly to insurance companies, fleet clients, and dealerships. Accept jobs, track earnings, and get paid in 7 days — all from your phone.</p>
+
+  <div class="sms-card">
+    <h2>Get the App</h2>
+    <p>Enter your phone number and we'll text you the download link.</p>
+    <div class="phone-row">
+      <input type="tel" id="phoneInput" class="phone-input" placeholder="+1 (416) 555-0000" maxlength="20">
+      <button class="sms-btn" id="smsBtn" onclick="sendSMS()">Send Link</button>
+    </div>
+    <div class="sms-note">Standard messaging rates may apply. Your number is never shared.</div>
+    <div class="sms-msg" id="smsMsg"></div>
+  </div>
+
+  <div class="store-row">
+    <a href="#" class="store-badge"><span class="icon">🍎</span> App Store — iOS</a>
+    <a href="#" class="store-badge"><span class="icon">🤖</span> Google Play — Android</a>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section>
+  <div class="section-label">What You Get</div>
+  <h2>Built for how you actually work</h2>
+  <p class="section-intro">No retraining. No new workflow. RIN Driver plugs into your day — you confirm jobs by SMS and the platform handles the rest.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📋</div>
+      <h3>Pre-Qualified Jobs</h3>
+      <p>Jobs come in from vetted insurance companies, fleet operators, and dealerships. No cold calls. No phone tag.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>Transparent 80% Payout</h3>
+      <p>See your exact earnings before you roll. Every job shows your cut upfront — no surprises, no hidden deductions.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>7-Day Payment Guarantee</h3>
+      <p>Stop waiting 30–60 days. RIN pays you within 7 days of job completion. Automatic. No invoicing required.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📍</div>
+      <h3>AI Dispatch — You're Closest</h3>
+      <p>RIN matches jobs by location, availability, and rating. You get the right jobs at the right time.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>Price Locked Before You Roll</h3>
+      <p>AI sets the price. Customer approves via SMS before you leave. No on-scene disputes. Ever.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>Earnings Dashboard</h3>
+      <p>Track jobs completed, revenue earned, and payment status — all in one screen on your phone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-label">How It Works</div>
+  <h2>Four steps. Fully automated.</h2>
+  <p class="section-intro">From job notification to payment — RIN handles everything so you focus on driving.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Job Alert</h3>
+      <p>You get a push notification with job details, location, and your payout amount.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Accept in One Tap</h3>
+      <p>Confirm via the app or SMS. RIN notifies the customer you're on your way.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Complete the Job</h3>
+      <p>Mark complete in the app. RIN captures proof of service automatically.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Get Paid in 7 Days</h3>
+      <p>Payment hits your account within 7 days. No invoice. No follow-up needed.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Roadside Intelligence Network · <a href="/">Back to RIN Home</a> · <a href="/dispatcher.html">RIN Dispatcher</a></p>
+</footer>
+
+<script>
+function sendSMS() {
+  const input = document.getElementById('phoneInput');
+  const btn   = document.getElementById('smsBtn');
+  const msg   = document.getElementById('smsMsg');
+  const phone = input.value.trim().replace(/\D/g, '');
+
+  if (phone.length < 10) {
+    msg.className = 'sms-msg error';
+    msg.textContent = 'Please enter a valid phone number.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  // Simulate SMS send — replace with real SMS API (Twilio, etc.)
+  setTimeout(() => {
+    msg.className = 'sms-msg success';
+    msg.textContent = '✓ Download link sent! Check your messages.';
+    btn.textContent = 'Sent ✓';
+    input.disabled = true;
+  }, 1200);
+}
+
+document.getElementById('phoneInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendSMS();
+});
+</script>
+</body>
+</html>

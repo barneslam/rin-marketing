@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIN Dispatcher — AI Dispatch Command Center</title>
+  <meta name="description" content="RIN Dispatcher — desktop command center for dispatch managers. Real-time job tracking, AI pricing, driver assignment.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #1e293b;
+      --border: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --accent-glow: rgba(59,130,246,0.15);
+      --success: #34d399;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+
+    header { position: sticky; top: 0; z-index: 100; background: rgba(15,23,42,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { font-size: 18px; font-weight: 800; color: var(--text-primary); text-decoration: none; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent-light); }
+    .back-link { font-size: 14px; color: var(--text-secondary); text-decoration: none; }
+    .back-link:hover { color: var(--accent-light); }
+
+    .hero { padding: 100px 32px 80px; text-align: center; background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59,130,246,0.12), transparent); }
+    .app-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 100px; padding: 6px 16px; font-size: 13px; font-weight: 600; color: var(--accent-light); margin-bottom: 28px; }
+    .app-icon { font-size: 36px; margin-bottom: 20px; }
+    h1 { font-size: 52px; font-weight: 800; line-height: 1.15; margin-bottom: 20px; letter-spacing: -1px; }
+    h1 span { color: var(--accent-light); }
+    .hero-sub { font-size: 18px; color: var(--text-secondary); max-width: 560px; margin: 0 auto 48px; line-height: 1.7; }
+
+    /* DOWNLOAD CARD */
+    .dl-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 16px; padding: 40px; max-width: 560px; margin: 0 auto 80px; }
+    .dl-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .dl-card p { font-size: 14px; color: var(--text-secondary); margin-bottom: 28px; }
+    .dl-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .dl-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; padding: 20px 16px; text-decoration: none; color: var(--text-primary); font-weight: 600; font-size: 14px; transition: border-color 0.2s, background 0.2s; cursor: pointer; }
+    .dl-btn:hover { border-color: var(--accent); background: var(--accent-glow); }
+    .dl-btn .os-icon { font-size: 28px; }
+    .dl-btn .os-name { font-size: 13px; color: var(--text-secondary); font-weight: 400; }
+    .dl-btn.primary { border-color: var(--accent); background: var(--accent-glow); }
+    .system-req { margin-top: 20px; font-size: 12px; color: var(--text-tertiary); line-height: 1.8; }
+
+    /* WEB APP BANNER */
+    .web-banner { background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.25); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; max-width: 560px; margin: -60px auto 80px; flex-wrap: wrap; }
+    .web-banner p { font-size: 14px; color: var(--text-secondary); }
+    .web-banner strong { color: var(--success); }
+    .web-link { background: var(--success); color: #0f172a; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+    .web-link:hover { opacity: 0.9; }
+
+    section { max-width: 1000px; margin: 0 auto; padding: 0 32px 80px; }
+    .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-light); margin-bottom: 12px; }
+    h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+    .section-intro { font-size: 17px; color: var(--text-secondary); max-width: 580px; margin-bottom: 48px; line-height: 1.7; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .feature-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+    .feature-icon { font-size: 28px; margin-bottom: 14px; }
+    .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* SCREEN MOCKUP */
+    .mockup-wrap { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 16px; padding: 32px; text-align: center; margin-bottom: 80px; }
+    .mockup-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot.red { background: #ef4444; }
+    .dot.yellow { background: #f59e0b; }
+    .dot.green { background: #22c55e; }
+    .mockup-screen { background: var(--bg-primary); border-radius: 8px; padding: 24px; display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 16px; min-height: 200px; }
+    .mock-panel { background: var(--bg-secondary); border-radius: 8px; padding: 16px; }
+    .mock-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-tertiary); margin-bottom: 10px; }
+    .mock-item { height: 10px; background: var(--border); border-radius: 4px; margin-bottom: 8px; }
+    .mock-item.accent { background: rgba(59,130,246,0.4); }
+    .mock-item.short { width: 60%; }
+    .mock-item.green { background: rgba(52,211,153,0.4); }
+
+    footer { border-top: 1px solid var(--border); padding: 32px; text-align: center; color: var(--text-tertiary); font-size: 13px; }
+    footer a { color: var(--accent-light); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 34px; }
+      .dl-options { grid-template-columns: 1fr; }
+      .mockup-screen { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">RIN <span>Dispatcher</span></a>
+  <a href="/" class="back-link">← Back to RIN</a>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="app-badge">🖥️ Desktop Application — Mac & Windows</div>
+  <div class="app-icon">📡</div>
+  <h1>Full dispatch control.<br><span>Zero chaos.</span></h1>
+  <p class="hero-sub">RIN Dispatcher is the desktop command center for dispatch managers. Monitor every active job, assign drivers, review AI pricing, and track payments — all in real time, from one screen.</p>
+
+  <div class="dl-card">
+    <h2>Download RIN Dispatcher</h2>
+    <p>Available for Mac and Windows. Free for all RIN network operators.</p>
+    <div class="dl-options">
+      <a href="https://roadside-ai.netlify.app" target="_blank" class="dl-btn primary">
+        <span class="os-icon">🍎</span>
+        <span>Mac</span>
+        <span class="os-name">macOS 12+</span>
+      </a>
+      <a href="https://roadside-ai.netlify.app" target="_blank" class="dl-btn">
+        <span class="os-icon">🪟</span>
+        <span>Windows</span>
+        <span class="os-name">Windows 10/11</span>
+      </a>
+    </div>
+    <div class="system-req">
+      System requirements: 4GB RAM · 500MB storage · Internet connection required<br>
+      Version 1.0 · Last updated April 2026
+    </div>
+  </div>
+
+  <div class="web-banner">
+    <p><strong>Prefer the browser?</strong> RIN Dispatcher is also available as a web app — no download needed.</p>
+    <a href="https://roadside-ai.netlify.app" target="_blank" class="web-link">Open Web App →</a>
+  </div>
+</div>
+
+<!-- SCREEN MOCKUP -->
+<section>
+  <div class="mockup-wrap">
+    <div class="mockup-bar">
+      <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+    </div>
+    <div class="mockup-screen">
+      <div class="mock-panel">
+        <div class="mock-label">Active Jobs</div>
+        <div class="mock-item accent"></div>
+        <div class="mock-item accent short"></div>
+        <div class="mock-item"></div>
+        <div class="mock-item short"></div>
+        <div class="mock-item green"></div>
+      </div>
+      <div class="mock-panel">
+        <div class="mock-label">Live Map</div>
+        <div style="height:140px;background:rgba(59,130,246,0.05);border-radius:6px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-tertiary);font-size:13px;">Real-time driver & job map</div>
+      </div>
+      <div class="mock-panel">
+        <div class="mock-label">Payments</div>
+        <div class="mock-item green"></div>
+        <div class="mock-item green short"></div>
+        <div class="mock-item"></div>
+        <div class="mock-item short"></div>
+        <div class="mock-item accent"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="section-label">What's Inside</div>
+  <h2>Everything dispatch needs. Nothing it doesn't.</h2>
+  <p class="section-intro">Designed for operators managing multiple drivers and high job volume. Every feature is built around reducing manual work.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🗺️</div>
+      <h3>Live Job Map</h3>
+      <p>See every active job and driver position on a real-time map. Know what's happening across your fleet at a glance.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>AI Driver Assignment</h3>
+      <p>RIN auto-assigns the nearest available driver based on location, rating, and truck type. Override any assignment manually.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💲</div>
+      <h3>AI Pricing Review</h3>
+      <p>Review and approve AI-calculated prices before they go to the customer. Full control, no surprises.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📋</div>
+      <h3>Job History & Audit Trail</h3>
+      <p>Every job logged with timestamps, driver ID, price, and customer sign-off. Ready for insurance claims and billing.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💳</div>
+      <h3>Payment Dashboard</h3>
+      <p>Track which jobs are paid, pending, or disputed. Export reports for accounting in one click.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔔</div>
+      <h3>Real-Time Alerts</h3>
+      <p>Get notified instantly when a job stalls, a driver goes offline, or a customer raises a dispute.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Roadside Intelligence Network · <a href="/">Back to RIN Home</a> · <a href="/driver.html">RIN Driver App</a></p>
+</footer>
+
+</body>
+</html>
