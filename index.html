@@ -1137,11 +1137,14 @@
     </p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;">
 
-      <div class="feature-card" style="cursor:pointer;" onclick="switchTab('operators')" data-track="whoweserve_operators">
+      <div class="feature-card" data-track="whoweserve_operators">
         <div class="feature-icon">🚚</div>
         <h3>Tow Operators</h3>
         <p style="margin:12px 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.65;">You're good at this job. You shouldn't have to hustle for clients. RIN brings enterprise work to you — pre-priced, pre-approved, and paid in 7 days.</p>
-        <div style="font-size:13px;font-weight:600;color:var(--accent-light);">See how it works →</div>
+        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+          <span onclick="switchTab('operators')" style="font-size:13px;font-weight:600;color:var(--accent-light);cursor:pointer;">See how it works →</span>
+          <a href="/for-operators.html" style="font-size:13px;font-weight:600;color:var(--success);white-space:nowrap;">Operator page →</a>
+        </div>
       </div>
 
       <div class="feature-card" style="cursor:pointer;" onclick="switchTab('insurance')" data-track="whoweserve_insurance">
@@ -1183,7 +1186,10 @@
     </div>
     <div style="margin-top:2rem;text-align:center;">
       <p style="font-size:13px;color:var(--text-tertiary);margin-bottom:14px;">Independent operators welcome — whether you run 1 truck or 50.</p>
-      <a href="#calculator" class="btn btn-primary" data-track="tab_operators_calc">Calculate Your Earnings →</a>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="#calculator" class="btn btn-primary" data-track="tab_operators_calc">Calculate Your Earnings →</a>
+        <a href="/for-operators.html" class="btn btn-secondary" data-track="tab_operators_page" style="font-size:14px;">Full Operator Page →</a>
+      </div>
     </div>
   </div>
 
