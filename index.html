@@ -714,6 +714,20 @@
       font-size: 11px; color: var(--text-tertiary);
     }
 
+    .how-switcher {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 8px 18px;
+      color: var(--text-secondary);
+      font-size: 13px; font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 150ms;
+    }
+    .how-switcher:hover { color: var(--text-primary); border-color: var(--accent); }
+    .how-switcher.active { border-color: var(--accent); background: rgba(59,130,246,0.12); color: var(--accent-light); }
+
     .plan-toggle {
       background: var(--bg-tertiary);
       border: 1px solid var(--border);
@@ -1057,15 +1071,15 @@
 
   <!-- Tab Nav -->
   <div class="tab-nav" role="tablist">
-    <button class="tab-btn active" onclick="switchTab('whoweserve')" data-track="tab_whoweserve">👥 Who We Serve</button>
-    <button class="tab-btn" onclick="switchTab('operators')" data-track="tab_operators">🚚 Tow Operators</button>
+    <button class="tab-btn" onclick="switchTab('whoweserve')" data-track="tab_whoweserve">👥 Who We Serve</button>
+    <button class="tab-btn active" onclick="switchTab('operators')" data-track="tab_operators">🚚 Tow Operators</button>
     <button class="tab-btn" onclick="switchTab('insurance')" data-track="tab_insurance">🏛️ Insurance Companies</button>
     <button class="tab-btn" onclick="switchTab('dealerships')" data-track="tab_dealerships">🏎️ Dealerships</button>
     <button class="tab-btn" onclick="switchTab('fleet')" data-track="tab_fleet">🚛 Fleet Operators</button>
   </div>
 
   <!-- Who We Serve Tab -->
-  <div class="tab-panel active" id="tab-whoweserve">
+  <div class="tab-panel" id="tab-whoweserve">
     <p style="text-align:center;color:var(--text-secondary);max-width:560px;margin:0 auto 32px;font-size:16px;line-height:1.7;">
       RIN connects four industries that need each other — and removes every inefficiency in between. Select your role below.
     </p>
@@ -1118,7 +1132,7 @@
   </div>
 
   <!-- Operators Tab -->
-  <div class="tab-panel" id="tab-operators">
+  <div class="tab-panel active" id="tab-operators">
     <div class="features-grid">
       <div class="feature-card"><div class="feature-icon">📋</div><h3>Enterprise Job Volume</h3><p>Get dispatched by insurance companies, fleet operators, and dealerships. Pre-qualified jobs. No phone tag.</p></div>
       <div class="feature-card"><div class="feature-icon">🤖</div><h3>AI Handles Logistics</h3><p>Automatic driver matching by location, rating, and availability. One SMS confirmation. You're on your way.</p></div>
@@ -1256,9 +1270,15 @@
 <!-- HOW IT WORKS -->
 <div class="how-it-works" data-section="how">
   <section id="how" style="padding-top:0;padding-bottom:0;">
-    <div class="section-label" id="how-label">The Process — Select Your Role Above</div>
+    <div class="section-label" id="how-label">For Tow Operators — The Process</div>
     <h2>How It Works</h2>
-    <p class="section-intro" id="how-intro">Select your audience tab above to see the exact process relevant to you. Below is the tow operator flow as the default.</p>
+    <p class="section-intro" id="how-intro">Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That's it.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;">
+      <button class="how-switcher active" onclick="switchHow('operators')">🚚 Tow Operators</button>
+      <button class="how-switcher" onclick="switchHow('insurance')">🏛️ Insurance</button>
+      <button class="how-switcher" onclick="switchHow('dealerships')">🏎️ Dealerships</button>
+      <button class="how-switcher" onclick="switchHow('fleet')">🚛 Fleet Operators</button>
+    </div>
 
     <!-- TOW OPERATORS -->
     <div class="how-panel" id="how-operators">
@@ -1712,8 +1732,8 @@
 
 // ── AUDIENCE TABS ────────────────────────────────────────────────
 const howContent = {
-  whoweserve:  { label: 'The Process — Select Your Role Above', panel: 'operators', intro: 'Select your audience tab above to see the exact process relevant to you. Below is the tow operator flow as the default.' },
-  calculator:  { label: 'For Tow Operators — The Process',      panel: 'operators', intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
+  whoweserve:  { label: 'For Tow Operators — The Process', panel: 'operators', intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
+  calculator:  { label: 'For Tow Operators — The Process', panel: 'operators', intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
   operators:   { label: 'For Tow Operators — The Process',      panel: 'operators', intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
   insurance:   { label: 'For Insurance Companies — The Process', panel: 'insurance', intro: 'Submit a roadside request, get a verified operator dispatched, and receive a clean audit trail per claim — all through one platform.' },
   fleet:       { label: 'For Fleet Operators — The Process',     panel: 'fleet',     intro: 'Report an incident, get the right truck dispatched, and track every vehicle in real time — with a full per-vehicle record at job close.' },
@@ -1733,6 +1753,17 @@ function switchTab(tab) {
   document.getElementById(`how-${content.panel}`).style.display = 'block';
   document.getElementById('how-label').textContent = content.label;
   document.getElementById('how-intro').textContent = content.intro;
+}
+
+// ── HOW IT WORKS INLINE SWITCHER ─────────────────────────────────
+function switchHow(audience) {
+  const content = howContent[audience] || howContent.operators;
+  document.querySelectorAll('.how-panel').forEach(p => p.style.display = 'none');
+  document.getElementById(`how-${content.panel}`).style.display = 'block';
+  document.getElementById('how-label').textContent = content.label;
+  document.getElementById('how-intro').textContent = content.intro;
+  document.querySelectorAll('.how-switcher').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.how-switcher[onclick="switchHow('${audience}')"]`).classList.add('active');
 }
 
 // ── CALCULATOR ────────────────────────────────────────────────────
