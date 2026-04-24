@@ -1256,9 +1256,9 @@
 <!-- HOW IT WORKS -->
 <div class="how-it-works" data-section="how">
   <section id="how" style="padding-top:0;padding-bottom:0;">
-    <div class="section-label" id="how-label">For Tow Operators — The Process</div>
+    <div class="section-label" id="how-label">The Process — Select Your Role Above</div>
     <h2>How It Works</h2>
-    <p class="section-intro" id="how-intro">Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That's it.</p>
+    <p class="section-intro" id="how-intro">Select your audience tab above to see the exact process relevant to you. Below is the tow operator flow as the default.</p>
 
     <!-- TOW OPERATORS -->
     <div class="how-panel" id="how-operators">
@@ -1712,10 +1712,12 @@
 
 // ── AUDIENCE TABS ────────────────────────────────────────────────
 const howContent = {
-  operators:   { label: 'For Tow Operators — The Process',      intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
-  insurance:   { label: 'For Insurance Companies — The Process', intro: 'Submit a roadside request, get a verified operator dispatched, and receive a clean audit trail per claim — all through one platform.' },
-  fleet:       { label: 'For Fleet Operators — The Process',     intro: 'Report an incident, get the right truck dispatched, and track every vehicle in real time — with a full per-vehicle record at job close.' },
-  dealerships: { label: 'For Dealerships — The Process',         intro: 'Your customer gets professional roadside service under your brand. Fast dispatch, real-time updates, and every job routed back to your service bay.' },
+  whoweserve:  { label: 'The Process — Select Your Role Above', panel: 'operators', intro: 'Select your audience tab above to see the exact process relevant to you. Below is the tow operator flow as the default.' },
+  calculator:  { label: 'For Tow Operators — The Process',      panel: 'operators', intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
+  operators:   { label: 'For Tow Operators — The Process',      panel: 'operators', intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
+  insurance:   { label: 'For Insurance Companies — The Process', panel: 'insurance', intro: 'Submit a roadside request, get a verified operator dispatched, and receive a clean audit trail per claim — all through one platform.' },
+  fleet:       { label: 'For Fleet Operators — The Process',     panel: 'fleet',     intro: 'Report an incident, get the right truck dispatched, and track every vehicle in real time — with a full per-vehicle record at job close.' },
+  dealerships: { label: 'For Dealerships — The Process',         panel: 'dealerships', intro: 'Your customer gets professional roadside service under your brand. Fast dispatch, real-time updates, and every job routed back to your service bay.' },
 };
 
 function switchTab(tab) {
@@ -1726,15 +1728,11 @@ function switchTab(tab) {
   track('tab_switch', { tab });
 
   // Update How It Works section to match audience
+  const content = howContent[tab] || howContent.operators;
   document.querySelectorAll('.how-panel').forEach(p => p.style.display = 'none');
-  const howPanel = document.getElementById(`how-${tab}`);
-  if (howPanel) {
-    howPanel.style.display = 'block';
-    if (howContent[tab]) {
-      document.getElementById('how-label').textContent = howContent[tab].label;
-      document.getElementById('how-intro').textContent = howContent[tab].intro;
-    }
-  }
+  document.getElementById(`how-${content.panel}`).style.display = 'block';
+  document.getElementById('how-label').textContent = content.label;
+  document.getElementById('how-intro').textContent = content.intro;
 }
 
 // ── CALCULATOR ────────────────────────────────────────────────────
