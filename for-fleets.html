@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIN for Fleet Operators — Stop Making Your Team Deal With Breakdowns</title>
+  <meta name="description" content="When a fleet vehicle goes down, every minute costs money. RIN dispatches in under 15 minutes, locks the price before anyone moves, and sends you a report when it's done.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070c1a;
+      --bg2: #0f172a;
+      --bg3: #1e293b;
+      --border: #1a2744;
+      --border2: #334155;
+      --text: #f1f5f9;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --blue: #3b82f6;
+      --blue-l: #60a5fa;
+      --blue-glow: rgba(59,130,246,0.12);
+      --green: #34d399;
+      --green-glow: rgba(52,211,153,0.12);
+      --purple: #a78bfa;
+      --purple-glow: rgba(167,139,250,0.12);
+      --gold: #f59e0b;
+      --gold-glow: rgba(245,158,11,0.12);
+      --amber: #f59e0b;
+      --amber-l: #fbbf24;
+      --amber-glow: rgba(245,158,11,0.12);
+      --red: #f87171;
+      --fleet: #f59e0b;
+      --fleet-l: #fbbf24;
+      --fleet-glow: rgba(245,158,11,0.12);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
+
+    /* NAV */
+    header{position:sticky;top:0;z-index:200;background:rgba(7,12,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;color:var(--blue-l);}
+    .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:blink 2s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .nav-r{display:flex;align-items:center;gap:24px;}
+    .nav-r a{font-size:14px;color:var(--text2);font-weight:500;transition:color 150ms;}
+    .nav-r a:hover{color:var(--fleet-l);}
+    .nav-cta{background:var(--fleet);color:#070c1a;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;transition:opacity 150ms;}
+    .nav-cta:hover{opacity:0.85;}
+
+    /* HERO */
+    .hero{padding:120px 40px 80px;text-align:center;background:radial-gradient(ellipse 90% 55% at 50% -5%,rgba(245,158,11,0.09),transparent 70%);}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.35);border-radius:100px;padding:6px 20px;font-size:13px;font-weight:600;color:var(--fleet-l);margin-bottom:36px;}
+    .hero h1{font-size:clamp(38px,6vw,72px);font-weight:900;line-height:1.05;letter-spacing:-2.5px;margin-bottom:24px;}
+    .hero h1 .a{color:var(--fleet-l);}
+    .hero-sub{font-size:19px;color:var(--text2);max-width:640px;margin:0 auto 52px;line-height:1.7;}
+    .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+    .btn-primary{background:var(--fleet);color:#070c1a;padding:18px 38px;border-radius:10px;font-size:17px;font-weight:800;letter-spacing:-0.3px;display:inline-block;transition:all 150ms;}
+    .btn-primary:hover{opacity:0.85;transform:translateY(-2px);}
+    .btn-outline{border:1.5px solid var(--border2);color:var(--text);padding:18px 38px;border-radius:10px;font-size:17px;font-weight:600;display:inline-block;transition:all 150ms;}
+    .btn-outline:hover{border-color:var(--fleet-l);color:var(--fleet-l);}
+
+    /* STATS */
+    .stats-strip{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:36px 40px;}
+    .stats-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:880px;margin:0 auto;}
+    .stat{text-align:center;padding:0 24px;border-right:1px solid var(--border2);}
+    .stat:last-child{border-right:none;}
+    .stat-num{font-size:40px;font-weight:900;letter-spacing:-2px;color:var(--fleet-l);line-height:1;margin-bottom:4px;}
+    .stat-lbl{font-size:13px;color:var(--text2);}
+
+    /* SECTIONS */
+    .section{max-width:1020px;margin:0 auto;padding:80px 40px;}
+    .slabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--fleet-l);margin-bottom:12px;}
+    .stitle{font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-1.2px;line-height:1.1;margin-bottom:16px;}
+    .ssub{font-size:17px;color:var(--text2);max-width:580px;line-height:1.7;margin-bottom:48px;}
+
+    /* SCENARIO OPENER */
+    .scenario{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:48px;margin-bottom:64px;position:relative;overflow:hidden;}
+    .scenario::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(245,158,11,0.05),transparent 60%);pointer-events:none;}
+    .scenario-time{font-size:13px;font-weight:700;color:var(--fleet-l);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;}
+    .scenario-text{font-size:19px;line-height:1.75;color:var(--text2);max-width:680px;}
+    .scenario-text strong{color:var(--text);}
+    .scenario-flip{margin-top:32px;padding-top:28px;border-top:1px solid var(--border);}
+    .scenario-flip-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--green);margin-bottom:14px;}
+    .scenario-flip-text{font-size:19px;line-height:1.75;color:var(--text2);max-width:680px;}
+    .scenario-flip-text strong{color:var(--text);}
+
+    /* PAIN */
+    .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .pain-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:32px;position:relative;overflow:hidden;}
+    .pain-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(248,113,113,0.05),transparent 60%);pointer-events:none;}
+    .pain-cost{font-size:42px;font-weight:900;color:var(--red);letter-spacing:-2px;line-height:1;margin-bottom:4px;}
+    .pain-ctx{font-size:13px;color:var(--text3);margin-bottom:20px;}
+    .pain-card h3{font-size:18px;font-weight:700;margin-bottom:10px;}
+    .pain-card p{font-size:14px;color:var(--text2);line-height:1.65;}
+    .pain-fix{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);font-size:13px;color:var(--fleet-l);font-weight:600;}
+
+    /* ANIMATED WORKFLOW */
+    .wf-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0;}
+    .wf-inner{max-width:1020px;margin:0 auto;padding:0 40px;}
+    .wf-head{text-align:center;margin-bottom:64px;}
+    .wf-track{display:flex;align-items:center;overflow-x:auto;padding-bottom:12px;gap:0;}
+    .wf-node{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:100px;opacity:0.2;transition:opacity 0.45s,transform 0.45s;}
+    .wf-node.wf-on{opacity:1;transform:translateY(-3px);}
+    .wf-node.fleet-step.wf-on{transform:translateY(-7px);}
+    .wf-circle{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;border:2px solid var(--border2);background:var(--bg3);transition:border-color 0.45s,box-shadow 0.45s;flex-shrink:0;}
+    .wf-node[data-r="fleet"].wf-on .wf-circle{border-color:var(--fleet);box-shadow:0 0 28px rgba(245,158,11,0.7);}
+    .wf-node[data-r="rin"].wf-on .wf-circle{border-color:var(--blue);box-shadow:0 0 22px rgba(59,130,246,0.5);}
+    .wf-node[data-r="op"].wf-on .wf-circle{border-color:var(--green);box-shadow:0 0 20px rgba(52,211,153,0.45);}
+    .wf-node[data-r="drv"].wf-on .wf-circle{border-color:var(--purple);box-shadow:0 0 20px rgba(167,139,250,0.45);}
+    .wf-node[data-r="pay"].wf-on .wf-circle{border-color:var(--fleet);box-shadow:0 0 24px rgba(245,158,11,0.6);}
+    .wf-lbl{font-size:11.5px;font-weight:700;text-align:center;line-height:1.35;color:var(--text);}
+    .wf-node[data-r="fleet"] .wf-lbl{color:var(--fleet-l);}
+    .wf-t{font-size:11px;color:var(--text3);}
+    .wf-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;padding:2px 8px;border-radius:4px;}
+    .wf-node[data-r="fleet"] .wf-tag{background:var(--fleet-glow);color:var(--fleet-l);}
+    .wf-node[data-r="rin"] .wf-tag{background:var(--blue-glow);color:var(--blue-l);}
+    .wf-node[data-r="op"] .wf-tag{background:var(--green-glow);color:var(--green);}
+    .wf-node[data-r="drv"] .wf-tag{background:var(--purple-glow);color:var(--purple);}
+    .wf-node[data-r="pay"] .wf-tag{background:var(--fleet-glow);color:var(--fleet-l);}
+    .wf-conn{flex:1;height:2px;background:var(--border);position:relative;overflow:hidden;min-width:16px;}
+    .wf-conn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--fleet-l));transition:left 0.55s ease;}
+    .wf-conn.wf-lit::after{left:0;}
+
+    .wf-legend{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:28px;}
+    .wfl-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);}
+    .wfl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+    /* NOTIFICATION MOCKUP */
+    .notif-layout{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+    .notif-copy h3{font-size:28px;font-weight:800;letter-spacing:-0.8px;margin-bottom:14px;line-height:1.2;}
+    .notif-copy p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:24px;}
+    .notif-bullets{display:flex;flex-direction:column;gap:14px;}
+    .nb{display:flex;align-items:flex-start;gap:12px;font-size:14px;}
+    .nb .dot{width:8px;height:8px;border-radius:50%;background:var(--fleet);flex-shrink:0;margin-top:5px;}
+    .nb span{color:var(--text2);line-height:1.55;}
+    .phone-mock{background:var(--bg2);border:1px solid var(--border2);border-radius:24px;padding:20px;max-width:300px;margin:0 auto;}
+    .phone-bar{background:var(--bg3);border-radius:12px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+    .phone-av{width:36px;height:36px;border-radius:50%;background:var(--fleet-glow);border:1.5px solid var(--fleet);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+    .phone-info .pname{font-size:14px;font-weight:700;}
+    .phone-info .psub{font-size:12px;color:var(--text3);}
+    .phone-msgs{display:flex;flex-direction:column;gap:10px;}
+    .pmsg{padding:14px 16px;border-radius:14px;font-size:13px;line-height:1.55;color:var(--text2);}
+    .pmsg.alert{background:var(--fleet-glow);border:1px solid rgba(245,158,11,0.25);color:var(--text);}
+    .pmsg.notif{background:var(--green-glow);border:1px solid rgba(52,211,153,0.25);color:var(--text);}
+    .pmsg.report{background:var(--bg3);border:1px solid var(--border);}
+    .pmsg .ptop{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;}
+    .pmsg.alert .ptop{color:var(--fleet-l);}
+    .pmsg.notif .ptop{color:var(--green);}
+    .pmsg.report .ptop{color:var(--blue-l);}
+    .pmsg .prow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px;}
+    .pmsg .pk{color:var(--text3);}
+    .pmsg .pv{font-weight:600;}
+
+    /* COMPARE TABLE */
+    .ctable{width:100%;border-collapse:collapse;}
+    .ctable th{padding:14px 24px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;}
+    .ctable th:first-child{text-align:left;color:var(--text3);width:34%;}
+    .ctable th.bad-h{color:var(--red);text-align:center;}
+    .ctable th.good-h{color:var(--fleet-l);text-align:center;}
+    .ctable td{padding:16px 24px;font-size:15px;border-top:1px solid var(--border);}
+    .ctable td:first-child{color:var(--text2);font-weight:500;}
+    .ctable td.bad{text-align:center;color:var(--red);font-weight:600;}
+    .ctable td.good{text-align:center;color:var(--fleet-l);font-weight:600;}
+
+    /* OFFER */
+    .offer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .offer-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;}
+    .offer-icon{font-size:28px;margin-bottom:16px;}
+    .offer-card h3{font-size:17px;font-weight:700;margin-bottom:10px;}
+    .offer-card p{font-size:14px;color:var(--text2);line-height:1.65;}
+
+    /* PILOT CTA */
+    .pilot-section{background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(59,130,246,0.06));border:1px solid rgba(245,158,11,0.2);border-radius:24px;padding:64px;text-align:center;max-width:780px;margin:0 auto;}
+    .pilot-section h2{font-size:38px;font-weight:800;letter-spacing:-1px;margin-bottom:14px;}
+    .pilot-section p{font-size:17px;color:var(--text2);max-width:520px;margin:0 auto 36px;line-height:1.7;}
+    .pilot-terms{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-top:28px;}
+    .pt{font-size:14px;color:var(--text2);display:flex;align-items:center;gap:6px;}
+    .pt::before{content:'✓';color:var(--fleet-l);font-weight:700;}
+
+    /* CONTACT FORM */
+    .form-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:48px;max-width:640px;margin:0 auto;}
+    .form-card h2{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:10px;}
+    .form-card .fsub{font-size:15px;color:var(--text2);margin-bottom:32px;}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .fg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+    .fg label{font-size:13px;font-weight:600;color:var(--text2);}
+    .fg input,.fg select,.fg textarea{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;font-size:15px;color:var(--text);font-family:inherit;transition:border-color 200ms;outline:none;width:100%;}
+    .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--fleet);}
+    .fg select option{background:var(--bg3);}
+    .btn-sub{width:100%;background:var(--fleet);color:#070c1a;padding:18px;border-radius:10px;font-size:17px;font-weight:800;border:none;cursor:pointer;transition:opacity 150ms,transform 150ms;letter-spacing:-0.3px;}
+    .btn-sub:hover{opacity:0.85;transform:translateY(-1px);}
+    .fnote{text-align:center;font-size:12px;color:var(--text3);margin-top:14px;}
+    #f-success{display:none;text-align:center;padding:40px;}
+    #f-success .sicon{font-size:56px;margin-bottom:16px;}
+    #f-success h3{font-size:26px;font-weight:700;margin-bottom:10px;}
+    #f-success p{color:var(--text2);font-size:15px;}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--border);padding:32px 40px;text-align:center;color:var(--text3);font-size:13px;}
+    footer a{color:var(--blue-l);}
+
+    /* MOBILE */
+    @media(max-width:768px){
+      header{padding:0 20px;}
+      .hero{padding:80px 20px 60px;}
+      .stats-inner{grid-template-columns:repeat(2,1fr);}
+      .stat:nth-child(2){border-right:none;}
+      .pain-grid{grid-template-columns:1fr;}
+      .section{padding:60px 20px;}
+      .wf-inner{padding:0 20px;}
+      .notif-layout{grid-template-columns:1fr;}
+      .offer-grid{grid-template-columns:1fr;}
+      .pilot-section{padding:40px 24px;}
+      .form-card{padding:32px 20px;}
+      .frow{grid-template-columns:1fr;}
+      footer{padding:24px 20px;}
+    }
+    @media(max-width:480px){
+      .hero h1{font-size:34px;}
+      .hero-ctas{flex-direction:column;align-items:center;}
+      .btn-primary,.btn-outline{width:100%;text-align:center;}
+      .pilot-terms{flex-direction:column;align-items:center;gap:12px;}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo"><div class="logo-dot"></div> RIN</a>
+  <div class="nav-r">
+    <a href="/">Home</a>
+    <a href="/for-operators.html">For Operators</a>
+    <a href="/for-drivers.html">For Drivers</a>
+    <a href="/operator-demo.html">See Demo</a>
+    <a href="#pilot" class="nav-cta">Start a Pilot</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🚚 For Fleet Managers & Operations Teams</div>
+  <h1>A vehicle goes down.<br><span class="a">Your team shouldn't have to stop everything to deal with it.</span></h1>
+  <p class="hero-sub">Every minute a fleet vehicle sits waiting for a tow costs you money and delays your operation. RIN dispatches in under 15 minutes, locks the rate before anyone moves, and sends you a report when it's done. Your team gets a notification — not a task.</p>
+  <div class="hero-ctas">
+    <a href="#pilot" class="btn-primary">Book a 20-Minute Pilot Call →</a>
+    <a href="/operator-demo.html" class="btn-outline">See How a Job Works</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">$340</div><div class="stat-lbl">avg cost per hour of fleet downtime</div></div>
+    <div class="stat"><div class="stat-num">&lt;15m</div><div class="stat-lbl">guaranteed dispatch time</div></div>
+    <div class="stat"><div class="stat-num">1 text</div><div class="stat-lbl">to initiate a full dispatch</div></div>
+    <div class="stat"><div class="stat-num">Monthly</div><div class="stat-lbl">consolidated invoice — one line item</div></div>
+  </div>
+</div>
+
+<!-- SCENARIO OPENER -->
+<div class="section" style="padding-bottom:0;">
+  <div class="scenario">
+    <div class="scenario-time">Tuesday, 7:14 AM — Without RIN</div>
+    <p class="scenario-text">Your driver calls in. Vehicle #12 is dead on the 401. <strong>Your ops manager drops everything</strong> and starts calling dispatch services. First one: voicemail. Second: 45-minute ETA, no price until they see it. Third: available but not sure they cover that area. Meanwhile <strong>your driver is on the shoulder, the schedule is already slipping, and nobody knows what this is going to cost.</strong> Two hours later the vehicle is moving. The invoice arrives three weeks later and it's $80 more than expected. Someone has to deal with that too.</p>
+    <div class="scenario-flip">
+      <div class="scenario-flip-label">Tuesday, 7:14 AM — With RIN</div>
+      <p class="scenario-flip-text">Your driver texts the RIN number. <strong>In 12 seconds, a vetted tow operator is assigned</strong> — price locked, ETA confirmed, driver notified. Your ops manager gets one notification: "Vehicle #12 — dispatch confirmed, ETA 11 min." <strong>They go back to their day.</strong> End of month: one invoice, every incident logged, ready for accounting and insurance.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PAIN -->
+<div class="section">
+  <div class="slabel">What breakdowns actually cost you</div>
+  <h2 class="stitle">It's never just the tow.</h2>
+  <p class="ssub">The tow fee is visible. Everything around it isn't — until you add it up.</p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-cost">$340/hr</div>
+      <div class="pain-ctx">average fleet downtime cost while you wait for dispatch</div>
+      <h3>Every minute waiting is money gone</h3>
+      <p>Delayed deliveries, idle drivers, missed schedules — all compounding from the moment the vehicle stops. The longer you wait for a tow, the deeper the hole gets.</p>
+      <div class="pain-fix">→ RIN dispatches in under 15 minutes. Guaranteed. Not "we'll try."</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-cost">2–3 hrs</div>
+      <div class="pain-ctx">of operations manager time per breakdown incident</div>
+      <h3>Your team is the dispatch service</h3>
+      <p>Calling around, coordinating, following up, explaining the situation three times to three different people. That's skilled operations time going to a problem that should handle itself.</p>
+      <div class="pain-fix">→ One text to RIN. Your team gets a notification, not a job.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-cost">No record</div>
+      <div class="pain-ctx">of what each incident cost and why — until accounting asks</div>
+      <h3>Surprise invoices. No audit trail.</h3>
+      <p>You don't know the rate until after the job. You don't know the total until the invoice arrives weeks later. And when insurance or finance asks for documentation, there's nothing clean to show them.</p>
+      <div class="pain-fix">→ Price locked before the truck moves. Full incident report after.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ANIMATED WORKFLOW -->
+<div class="wf-section">
+  <div class="wf-inner">
+    <div class="wf-head">
+      <div class="slabel" style="text-align:center;color:var(--fleet-l);">What Actually Happens</div>
+      <h2 class="stitle" style="text-align:center;margin-bottom:14px;">You touch it twice. RIN handles everything in between.</h2>
+      <p style="text-align:center;color:var(--text2);font-size:16px;max-width:540px;margin:0 auto;">Report the breakdown. Get the confirmation. That's your entire role. Watch how the full dispatch flow works behind the scenes.</p>
+    </div>
+
+    <div class="wf-track" id="wf-track">
+      <div class="wf-node fleet-step" id="n1" data-r="fleet">
+        <div class="wf-circle">🚛</div>
+        <div class="wf-lbl">Breakdown<br>Reported</div>
+        <div class="wf-t">t + 0:00</div>
+        <div class="wf-tag">YOU — FLEET</div>
+      </div>
+      <div class="wf-conn" id="c1"></div>
+      <div class="wf-node" id="n2" data-r="rin">
+        <div class="wf-circle">🤖</div>
+        <div class="wf-lbl">RIN Prices<br>& Assigns</div>
+        <div class="wf-t">t + 12s</div>
+        <div class="wf-tag">RIN DISPATCH</div>
+      </div>
+      <div class="wf-conn" id="c2"></div>
+      <div class="wf-node" id="n3" data-r="rin">
+        <div class="wf-circle">🔒</div>
+        <div class="wf-lbl">Rate<br>Locked</div>
+        <div class="wf-t">t + 14s</div>
+        <div class="wf-tag">RIN DISPATCH</div>
+      </div>
+      <div class="wf-conn" id="c3"></div>
+      <div class="wf-node fleet-step" id="n4" data-r="fleet">
+        <div class="wf-circle">🔔</div>
+        <div class="wf-lbl">You're<br>Notified</div>
+        <div class="wf-t">t + 18s</div>
+        <div class="wf-tag">YOU — FLEET</div>
+      </div>
+      <div class="wf-conn" id="c4"></div>
+      <div class="wf-node" id="n5" data-r="drv">
+        <div class="wf-circle">🚛</div>
+        <div class="wf-lbl">Operator<br>En Route</div>
+        <div class="wf-t">t + 25 min</div>
+        <div class="wf-tag">OPERATOR</div>
+      </div>
+      <div class="wf-conn" id="c5"></div>
+      <div class="wf-node" id="n6" data-r="op">
+        <div class="wf-circle">✅</div>
+        <div class="wf-lbl">Job<br>Complete</div>
+        <div class="wf-t">t + varies</div>
+        <div class="wf-tag">COMPLETE</div>
+      </div>
+      <div class="wf-conn" id="c6"></div>
+      <div class="wf-node fleet-step" id="n7" data-r="fleet">
+        <div class="wf-circle">📋</div>
+        <div class="wf-lbl">Report<br>Delivered</div>
+        <div class="wf-t">Same day</div>
+        <div class="wf-tag">YOU — FLEET</div>
+      </div>
+    </div>
+
+    <div class="wf-legend">
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--fleet);box-shadow:0 0 6px var(--fleet);"></div>You (Fleet Manager)</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--blue);"></div>RIN Dispatch</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--purple);"></div>Tow Operator</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--green);"></div>Completion</div>
+    </div>
+
+    <div style="background:var(--fleet-glow);border:1px solid rgba(245,158,11,0.25);border-radius:16px;padding:28px;margin-top:48px;text-align:center;">
+      <div style="font-size:14px;font-weight:700;color:var(--fleet-l);margin-bottom:8px;">Your role in the flow</div>
+      <div style="font-size:20px;font-weight:800;margin-bottom:10px;">Steps 1, 4, and 7. Three touchpoints. That's it.</div>
+      <p style="font-size:15px;color:var(--text2);max-width:520px;margin:0 auto;">Report the breakdown. Get a 30-second notification when dispatch is confirmed. Receive the incident report at the end. Everything else runs automatically.</p>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATION MOCKUP -->
+<div class="section">
+  <div class="slabel">What you actually see</div>
+  <h2 class="stitle" style="max-width:600px;">A notification, not a task.</h2>
+  <div class="notif-layout">
+    <div class="notif-copy">
+      <p>This is what lands on your phone when a RIN job is dispatched for your fleet. Not a question. Not a "can you call us back." A confirmation — every detail you need, nothing more.</p>
+      <p>At the end of the month, you get a full incident report: every vehicle, every job, cost per incident, response time, operator rating. One document. Ready for accounting, insurance, or your director.</p>
+      <div class="notif-bullets">
+        <div class="nb"><div class="dot"></div><span><strong>Dispatch confirmed in real time</strong> — know the operator and ETA before you go back to your meeting</span></div>
+        <div class="nb"><div class="dot"></div><span><strong>Rate locked before anyone moves</strong> — no invoice surprise at the end of the month</span></div>
+        <div class="nb"><div class="dot"></div><span><strong>Every incident documented</strong> — vehicle ID, time, operator, rate, completion — audit-ready</span></div>
+        <div class="nb"><div class="dot"></div><span><strong>One monthly invoice</strong> — all incidents, consolidated, with the breakdown attached</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="phone-mock">
+        <div class="phone-bar">
+          <div class="phone-av">🤖</div>
+          <div class="phone-info"><div class="pname">RIN Fleet</div><div class="psub">Your fleet account</div></div>
+        </div>
+        <div class="phone-msgs">
+          <div class="pmsg alert">
+            <div class="ptop">Dispatch Confirmed — Vehicle #12</div>
+            <div class="prow"><span class="pk">Operator</span><span class="pv">Ace Towing</span></div>
+            <div class="prow"><span class="pk">Location</span><span class="pv">401 & Warden</span></div>
+            <div class="prow"><span class="pk">ETA</span><span class="pv">11 min</span></div>
+            <div class="prow"><span class="pk">Locked rate</span><span class="pv">$195</span></div>
+          </div>
+          <div class="pmsg notif">
+            <div class="ptop">Job Complete</div>
+            <div class="prow"><span class="pk">Vehicle #12</span><span class="pv">Delivered ✓</span></div>
+            <div class="prow"><span class="pk">Total time</span><span class="pv">38 min</span></div>
+            <div class="prow"><span class="pk">Final cost</span><span class="pv">$195 (locked)</span></div>
+          </div>
+          <div class="pmsg report">
+            <div class="ptop">Monthly Report Ready</div>
+            <div class="prow"><span class="pk">April incidents</span><span class="pv">4 jobs</span></div>
+            <div class="prow"><span class="pk">Avg response</span><span class="pv">13 min</span></div>
+            <div class="prow"><span class="pk">Total billed</span><span class="pv">$780</span></div>
+            <div style="margin-top:8px;font-size:12px;color:var(--blue-l);">Invoice + incident log attached →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE TABLE -->
+<div class="section" style="padding-top:0;">
+  <div class="slabel">Side by side</div>
+  <h2 class="stitle">How your team handles breakdowns today vs. with RIN.</h2>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden;">
+    <table class="ctable">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="bad-h">❌ Today</th>
+          <th class="good-h">✅ With RIN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Dispatch time</td><td class="bad">45–90 min of calling around</td><td class="good">Under 15 min, automatic</td></tr>
+        <tr><td>Ops manager time</td><td class="bad">2–3 hours per incident</td><td class="good">30 seconds — read a notification</td></tr>
+        <tr><td>Rate visibility</td><td class="bad">Find out when invoice arrives</td><td class="good">Locked before truck moves</td></tr>
+        <tr><td>Incident documentation</td><td class="bad">Nothing clean</td><td class="good">Full report, every job</td></tr>
+        <tr><td>Monthly billing</td><td class="bad">Multiple invoices, no context</td><td class="good">One invoice, itemized</td></tr>
+        <tr><td>Operator reliability</td><td class="bad">Whoever picks up</td><td class="good">Vetted, rated, accountable</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- WHAT YOU GET -->
+<div class="section" style="padding-top:0;">
+  <div class="slabel">What's included</div>
+  <h2 class="stitle">Everything your fleet account covers.</h2>
+  <div class="offer-grid">
+    <div class="offer-card">
+      <div class="offer-icon">⚡</div>
+      <h3>Guaranteed &lt;15 Min Dispatch</h3>
+      <p>Not a target — a commitment. Every breakdown gets a confirmed operator with ETA in under 15 minutes, or we escalate automatically.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">🔒</div>
+      <h3>Rate Locked Before Dispatch</h3>
+      <p>AI-calculated rate based on job type, distance, and vehicle. Confirmed before the truck rolls. The invoice matches exactly.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">📋</div>
+      <h3>Full Incident Documentation</h3>
+      <p>Every job logged: vehicle ID, timestamp, operator, photos, rate, completion confirmation. Audit-ready for insurance and finance.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">📊</div>
+      <h3>Monthly Fleet Report</h3>
+      <p>Consolidated view of every incident, cost per vehicle, average response times, and operator ratings. One document, ready to present.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">💳</div>
+      <h3>Single Monthly Invoice</h3>
+      <p>All incidents in one invoice, with itemized breakdown. No chasing multiple operators for receipts. Accounting gets one clean line item.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">🌐</div>
+      <h3>GTA-Wide Coverage</h3>
+      <p>Toronto, Mississauga, Brampton, Scarborough, Hamilton, Durham — every vehicle in your fleet covered wherever it operates in the region.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PILOT CTA -->
+<div class="section" style="padding-top:0;" id="pilot">
+  <div class="pilot-section">
+    <div class="slabel" style="color:var(--fleet-l);">30-Day Pilot</div>
+    <h2>Try it with your actual fleet. No commitment.</h2>
+    <p>Add all your vehicles. Pay only for jobs that run. If RIN doesn't perform exactly as described — faster response, locked rates, clean reporting — cancel with nothing owed.</p>
+    <a href="#contact-form" class="btn-primary" style="font-size:17px;padding:18px 40px;">Book a 20-Minute Call →</a>
+    <div class="pilot-terms">
+      <div class="pt">No setup cost</div>
+      <div class="pt">No monthly fee</div>
+      <div class="pt">Pay per incident only</div>
+      <div class="pt">Cancel anytime</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT FORM -->
+<div class="section" id="contact-form" style="padding-top:0;">
+  <div class="form-card">
+    <h2>Book your pilot call</h2>
+    <p class="fsub">We'll walk through your fleet size, coverage area, and typical incident volume. If it's a fit, we get you live within 48 hours.</p>
+    <div id="fleet-form">
+      <div class="frow">
+        <div class="fg">
+          <label>Company name</label>
+          <input type="text" id="f_co" placeholder="Acme Logistics Inc.">
+        </div>
+        <div class="fg">
+          <label>Your name</label>
+          <input type="text" id="f_name" placeholder="Full name">
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label>Phone</label>
+          <input type="tel" id="f_phone" placeholder="+1 (416) 000-0000">
+        </div>
+        <div class="fg">
+          <label>Fleet size (vehicles)</label>
+          <select id="f_fleet">
+            <option value="">Select...</option>
+            <option value="1-10">1–10 vehicles</option>
+            <option value="11-50">11–50 vehicles</option>
+            <option value="51-200">51–200 vehicles</option>
+            <option value="200+">200+ vehicles</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Primary operating area</label>
+        <input type="text" id="f_area" placeholder="e.g. GTA, Hamilton, Durham Region">
+      </div>
+      <div class="fg">
+        <label>What's your biggest pain with breakdowns right now?</label>
+        <textarea id="f_pain" rows="3" placeholder="Response time, cost unpredictability, admin burden..."></textarea>
+      </div>
+      <button class="btn-sub" onclick="submitFleet()">Book My Pilot Call →</button>
+      <div class="fnote">We'll reach out within 4 business hours to schedule. No sales pressure.</div>
+    </div>
+    <div id="f-success">
+      <div class="sicon">✅</div>
+      <h3>Request received.</h3>
+      <p>We'll contact you within 4 hours to schedule your 20-minute call. Come ready to talk fleet size and incident frequency — we'll take it from there.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Roadside Intelligence Network &nbsp;·&nbsp; <a href="/">RIN Home</a> &nbsp;·&nbsp; <a href="/for-operators.html">For Operators</a> &nbsp;·&nbsp; <a href="/for-drivers.html">For Drivers</a> &nbsp;·&nbsp; <a href="/operator-demo.html">Interactive Demo</a></p>
+</footer>
+
+<script>
+// ── WORKFLOW ANIMATION ──
+const nodes = ['n1','n2','n3','n4','n5','n6','n7'];
+const conns = ['c1','c2','c3','c4','c5','c6'];
+let wfRunning = false;
+
+function resetWf() {
+  nodes.forEach(id => document.getElementById(id).classList.remove('wf-on'));
+  conns.forEach(id => document.getElementById(id).classList.remove('wf-lit'));
+}
+
+function runWf() {
+  resetWf();
+  nodes.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('wf-on');
+      if (i > 0) document.getElementById(conns[i-1]).classList.add('wf-lit');
+    }, i * 720 + 100);
+  });
+  setTimeout(runWf, nodes.length * 720 + 3200);
+}
+
+const track = document.getElementById('wf-track');
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !wfRunning) { wfRunning = true; runWf(); }
+  });
+}, { threshold: 0.15 }).observe(track);
+
+// ── FORM ──
+const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MDc2MjYsImV4cCI6MjA1OTI4MzYyNn0.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
+
+async function submitFleet() {
+  const co = document.getElementById('f_co').value.trim();
+  const name = document.getElementById('f_name').value.trim();
+  const phone = document.getElementById('f_phone').value.trim();
+  if (!co || !name || !phone) { alert('Please fill in company, name, and phone.'); return; }
+  const btn = document.querySelector('.btn-sub');
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/marketing_leads`, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'return=minimal' },
+      body: JSON.stringify({
+        company_name: co,
+        contact_name: name,
+        phone,
+        truck_count: document.getElementById('f_fleet').value || null,
+        message: `Area: ${document.getElementById('f_area').value.trim()}\nPain: ${document.getElementById('f_pain').value.trim()}`,
+        inquiry_type: 'fleet',
+        page: '/for-fleets',
+        referrer: document.referrer || null
+      })
+    });
+    if (!res.ok) throw new Error();
+    document.getElementById('fleet-form').style.display = 'none';
+    document.getElementById('f-success').style.display = 'block';
+  } catch {
+    btn.textContent = 'Book My Pilot Call →'; btn.disabled = false;
+    alert('Something went wrong. Please try again.');
+  }
+}
+</script>
+</body>
+</html>
