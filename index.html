@@ -307,6 +307,58 @@
     }
 
     /* ── HOW IT WORKS ── */
+    /* ── COMPARISON TABLE ── */
+    .comparison-section {
+      padding: 80px 32px;
+      background: var(--bg-primary);
+    }
+    .comparison-inner { max-width: 900px; margin: 0 auto; }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-top: 40px;
+    }
+    .comparison-col { display: flex; flex-direction: column; }
+    .comparison-header {
+      padding: 20px 28px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .comparison-header.old { background: #1a1a2e; color: #64748b; border-right: 1px solid var(--border); }
+    .comparison-header.new { background: rgba(59,130,246,0.12); color: var(--accent-light); }
+    .comparison-row {
+      display: contents;
+    }
+    .comparison-cell {
+      padding: 16px 28px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .comparison-cell.old {
+      background: #0d1117;
+      color: var(--text-tertiary);
+      border-right: 1px solid var(--border);
+    }
+    .comparison-cell.new {
+      background: rgba(59,130,246,0.04);
+      color: var(--text-secondary);
+    }
+    .comparison-cell .icon { font-size: 16px; flex-shrink: 0; }
+    @media (max-width: 600px) {
+      .comparison-grid { grid-template-columns: 1fr; }
+      .comparison-cell.old { border-right: none; }
+      .comparison-header.old { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+
     .how-it-works {
       background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
       padding: 80px 32px;
@@ -1035,7 +1087,7 @@
   <div class="hero-content">
     <span class="hero-tag">✓ Now Accepting Operators — Toronto &amp; GTA</span>
     <h1 id="hero-headline">More jobs. Faster pay.<br>Zero overhead.</h1>
-    <p class="hero-subtitle">Connect directly to insurance companies, fleet operators, and dealerships. Let AI handle dispatch. You handle income.</p>
+    <p class="hero-subtitle">AI dispatch for tow operators, insurance carriers, fleets, and dealerships. Less calling around. Faster service. Clean records — every time.</p>
 
     <div class="hero-cta">
       <a href="#apply" class="btn btn-primary" data-track="hero_apply">Apply to Join Network</a>
@@ -1067,7 +1119,7 @@
 <section id="why" data-section="operators">
   <div class="section-label">Who RIN Serves</div>
   <h2>Built for Every Side of the Road</h2>
-  <p class="section-intro">Whether you operate tow trucks, manage insurance claims, run a dealership, or oversee a fleet — RIN works for you.</p>
+  <p class="section-intro">Roadside service has always run on phone calls, paper invoices, and chased payments. RIN replaces all three — with locked pricing, AI dispatch, and automatic payout.</p>
 
   <!-- Tab Nav -->
   <div class="tab-nav" role="tablist">
@@ -1130,6 +1182,7 @@
       <div class="feature-card"><div class="feature-icon">🔒</div><h3>Price Lock-In Before You Roll</h3><p>AI-set pricing locked in before dispatch. Customer-approved via SMS. No disputes at the scene.</p></div>
     </div>
     <div style="margin-top:2rem;text-align:center;">
+      <p style="font-size:13px;color:var(--text-tertiary);margin-bottom:14px;">Independent operators welcome — whether you run 1 truck or 50.</p>
       <a href="#calculator" class="btn btn-primary" data-track="tab_operators_calc">Calculate Your Earnings →</a>
     </div>
   </div>
@@ -1254,6 +1307,38 @@
     </div>
   </div>
 </section>
+
+<!-- OLD WAY / RIN WAY -->
+<div class="comparison-section">
+  <div class="comparison-inner">
+    <div class="section-label" style="text-align:center;">Why RIN</div>
+    <h2 style="text-align:center;font-size:32px;margin-bottom:8px;">The Old Way Is Costing Everyone</h2>
+    <p style="text-align:center;color:var(--text-secondary);max-width:520px;margin:0 auto;font-size:16px;line-height:1.7;">Every delay, dispute, and missed payment in roadside is a process problem. Here's what RIN fixes.</p>
+    <div class="comparison-grid">
+      <div class="comparison-col">
+        <div class="comparison-header old">❌ &nbsp;Without RIN</div>
+      </div>
+      <div class="comparison-col">
+        <div class="comparison-header new">✓ &nbsp;With RIN</div>
+      </div>
+
+      <div class="comparison-cell old"><span class="icon">📞</span>Call 4 carriers to find a driver</div>
+      <div class="comparison-cell new"><span class="icon">⚡</span>Job dispatched automatically in minutes</div>
+
+      <div class="comparison-cell old"><span class="icon">💬</span>Negotiate price at the scene</div>
+      <div class="comparison-cell new"><span class="icon">🔒</span>Rate locked before anyone moves</div>
+
+      <div class="comparison-cell old"><span class="icon">📅</span>Wait 30–60 days to get paid</div>
+      <div class="comparison-cell new"><span class="icon">💰</span>80% in your account within 7 days</div>
+
+      <div class="comparison-cell old"><span class="icon">📋</span>Manual paperwork per job</div>
+      <div class="comparison-cell new"><span class="icon">📂</span>Full audit trail — automatic, every time</div>
+
+      <div class="comparison-cell old"><span class="icon">🔍</span>No visibility until the job is done</div>
+      <div class="comparison-cell new"><span class="icon">📡</span>Real-time tracking from dispatch to drop-off</div>
+    </div>
+  </div>
+</div>
 
 <!-- HOW IT WORKS -->
 <div class="how-it-works" data-section="how">
