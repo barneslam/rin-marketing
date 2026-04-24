@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>See RIN in Action — For Tow Operators</title>
+  <meta name="description" content="See exactly how RIN works for tow operators. Watch a job come in, get dispatched, and get paid — step by step.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg2: #1e293b;
+      --bg3: #243455;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --blue: #3b82f6;
+      --blue-light: #60a5fa;
+      --blue-glow: rgba(59,130,246,0.15);
+      --green: #34d399;
+      --green-glow: rgba(52,211,153,0.12);
+      --red: #f87171;
+      --red-glow: rgba(248,113,113,0.1);
+      --yellow: #f59e0b;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden; }
+    a { color:inherit; text-decoration:none; }
+
+    /* NAV */
+    header {
+      position:sticky; top:0; z-index:100;
+      background:rgba(15,23,42,0.97); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
+      padding:0 32px; height:64px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .logo { font-size:20px; font-weight:700; color:var(--blue-light); display:flex; align-items:center; gap:8px; }
+    .logo-dot { width:8px; height:8px; border-radius:50%; background:var(--blue); box-shadow:0 0 6px var(--blue); animation:blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.4} }
+    .nav-right { display:flex; align-items:center; gap:20px; }
+    .nav-link { font-size:14px; color:var(--text2); font-weight:500; }
+    .nav-link:hover { color:var(--blue-light); }
+    .btn-nav { background:var(--blue); color:white; padding:9px 18px; border-radius:6px; font-size:14px; font-weight:600; display:inline-block; }
+    .btn-nav:hover { background:var(--blue-light); }
+
+    /* HERO */
+    .hero {
+      padding:90px 32px 70px; text-align:center;
+      background:radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59,130,246,0.12), transparent);
+    }
+    .hero-tag { display:inline-block; background:var(--blue-glow); border:1px solid rgba(59,130,246,0.3); border-radius:6px; padding:4px 14px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--blue-light); margin-bottom:20px; }
+    .hero h1 { font-size:50px; font-weight:800; line-height:1.12; letter-spacing:-1.5px; margin-bottom:18px; }
+    .hero h1 span { color:var(--blue-light); }
+    .hero p { font-size:18px; color:var(--text2); max-width:520px; margin:0 auto 40px; line-height:1.7; }
+    .scroll-hint { font-size:13px; color:var(--text3); display:flex; align-items:center; justify-content:center; gap:8px; }
+    .scroll-hint::after { content:'↓'; animation:bounce 1.5s infinite; display:inline-block; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)}50%{transform:translateY(4px)} }
+
+    /* CHAPTER LAYOUT */
+    .chapter { max-width:1040px; margin:0 auto; padding:80px 32px; }
+    .chapter-label { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+    .chapter-label.problem { color:var(--red); }
+    .chapter-label.solution { color:var(--green); }
+    .chapter-label.blue { color:var(--blue-light); }
+    h2 { font-size:36px; font-weight:800; letter-spacing:-0.5px; margin-bottom:12px; line-height:1.2; }
+    .chapter-sub { font-size:16px; color:var(--text2); max-width:560px; line-height:1.7; margin-bottom:48px; }
+
+    /* PAIN STORY */
+    .pain-story { background:var(--bg2); border:1px solid rgba(248,113,113,0.25); border-radius:16px; padding:40px; margin-bottom:32px; }
+    .pain-story .story-time { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text3); margin-bottom:16px; }
+    .pain-story .story-text { font-size:17px; color:var(--text2); line-height:1.8; }
+    .pain-story .story-text strong { color:var(--text); }
+
+    .pain-cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:16px; }
+    .pain-card { background:var(--red-glow); border:1px solid rgba(248,113,113,0.2); border-radius:12px; padding:28px; }
+    .pain-card-icon { font-size:28px; margin-bottom:14px; }
+    .pain-card h3 { font-size:17px; font-weight:700; color:var(--red); margin-bottom:8px; }
+    .pain-card p { font-size:14px; color:var(--text2); line-height:1.6; }
+    .pain-stat { display:inline-block; margin-top:12px; background:rgba(248,113,113,0.15); border-radius:6px; padding:4px 10px; font-size:12px; font-weight:700; color:var(--red); }
+
+    /* DIVIDER */
+    .divider {
+      text-align:center; padding:40px 32px;
+      border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+      background:var(--bg2);
+    }
+    .divider p { font-size:20px; font-weight:700; color:var(--text); }
+    .divider span { color:var(--green); }
+
+    /* DEMO: JOB WALKTHROUGH */
+    .demo-wrap {
+      display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;
+    }
+    .demo-steps { display:flex; flex-direction:column; gap:0; }
+    .demo-step {
+      display:flex; gap:20px; padding:24px 0;
+      border-bottom:1px solid var(--border); cursor:pointer;
+      transition:background 0.15s;
+    }
+    .demo-step:last-child { border-bottom:none; }
+    .demo-step.active { background:rgba(59,130,246,0.05); border-radius:10px; padding:24px 16px; margin:0 -16px; }
+    .demo-step-num {
+      width:40px; height:40px; border-radius:50%; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+      font-size:14px; font-weight:800; border:2px solid var(--border);
+      color:var(--text3); transition:all 0.2s;
+    }
+    .demo-step.active .demo-step-num { border-color:var(--blue); background:var(--blue-glow); color:var(--blue-light); }
+    .demo-step-body { flex:1; }
+    .demo-step-title { font-size:16px; font-weight:700; margin-bottom:4px; }
+    .demo-step-desc { font-size:14px; color:var(--text2); line-height:1.6; }
+    .demo-step.active .demo-step-title { color:var(--blue-light); }
+
+    /* PHONE MOCKUP */
+    .phone-wrap { position:sticky; top:90px; }
+    .phone {
+      width:280px; margin:0 auto;
+      background:#111827; border-radius:40px;
+      border:6px solid #1f2937;
+      box-shadow:0 24px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.06);
+      overflow:hidden; padding-bottom:24px;
+    }
+    .phone-notch { height:32px; background:#111827; display:flex; align-items:flex-end; justify-content:center; padding-bottom:6px; }
+    .phone-notch-bar { width:100px; height:5px; background:#1f2937; border-radius:3px; }
+    .phone-status { display:flex; justify-content:space-between; padding:8px 20px 4px; font-size:11px; color:#6b7280; font-weight:600; }
+    .phone-screen { padding:0 8px; }
+
+    /* SMS MESSAGES */
+    .sms-header { background:#1f2937; border-radius:12px 12px 0 0; padding:14px 16px; display:flex; align-items:center; gap:12px; margin-bottom:2px; }
+    .sms-avatar { width:36px; height:36px; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; color:white; flex-shrink:0; }
+    .sms-header-info { flex:1; }
+    .sms-header-name { font-size:13px; font-weight:700; }
+    .sms-header-sub { font-size:11px; color:#6b7280; }
+    .sms-body { background:#111827; border-radius:0 0 12px 12px; padding:12px 8px; display:flex; flex-direction:column; gap:8px; min-height:280px; }
+    .msg { max-width:85%; border-radius:16px; padding:10px 14px; font-size:13px; line-height:1.5; }
+    .msg.incoming { background:#1f2937; color:var(--text); align-self:flex-start; border-bottom-left-radius:4px; }
+    .msg.outgoing { background:var(--blue); color:white; align-self:flex-end; border-bottom-right-radius:4px; }
+    .msg.system { background:rgba(52,211,153,0.12); border:1px solid rgba(52,211,153,0.3); color:var(--green); align-self:center; text-align:center; font-size:12px; border-radius:8px; }
+    .msg strong { font-weight:700; }
+    .msg-time { font-size:10px; color:#4b5563; text-align:right; margin-top:4px; }
+    .msg.outgoing .msg-time { color:rgba(255,255,255,0.5); }
+    .msg.hidden { display:none; }
+    .typing { display:flex; align-items:center; gap:4px; padding:10px 14px; background:#1f2937; border-radius:16px; border-bottom-left-radius:4px; width:60px; }
+    .typing-dot { width:6px; height:6px; border-radius:50%; background:#4b5563; animation:typing-anim 1.2s infinite; }
+    .typing-dot:nth-child(2) { animation-delay:0.2s; }
+    .typing-dot:nth-child(3) { animation-delay:0.4s; }
+    @keyframes typing-anim { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)} }
+    .typing.hidden { display:none; }
+
+    /* PAYMENT CARD */
+    .payment-card {
+      background:var(--green-glow); border:1px solid rgba(52,211,153,0.3);
+      border-radius:12px; padding:20px 16px; margin:8px;
+    }
+    .payment-card.hidden { display:none; }
+    .payment-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text3); margin-bottom:6px; }
+    .payment-amount { font-size:28px; font-weight:800; color:var(--green); }
+    .payment-sub { font-size:11px; color:var(--text2); margin-top:4px; }
+
+    /* DEMO NAV BUTTONS */
+    .demo-nav { display:flex; gap:10px; justify-content:center; margin-top:20px; }
+    .demo-btn {
+      background:var(--bg2); border:1px solid var(--border);
+      border-radius:8px; padding:10px 20px; font-size:14px; font-weight:600;
+      cursor:pointer; color:var(--text); font-family:inherit; transition:all 0.15s;
+    }
+    .demo-btn:hover { border-color:var(--blue); color:var(--blue-light); }
+    .demo-btn.primary { background:var(--blue); border-color:var(--blue); color:white; }
+    .demo-btn:disabled { opacity:0.4; cursor:not-allowed; }
+
+    /* OUTCOMES */
+    .outcomes { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px; }
+    .outcome-card {
+      background:var(--green-glow); border:1px solid rgba(52,211,153,0.2);
+      border-radius:12px; padding:28px;
+    }
+    .outcome-icon { font-size:28px; margin-bottom:14px; }
+    .outcome-card h3 { font-size:17px; font-weight:700; color:var(--green); margin-bottom:8px; }
+    .outcome-card p { font-size:14px; color:var(--text2); line-height:1.6; }
+
+    /* CONTRAST TABLE */
+    .contrast { display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+    .contrast-col { display:flex; flex-direction:column; }
+    .contrast-head { padding:16px 24px; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; }
+    .contrast-head.bad { background:#0d1117; color:var(--text3); border-right:1px solid var(--border); }
+    .contrast-head.good { background:var(--green-glow); color:var(--green); }
+    .contrast-row { display:grid; grid-template-columns:1fr 1fr; }
+    .contrast-cell { padding:15px 24px; font-size:14px; display:flex; align-items:center; gap:10px; border-top:1px solid var(--border); }
+    .contrast-cell.bad { background:#0a0e1a; color:var(--text3); border-right:1px solid var(--border); }
+    .contrast-cell.good { background:rgba(52,211,153,0.03); color:var(--text2); }
+
+    /* CTA */
+    .cta-section { padding:80px 32px; text-align:center; background:var(--bg2); border-top:1px solid var(--border); }
+    .cta-section h2 { font-size:38px; font-weight:800; margin-bottom:14px; }
+    .cta-section p { font-size:17px; color:var(--text2); max-width:460px; margin:0 auto 36px; line-height:1.7; }
+    .cta-buttons { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+    .btn-primary { background:var(--blue); color:white; padding:15px 30px; border-radius:8px; font-size:16px; font-weight:700; display:inline-block; transition:background 150ms; }
+    .btn-primary:hover { background:var(--blue-light); }
+    .btn-outline { border:1px solid var(--border); color:var(--text); padding:15px 30px; border-radius:8px; font-size:16px; font-weight:600; display:inline-block; transition:border-color 150ms; }
+    .btn-outline:hover { border-color:var(--blue); }
+
+    footer { border-top:1px solid var(--border); padding:28px 32px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+    .footer-links { display:flex; gap:24px; flex-wrap:wrap; }
+    .footer-links a { font-size:13px; color:var(--text3); }
+    .footer-links a:hover { color:var(--blue-light); }
+
+    @media (max-width:700px) {
+      .hero h1 { font-size:34px; }
+      .demo-wrap { grid-template-columns:1fr; }
+      .phone-wrap { position:static; }
+      .contrast { grid-template-columns:1fr; }
+      .contrast-cell.bad, .contrast-head.bad { border-right:none; border-bottom:1px solid var(--border); }
+      .contrast-row { grid-template-columns:1fr; }
+      footer { flex-direction:column; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo"><div class="logo-dot"></div> RIN</a>
+  <div class="nav-right">
+    <a href="/for-operators.html" class="nav-link">Overview</a>
+    <a href="/what-you-get.html" class="nav-link">What You Get</a>
+    <a href="/for-operators.html#apply" class="btn-nav">Apply →</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Interactive Demo</div>
+  <h1>See what your day<br><span>looks like on RIN.</span></h1>
+  <p>This is the problem you're dealing with right now — and this is exactly what changes when you join. No sales pitch. Just the real thing.</p>
+  <div class="scroll-hint">Scroll to see the full experience</div>
+</div>
+
+<!-- ACT 1: THE PROBLEM -->
+<div class="chapter" style="border-top:1px solid var(--border);">
+  <div class="chapter-label problem">Right Now — The Problem</div>
+  <h2>Monday morning, 6:30 AM.</h2>
+  <p class="chapter-sub">You've been doing this for years. You're good at it. But the business still runs on your personal phone.</p>
+
+  <div class="pain-story" style="margin-bottom:32px;">
+    <div class="story-time">6:34 AM — Your phone rings</div>
+    <p class="story-text">
+      It's a broker. They have a job — maybe. They want to know if you can do North York to Brampton, flatbed, right now.
+      <strong>You say yes.</strong> You call your driver. He doesn't pick up. You call the second driver.
+      He's 40 minutes away. You call the broker back. They've already called someone else.
+      <strong>Job gone.</strong> You spent 20 minutes on nothing.
+    </p>
+  </div>
+
+  <div class="pain-cards">
+    <div class="pain-card">
+      <div class="pain-card-icon">📞</div>
+      <h3>Hours lost every single day</h3>
+      <p>Operators tell us they spend 2–4 hours a day on coordination calls — chasing jobs, confirming drivers, following up with clients. That's not billable time.</p>
+      <span class="pain-stat">2–4 hrs/day on the phone</span>
+    </div>
+    <div class="pain-card">
+      <div class="pain-card-icon">💸</div>
+      <h3>Waiting 30–60 days to get paid</h3>
+      <p>You completed the job last month. The invoice is sitting in an adjuster's queue. Your fuel card is due Friday. The money is yours — it's just not in your account.</p>
+      <span class="pain-stat">Average 45 days to payment</span>
+    </div>
+    <div class="pain-card">
+      <div class="pain-card-icon">🤝</div>
+      <h3>No agreed price until you're already there</h3>
+      <p>No written rate upfront means the client disputes the invoice after the job. You're on the side of a highway arguing about $40. There's no backup. You're on your own.</p>
+      <span class="pain-stat">Price disputes cost operators 5–15% of revenue</span>
+    </div>
+  </div>
+</div>
+
+<!-- DIVIDER -->
+<div class="divider">
+  <p>Here's what changes <span>when you're on RIN.</span></p>
+</div>
+
+<!-- ACT 2: THE RIN EXPERIENCE — INTERACTIVE -->
+<div class="chapter">
+  <div class="chapter-label solution">With RIN — The Experience</div>
+  <h2>A job comes in. Watch what happens.</h2>
+  <p class="chapter-sub">Click through each step — this is the actual experience for your driver, from job alert to completion.</p>
+
+  <div class="demo-wrap">
+    <!-- STEPS -->
+    <div>
+      <div class="demo-steps" id="demoSteps">
+        <div class="demo-step active" data-step="0" onclick="goStep(0)">
+          <div class="demo-step-num">1</div>
+          <div class="demo-step-body">
+            <div class="demo-step-title">Enterprise client sends a job</div>
+            <div class="demo-step-desc">An insurance company files a roadside request through RIN. Vehicle, location, and incident type — captured automatically. No call to your office.</div>
+          </div>
+        </div>
+        <div class="demo-step" data-step="1" onclick="goStep(1)">
+          <div class="demo-step-num">2</div>
+          <div class="demo-step-body">
+            <div class="demo-step-title">Rate locked before anyone moves</div>
+            <div class="demo-step-desc">RIN AI calculates $220 for the job. Insurance approves via SMS. Your payout is confirmed: <strong style="color:var(--green)">$176</strong> — before your driver leaves.</div>
+          </div>
+        </div>
+        <div class="demo-step" data-step="2" onclick="goStep(2)">
+          <div class="demo-step-num">3</div>
+          <div class="demo-step-body">
+            <div class="demo-step-title">Your driver gets one SMS</div>
+            <div class="demo-step-desc">RIN texts your nearest available driver. Job details, pickup, destination, payout — everything in one message. One reply to confirm.</div>
+          </div>
+        </div>
+        <div class="demo-step" data-step="3" onclick="goStep(3)">
+          <div class="demo-step-num">4</div>
+          <div class="demo-step-body">
+            <div class="demo-step-title">Driver replies Y — on the way</div>
+            <div class="demo-step-desc">No app. No login. No retraining. Your driver replies and RIN notifies the client automatically. Your job is in motion.</div>
+          </div>
+        </div>
+        <div class="demo-step" data-step="4" onclick="goStep(4)">
+          <div class="demo-step-num">5</div>
+          <div class="demo-step-body">
+            <div class="demo-step-title">Job complete — $176 on its way</div>
+            <div class="demo-step-desc">Driver marks it done. RIN logs GPS, timestamp, and sign-off automatically. Your 80% is queued for deposit. No invoice. No follow-up. Done.</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-nav">
+        <button class="demo-btn" id="btnPrev" onclick="prevStep()" disabled>← Back</button>
+        <button class="demo-btn primary" id="btnNext" onclick="nextStep()">Next Step →</button>
+      </div>
+    </div>
+
+    <!-- PHONE MOCKUP -->
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-notch"><div class="phone-notch-bar"></div></div>
+        <div class="phone-status"><span>9:14 AM</span><span>●●● LTE</span></div>
+        <div class="phone-screen">
+          <div class="sms-header">
+            <div class="sms-avatar">R</div>
+            <div class="sms-header-info">
+              <div class="sms-header-name">RIN Dispatch</div>
+              <div class="sms-header-sub">+1 (647) 555-RIN1</div>
+            </div>
+          </div>
+          <div class="sms-body" id="smsBody">
+            <!-- Step 0: Job comes in — blank/waiting state -->
+            <div class="msg system" id="msg-waiting">Waiting for next job...</div>
+
+            <!-- Step 1: Rate locked -->
+            <div class="msg incoming hidden" id="msg-job">
+              🚨 <strong>New RIN Job</strong><br><br>
+              Insurance tow — North York to Brampton<br>
+              Flatbed required · 34km<br><br>
+              <strong>Your payout: $176</strong><br>
+              Reply Y to accept
+              <div class="msg-time">9:15 AM</div>
+            </div>
+
+            <!-- Step 2: Job details visible -->
+            <div class="msg incoming hidden" id="msg-detail">
+              📍 Pickup: 142 Sheppard Ave W, North York<br>
+              🏁 Drop: Brampton Honda, Brampton<br>
+              ⏱ ETA requested: 25 min<br>
+              🔒 Price approved by client
+              <div class="msg-time">9:15 AM</div>
+            </div>
+
+            <!-- Step 3: Driver replies -->
+            <div class="msg outgoing hidden" id="msg-reply">
+              Y
+              <div class="msg-time">9:16 AM</div>
+            </div>
+
+            <!-- Typing indicator -->
+            <div class="typing hidden" id="msg-typing">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
+
+            <!-- Step 3b: Confirmation -->
+            <div class="msg incoming hidden" id="msg-confirm">
+              ✅ <strong>Confirmed!</strong><br>
+              Client notified you're on the way.<br>
+              Job #RIN-4821 is active.
+              <div class="msg-time">9:16 AM</div>
+            </div>
+
+            <!-- Step 4: Complete -->
+            <div class="msg system hidden" id="msg-complete">Job #RIN-4821 marked complete ✓</div>
+          </div>
+
+          <!-- Payment card -->
+          <div class="payment-card hidden" id="paymentCard">
+            <div class="payment-label">Payout Queued</div>
+            <div class="payment-amount">$176.00</div>
+            <div class="payment-sub">Deposits within 7 days · Job #RIN-4821</div>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:16px;">This is what your driver sees on their phone.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ACT 3: THE OUTCOMES -->
+<div style="background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="chapter">
+    <div class="chapter-label solution">The Result</div>
+    <h2>What actually changes for you</h2>
+    <p class="chapter-sub">Not features. Real outcomes — the ones operators tell us matter most.</p>
+    <div class="outcomes">
+      <div class="outcome-card">
+        <div class="outcome-icon">⏰</div>
+        <h3>Hours back every week</h3>
+        <p>Stop spending your morning on coordination calls. RIN dispatches automatically. You review, approve, and move on.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">💰</div>
+        <h3>Cash in your account in 7 days</h3>
+        <p>Not 30. Not 60. Seven days. And it's automatic — no invoice to send, no follow-up call to make.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🔒</div>
+        <h3>No more price disputes</h3>
+        <p>Every job rate is approved before your driver rolls. It's in writing. There's nothing to argue about at the scene.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">📈</div>
+        <h3>More jobs without more hustle</h3>
+        <p>Enterprise clients submit jobs into RIN 24/7. You don't chase them — they come to you, pre-qualified and pre-priced.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIDE BY SIDE -->
+<div class="chapter">
+  <div class="chapter-label blue">Side by Side</div>
+  <h2>Your Monday morning — before and after</h2>
+  <p class="chapter-sub">Same job. Same driver. Completely different experience.</p>
+
+  <div style="border:1px solid var(--border); border-radius:14px; overflow:hidden;">
+    <div style="display:grid; grid-template-columns:1fr 1fr;">
+      <div style="padding:18px 24px; background:#0d1117; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--text3); border-right:1px solid var(--border);">❌ &nbsp;Without RIN</div>
+      <div style="padding:18px 24px; background:var(--green-glow); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--green);">✓ &nbsp;With RIN</div>
+    </div>
+    <div class="contrast-row">
+      <div class="contrast-cell bad">📞 &nbsp;6:34 AM — broker calls, wakes you up</div>
+      <div class="contrast-cell good">🔕 &nbsp;Job arrives in the system automatically</div>
+    </div>
+    <div class="contrast-row">
+      <div class="contrast-cell bad">📱 &nbsp;You call 2 drivers. One doesn't answer.</div>
+      <div class="contrast-cell good">📲 &nbsp;RIN texts the nearest driver directly</div>
+    </div>
+    <div class="contrast-row">
+      <div class="contrast-cell bad">❓ &nbsp;No agreed rate. Hope they pay the invoice.</div>
+      <div class="contrast-cell good">🔒 &nbsp;$176 payout confirmed before driver moves</div>
+    </div>
+    <div class="contrast-row">
+      <div class="contrast-cell bad">🗂️ &nbsp;Manual paperwork after the job</div>
+      <div class="contrast-cell good">📂 &nbsp;GPS, timestamp, sign-off — logged automatically</div>
+    </div>
+    <div class="contrast-row">
+      <div class="contrast-cell bad">📅 &nbsp;Invoice sent. Wait 45 days.</div>
+      <div class="contrast-cell good">💰 &nbsp;$176 deposited in 7 days. No action needed.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Ready to run it this way?</h2>
+  <p>Apply in 5 minutes. Our team calls within 24 hours. You could be taking your first RIN job this week.</p>
+  <div class="cta-buttons">
+    <a href="/for-operators.html#apply" class="btn-primary">Apply to Join the Network</a>
+    <a href="/what-you-get.html" class="btn-outline">See Full Membership Details</a>
+  </div>
+  <p style="margin-top:16px;font-size:13px;color:var(--text3);">$0 to start · 80% payout · 7-day payment · 1 truck or 50</p>
+</div>
+
+<footer>
+  <a href="/" class="logo" style="font-size:16px;"><div class="logo-dot"></div> RIN</a>
+  <div class="footer-links">
+    <a href="/">Main Site</a>
+    <a href="/for-operators.html">Operator Overview</a>
+    <a href="/what-you-get.html">What You Get</a>
+    <a href="/driver.html">Driver App</a>
+  </div>
+  <div style="font-size:13px;color:var(--text3);">© 2026 Roadside Intelligence Network</div>
+</footer>
+
+<script>
+  let currentStep = 0;
+  const totalSteps = 5;
+
+  const phoneStates = [
+    // Step 0: waiting
+    { show: ['msg-waiting'], hide: ['msg-job','msg-detail','msg-reply','msg-typing','msg-confirm','msg-complete'], payment: false },
+    // Step 1: job arrives
+    { show: ['msg-job'], hide: ['msg-waiting','msg-detail','msg-reply','msg-typing','msg-confirm','msg-complete'], payment: false },
+    // Step 2: details
+    { show: ['msg-job','msg-detail'], hide: ['msg-waiting','msg-reply','msg-typing','msg-confirm','msg-complete'], payment: false },
+    // Step 3: driver replies
+    { show: ['msg-job','msg-detail','msg-reply','msg-typing'], hide: ['msg-waiting','msg-confirm','msg-complete'], payment: false, typing: true },
+    // Step 4: confirmed + complete
+    { show: ['msg-job','msg-detail','msg-reply','msg-confirm','msg-complete'], hide: ['msg-waiting','msg-typing'], payment: true },
+  ];
+
+  function applyState(step) {
+    const state = phoneStates[step];
+    const allIds = ['msg-waiting','msg-job','msg-detail','msg-reply','msg-typing','msg-confirm','msg-complete'];
+    allIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (state.show.includes(id)) el.classList.remove('hidden');
+      else el.classList.add('hidden');
+    });
+    const pc = document.getElementById('paymentCard');
+    if (state.payment) pc.classList.remove('hidden');
+    else pc.classList.add('hidden');
+
+    // typing -> confirm after delay
+    if (state.typing) {
+      setTimeout(() => {
+        if (currentStep === 3) {
+          document.getElementById('msg-typing').classList.add('hidden');
+          document.getElementById('msg-confirm').classList.remove('hidden');
+        }
+      }, 1800);
+    }
+
+    // update step UI
+    document.querySelectorAll('.demo-step').forEach((el, i) => {
+      el.classList.toggle('active', i === step);
+    });
+
+    document.getElementById('btnPrev').disabled = step === 0;
+    document.getElementById('btnNext').disabled = step === totalSteps - 1;
+    document.getElementById('btnNext').textContent = step === totalSteps - 2 ? 'See the Result →' : 'Next Step →';
+  }
+
+  function goStep(s) { currentStep = s; applyState(s); }
+  function nextStep() { if (currentStep < totalSteps - 1) { currentStep++; applyState(currentStep); } }
+  function prevStep() { if (currentStep > 0) { currentStep--; applyState(currentStep); } }
+
+  applyState(0);
+</script>
+</body>
+</html>
