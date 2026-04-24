@@ -231,8 +231,8 @@
 <header>
   <a href="/" class="logo"><div class="logo-dot"></div> RIN</a>
   <div class="nav-right">
-    <a href="/for-insurance.html" class="nav-link">For Insurance</a>
-    <a href="/for-fleets.html" class="nav-link">For Fleets</a>
+    <a href="/" class="nav-link">Back to RIN</a>
+    <a href="#calculator" class="nav-link">Earnings Calculator</a>
     <a href="#apply" class="btn-nav">Apply to Join →</a>
   </div>
 </header>
@@ -512,10 +512,9 @@
   <a href="/" class="logo" style="font-size:16px;"><div class="logo-dot"></div> RIN</a>
   <div class="footer-links">
     <a href="/">Main Site</a>
-    <a href="/for-insurance.html">For Insurance</a>
-    <a href="/for-fleets.html">For Fleets</a>
     <a href="/driver.html">Driver App</a>
     <a href="/dispatcher.html">Dispatcher</a>
+    <a href="#apply">Apply Now</a>
   </div>
   <div class="footer-copy">© 2026 Roadside Intelligence Network</div>
 </footer>
@@ -523,7 +522,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
-  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM5NjM1NDIsImV4cCI6MjA1OTUzOTU0Mn0.TJqbMqrxBdwOYWMtqTb8mGrYYi7HCZFDiVmSJMwFrLI';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDU3OTMsImV4cCI6MjA4OTA4MTc5M30.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
   function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
