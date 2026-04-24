@@ -4,601 +4,549 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RIN for Tow Operators — More Jobs. Paid in 7 Days.</title>
-  <meta name="description" content="RIN connects tow operators directly to insurance companies, fleet clients, and dealerships. Pre-priced jobs, SMS dispatch, 80% payout in 7 days.">
+  <meta name="description" content="RIN connects independent tow operators to a guaranteed stream of insurance, fleet, and dealer jobs. Pre-priced. Fast paid. No chasing invoices.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #0f172a;
-      --bg-secondary: #1e293b;
-      --border: #334155;
-      --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8;
-      --text-tertiary: #64748b;
-      --accent: #3b82f6;
-      --accent-light: #60a5fa;
-      --accent-glow: rgba(59,130,246,0.15);
-      --success: #34d399;
-      --danger: #f87171;
+      --bg: #070c1a;
+      --bg2: #0f172a;
+      --bg3: #1e293b;
+      --border: #1a2744;
+      --border2: #334155;
+      --text: #f1f5f9;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --blue: #3b82f6;
+      --blue-l: #60a5fa;
+      --blue-glow: rgba(59,130,246,0.12);
+      --green: #34d399;
+      --green-glow: rgba(52,211,153,0.12);
+      --purple: #a78bfa;
+      --purple-glow: rgba(167,139,250,0.12);
+      --gold: #f59e0b;
+      --gold-glow: rgba(245,158,11,0.12);
+      --red: #f87171;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
-    a { color: inherit; text-decoration: none; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
 
     /* NAV */
-    header {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(15,23,42,0.96); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px; height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .logo { font-size: 20px; font-weight: 700; color: var(--accent-light); display: flex; align-items: center; gap: 8px; }
-    .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); animation: blink 2s infinite; }
-    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.4} }
-    .nav-right { display: flex; align-items: center; gap: 20px; }
-    .nav-link { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
-    .nav-link:hover { color: var(--accent-light); }
-    .btn-nav { background: var(--accent); color: white; padding: 9px 18px; border-radius: 6px; font-size: 14px; font-weight: 600; transition: background 150ms; }
-    .btn-nav:hover { background: var(--accent-light); }
+    header{position:sticky;top:0;z-index:200;background:rgba(7,12,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;color:var(--blue-l);}
+    .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:blink 2s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .nav-r{display:flex;align-items:center;gap:24px;}
+    .nav-r a{font-size:14px;color:var(--text2);font-weight:500;transition:color 150ms;}
+    .nav-r a:hover{color:var(--blue-l);}
+    .nav-cta{background:var(--green);color:#070c1a;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;transition:opacity 150ms;}
+    .nav-cta:hover{opacity:0.85;}
 
     /* HERO */
-    .hero {
-      padding: 100px 32px 80px;
-      text-align: center;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.13), transparent);
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3);
-      border-radius: 100px; padding: 6px 18px;
-      font-size: 13px; font-weight: 600; color: var(--success); margin-bottom: 28px;
-    }
-    .hero h1 {
-      font-size: 58px; font-weight: 800; line-height: 1.1;
-      letter-spacing: -1.5px; margin-bottom: 22px;
-    }
-    .hero h1 span { color: var(--accent-light); }
-    .hero-sub {
-      font-size: 19px; color: var(--text-secondary);
-      max-width: 560px; margin: 0 auto 44px; line-height: 1.7;
-    }
-    .hero-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
-    .btn-primary {
-      background: var(--accent); color: white;
-      padding: 14px 28px; border-radius: 8px;
-      font-size: 16px; font-weight: 700; transition: all 150ms;
-      display: inline-block;
-    }
-    .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
-    .btn-secondary {
-      background: transparent; color: var(--text-primary);
-      border: 1px solid var(--border); padding: 14px 28px;
-      border-radius: 8px; font-size: 16px; font-weight: 600;
-      transition: border-color 150ms; display: inline-block;
-    }
-    .btn-secondary:hover { border-color: var(--accent); }
+    .hero{padding:120px 40px 80px;text-align:center;background:radial-gradient(ellipse 90% 55% at 50% -5%,rgba(52,211,153,0.09),transparent 70%);}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(52,211,153,0.09);border:1px solid rgba(52,211,153,0.3);border-radius:100px;padding:6px 20px;font-size:13px;font-weight:600;color:var(--green);margin-bottom:36px;}
+    .hero h1{font-size:clamp(40px,6.5vw,76px);font-weight:900;line-height:1.03;letter-spacing:-2.5px;margin-bottom:24px;}
+    .hero h1 .g{color:var(--green);}
+    .hero-sub{font-size:19px;color:var(--text2);max-width:620px;margin:0 auto 52px;line-height:1.7;}
+    .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+    .btn-primary{background:var(--green);color:#070c1a;padding:18px 38px;border-radius:10px;font-size:17px;font-weight:800;letter-spacing:-0.3px;display:inline-block;transition:all 150ms;}
+    .btn-primary:hover{opacity:0.85;transform:translateY(-2px);}
+    .btn-outline{border:1.5px solid var(--border2);color:var(--text);padding:18px 38px;border-radius:10px;font-size:17px;font-weight:600;display:inline-block;transition:all 150ms;}
+    .btn-outline:hover{border-color:var(--blue-l);color:var(--blue-l);}
 
-    /* STATS STRIP */
-    .stats-strip {
-      display: flex; justify-content: center; gap: 0;
-      border: 1px solid var(--border); border-radius: 14px;
-      max-width: 740px; margin: 0 auto; overflow: hidden;
-    }
-    .stat-item {
-      flex: 1; padding: 22px 16px; text-align: center;
-      border-right: 1px solid var(--border);
-    }
-    .stat-item:last-child { border-right: none; }
-    .stat-val { font-size: 28px; font-weight: 800; color: var(--accent-light); }
-    .stat-lbl { font-size: 12px; color: var(--text-tertiary); margin-top: 4px; font-weight: 500; }
+    /* STATS */
+    .stats-strip{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:36px 40px;}
+    .stats-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:880px;margin:0 auto;}
+    .stat{text-align:center;padding:0 24px;border-right:1px solid var(--border2);}
+    .stat:last-child{border-right:none;}
+    .stat-num{font-size:44px;font-weight:900;letter-spacing:-2px;color:var(--green);line-height:1;margin-bottom:4px;}
+    .stat-lbl{font-size:13px;color:var(--text2);}
 
-    /* SECTION */
-    section { max-width: 1040px; margin: 0 auto; padding: 80px 32px; }
-    .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-light); margin-bottom: 12px; }
-    h2 { font-size: 38px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; line-height: 1.2; }
-    .section-intro { font-size: 17px; color: var(--text-secondary); max-width: 580px; line-height: 1.7; margin-bottom: 48px; }
+    /* SECTIONS */
+    .section{max-width:1020px;margin:0 auto;padding:80px 40px;}
+    .slabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--blue-l);margin-bottom:12px;}
+    .stitle{font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-1.2px;line-height:1.1;margin-bottom:16px;}
+    .ssub{font-size:17px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:48px;}
 
-    /* PAIN POINTS */
-    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .pain-card {
-      background: rgba(248,113,113,0.05); border: 1px solid rgba(248,113,113,0.2);
-      border-radius: 12px; padding: 28px;
-    }
-    .pain-icon { font-size: 28px; margin-bottom: 14px; }
-    .pain-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-    .pain-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+    /* PAIN */
+    .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .pain-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:32px;position:relative;overflow:hidden;}
+    .pain-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(248,113,113,0.06),transparent 60%);pointer-events:none;}
+    .pain-cost{font-size:46px;font-weight:900;color:var(--red);letter-spacing:-2px;line-height:1;margin-bottom:4px;}
+    .pain-ctx{font-size:13px;color:var(--text3);margin-bottom:20px;}
+    .pain-card h3{font-size:18px;font-weight:700;margin-bottom:10px;}
+    .pain-card p{font-size:14px;color:var(--text2);line-height:1.65;}
+    .pain-fix{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);font-size:13px;color:var(--green);font-weight:600;}
 
-    /* HOW IT WORKS */
-    .how-section { background: var(--bg-secondary); padding: 80px 32px; }
-    .how-inner { max-width: 1040px; margin: 0 auto; }
-    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; }
-    .step-item { padding: 32px 28px; border-right: 1px solid var(--border); position: relative; }
-    .step-item:last-child { border-right: none; }
-    .step-num {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: var(--accent-glow); border: 1px solid var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 800; color: var(--accent-light);
-      margin-bottom: 18px;
-    }
-    .step-item h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-    .step-item p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-    .step-connector { display: none; }
+    /* ANIMATED WORKFLOW */
+    .wf-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0;}
+    .wf-inner{max-width:1020px;margin:0 auto;padding:0 40px;}
+    .wf-head{text-align:center;margin-bottom:64px;}
+    .wf-track{display:flex;align-items:center;overflow-x:auto;padding-bottom:12px;gap:0;}
+    .wf-node{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:96px;opacity:0.2;transition:opacity 0.45s,transform 0.45s;}
+    .wf-node.wf-on{opacity:1;transform:translateY(-3px);}
+    .wf-circle{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;border:2px solid var(--border2);background:var(--bg3);transition:border-color 0.45s,box-shadow 0.45s;flex-shrink:0;}
+    .wf-node[data-r="cust"].wf-on .wf-circle{border-color:#64748b;box-shadow:0 0 18px rgba(100,116,139,0.35);}
+    .wf-node[data-r="rin"].wf-on .wf-circle{border-color:var(--blue);box-shadow:0 0 22px rgba(59,130,246,0.5);}
+    .wf-node[data-r="op"].wf-on .wf-circle{border-color:var(--green);box-shadow:0 0 22px rgba(52,211,153,0.55);}
+    .wf-node[data-r="drv"].wf-on .wf-circle{border-color:var(--purple);box-shadow:0 0 22px rgba(167,139,250,0.55);}
+    .wf-node[data-r="pay"].wf-on .wf-circle{border-color:var(--gold);box-shadow:0 0 28px rgba(245,158,11,0.65);}
+    .wf-lbl{font-size:11.5px;font-weight:700;text-align:center;line-height:1.35;color:var(--text);}
+    .wf-t{font-size:11px;color:var(--text3);}
+    .wf-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;padding:2px 8px;border-radius:4px;}
+    .wf-node[data-r="cust"] .wf-tag{background:rgba(100,116,139,0.15);color:#94a3b8;}
+    .wf-node[data-r="rin"] .wf-tag{background:var(--blue-glow);color:var(--blue-l);}
+    .wf-node[data-r="op"] .wf-tag{background:var(--green-glow);color:var(--green);}
+    .wf-node[data-r="drv"] .wf-tag{background:var(--purple-glow);color:var(--purple);}
+    .wf-node[data-r="pay"] .wf-tag{background:var(--gold-glow);color:var(--gold);}
+    .wf-conn{flex:1;height:2px;background:var(--border);position:relative;overflow:hidden;min-width:16px;}
+    .wf-conn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--blue-l));transition:left 0.55s ease;}
+    .wf-conn.wf-lit::after{left:0;}
 
-    /* FEATURES */
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-    .feat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
-    .feat-icon { font-size: 28px; margin-bottom: 14px; }
-    .feat-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-    .feat-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-    .feat-card.accent { border-color: var(--accent); background: var(--accent-glow); }
+    .wf-legend{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:28px;}
+    .wfl-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);}
+    .wfl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 
-    /* COMPARISON */
-    .compare-section { background: var(--bg-primary); padding: 80px 32px; }
-    .compare-inner { max-width: 860px; margin: 0 auto; }
-    .compare-table { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 40px; }
-    .compare-head { display: grid; grid-template-columns: 1fr 1fr; }
-    .compare-head-cell { padding: 18px 28px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
-    .compare-head-cell.old { background: #0d1117; color: var(--text-tertiary); border-right: 1px solid var(--border); }
-    .compare-head-cell.new { background: rgba(59,130,246,0.1); color: var(--accent-light); }
-    .compare-row { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); }
-    .compare-cell { padding: 15px 28px; font-size: 14px; display: flex; align-items: center; gap: 12px; }
-    .compare-cell.old { background: #0d1117; color: var(--text-tertiary); border-right: 1px solid var(--border); }
-    .compare-cell.new { background: rgba(59,130,246,0.04); color: var(--text-secondary); }
+    .wf-roles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px;}
+    .wf-role-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:24px;}
+    .wf-role-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;}
+    .wf-role-card h4{font-size:15px;font-weight:700;margin-bottom:8px;}
+    .wf-role-card p{font-size:14px;color:var(--text2);line-height:1.6;}
 
-    /* CALCULATOR */
-    .calc-section { background: var(--bg-secondary); padding: 80px 32px; }
-    .calc-inner { max-width: 860px; margin: 0 auto; }
-    .calc-body { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; align-items: start; }
-    .calc-inputs { background: var(--bg-primary); border: 1px solid var(--border); border-radius: 14px; padding: 32px; display: flex; flex-direction: column; gap: 24px; }
-    .calc-field { display: flex; flex-direction: column; gap: 8px; }
-    .calc-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .calc-row label { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-    .calc-val { font-size: 14px; font-weight: 700; color: var(--accent-light); }
-    input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; }
-    .calc-results { display: flex; flex-direction: column; gap: 14px; }
-    .result-card { background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
-    .result-card.accent { border-color: var(--accent); background: var(--accent-glow); }
-    .result-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-tertiary); margin-bottom: 6px; }
-    .result-value { font-size: 30px; font-weight: 800; color: var(--accent-light); }
-    .result-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 4px; }
+    /* COMPARE TABLE */
+    .ctable{width:100%;border-collapse:collapse;}
+    .ctable th{padding:14px 24px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;}
+    .ctable th:first-child{text-align:left;color:var(--text3);width:34%;}
+    .ctable th.bad-h{color:var(--red);text-align:center;}
+    .ctable th.good-h{color:var(--green);text-align:center;}
+    .ctable td{padding:16px 24px;font-size:15px;border-top:1px solid var(--border);}
+    .ctable td:first-child{color:var(--text2);font-weight:500;}
+    .ctable td.bad{text-align:center;color:var(--red);font-weight:600;}
+    .ctable td.good{text-align:center;color:var(--green);font-weight:600;}
 
-    /* CTA BLOCK */
-    .cta-section {
-      padding: 100px 32px; text-align: center;
-      background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(59,130,246,0.12), transparent);
-    }
-    .cta-section h2 { font-size: 44px; font-weight: 800; margin-bottom: 16px; }
-    .cta-section p { font-size: 18px; color: var(--text-secondary); max-width: 480px; margin: 0 auto 40px; line-height: 1.7; }
-    .cta-note { margin-top: 16px; font-size: 13px; color: var(--text-tertiary); }
+    /* EARNINGS */
+    .earn-block{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:52px;display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+    .earn-num{font-size:clamp(48px,7vw,80px);font-weight:900;letter-spacing:-3px;color:var(--green);line-height:1;margin-bottom:6px;}
+    .earn-sub{font-size:15px;color:var(--text2);margin-bottom:24px;line-height:1.6;}
+    .earn-rows{display:flex;flex-direction:column;gap:10px;}
+    .er{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;background:var(--bg3);border-radius:10px;}
+    .er-l{font-size:14px;color:var(--text2);}
+    .er-v{font-size:16px;font-weight:700;}
+    .er-v.g{color:var(--green);}
+    .er-v.gold{color:var(--gold);}
+    .er.highlight{border:1px solid var(--green);}
 
-    /* APPLY FORM */
-    .apply-form { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 16px; padding: 40px; max-width: 520px; margin: 0 auto 80px; text-align: left; }
-    .apply-form h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
-    .apply-form p { font-size: 14px; color: var(--text-secondary); margin-bottom: 28px; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .form-grid.full { grid-template-columns: 1fr; }
-    .form-field { display: flex; flex-direction: column; gap: 6px; }
-    .form-field label { font-size: 12px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; }
-    .form-field input, .form-field select, .form-field textarea {
-      background: var(--bg-primary); border: 1px solid var(--border);
-      border-radius: 8px; padding: 12px 14px; font-size: 14px;
-      color: var(--text-primary); font-family: inherit; outline: none;
-      transition: border-color 0.2s;
-    }
-    .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--accent); }
-    .form-field input::placeholder, .form-field textarea::placeholder { color: var(--text-tertiary); }
-    .form-field select option { background: var(--bg-secondary); }
-    .form-submit {
-      width: 100%; background: var(--accent); color: white;
-      border: none; border-radius: 8px; padding: 15px;
-      font-size: 16px; font-weight: 700; cursor: pointer;
-      font-family: inherit; transition: background 0.2s; margin-top: 8px;
-    }
-    .form-submit:hover { background: var(--accent-light); }
-    .form-submit:disabled { background: #475569; cursor: not-allowed; }
-    .form-msg { margin-top: 14px; font-size: 14px; font-weight: 600; display: none; }
-    .form-msg.success { color: var(--success); display: block; }
-    .form-msg.error { color: var(--danger); display: block; }
+    /* STEPS */
+    .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+    .step-card{text-align:center;}
+    .step-n{width:50px;height:50px;border-radius:50%;background:var(--blue-glow);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--blue-l);margin:0 auto 18px;}
+    .step-card h3{font-size:16px;font-weight:700;margin-bottom:8px;}
+    .step-card p{font-size:14px;color:var(--text2);line-height:1.65;}
+
+    /* APPLY */
+    .apply-wrap{max-width:700px;margin:0 auto;}
+    .apply-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:56px;}
+    .apply-card h2{font-size:38px;font-weight:800;letter-spacing:-1px;margin-bottom:12px;}
+    .apply-card .fsub{font-size:16px;color:var(--text2);margin-bottom:38px;}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .fg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+    .fg label{font-size:13px;font-weight:600;color:var(--text2);}
+    .fg input,.fg select,.fg textarea{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;font-size:15px;color:var(--text);font-family:inherit;transition:border-color 200ms;outline:none;width:100%;}
+    .fg input:focus,.fg select,.fg textarea:focus{border-color:var(--blue);}
+    .fg select option{background:var(--bg3);}
+    .btn-sub{width:100%;background:var(--green);color:#070c1a;padding:18px;border-radius:10px;font-size:17px;font-weight:800;border:none;cursor:pointer;transition:opacity 150ms,transform 150ms;letter-spacing:-0.3px;}
+    .btn-sub:hover{opacity:0.85;transform:translateY(-1px);}
+    .fnote{text-align:center;font-size:12px;color:var(--text3);margin-top:14px;}
+    #f-success{display:none;text-align:center;padding:40px;}
+    #f-success .sicon{font-size:56px;margin-bottom:16px;}
+    #f-success h3{font-size:26px;font-weight:700;margin-bottom:10px;}
+    #f-success p{color:var(--text2);font-size:16px;}
 
     /* FOOTER */
-    footer { border-top: 1px solid var(--border); padding: 28px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a { font-size: 13px; color: var(--text-tertiary); }
-    .footer-links a:hover { color: var(--accent-light); }
-    .footer-copy { font-size: 13px; color: var(--text-tertiary); }
+    footer{border-top:1px solid var(--border);padding:32px 40px;text-align:center;color:var(--text3);font-size:13px;}
+    footer a{color:var(--blue-l);}
 
-    @media (max-width: 700px) {
-      .hero h1 { font-size: 38px; }
-      .stats-strip { flex-direction: column; }
-      .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
-      .stat-item:last-child { border-bottom: none; }
-      .steps { grid-template-columns: 1fr; }
-      .step-item { border-right: none; border-bottom: 1px solid var(--border); }
-      .step-item:last-child { border-bottom: none; }
-      .calc-body { grid-template-columns: 1fr; }
-      .form-grid { grid-template-columns: 1fr; }
-      .compare-row, .compare-head { grid-template-columns: 1fr; }
-      .compare-cell.old, .compare-head-cell.old { border-right: none; border-bottom: 1px solid var(--border); }
-      footer { flex-direction: column; text-align: center; }
+    /* MOBILE */
+    @media(max-width:768px){
+      header{padding:0 20px;}
+      .hero{padding:80px 20px 60px;}
+      .stats-inner{grid-template-columns:repeat(2,1fr);}
+      .stat:nth-child(2){border-right:none;}
+      .stat:nth-child(3){border-top:1px solid var(--border2);}
+      .stat:nth-child(4){border-top:1px solid var(--border2);}
+      .pain-grid{grid-template-columns:1fr;}
+      .section{padding:60px 20px;}
+      .wf-inner{padding:0 20px;}
+      .wf-roles{grid-template-columns:1fr;}
+      .earn-block{grid-template-columns:1fr;gap:32px;padding:32px;}
+      .steps-grid{grid-template-columns:repeat(2,1fr);}
+      .apply-card{padding:32px 20px;}
+      .frow{grid-template-columns:1fr;}
+      footer{padding:24px 20px;}
+    }
+    @media(max-width:480px){
+      .steps-grid{grid-template-columns:1fr;}
+      .hero-ctas{flex-direction:column;align-items:center;}
+      .btn-primary,.btn-outline{width:100%;text-align:center;}
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <header>
   <a href="/" class="logo"><div class="logo-dot"></div> RIN</a>
-  <div class="nav-right">
-    <a href="/" class="nav-link">Back to RIN</a>
-    <a href="/operator-demo.html" class="nav-link" style="color:var(--accent-light);font-weight:600;">See How It Works</a>
-    <a href="/what-you-get.html" class="nav-link">What You Get</a>
-    <a href="#apply" class="btn-nav">Apply to Join →</a>
+  <div class="nav-r">
+    <a href="/">Home</a>
+    <a href="/operator-demo.html" style="color:var(--blue-l);font-weight:600;">See Demo</a>
+    <a href="/for-drivers.html">For Drivers</a>
+    <a href="/what-you-get.html">What You Get</a>
+    <a href="#apply" class="nav-cta">Apply Now</a>
   </div>
 </header>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-badge">✓ Now Accepting Operators — Toronto &amp; GTA</div>
-  <h1>You run the trucks.<br><span>RIN fills them.</span></h1>
-  <p class="hero-sub">Enterprise jobs from insurance carriers, fleet managers, and dealerships — dispatched to your driver by SMS. No new app. No cold calls. Paid in 7 days.</p>
+  <div class="hero-badge">🚛 For Independent Tow Operators</div>
+  <h1>You run the trucks.<br><span class="g">RIN fills them — and pays you in 7 days.</span></h1>
+  <p class="hero-sub">Insurance companies, fleets, and dealerships need tows right now. They just can't find a reliable operator fast enough. RIN fixes that — pre-priced jobs, SMS dispatch, and guaranteed weekly payout. No invoice chasing. No calls.</p>
   <div class="hero-ctas">
-    <a href="#apply" class="btn-primary">Apply to Join the Network</a>
-    <a href="#calculator" class="btn-secondary">Calculate Your Earnings</a>
-  </div>
-  <div class="stats-strip">
-    <div class="stat-item">
-      <div class="stat-val">80%</div>
-      <div class="stat-lbl">You keep per job</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-val">7 days</div>
-      <div class="stat-lbl">Guaranteed payout</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-val">&lt;15 min</div>
-      <div class="stat-lbl">Avg dispatch time</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-val">$0</div>
-      <div class="stat-lbl">To get started</div>
-    </div>
+    <a href="#apply" class="btn-primary">Apply to Join RIN →</a>
+    <a href="/operator-demo.html" class="btn-outline">See How a Job Works</a>
   </div>
 </div>
 
-<!-- PAIN POINTS -->
-<section>
-  <div class="section-label">The Problem</div>
-  <h2>Running a tow company shouldn't feel like this.</h2>
-  <p class="section-intro">If you're spending hours a day chasing jobs and still waiting weeks to get paid, RIN was built for you.</p>
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">80%</div><div class="stat-lbl">payout per job — guaranteed</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-lbl">day payout cycle, every job</div></div>
+    <div class="stat"><div class="stat-num">&lt;15m</div><div class="stat-lbl">average dispatch time</div></div>
+    <div class="stat"><div class="stat-num">$0</div><div class="stat-lbl">setup cost or monthly fee</div></div>
+  </div>
+</div>
+
+<!-- PAIN -->
+<div class="section">
+  <div class="slabel">What's costing you right now</div>
+  <h2 class="stitle">Three things draining your revenue every single week.</h2>
+  <p class="ssub">Most operators don't track these losses because they're spread out. Added up, they're the difference between a good month and a great one.</p>
   <div class="pain-grid">
     <div class="pain-card">
-      <div class="pain-icon">📞</div>
-      <h3>Hours lost to phone calls</h3>
-      <p>Most operators spend 2–4 hours a day coordinating jobs by phone. That's time you're not billing — and energy you're burning before you even get on the road.</p>
+      <div class="pain-cost">$180</div>
+      <div class="pain-ctx">average weekly cost per truck in dead hours</div>
+      <h3>Sitting idle between jobs</h3>
+      <p>Waiting by the radio. Driving back to yard. Gaps between calls that nobody's filling. Every dead hour is a job your competitor ran.</p>
+      <div class="pain-fix">→ RIN pre-queues your next job before you finish the last one. No gaps.</div>
     </div>
     <div class="pain-card">
-      <div class="pain-icon">💸</div>
-      <h3>Waiting 30–60 days to get paid</h3>
-      <p>You did the work last month. The invoice is sitting in someone's queue. Your cash is tied up while your fuel, payroll, and insurance keep coming due.</p>
+      <div class="pain-cost">43 days</div>
+      <div class="pain-ctx">average insurance invoice-to-payment cycle</div>
+      <h3>Waiting on invoices to clear</h3>
+      <p>You ran the job. Filed the paperwork. Now you're covering fuel and wages out of pocket while waiting six weeks for a cheque that may still get disputed.</p>
+      <div class="pain-fix">→ RIN pays you within 7 days. Every time. No follow-up required.</div>
     </div>
     <div class="pain-card">
-      <div class="pain-icon">⚠️</div>
-      <h3>Price disputes at the scene</h3>
-      <p>No agreed rate before dispatch means no backup when a customer pushes back. You're negotiating at the worst possible moment — alone, on the side of a highway.</p>
+      <div class="pain-cost">1 in 5</div>
+      <div class="pain-ctx">jobs end in a price dispute at the scene</div>
+      <h3>Negotiating rates on the shoulder</h3>
+      <p>No locked price before dispatch means customers push back when you arrive. You're arguing on a highway instead of moving to the next job.</p>
+      <div class="pain-fix">→ RIN locks the price before your truck moves. The customer already agreed.</div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- DEMO CTA BANNER -->
-<div style="max-width:860px;margin:0 auto 60px;padding:0 32px;">
-  <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.3);border-radius:16px;padding:36px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+<!-- ANIMATED WORKFLOW -->
+<div class="wf-section">
+  <div class="wf-inner">
+    <div class="wf-head">
+      <div class="slabel" style="text-align:center;">Live Dispatch Flow</div>
+      <h2 class="stitle" style="text-align:center;margin-bottom:14px;">From the first call to money in your account.</h2>
+      <p style="text-align:center;color:var(--text2);font-size:16px;max-width:520px;margin:0 auto;">Every role — operator, driver, and dispatch — runs automatically. Watch the complete job flow in real time.</p>
+    </div>
+
+    <div class="wf-track" id="wf-track">
+      <div class="wf-node" id="n1" data-r="cust">
+        <div class="wf-circle">📞</div>
+        <div class="wf-lbl">Customer<br>Calls</div>
+        <div class="wf-t">t + 0:00</div>
+        <div class="wf-tag">CUSTOMER</div>
+      </div>
+      <div class="wf-conn" id="c1"></div>
+      <div class="wf-node" id="n2" data-r="rin">
+        <div class="wf-circle">🤖</div>
+        <div class="wf-lbl">AI Prices<br>& Routes</div>
+        <div class="wf-t">t + 12s</div>
+        <div class="wf-tag">RIN DISPATCH</div>
+      </div>
+      <div class="wf-conn" id="c2"></div>
+      <div class="wf-node" id="n3" data-r="op">
+        <div class="wf-circle">✅</div>
+        <div class="wf-lbl">Price<br>Locked</div>
+        <div class="wf-t">t + 15s</div>
+        <div class="wf-tag">OPERATOR</div>
+      </div>
+      <div class="wf-conn" id="c3"></div>
+      <div class="wf-node" id="n4" data-r="drv">
+        <div class="wf-circle">📱</div>
+        <div class="wf-lbl">Driver<br>Gets SMS</div>
+        <div class="wf-t">t + 18s</div>
+        <div class="wf-tag">DRIVER</div>
+      </div>
+      <div class="wf-conn" id="c4"></div>
+      <div class="wf-node" id="n5" data-r="drv">
+        <div class="wf-circle">🚛</div>
+        <div class="wf-lbl">Truck<br>En Route</div>
+        <div class="wf-t">t + 25 min</div>
+        <div class="wf-tag">DRIVER</div>
+      </div>
+      <div class="wf-conn" id="c5"></div>
+      <div class="wf-node" id="n6" data-r="op">
+        <div class="wf-circle">🤝</div>
+        <div class="wf-lbl">Job<br>Complete</div>
+        <div class="wf-t">t + varies</div>
+        <div class="wf-tag">OPERATOR</div>
+      </div>
+      <div class="wf-conn" id="c6"></div>
+      <div class="wf-node" id="n7" data-r="pay">
+        <div class="wf-circle">💳</div>
+        <div class="wf-lbl">Payment<br>Released</div>
+        <div class="wf-t">t + 7 days</div>
+        <div class="wf-tag">PAYMENT</div>
+      </div>
+    </div>
+
+    <div class="wf-legend">
+      <div class="wfl-item"><div class="wfl-dot" style="background:#64748b;"></div>Customer</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--blue);"></div>RIN Dispatch</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--green);"></div>Operator</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--purple);"></div>Driver</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--gold);"></div>Payment</div>
+    </div>
+
+    <div class="wf-roles">
+      <div class="wf-role-card" style="border-top:3px solid var(--green);">
+        <div class="wf-role-title" style="color:var(--green);">Your view — Operator</div>
+        <h4>Confirmed before the truck moves</h4>
+        <p>Price is locked. Job is on the board. Driver is assigned. Your only job is the work — and collecting the payout.</p>
+      </div>
+      <div class="wf-role-card" style="border-top:3px solid var(--purple);">
+        <div class="wf-role-title" style="color:var(--purple);">Driver</div>
+        <h4>One SMS. Full details. No calls needed.</h4>
+        <p>Location, job type, rate, and instructions arrive together. Accept and move. No radio, no guesswork, no back-and-forth.</p>
+      </div>
+      <div class="wf-role-card" style="border-top:3px solid var(--blue-l);">
+        <div class="wf-role-title" style="color:var(--blue-l);">RIN Dispatch</div>
+        <h4>AI routes. Humans override when it matters.</h4>
+        <p>Every active job is tracked in real time. Automatic escalation on stalls. Full override capability. Nothing falls through.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BEFORE / AFTER -->
+<div class="section">
+  <div class="slabel">Side by side</div>
+  <h2 class="stitle">What changes the day you join.</h2>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden;">
+    <table class="ctable">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="bad-h">❌ Without RIN</th>
+          <th class="good-h">✅ With RIN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Invoice payment</td><td class="bad">30–60 days, if no dispute</td><td class="good">7 days, every job</td></tr>
+        <tr><td>Job pricing</td><td class="bad">Negotiated at the scene</td><td class="good">Locked before dispatch</td></tr>
+        <tr><td>Dispatch method</td><td class="bad">Phone calls, radio</td><td class="good">Automatic SMS, no calls</td></tr>
+        <tr><td>Dead time between jobs</td><td class="bad">Idle, waiting for next call</td><td class="good">Next job pre-queued</td></tr>
+        <tr><td>Client types</td><td class="bad">Local word of mouth</td><td class="good">Insurance + fleet + dealer</td></tr>
+        <tr><td>Monthly cost</td><td class="bad">Dispatch service fees</td><td class="good">$0 — commission on jobs only</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- EARNINGS -->
+<div class="section" style="padding-top:0;">
+  <div class="slabel">The math</div>
+  <h2 class="stitle">What one extra job a day actually adds up to.</h2>
+  <div class="earn-block">
     <div>
-      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent-light);margin-bottom:8px;">Interactive Demo</div>
-      <div style="font-size:22px;font-weight:700;margin-bottom:8px;">See exactly how a RIN job plays out</div>
-      <div style="font-size:15px;color:var(--text-secondary);">From the moment a call comes in to money in your account. Step by step.</div>
+      <div class="earn-num">+$3,520</div>
+      <div class="earn-sub">additional monthly net from 1 extra job per day at 80% payout — on a truck already on the road.</div>
+      <p style="font-size:14px;color:var(--text2);line-height:1.7;">The average insurance tow runs $220. At 80% payout that's $176 net per job. One extra job per day over 20 working days is $3,520 in additional revenue — without adding a truck, a driver, or a dollar of setup cost.</p>
     </div>
-    <a href="/operator-demo.html" style="background:var(--accent);color:white;padding:14px 28px;border-radius:8px;font-size:15px;font-weight:700;white-space:nowrap;flex-shrink:0;">See It In Action →</a>
-  </div>
-</div>
-
-<!-- COMPARISON: Old Way vs. RIN Way -->
-<div class="compare-section">
-  <div class="compare-inner">
-    <div class="section-label" style="text-align:center;">The RIN Difference</div>
-    <h2 style="text-align:center;font-size:34px;margin-bottom:8px;">How it changes when you're on RIN</h2>
-    <p style="text-align:center;color:var(--text-secondary);max-width:500px;margin:0 auto;font-size:16px;line-height:1.7;">Every row below is a real pain point operators tell us about. RIN was designed to fix all of them.</p>
-    <div class="compare-table">
-      <div class="compare-head">
-        <div class="compare-head-cell old">❌ &nbsp;Without RIN</div>
-        <div class="compare-head-cell new">✓ &nbsp;With RIN</div>
-      </div>
-      <div class="compare-row">
-        <div class="compare-cell old">📞 &nbsp;Cold calls to find jobs</div>
-        <div class="compare-cell new">⚡ &nbsp;Enterprise jobs dispatched to you automatically</div>
-      </div>
-      <div class="compare-row">
-        <div class="compare-cell old">💬 &nbsp;Negotiate price at the scene</div>
-        <div class="compare-cell new">🔒 &nbsp;Rate locked and approved before your driver rolls</div>
-      </div>
-      <div class="compare-row">
-        <div class="compare-cell old">📅 &nbsp;Wait 30–60 days for payment</div>
-        <div class="compare-cell new">💰 &nbsp;80% deposited within 7 days — automatic</div>
-      </div>
-      <div class="compare-row">
-        <div class="compare-cell old">📋 &nbsp;Manual paperwork and invoicing</div>
-        <div class="compare-cell new">📂 &nbsp;Full job record logged automatically every time</div>
-      </div>
-      <div class="compare-row">
-        <div class="compare-cell old">🔍 &nbsp;No proof if a dispute happens</div>
-        <div class="compare-cell new">📡 &nbsp;GPS, timestamps, and sign-off — all on file</div>
-      </div>
+    <div class="earn-rows">
+      <div class="er"><span class="er-l">Avg insurance tow value</span><span class="er-v">$220</span></div>
+      <div class="er"><span class="er-l">Your payout (80%)</span><span class="er-v g">$176</span></div>
+      <div class="er"><span class="er-l">1 extra job/day × 20 days</span><span class="er-v g">+$3,520 / mo</span></div>
+      <div class="er"><span class="er-l">Monthly fee to RIN</span><span class="er-v">$0</span></div>
+      <div class="er highlight"><span class="er-l" style="font-weight:700;">Net additional per month</span><span class="er-v gold" style="font-size:22px;">+$3,520</span></div>
     </div>
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
-<div class="how-section">
-  <div class="how-inner">
-    <div class="section-label" style="text-align:center;">How It Works</div>
-    <h2 style="text-align:center;font-size:34px;margin-bottom:8px;">Four steps. Fully automated.</h2>
-    <p style="text-align:center;color:var(--text-secondary);max-width:500px;margin:0 auto 48px;font-size:16px;line-height:1.7;">From job alert to payment — RIN handles the coordination so your team focuses on the road.</p>
-    <div class="steps">
-      <div class="step-item">
-        <div class="step-num">1</div>
-        <h3>Job Comes In</h3>
-        <p>An insurance company, fleet manager, or dealership sends a request through RIN. No call to your office.</p>
+<!-- HOW TO JOIN -->
+<div style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0;">
+  <div style="max-width:920px;margin:0 auto;padding:0 40px;">
+    <div class="slabel" style="text-align:center;">How it works</div>
+    <h2 class="stitle" style="text-align:center;margin-bottom:14px;">You're running RIN jobs in 48 hours.</h2>
+    <p style="text-align:center;color:var(--text2);font-size:16px;max-width:520px;margin:0 auto 52px;">Apply below. We verify your credentials and flip you live. No integration, no software to install — just jobs on your drivers' phones.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-n">1</div>
+        <h3>Apply</h3>
+        <p>Fill in your company, truck count, and service area. Takes two minutes.</p>
       </div>
-      <div class="step-item">
-        <div class="step-num">2</div>
-        <h3>Rate Locked</h3>
-        <p>AI sets the price. Client approves via SMS. Your payout is confirmed before anyone moves.</p>
+      <div class="step-card">
+        <div class="step-n">2</div>
+        <h3>Verify</h3>
+        <p>We check CVOR, insurance, and coverage area. Done in under 24 hours.</p>
       </div>
-      <div class="step-item">
-        <div class="step-num">3</div>
-        <h3>One SMS to Confirm</h3>
-        <p>Your driver gets a text with job details. One reply to confirm. On the way. No new app required.</p>
+      <div class="step-card">
+        <div class="step-n">3</div>
+        <h3>Go live</h3>
+        <p>Drivers get SMS-enabled. First job dispatched within 48 hours of approval.</p>
       </div>
-      <div class="step-item">
-        <div class="step-num">4</div>
-        <h3>Paid in 7 Days</h3>
-        <p>Job complete. RIN invoices the client. Your 80% is deposited automatically — no chasing needed.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- WHAT YOU GET -->
-<section>
-  <div class="section-label">What You Get</div>
-  <h2>Built for how tow operators actually work.</h2>
-  <p class="section-intro">No new workflow. No retraining your drivers. RIN plugs into your operation as it is today.</p>
-  <div class="features-grid">
-    <div class="feat-card accent">
-      <div class="feat-icon">📋</div>
-      <h3>Pre-Qualified Enterprise Clients</h3>
-      <p>Jobs come from vetted insurance carriers, fleet managers, and dealerships — not random calls. No credit risk, no payment uncertainty.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🔒</div>
-      <h3>Price Locked Before You Roll</h3>
-      <p>AI sets the rate based on job type, distance, and time of day. Locked before dispatch. No surprises at the scene. Ever.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">📱</div>
-      <h3>SMS Dispatch — No New App</h3>
-      <p>Your drivers confirm jobs by text message. One reply. That's it. Nothing to install, nothing to retrain.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">💰</div>
-      <h3>80% Payout in 7 Days</h3>
-      <p>RIN invoices the client and deposits your cut automatically. Track every payment in your operator portal.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🤖</div>
-      <h3>AI Matches the Nearest Driver</h3>
-      <p>RIN dispatches based on location, availability, and job type. Right driver, right job — automatically.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">📊</div>
-      <h3>Earnings Dashboard</h3>
-      <p>Jobs completed, revenue earned, payment status — all in one screen. Know exactly where you stand at any time.</p>
-    </div>
-  </div>
-  <p style="text-align:center;color:var(--text-tertiary);font-size:13px;margin-top:32px;">Independent operators welcome — whether you run 1 truck or 50.</p>
-</section>
-
-<!-- EARNINGS CALCULATOR -->
-<div class="calc-section" id="calculator">
-  <div class="calc-inner">
-    <div class="section-label" style="text-align:center;">Earnings Calculator</div>
-    <h2 style="text-align:center;font-size:34px;margin-bottom:8px;">See what RIN adds to your bottom line</h2>
-    <p style="text-align:center;color:var(--text-secondary);max-width:500px;margin:0 auto 0;font-size:16px;line-height:1.7;">Adjust the sliders to match your current operation.</p>
-    <div class="calc-body">
-      <div class="calc-inputs">
-        <div class="calc-field">
-          <div class="calc-row">
-            <label>Jobs per month</label>
-            <span class="calc-val" id="cv_jobs">60</span>
-          </div>
-          <input type="range" id="cr_jobs" min="10" max="200" value="60" oninput="calcOp()">
-        </div>
-        <div class="calc-field">
-          <div class="calc-row">
-            <label>Average revenue per job</label>
-            <span class="calc-val" id="cv_rate">$200</span>
-          </div>
-          <input type="range" id="cr_rate" min="100" max="600" step="10" value="200" oninput="calcOp()">
-        </div>
-        <div class="calc-field">
-          <div class="calc-row">
-            <label>Current days to get paid</label>
-            <span class="calc-val" id="cv_days">45</span>
-          </div>
-          <input type="range" id="cr_days" min="7" max="90" value="45" oninput="calcOp()">
-        </div>
-        <div class="calc-field">
-          <div class="calc-row">
-            <label>Hours/week on dispatch calls</label>
-            <span class="calc-val" id="cv_hours">10</span>
-          </div>
-          <input type="range" id="cr_hours" min="1" max="30" value="10" oninput="calcOp()">
-        </div>
-      </div>
-      <div class="calc-results" id="calc-results">
-        <div class="result-card accent">
-          <div class="result-label">Monthly Payout (80%)</div>
-          <div class="result-value" id="cv_monthly">$9,600</div>
-          <div class="result-sub" id="cv_monthly_sub">After 20% RIN fee on $12,000 gross</div>
-        </div>
-        <div class="result-card">
-          <div class="result-label">Annual Earnings</div>
-          <div class="result-value" id="cv_annual">$115,200</div>
-          <div class="result-sub">Based on current job volume</div>
-        </div>
-        <div class="result-card">
-          <div class="result-label">Payment Cycle Change</div>
-          <div class="result-value" id="cv_payment">45 days → 7 days</div>
-          <div class="result-sub" id="cv_payment_sub">38 days faster cash in hand</div>
-        </div>
-        <div class="result-card">
-          <div class="result-label">Hours Saved on Dispatch</div>
-          <div class="result-value" id="cv_hours_saved">34 hrs/mo</div>
-          <div class="result-sub" id="cv_hours_value">Worth ~$1,720/mo at $50/hr</div>
-        </div>
+      <div class="step-card">
+        <div class="step-n">4</div>
+        <h3>Get paid</h3>
+        <p>Complete jobs. Payout confirmed in 7 days. Repeat.</p>
       </div>
     </div>
+    <div style="text-align:center;margin-top:48px;font-size:14px;color:var(--text3);">Independent operators welcome — whether you run 1 truck or 50.</div>
   </div>
 </div>
 
 <!-- APPLY FORM -->
-<div id="apply" style="padding:80px 32px;background:var(--bg-primary);">
-  <div style="text-align:center;margin-bottom:48px;">
-    <div class="section-label" style="display:inline-block;">Apply Now</div>
-    <h2 style="font-size:38px;margin-top:12px;margin-bottom:12px;">Ready to add enterprise volume?</h2>
-    <p style="font-size:17px;color:var(--text-secondary);max-width:460px;margin:0 auto;line-height:1.7;">Takes 2 minutes. We'll reach out within 24 hours to confirm your GTA coverage area and get you onboarded.</p>
-  </div>
-  <div class="apply-form">
-    <h3>Operator Application</h3>
-    <p>One-time setup. $0 to join. Cancel any time.</p>
-    <form id="applyForm" onsubmit="submitApply(event)">
-      <div class="form-grid">
-        <div class="form-field">
-          <label>Company Name *</label>
-          <input type="text" id="f_company" placeholder="GTA Towing Inc." required>
+<div style="padding:80px 40px;" id="apply">
+  <div class="apply-wrap">
+    <div class="apply-card">
+      <h2>Apply to join RIN</h2>
+      <p class="fsub">We review every application personally. If you're a fit, we'll have you live within 48 hours — no commitment required to apply.</p>
+      <div id="apply-form">
+        <div class="frow">
+          <div class="fg">
+            <label for="f_co">Company name</label>
+            <input type="text" id="f_co" placeholder="Ace Towing Ltd.">
+          </div>
+          <div class="fg">
+            <label for="f_name">Your name</label>
+            <input type="text" id="f_name" placeholder="Full name">
+          </div>
         </div>
-        <div class="form-field">
-          <label>Your Name *</label>
-          <input type="text" id="f_name" placeholder="Mike S." required>
+        <div class="frow">
+          <div class="fg">
+            <label for="f_phone">Phone</label>
+            <input type="tel" id="f_phone" placeholder="+1 (416) 000-0000">
+          </div>
+          <div class="fg">
+            <label for="f_trucks">Number of trucks</label>
+            <select id="f_trucks">
+              <option value="">Select...</option>
+              <option value="1">1 truck</option>
+              <option value="2-5">2–5 trucks</option>
+              <option value="6-15">6–15 trucks</option>
+              <option value="16+">16+ trucks</option>
+            </select>
+          </div>
         </div>
-        <div class="form-field">
-          <label>Phone *</label>
-          <input type="tel" id="f_phone" placeholder="+1 (416) 555-0000" required>
+        <div class="fg">
+          <label for="f_area">Primary service area</label>
+          <input type="text" id="f_area" placeholder="e.g. GTA, Durham Region, Hamilton">
         </div>
-        <div class="form-field">
-          <label>Number of Trucks</label>
-          <select id="f_trucks">
-            <option>1–2 trucks</option>
-            <option>3–5 trucks</option>
-            <option>6–10 trucks</option>
-            <option>11–20 trucks</option>
-            <option>20+ trucks</option>
-          </select>
+        <div class="fg">
+          <label for="f_msg">Anything else we should know?</label>
+          <textarea id="f_msg" rows="3" placeholder="Fleet specialization, certifications, questions..."></textarea>
         </div>
+        <button class="btn-sub" onclick="submitApply()">Apply Now — It Takes 2 Minutes →</button>
+        <div class="fnote">No monthly fee. No commitment. We'll reach you within 24 hours.</div>
       </div>
-      <div class="form-grid full" style="margin-top:14px;">
-        <div class="form-field">
-          <label>Coverage Area</label>
-          <input type="text" id="f_area" placeholder="e.g. North York, Scarborough, Brampton">
-        </div>
+      <div id="f-success">
+        <div class="sicon">✅</div>
+        <h3>Application received.</h3>
+        <p>We'll review your details and reach out within 24 hours to confirm your setup. Keep your phone nearby — we move fast.</p>
       </div>
-      <button type="submit" class="form-submit" id="applyBtn">Apply to Join the Network →</button>
-    </form>
-    <div class="form-msg" id="applyMsg"></div>
-    <p style="font-size:12px;color:var(--text-tertiary);margin-top:16px;line-height:1.6;">No credit card. No commitment. Independent operators welcome — 1 truck or 50.</p>
+    </div>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <a href="/" class="logo" style="font-size:16px;"><div class="logo-dot"></div> RIN</a>
-  <div class="footer-links">
-    <a href="/">Main Site</a>
-    <a href="/driver.html">Driver App</a>
-    <a href="/dispatcher.html">Dispatcher</a>
-    <a href="#apply">Apply Now</a>
-  </div>
-  <div class="footer-copy">© 2026 Roadside Intelligence Network</div>
+  <p>© 2026 Roadside Intelligence Network &nbsp;·&nbsp; <a href="/">RIN Home</a> &nbsp;·&nbsp; <a href="/for-drivers.html">For Drivers</a> &nbsp;·&nbsp; <a href="/operator-demo.html">Interactive Demo</a> &nbsp;·&nbsp; <a href="/dispatcher.html">RIN Dispatcher</a></p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  const SUPABASE_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
-  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDU3OTMsImV4cCI6MjA4OTA4MTc5M30.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
-  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+// ── WORKFLOW ANIMATION ──
+const nodes = ['n1','n2','n3','n4','n5','n6','n7'];
+const conns = ['c1','c2','c3','c4','c5','c6'];
+let wfRunning = false;
+let wfTimeout = null;
 
-  function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+function resetWf() {
+  nodes.forEach(id => document.getElementById(id).classList.remove('wf-on'));
+  conns.forEach(id => document.getElementById(id).classList.remove('wf-lit'));
+}
 
-  function calcOp() {
-    const jobs  = +document.getElementById('cr_jobs').value;
-    const rate  = +document.getElementById('cr_rate').value;
-    const days  = +document.getElementById('cr_days').value;
-    const hours = +document.getElementById('cr_hours').value;
+function runWf() {
+  resetWf();
+  const step = 720;
+  nodes.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('wf-on');
+      if (i > 0) document.getElementById(conns[i-1]).classList.add('wf-lit');
+    }, i * step + 100);
+  });
+  wfTimeout = setTimeout(runWf, nodes.length * step + 3200);
+}
 
-    document.getElementById('cv_jobs').textContent  = jobs;
-    document.getElementById('cv_rate').textContent  = '$' + rate;
-    document.getElementById('cv_days').textContent  = days;
-    document.getElementById('cv_hours').textContent = hours;
-
-    const gross    = jobs * rate;
-    const monthly  = gross * 0.80;
-    const annual   = monthly * 12;
-    const daysSaved = Math.max(0, days - 7);
-    const hrsSaved = Math.round(hours * 4.3 * 0.80);
-    const hrsValue = hrsSaved * 50;
-
-    document.getElementById('cv_monthly').textContent      = fmt(monthly);
-    document.getElementById('cv_monthly_sub').textContent  = `After 20% RIN fee on ${fmt(gross)} gross`;
-    document.getElementById('cv_annual').textContent       = fmt(annual);
-    document.getElementById('cv_payment').textContent      = `${days} days → 7 days`;
-    document.getElementById('cv_payment_sub').textContent  = daysSaved > 0 ? `${daysSaved} days faster cash in hand` : 'Already fast — RIN keeps you there';
-    document.getElementById('cv_hours_saved').textContent  = hrsSaved + ' hrs/mo';
-    document.getElementById('cv_hours_value').textContent  = `Worth ~${fmt(hrsValue)}/mo at $50/hr`;
-  }
-
-  async function submitApply(e) {
-    e.preventDefault();
-    const btn = document.getElementById('applyBtn');
-    const msg = document.getElementById('applyMsg');
-    btn.disabled = true;
-    btn.textContent = 'Submitting…';
-
-    const { error } = await sb.from('marketing_leads').insert({
-      company_name: document.getElementById('f_company').value.trim(),
-      contact_name: document.getElementById('f_name').value.trim(),
-      phone:        document.getElementById('f_phone').value.trim(),
-      truck_count:  document.getElementById('f_trucks').value,
-      message:      document.getElementById('f_area').value.trim(),
-      inquiry_type: 'operator',
-      page:         '/for-operators',
-      referrer:     document.referrer || null,
-    });
-
-    if (error) {
-      msg.className = 'form-msg error';
-      msg.textContent = 'Something went wrong. Please call us directly.';
-      btn.disabled = false;
-      btn.textContent = 'Apply to Join the Network →';
-    } else {
-      msg.className = 'form-msg success';
-      msg.textContent = '✓ Application received! We\'ll be in touch within 24 hours.';
-      btn.textContent = 'Application Sent ✓';
-      document.getElementById('applyForm').reset();
+const track = document.getElementById('wf-track');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !wfRunning) {
+      wfRunning = true;
+      runWf();
     }
-  }
+  });
+}, { threshold: 0.15 });
+obs.observe(track);
 
-  calcOp();
+// ── APPLY FORM ──
+const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MDc2MjYsImV4cCI6MjA1OTI4MzYyNn0.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
+
+async function submitApply() {
+  const co = document.getElementById('f_co').value.trim();
+  const name = document.getElementById('f_name').value.trim();
+  const phone = document.getElementById('f_phone').value.trim();
+  if (!co || !name || !phone) { alert('Please fill in company, name, and phone.'); return; }
+  const btn = document.querySelector('.btn-sub');
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/marketing_leads`, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'return=minimal' },
+      body: JSON.stringify({
+        company_name: co,
+        contact_name: name,
+        phone,
+        truck_count: document.getElementById('f_trucks').value || null,
+        message: `Area: ${document.getElementById('f_area').value.trim()}\n${document.getElementById('f_msg').value.trim()}`,
+        inquiry_type: 'operator',
+        page: '/for-operators',
+        referrer: document.referrer || null
+      })
+    });
+    if (!res.ok) throw new Error();
+    document.getElementById('apply-form').style.display = 'none';
+    document.getElementById('f-success').style.display = 'block';
+  } catch {
+    btn.textContent = 'Apply Now — It Takes 2 Minutes →'; btn.disabled = false;
+    alert('Something went wrong. Please try again.');
+  }
+}
 </script>
 </body>
 </html>

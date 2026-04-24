@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIN for Drivers — More Jobs. Know Your Rate Before You Move.</title>
+  <meta name="description" content="RIN dispatches pre-priced jobs directly to your phone. No radio. No guessing what you'll make. Accept and drive.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070c1a;
+      --bg2: #0f172a;
+      --bg3: #1e293b;
+      --border: #1a2744;
+      --border2: #334155;
+      --text: #f1f5f9;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --blue: #3b82f6;
+      --blue-l: #60a5fa;
+      --blue-glow: rgba(59,130,246,0.12);
+      --green: #34d399;
+      --green-glow: rgba(52,211,153,0.12);
+      --purple: #a78bfa;
+      --purple-glow: rgba(167,139,250,0.15);
+      --gold: #f59e0b;
+      --gold-glow: rgba(245,158,11,0.12);
+      --red: #f87171;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
+
+    /* NAV */
+    header{position:sticky;top:0;z-index:200;background:rgba(7,12,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;color:var(--blue-l);}
+    .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:blink 2s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .nav-r{display:flex;align-items:center;gap:24px;}
+    .nav-r a{font-size:14px;color:var(--text2);font-weight:500;transition:color 150ms;}
+    .nav-r a:hover{color:var(--blue-l);}
+    .nav-cta{background:var(--purple);color:white;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;transition:opacity 150ms;}
+    .nav-cta:hover{opacity:0.85;}
+
+    /* HERO */
+    .hero{padding:120px 40px 80px;text-align:center;background:radial-gradient(ellipse 90% 55% at 50% -5%,rgba(167,139,250,0.09),transparent 70%);}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.35);border-radius:100px;padding:6px 20px;font-size:13px;font-weight:600;color:var(--purple);margin-bottom:36px;}
+    .hero h1{font-size:clamp(40px,6.5vw,76px);font-weight:900;line-height:1.03;letter-spacing:-2.5px;margin-bottom:24px;}
+    .hero h1 .p{color:var(--purple);}
+    .hero-sub{font-size:19px;color:var(--text2);max-width:620px;margin:0 auto 52px;line-height:1.7;}
+    .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+    .btn-primary{background:var(--purple);color:white;padding:18px 38px;border-radius:10px;font-size:17px;font-weight:800;letter-spacing:-0.3px;display:inline-block;transition:all 150ms;}
+    .btn-primary:hover{opacity:0.85;transform:translateY(-2px);}
+    .btn-outline{border:1.5px solid var(--border2);color:var(--text);padding:18px 38px;border-radius:10px;font-size:17px;font-weight:600;display:inline-block;transition:all 150ms;}
+    .btn-outline:hover{border-color:var(--purple);color:var(--purple);}
+
+    /* STATS */
+    .stats-strip{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:36px 40px;}
+    .stats-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:880px;margin:0 auto;}
+    .stat{text-align:center;padding:0 24px;border-right:1px solid var(--border2);}
+    .stat:last-child{border-right:none;}
+    .stat-num{font-size:44px;font-weight:900;letter-spacing:-2px;color:var(--purple);line-height:1;margin-bottom:4px;}
+    .stat-lbl{font-size:13px;color:var(--text2);}
+
+    /* SECTIONS */
+    .section{max-width:1020px;margin:0 auto;padding:80px 40px;}
+    .slabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--purple);margin-bottom:12px;}
+    .stitle{font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-1.2px;line-height:1.1;margin-bottom:16px;}
+    .ssub{font-size:17px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:48px;}
+
+    /* PAIN */
+    .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .pain-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:32px;position:relative;overflow:hidden;}
+    .pain-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(248,113,113,0.06),transparent 60%);pointer-events:none;}
+    .pain-cost{font-size:42px;font-weight:900;color:var(--red);letter-spacing:-2px;line-height:1;margin-bottom:4px;}
+    .pain-ctx{font-size:13px;color:var(--text3);margin-bottom:20px;}
+    .pain-card h3{font-size:18px;font-weight:700;margin-bottom:10px;}
+    .pain-card p{font-size:14px;color:var(--text2);line-height:1.65;}
+    .pain-fix{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);font-size:13px;color:var(--purple);font-weight:600;}
+
+    /* ANIMATED WORKFLOW */
+    .wf-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0;}
+    .wf-inner{max-width:1020px;margin:0 auto;padding:0 40px;}
+    .wf-head{text-align:center;margin-bottom:64px;}
+    .wf-track{display:flex;align-items:center;overflow-x:auto;padding-bottom:12px;gap:0;}
+    .wf-node{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:96px;opacity:0.2;transition:opacity 0.45s,transform 0.45s;}
+    .wf-node.wf-on{opacity:1;transform:translateY(-3px);}
+    .wf-node.driver-step.wf-on{transform:translateY(-6px);} /* extra lift for driver steps */
+    .wf-circle{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;border:2px solid var(--border2);background:var(--bg3);transition:border-color 0.45s,box-shadow 0.45s;flex-shrink:0;}
+    .wf-node[data-r="cust"].wf-on .wf-circle{border-color:#64748b;box-shadow:0 0 18px rgba(100,116,139,0.35);}
+    .wf-node[data-r="rin"].wf-on .wf-circle{border-color:var(--blue);box-shadow:0 0 22px rgba(59,130,246,0.5);}
+    .wf-node[data-r="op"].wf-on .wf-circle{border-color:var(--green);box-shadow:0 0 22px rgba(52,211,153,0.45);}
+    .wf-node[data-r="drv"].wf-on .wf-circle{border-color:var(--purple);box-shadow:0 0 28px rgba(167,139,250,0.7);}
+    .wf-node[data-r="pay"].wf-on .wf-circle{border-color:var(--gold);box-shadow:0 0 28px rgba(245,158,11,0.65);}
+    .wf-lbl{font-size:11.5px;font-weight:700;text-align:center;line-height:1.35;color:var(--text);}
+    .wf-node[data-r="drv"] .wf-lbl{color:var(--purple);}
+    .wf-t{font-size:11px;color:var(--text3);}
+    .wf-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;padding:2px 8px;border-radius:4px;}
+    .wf-node[data-r="cust"] .wf-tag{background:rgba(100,116,139,0.15);color:#94a3b8;}
+    .wf-node[data-r="rin"] .wf-tag{background:var(--blue-glow);color:var(--blue-l);}
+    .wf-node[data-r="op"] .wf-tag{background:var(--green-glow);color:var(--green);}
+    .wf-node[data-r="drv"] .wf-tag{background:var(--purple-glow);color:var(--purple);}
+    .wf-node[data-r="pay"] .wf-tag{background:var(--gold-glow);color:var(--gold);}
+    .wf-conn{flex:1;height:2px;background:var(--border);position:relative;overflow:hidden;min-width:16px;}
+    .wf-conn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--purple));transition:left 0.55s ease;}
+    .wf-conn.wf-lit::after{left:0;}
+
+    .wf-legend{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:28px;}
+    .wfl-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);}
+    .wfl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+    /* SMS MOCKUP */
+    .sms-section{max-width:1020px;margin:0 auto;padding:0 40px 80px;}
+    .sms-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+    .sms-copy h3{font-size:26px;font-weight:800;letter-spacing:-0.8px;margin-bottom:14px;}
+    .sms-copy p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:20px;}
+    .sms-bullets{display:flex;flex-direction:column;gap:12px;}
+    .sms-b{display:flex;align-items:flex-start;gap:12px;font-size:14px;}
+    .sms-b .dot{width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0;margin-top:5px;}
+    .sms-b span{color:var(--text2);line-height:1.55;}
+    .phone-mock{background:var(--bg2);border:1px solid var(--border2);border-radius:24px;padding:20px;max-width:300px;margin:0 auto;}
+    .phone-bar{background:var(--bg3);border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+    .phone-avatar{width:36px;height:36px;border-radius:50%;background:var(--blue-glow);border:1.5px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+    .phone-bar-info{flex:1;}
+    .phone-name{font-size:14px;font-weight:700;}
+    .phone-sub{font-size:12px;color:var(--text3);}
+    .phone-body{display:flex;flex-direction:column;gap:10px;}
+    .msg{background:var(--bg3);border-radius:14px;padding:14px 16px;font-size:13px;line-height:1.55;color:var(--text2);}
+    .msg.incoming{background:var(--purple-glow);border:1px solid rgba(167,139,250,0.25);color:var(--text);}
+    .msg-time{font-size:11px;color:var(--text3);text-align:right;margin-top:4px;}
+    .msg-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--purple);margin-bottom:6px;}
+    .msg .job-detail{display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px;}
+    .msg .jd-key{color:var(--text3);}
+    .msg .jd-val{font-weight:600;color:var(--text);}
+    .msg .rate-line{margin-top:10px;padding-top:10px;border-top:1px solid rgba(167,139,250,0.2);font-size:14px;font-weight:700;color:var(--purple);text-align:center;}
+    .msg .reply-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+    .msg .rbtn{padding:10px;border-radius:8px;font-size:13px;font-weight:700;text-align:center;}
+    .msg .rbtn.accept{background:var(--purple);color:white;}
+    .msg .rbtn.pass{background:var(--bg2);color:var(--text2);border:1px solid var(--border2);}
+
+    /* COMPARE TABLE */
+    .ctable{width:100%;border-collapse:collapse;}
+    .ctable th{padding:14px 24px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;}
+    .ctable th:first-child{text-align:left;color:var(--text3);width:34%;}
+    .ctable th.bad-h{color:var(--red);text-align:center;}
+    .ctable th.good-h{color:var(--purple);text-align:center;}
+    .ctable td{padding:16px 24px;font-size:15px;border-top:1px solid var(--border);}
+    .ctable td:first-child{color:var(--text2);font-weight:500;}
+    .ctable td.bad{text-align:center;color:var(--red);font-weight:600;}
+    .ctable td.good{text-align:center;color:var(--purple);font-weight:600;}
+
+    /* APP CTA */
+    .app-cta{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:52px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+    .app-cta h2{font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:14px;}
+    .app-cta p{font-size:16px;color:var(--text2);line-height:1.7;margin-bottom:28px;}
+    .dl-btns{display:flex;gap:12px;flex-wrap:wrap;}
+    .dl-btn{display:flex;align-items:center;gap:12px;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:14px 20px;font-size:14px;font-weight:600;transition:border-color 200ms,background 200ms;}
+    .dl-btn:hover{border-color:var(--purple);background:var(--purple-glow);}
+    .dl-btn .os{font-size:24px;}
+    .dl-btn .dl-info .small{font-size:11px;color:var(--text3);}
+    .operator-cta-box{background:var(--purple-glow);border:1px solid rgba(167,139,250,0.3);border-radius:16px;padding:32px;}
+    .operator-cta-box h3{font-size:20px;font-weight:700;margin-bottom:10px;}
+    .operator-cta-box p{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:20px;}
+    .btn-op{display:inline-block;background:rgba(167,139,250,0.15);border:1.5px solid var(--purple);color:var(--purple);padding:12px 24px;border-radius:8px;font-size:14px;font-weight:700;transition:all 150ms;}
+    .btn-op:hover{background:var(--purple);color:white;}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--border);padding:32px 40px;text-align:center;color:var(--text3);font-size:13px;}
+    footer a{color:var(--blue-l);}
+
+    /* MOBILE */
+    @media(max-width:768px){
+      header{padding:0 20px;}
+      .hero{padding:80px 20px 60px;}
+      .stats-inner{grid-template-columns:repeat(2,1fr);}
+      .stat:nth-child(2){border-right:none;}
+      .pain-grid{grid-template-columns:1fr;}
+      .section,.sms-section{padding:60px 20px;}
+      .wf-inner{padding:0 20px;}
+      .sms-layout{grid-template-columns:1fr;}
+      .app-cta{grid-template-columns:1fr;gap:28px;padding:32px;}
+      footer{padding:24px 20px;}
+    }
+    @media(max-width:480px){
+      .hero h1{font-size:36px;}
+      .hero-ctas{flex-direction:column;align-items:center;}
+      .btn-primary,.btn-outline{width:100%;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo"><div class="logo-dot"></div> RIN</a>
+  <div class="nav-r">
+    <a href="/">Home</a>
+    <a href="/for-operators.html">For Operators</a>
+    <a href="/operator-demo.html">See Demo</a>
+    <a href="/dispatcher.html">Dispatcher App</a>
+    <a href="/driver.html" class="nav-cta">Get the Driver App</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🚛 For Tow Truck Drivers</div>
+  <h1>More jobs.<br><span class="p">Know your rate before you move.</span></h1>
+  <p class="hero-sub">RIN dispatches pre-priced jobs directly to your phone. No radio waiting. No calling dispatch to find out what's in it for you. Know the rate, accept, and drive. That's the whole thing.</p>
+  <div class="hero-ctas">
+    <a href="/driver.html" class="btn-primary">Download the Driver App →</a>
+    <a href="/operator-demo.html" class="btn-outline">See How a Job Works</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">Pre-priced</div><div class="stat-lbl">every single job before dispatch</div></div>
+    <div class="stat"><div class="stat-num">&lt;18s</div><div class="stat-lbl">from dispatch decision to SMS</div></div>
+    <div class="stat"><div class="stat-num">0 calls</div><div class="stat-lbl">needed to accept a job</div></div>
+    <div class="stat"><div class="stat-num">Weekly</div><div class="stat-lbl">earnings summary — always visible</div></div>
+  </div>
+</div>
+
+<!-- PAIN -->
+<div class="section">
+  <div class="slabel">What's holding you back right now</div>
+  <h2 class="stitle">Three things every driver deals with. RIN fixes all three.</h2>
+  <p class="ssub">These aren't rare problems — they're what the old dispatch model was built on. You absorb the cost. RIN changes that.</p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-cost">2–4 hrs</div>
+      <div class="pain-ctx">average dead time per shift waiting for dispatch</div>
+      <h3>Sitting idle between calls</h3>
+      <p>You're ready. The truck's running. But the radio's quiet. Dead time means dead pay — and nobody's solving it for you.</p>
+      <div class="pain-fix" style="color:var(--purple);">→ RIN queues your next job before you finish the last one. No gaps.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-cost">"Just go"</div>
+      <div class="pain-ctx">the answer when you ask what the job pays</div>
+      <h3>Not knowing what you'll make</h3>
+      <p>You drive an hour to the scene. You do the work. Then you find out what you're getting. Or worse — you don't find out until the end of the week.</p>
+      <div class="pain-fix" style="color:var(--purple);">→ Your rate is in the SMS. Before you accept. Before you move.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-cost">3–5 calls</div>
+      <div class="pain-ctx">average back-and-forth to get clear job instructions</div>
+      <h3>Chasing dispatch for details</h3>
+      <p>Location? Vehicle type? Special equipment? Three calls to get an answer that should have been in the first message. Every call is time you're not moving.</p>
+      <div class="pain-fix" style="color:var(--purple);">→ One SMS. Address, job type, vehicle, rate, and instructions — together.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ANIMATED WORKFLOW -->
+<div class="wf-section">
+  <div class="wf-inner">
+    <div class="wf-head">
+      <div class="slabel" style="text-align:center;color:var(--purple);">The Full Flow</div>
+      <h2 class="stitle" style="text-align:center;margin-bottom:14px;">From the call to your cut — you see the whole thing.</h2>
+      <p style="text-align:center;color:var(--text2);font-size:16px;max-width:540px;margin:0 auto;">Here's how a RIN job moves. Every role is coordinated automatically. Your part is simple: accept the SMS and run the job.</p>
+    </div>
+
+    <div class="wf-track" id="wf-track">
+      <div class="wf-node" id="n1" data-r="cust">
+        <div class="wf-circle">📞</div>
+        <div class="wf-lbl">Customer<br>Calls</div>
+        <div class="wf-t">t + 0:00</div>
+        <div class="wf-tag">CUSTOMER</div>
+      </div>
+      <div class="wf-conn" id="c1"></div>
+      <div class="wf-node" id="n2" data-r="rin">
+        <div class="wf-circle">🤖</div>
+        <div class="wf-lbl">AI Prices<br>& Routes</div>
+        <div class="wf-t">t + 12s</div>
+        <div class="wf-tag">RIN DISPATCH</div>
+      </div>
+      <div class="wf-conn" id="c2"></div>
+      <div class="wf-node" id="n3" data-r="op">
+        <div class="wf-circle">✅</div>
+        <div class="wf-lbl">Price<br>Locked</div>
+        <div class="wf-t">t + 15s</div>
+        <div class="wf-tag">OPERATOR</div>
+      </div>
+      <div class="wf-conn" id="c3"></div>
+      <div class="wf-node driver-step" id="n4" data-r="drv">
+        <div class="wf-circle">📱</div>
+        <div class="wf-lbl">Your SMS<br>Arrives</div>
+        <div class="wf-t">t + 18s</div>
+        <div class="wf-tag">YOU — DRIVER</div>
+      </div>
+      <div class="wf-conn" id="c4"></div>
+      <div class="wf-node driver-step" id="n5" data-r="drv">
+        <div class="wf-circle">🚛</div>
+        <div class="wf-lbl">You Accept<br>& Roll</div>
+        <div class="wf-t">t + 25 min</div>
+        <div class="wf-tag">YOU — DRIVER</div>
+      </div>
+      <div class="wf-conn" id="c5"></div>
+      <div class="wf-node" id="n6" data-r="op">
+        <div class="wf-circle">🤝</div>
+        <div class="wf-lbl">Job<br>Complete</div>
+        <div class="wf-t">t + varies</div>
+        <div class="wf-tag">OPERATOR</div>
+      </div>
+      <div class="wf-conn" id="c6"></div>
+      <div class="wf-node" id="n7" data-r="pay">
+        <div class="wf-circle">💳</div>
+        <div class="wf-lbl">Cut<br>Released</div>
+        <div class="wf-t">t + 7 days</div>
+        <div class="wf-tag">PAYMENT</div>
+      </div>
+    </div>
+
+    <div class="wf-legend">
+      <div class="wfl-item"><div class="wfl-dot" style="background:#64748b;"></div>Customer</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--blue);"></div>RIN Dispatch</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--green);"></div>Operator</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--purple);box-shadow:0 0 6px var(--purple);"></div>You (Driver)</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--gold);"></div>Payment</div>
+    </div>
+
+    <div style="background:var(--purple-glow);border:1px solid rgba(167,139,250,0.25);border-radius:16px;padding:28px;margin-top:48px;text-align:center;">
+      <div style="font-size:14px;font-weight:700;color:var(--purple);margin-bottom:8px;">Your moment in the flow</div>
+      <div style="font-size:20px;font-weight:800;margin-bottom:10px;">Steps 4 and 5 are yours. That's all you need to own.</div>
+      <p style="font-size:15px;color:var(--text2);max-width:500px;margin:0 auto;">Everything before your SMS is handled by RIN. Everything after is automatic. You show up, do the job, and the money follows.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SMS MOCKUP -->
+<div class="sms-section">
+  <div class="slabel">What it actually looks like</div>
+  <h2 class="stitle">This is your dispatch. One message. Everything you need.</h2>
+  <div class="sms-layout">
+    <div class="sms-copy">
+      <p>No calls. No confusion. When RIN assigns you a job, this is exactly what hits your phone. Accept or pass — your choice, your call.</p>
+      <div class="sms-bullets">
+        <div class="sms-b"><div class="dot"></div><span><strong>Address and job type</strong> — know where you're going and what you're doing before you accept</span></div>
+        <div class="sms-b"><div class="dot"></div><span><strong>Your rate, up front</strong> — no surprises at the end of the shift</span></div>
+        <div class="sms-b"><div class="dot"></div><span><strong>Vehicle details</strong> — make, year, situation — so you know what you're walking into</span></div>
+        <div class="sms-b"><div class="dot"></div><span><strong>One tap to accept</strong> — reply YES. That's it. Navigation opens automatically.</span></div>
+      </div>
+    </div>
+    <div class="phone-mock">
+      <div class="phone-bar">
+        <div class="phone-avatar">🤖</div>
+        <div class="phone-bar-info">
+          <div class="phone-name">RIN Dispatch</div>
+          <div class="phone-sub">+1 (416) 555-RIN1</div>
+        </div>
+      </div>
+      <div class="phone-body">
+        <div class="msg incoming">
+          <div class="msg-label">New Job — Accept or Pass</div>
+          <div class="job-detail"><span class="jd-key">Type</span><span class="jd-val">Insurance Tow</span></div>
+          <div class="job-detail"><span class="jd-key">Pickup</span><span class="jd-val">401 & Warden</span></div>
+          <div class="job-detail"><span class="jd-key">Drop</span><span class="jd-val">Scarborough Ford</span></div>
+          <div class="job-detail"><span class="jd-key">Vehicle</span><span class="jd-val">2021 F-150 (dead battery)</span></div>
+          <div class="rate-line">Your cut: $176 &nbsp;·&nbsp; ~22 min away</div>
+          <div class="reply-btns">
+            <div class="rbtn accept">Reply YES</div>
+            <div class="rbtn pass">Reply PASS</div>
+          </div>
+        </div>
+        <div class="msg">
+          <div class="msg-time">Reply YES within 90 seconds to lock the job.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BEFORE / AFTER -->
+<div class="section" style="padding-top:0;">
+  <div class="slabel">Side by side</div>
+  <h2 class="stitle">Your day before RIN vs. your day on RIN.</h2>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden;">
+    <table class="ctable">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="bad-h">❌ Old way</th>
+          <th class="good-h">✅ RIN way</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Finding out your rate</td><td class="bad">End of shift — maybe</td><td class="good">Before you accept</td></tr>
+        <tr><td>Getting job details</td><td class="bad">3–5 calls to dispatch</td><td class="good">1 SMS, everything included</td></tr>
+        <tr><td>Time between jobs</td><td class="bad">Idle, waiting for radio</td><td class="good">Next job pre-queued</td></tr>
+        <tr><td>Accepting a job</td><td class="bad">Answer the phone, confirm, write it down</td><td class="good">Reply YES — done</td></tr>
+        <tr><td>Tracking your earnings</td><td class="bad">Ask, wait, hope it adds up</td><td class="good">Weekly summary, always visible</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- APP + OPERATOR CTA -->
+<div class="section" style="padding-top:0;">
+  <div class="app-cta">
+    <div>
+      <div class="slabel" style="color:var(--purple);">RIN Driver App</div>
+      <h2>Everything on your phone. Nothing extra to carry.</h2>
+      <p>The RIN Driver app is where jobs arrive, where you track progress, and where you see your earnings. It's built for the truck — big text, one-tap actions, works in bad signal.</p>
+      <div class="dl-btns">
+        <a href="/driver.html" class="dl-btn">
+          <span class="os">🍎</span>
+          <div class="dl-info"><div>Download for iOS</div><div class="small">iPhone · App Store</div></div>
+        </a>
+        <a href="/driver.html" class="dl-btn">
+          <span class="os">🤖</span>
+          <div class="dl-info"><div>Download for Android</div><div class="small">Google Play</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="operator-cta-box">
+      <h3>Owner-operator? This is for you too.</h3>
+      <p>If you own your truck, you can apply directly as an operator. You'll get everything on this page — plus the 80% payout on every job you run, paid in 7 days.</p>
+      <a href="/for-operators.html" class="btn-op">See the Operator Page →</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Roadside Intelligence Network &nbsp;·&nbsp; <a href="/">RIN Home</a> &nbsp;·&nbsp; <a href="/for-operators.html">For Operators</a> &nbsp;·&nbsp; <a href="/operator-demo.html">Interactive Demo</a> &nbsp;·&nbsp; <a href="/driver.html">Driver App</a></p>
+</footer>
+
+<script>
+// ── WORKFLOW ANIMATION ──
+const nodes = ['n1','n2','n3','n4','n5','n6','n7'];
+const conns = ['c1','c2','c3','c4','c5','c6'];
+let wfRunning = false;
+let wfTimeout = null;
+
+function resetWf() {
+  nodes.forEach(id => document.getElementById(id).classList.remove('wf-on'));
+  conns.forEach(id => document.getElementById(id).classList.remove('wf-lit'));
+}
+
+function runWf() {
+  resetWf();
+  const step = 720;
+  nodes.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('wf-on');
+      if (i > 0) document.getElementById(conns[i-1]).classList.add('wf-lit');
+    }, i * step + 100);
+  });
+  wfTimeout = setTimeout(runWf, nodes.length * step + 3200);
+}
+
+const track = document.getElementById('wf-track');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !wfRunning) {
+      wfRunning = true;
+      runWf();
+    }
+  });
+}, { threshold: 0.15 });
+obs.observe(track);
+</script>
+</body>
+</html>
