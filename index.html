@@ -70,8 +70,15 @@
       background:radial-gradient(ellipse 90% 55% at 50% -5%,rgba(59,130,246,0.10),transparent 70%);}
     .hero-grid{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(59,130,246,0.06) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;mask-image:radial-gradient(ellipse 80% 70% at 50% 0%,black 30%,transparent 100%);}
     .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.35);border-radius:100px;padding:6px 20px;font-size:13px;font-weight:600;color:var(--blue-l);margin-bottom:36px;position:relative;}
-    .hero h1{font-size:clamp(38px,6vw,72px);font-weight:900;line-height:1.05;letter-spacing:-2.5px;margin-bottom:24px;position:relative;}
-    .hero h1 .accent{color:var(--blue-l);}
+    .hero h1{font-size:clamp(38px,6vw,72px);font-weight:900;line-height:1.05;letter-spacing:-2.5px;margin-bottom:16px;position:relative;}
+    .hero h1 .accent{color:var(--blue-l);display:inline-block;}
+    @keyframes hlOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-12px)}}
+    @keyframes hlIn {from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .accent.hl-out{animation:hlOut 0.32s ease forwards;}
+    .accent.hl-in {animation:hlIn  0.38s ease forwards;}
+    .hl-dots{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:24px;}
+    .hl-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background 0.35s,transform 0.35s;}
+    .hl-dot.active{background:var(--blue-l);transform:scale(1.4);}
     .hero-sub{font-size:19px;color:var(--text2);max-width:640px;margin:0 auto 52px;line-height:1.7;position:relative;}
     .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;}
     .hero-social{margin-top:48px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;position:relative;}
@@ -548,7 +555,12 @@
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-badge">🚚 Built for Fleet Managers &amp; Operations Teams</div>
-  <h1>A vehicle goes down.<br><span class="accent">Your team shouldn't have to stop everything.</span></h1>
+  <h1>A vehicle goes down.<br><span class="accent" id="hl-text">Your team shouldn't have to stop everything.</span></h1>
+  <div class="hl-dots">
+    <div class="hl-dot active" id="hd-0"></div>
+    <div class="hl-dot" id="hd-1"></div>
+    <div class="hl-dot" id="hd-2"></div>
+  </div>
   <p class="hero-sub"><strong style="color:var(--text)">Under 15 minutes to dispatch. Rate locked before anyone moves. Pay per incident — no monthly fee.</strong> Your ops team gets a notification when it's done, not a task to manage.</p>
   <div class="hero-ctas">
     <a href="#contact-form" class="btn-primary">Book a 20-Minute Pilot Call →</a>
@@ -1727,6 +1739,28 @@ async function submitFleet() {
     showFormError('Something went wrong — please try again or email us directly below.');
   }
 }
+
+// ── ROTATING HEADLINE ──
+const hlLines = [
+  "Your team shouldn't have to stop everything.",
+  "One text replaces three hours of calls.",
+  "Locked rate. One invoice. No surprises."
+];
+let hlIdx = 0;
+const hlEl = document.getElementById('hl-text');
+
+function rotateHl() {
+  hlEl.classList.add('hl-out');
+  setTimeout(() => {
+    hlIdx = (hlIdx + 1) % hlLines.length;
+    hlEl.textContent = hlLines[hlIdx];
+    document.querySelectorAll('.hl-dot').forEach((d, i) => d.classList.toggle('active', i === hlIdx));
+    hlEl.classList.remove('hl-out');
+    hlEl.classList.add('hl-in');
+    setTimeout(() => hlEl.classList.remove('hl-in'), 400);
+  }, 330);
+}
+setInterval(rotateHl, 4000);
 
 // ── DISPATCH ANIMATION ──
 const dispatchLines = [
