@@ -390,6 +390,58 @@
     .faq-a{display:none;padding:0 0 22px;font-size:15px;color:var(--text2);line-height:1.75;}
     .faq-item.open .faq-a{display:block;}
 
+    /* ── DISPATCH ANIMATION ── */
+    .dispatch-section{background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0;}
+    .dispatch-inner{max-width:1020px;margin:0 auto;padding:0 40px;}
+    .dispatch-layout{display:grid;grid-template-columns:1.35fr 1fr;gap:40px;align-items:start;}
+    .dcon{background:#04070f;border:1px solid var(--border2);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+    .dcon-hdr{background:#080e1d;border-bottom:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;gap:8px;}
+    .dcon-dots{display:flex;gap:5px;}
+    .dcon-dot{width:10px;height:10px;border-radius:50%;}
+    .dcon-dot-r{background:#ff5f56;}
+    .dcon-dot-y{background:#ffbd2e;}
+    .dcon-dot-g{background:#27c93f;}
+    .dcon-name{font-size:12px;color:var(--text3);font-family:inherit;margin-left:6px;letter-spacing:0.3px;}
+    .dcon-live-badge{margin-left:auto;font-size:10px;font-weight:700;color:var(--green);letter-spacing:1px;display:flex;align-items:center;gap:5px;}
+    .dcon-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1s infinite;}
+    .dcon-body{padding:18px 22px;min-height:280px;font-family:'Courier New',Courier,monospace;font-size:13px;line-height:1.85;}
+    .dcon-line{display:block;opacity:0;transform:translateX(-6px);transition:opacity 0.25s,transform 0.25s;}
+    .dcon-line.show{opacity:1;transform:translateX(0);}
+    .dl-recv{color:#f87171;}
+    .dl-proc{color:var(--text3);}
+    .dl-ai{color:var(--blue-l);}
+    .dl-ok{color:var(--green);}
+    .dl-money{color:#fbbf24;}
+    .dl-done{color:var(--green);font-weight:700;}
+    .dcon-cursor{display:inline-block;width:7px;height:13px;background:var(--green);vertical-align:text-bottom;animation:blink 0.7s step-end infinite;margin-left:1px;}
+    .dcon-ftr{background:#080e1d;border-top:1px solid var(--border);padding:9px 22px;display:flex;justify-content:space-between;align-items:center;}
+    .dcon-elapsed{font-size:11px;color:var(--text3);font-family:'Courier New',monospace;}
+    .dcon-phase-txt{font-size:11px;color:var(--text2);font-weight:600;letter-spacing:0.3px;}
+
+    /* Status tracker */
+    .dstatus{display:flex;flex-direction:column;gap:0;padding-top:8px;}
+    .dstep{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);position:relative;}
+    .dstep:last-child{border-bottom:none;}
+    .dstep-icon{width:28px;height:28px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;transition:all 0.35s;margin-top:1px;color:var(--text3);}
+    .dstep.active .dstep-icon{border-color:var(--blue);background:var(--blue-g);color:var(--blue-l);box-shadow:0 0 12px rgba(59,130,246,0.35);}
+    .dstep.done .dstep-icon{border-color:var(--green);background:rgba(52,211,153,0.12);color:var(--green);}
+    .dstep-body{flex:1;}
+    .dstep-title{font-size:14px;font-weight:700;color:var(--text3);transition:color 0.35s;}
+    .dstep.active .dstep-title{color:var(--blue-l);}
+    .dstep.done .dstep-title{color:var(--text);}
+    .dstep-sub{font-size:12px;color:var(--text3);margin-top:2px;line-height:1.5;opacity:0;max-height:0;overflow:hidden;transition:opacity 0.35s,max-height 0.35s;}
+    .dstep.done .dstep-sub{opacity:1;max-height:40px;color:var(--green);}
+    .dstep-time{font-size:11px;color:var(--text3);margin-top:6px;font-family:'Courier New',monospace;opacity:0;transition:opacity 0.35s;}
+    .dstep.done .dstep-time{opacity:1;}
+    .dispatch-stat{display:flex;justify-content:center;gap:40px;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);flex-wrap:wrap;}
+    .ds-item{text-align:center;}
+    .ds-val{font-size:28px;font-weight:900;letter-spacing:-1px;}
+    .ds-val.fast{color:var(--green);}
+    .ds-val.slow{color:var(--red);}
+    .ds-lbl{font-size:12px;color:var(--text3);margin-top:2px;}
+    @media(max-width:860px){.dispatch-layout{grid-template-columns:1fr;}}
+    @media(max-width:768px){.dispatch-inner{padding-left:20px;padding-right:20px;}}
+
     /* ── FOOTER ── */
     footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
     .footer-copy{font-size:13px;color:var(--text3);}
@@ -576,6 +628,109 @@
   </div>
   <div style="margin-top:24px;text-align:center;font-size:14px;color:var(--text3);">
     Coverage: <strong style="color:var(--text2)">GTA, Hamilton, Kitchener-Waterloo, and Durham Region</strong> — expanding to Ontario-wide Q3 2026
+  </div>
+</div>
+
+<!-- DISPATCH ANIMATION -->
+<div class="dispatch-section">
+  <div class="dispatch-inner">
+    <div style="text-align:center;margin-bottom:52px;">
+      <div class="slabel">Dispatch engine</div>
+      <h2 class="stitle">A full dispatch in under 17 seconds.</h2>
+      <p style="font-size:17px;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.7;">This is what happens the moment your driver texts RIN. Watch it play out in real time.</p>
+    </div>
+    <div class="dispatch-layout">
+      <!-- LEFT: Console -->
+      <div>
+        <div class="dcon">
+          <div class="dcon-hdr">
+            <div class="dcon-dots">
+              <div class="dcon-dot dcon-dot-r"></div>
+              <div class="dcon-dot dcon-dot-y"></div>
+              <div class="dcon-dot dcon-dot-g"></div>
+            </div>
+            <span class="dcon-name">rin-dispatch-engine — live</span>
+            <div class="dcon-live-badge"><div class="dcon-live-dot"></div>LIVE</div>
+          </div>
+          <div class="dcon-body" id="dispatchLog">
+            <span class="dcon-cursor" id="dispatchCursor"></span>
+          </div>
+          <div class="dcon-ftr">
+            <span class="dcon-elapsed">elapsed: <span id="dispatchElapsed">00.0s</span></span>
+            <span class="dcon-phase-txt" id="dispatchPhase">waiting for job...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Status tracker -->
+      <div>
+        <div class="dstatus" id="dispatchStatus">
+          <div class="dstep" id="dst-0">
+            <div class="dstep-icon">1</div>
+            <div class="dstep-body">
+              <div class="dstep-title">Job received &amp; parsed</div>
+              <div class="dstep-sub">Vehicle #12 · Flatbed · Hwy 401 &amp; Keele</div>
+              <div class="dstep-time">+0.0s</div>
+            </div>
+          </div>
+          <div class="dstep" id="dst-1">
+            <div class="dstep-icon">2</div>
+            <div class="dstep-body">
+              <div class="dstep-title">Nearest operator matched</div>
+              <div class="dstep-sub">Marco T. · ★4.9 · 1.2 km · flatbed</div>
+              <div class="dstep-time">+4.1s</div>
+            </div>
+          </div>
+          <div class="dstep" id="dst-2">
+            <div class="dstep-icon">3</div>
+            <div class="dstep-body">
+              <div class="dstep-title">Rate locked before dispatch</div>
+              <div class="dstep-sub">$220 approved · operator payout $176</div>
+              <div class="dstep-time">+7.2s</div>
+            </div>
+          </div>
+          <div class="dstep" id="dst-3">
+            <div class="dstep-icon">4</div>
+            <div class="dstep-body">
+              <div class="dstep-title">Operator confirmed via SMS</div>
+              <div class="dstep-sub">"Y" received · en route</div>
+              <div class="dstep-time">+11.4s</div>
+            </div>
+          </div>
+          <div class="dstep" id="dst-4">
+            <div class="dstep-icon">5</div>
+            <div class="dstep-body">
+              <div class="dstep-title">ETA locked · all parties notified</div>
+              <div class="dstep-sub">Fleet: "Vehicle #12 — ETA 11 min"</div>
+              <div class="dstep-time">+13.0s</div>
+            </div>
+          </div>
+          <div class="dstep" id="dst-5">
+            <div class="dstep-icon">6</div>
+            <div class="dstep-body">
+              <div class="dstep-title">Incident open · GPS tracking active</div>
+              <div class="dstep-sub">RIN-4821 · report queued on completion</div>
+              <div class="dstep-time">+16.8s</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dispatch-stat">
+          <div class="ds-item">
+            <div class="ds-val fast">17s</div>
+            <div class="ds-lbl">RIN dispatch time</div>
+          </div>
+          <div class="ds-item">
+            <div class="ds-val slow">90+ min</div>
+            <div class="ds-lbl">Traditional dispatch</div>
+          </div>
+          <div class="ds-item">
+            <div class="ds-val fast">0</div>
+            <div class="ds-lbl">Calls your team makes</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1371,6 +1526,99 @@ async function submitFleet() {
     showFormError('Something went wrong — please try again or email us directly below.');
   }
 }
+
+// ── DISPATCH ANIMATION ──
+const dispatchLines = [
+  { ms: 0,    cls: 'dl-recv',  text: '[00:00]  🚨  JOB IN  —  Vehicle #12 · Flatbed · Hwy 401 &amp; Keele St, Toronto',  phase: 'parsing job...', step: 0 },
+  { ms: 700,  cls: 'dl-proc',  text: '[00:01]   →   reading incident type · vehicle class · location coords', phase: 'parsing job...' },
+  { ms: 1400, cls: 'dl-ai',    text: '[00:02]  ⚡  AI routing — scanning 47 operators in dispatch zone', phase: 'matching operator...' },
+  { ms: 2300, cls: 'dl-proc',  text: '[00:03]   →   filtering: flatbed qualified · available now · within 5 km', phase: 'matching operator...' },
+  { ms: 3200, cls: 'dl-ok',    text: '[00:04]  ✓   MATCH  —  Marco T. · ★4.9 · 1.2 km · flatbed certified', phase: 'match found', step: 1 },
+  { ms: 4000, cls: 'dl-ai',    text: '[00:05]  ⚡  rate engine: calculating flat rate for 34 km insurance tow', phase: 'calculating rate...' },
+  { ms: 4700, cls: 'dl-money', text: '[00:06]  $   $220.00 calculated — SMS sent to client for approval', phase: 'awaiting approval...' },
+  { ms: 5600, cls: 'dl-ok',    text: '[00:07]  ✓   CLIENT APPROVED — rate locked at $220.00', phase: 'rate locked', step: 2 },
+  { ms: 6300, cls: 'dl-proc',  text: '[00:08]   →   operator payout locked: $176.00 (80%) · no changes after this', phase: 'dispatching...' },
+  { ms: 7000, cls: 'dl-ai',    text: '[00:09]  ⚡  dispatch SMS sent → Marco T.: "New job $176, reply Y to accept"', phase: 'awaiting confirmation...' },
+  { ms: 8800, cls: 'dl-ok',    text: '[00:11]  ✓   CONFIRMED — "Y" received · Marco T. en route', phase: 'confirmed', step: 3 },
+  { ms: 9500, cls: 'dl-proc',  text: '[00:12]   →   ETA calculated: 11 min · GPS tracking active', phase: 'notifying parties...' },
+  { ms: 10200,cls: 'dl-ok',    text: '[00:13]  ✓   Fleet notified: "Vehicle #12 — dispatch confirmed, ETA 11 min"', phase: 'all notified', step: 4 },
+  { ms: 10900,cls: 'dl-ok',    text: '[00:14]  ✓   Client notified · incident open: RIN-4821', phase: 'incident tracking active', step: 5 },
+  { ms: 11600,cls: 'dl-done',  text: '[00:16]  ✓   DISPATCH COMPLETE in 16.8s — report queued on job close', phase: '✓ complete' },
+];
+
+let dispatchRunning = false;
+let dispatchTimer = null;
+
+function runDispatch() {
+  const log = document.getElementById('dispatchLog');
+  const cursor = document.getElementById('dispatchCursor');
+  const elapsedEl = document.getElementById('dispatchElapsed');
+  const phaseEl = document.getElementById('dispatchPhase');
+
+  // Reset
+  log.innerHTML = '';
+  cursor.className = 'dcon-cursor';
+  log.appendChild(cursor);
+  elapsedEl.textContent = '00.0s';
+  phaseEl.textContent = 'waiting for job...';
+  document.querySelectorAll('.dstep').forEach(el => {
+    el.classList.remove('active', 'done');
+  });
+
+  const startTime = Date.now();
+  let elapsedInterval = setInterval(() => {
+    const s = ((Date.now() - startTime) / 1000).toFixed(1);
+    elapsedEl.textContent = s.padStart(4, '0') + 's';
+  }, 100);
+
+  dispatchLines.forEach(line => {
+    setTimeout(() => {
+      // Insert log line before cursor
+      const span = document.createElement('span');
+      span.className = 'dcon-line ' + line.cls;
+      span.innerHTML = line.text + '\n';
+      log.insertBefore(span, cursor);
+      requestAnimationFrame(() => span.classList.add('show'));
+
+      // Update phase
+      phaseEl.textContent = line.phase;
+
+      // Update status step
+      if (line.step !== undefined) {
+        const prev = document.getElementById('dst-' + (line.step - 1));
+        if (prev) { prev.classList.remove('active'); prev.classList.add('done'); }
+        const cur = document.getElementById('dst-' + line.step);
+        if (cur) cur.classList.add('active');
+      }
+    }, line.ms);
+  });
+
+  // After last line: mark all done, then restart
+  const lastMs = dispatchLines[dispatchLines.length - 1].ms;
+  setTimeout(() => {
+    document.querySelectorAll('.dstep').forEach(el => {
+      el.classList.remove('active');
+      el.classList.add('done');
+    });
+  }, lastMs + 400);
+
+  setTimeout(() => {
+    clearInterval(elapsedInterval);
+    // Brief pause then restart
+    dispatchTimer = setTimeout(runDispatch, 3000);
+  }, lastMs + 1200);
+}
+
+// Start when scrolled into view
+const dispatchSection = document.querySelector('.dispatch-section');
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !dispatchRunning) {
+      dispatchRunning = true;
+      runDispatch();
+    }
+  });
+}, { threshold: 0.2 }).observe(dispatchSection);
 
 function restartForm() {
   ['f_co','f_name','f_phone','f_area','f_pain'].forEach(id => document.getElementById(id).value = '');
