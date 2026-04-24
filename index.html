@@ -3,2097 +3,970 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Roadside Intelligence Network - AI dispatch platform for tow operators. More jobs, faster pay, zero overhead.">
-  <title>RIN - AI Dispatch Network for Tow Operators</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>RIN — AI Dispatch for Fleet Operators</title>
+  <meta name="description" content="When a fleet vehicle goes down, RIN dispatches in under 15 minutes, locks the rate before anyone moves, and sends you a report when it's done. Your team gets a notification — not a task.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --bg-primary: #0f172a;
-      --bg-secondary: #1a2341;
-      --bg-tertiary: #243455;
-      --text-primary: #f1f5f9;
-      --text-secondary: #cbd5e1;
-      --text-tertiary: #94a3b8;
-      --accent: #3b82f6;
-      --accent-dark: #1e40af;
-      --accent-light: #60a5fa;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --border: #334155;
+      --bg:     #070c1a;
+      --bg2:    #0f172a;
+      --bg3:    #1e293b;
+      --border: #1a2744;
+      --border2:#334155;
+      --text:   #f1f5f9;
+      --text2:  #94a3b8;
+      --text3:  #64748b;
+      --blue:   #3b82f6;
+      --blue-l: #60a5fa;
+      --blue-g: rgba(59,130,246,0.12);
+      --green:  #34d399;
+      --green-g:rgba(52,211,153,0.12);
+      --purple: #a78bfa;
+      --red:    #f87171;
+      --fleet:  #f59e0b;
+      --fleet-l:#fbbf24;
+      --fleet-g:rgba(245,158,11,0.12);
     }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    /* ── HEADER ── */
-    header {
-      border-bottom: 1px solid var(--border);
-      padding: 12px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-      background: rgba(26, 35, 65, 0.9);
-    }
-
-    .logo-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .logo {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--accent-light);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .logo-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 6px var(--accent);
-      animation: blink 2s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    #navTagline {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--text-tertiary);
-      padding-left: 16px;
-      transition: opacity 0.3s;
-      white-space: nowrap;
-    }
-
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 32px;
-    }
-
-    nav a {
-      font-size: 14px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 150ms;
-    }
-
-    nav a:hover { color: var(--accent-light); }
-
-    .header-btn {
-      background: var(--accent);
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 150ms;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .header-btn:hover {
-      background: var(--accent-light);
-      transform: translateY(-1px);
-    }
+    /* ── NAV ── */
+    header{position:sticky;top:0;z-index:200;background:rgba(7,12,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;color:var(--blue-l);}
+    .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:blink 2s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .nav-r{display:flex;align-items:center;gap:24px;}
+    .nav-r a{font-size:14px;color:var(--text2);font-weight:500;transition:color 150ms;}
+    .nav-r a:hover{color:var(--fleet-l);}
+    .nav-cta{background:var(--fleet);color:#070c1a !important;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;transition:opacity 150ms;}
+    .nav-cta:hover{opacity:0.85;}
 
     /* ── HERO ── */
-    .hero {
-      padding: 100px 32px;
-      max-width: 1200px;
-      margin: 0 auto;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
+    .hero{padding:120px 40px 80px;text-align:center;background:radial-gradient(ellipse 90% 55% at 50% -5%,rgba(245,158,11,0.09),transparent 70%);}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.35);border-radius:100px;padding:6px 20px;font-size:13px;font-weight:600;color:var(--fleet-l);margin-bottom:36px;}
+    .hero h1{font-size:clamp(38px,6vw,72px);font-weight:900;line-height:1.05;letter-spacing:-2.5px;margin-bottom:24px;}
+    .hero h1 .accent{color:var(--fleet-l);}
+    .hero-sub{font-size:19px;color:var(--text2);max-width:640px;margin:0 auto 52px;line-height:1.7;}
+    .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+    .btn-primary{background:var(--fleet);color:#070c1a;padding:18px 38px;border-radius:10px;font-size:17px;font-weight:800;letter-spacing:-0.3px;display:inline-block;transition:all 150ms;}
+    .btn-primary:hover{opacity:0.85;transform:translateY(-2px);}
+    .btn-outline{border:1.5px solid var(--border2);color:var(--text);padding:18px 38px;border-radius:10px;font-size:17px;font-weight:600;display:inline-block;transition:all 150ms;}
+    .btn-outline:hover{border-color:var(--fleet-l);color:var(--fleet-l);}
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 800px; height: 400px;
-      background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
-      z-index: 0; pointer-events: none;
-    }
-
-    .hero-content { position: relative; z-index: 1; }
-
-    .hero-tag {
-      display: inline-block;
-      background: rgba(59,130,246,0.2);
-      color: var(--accent-light);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 24px;
-      border: 1px solid rgba(59,130,246,0.3);
-    }
-
-    h1 {
-      font-size: 56px;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 24px;
-      color: var(--text-primary);
-      transition: opacity 0.5s ease;
-    }
-    h1.fading { opacity: 0; }
-
-    .hero-subtitle {
-      font-size: 18px;
-      color: var(--text-secondary);
-      margin-bottom: 40px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.7;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      margin-bottom: 80px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 12px 32px;
-      border-radius: 6px;
-      border: none;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 150ms;
-      display: inline-block;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-light);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(59,130,246,0.3);
-    }
-
-    .btn-secondary {
-      background: var(--bg-secondary);
-      color: var(--accent-light);
-      border: 1px solid var(--border);
-    }
-
-    .btn-secondary:hover {
-      background: var(--bg-tertiary);
-      border-color: var(--accent);
-    }
-
-    /* ── METRICS ── */
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
-      padding-bottom: 80px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .metric { text-align: center; }
-
-    .metric-value {
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--accent-light);
-      margin-bottom: 8px;
-    }
-
-    .metric-label {
-      font-size: 13px;
-      color: var(--text-tertiary);
-      font-weight: 500;
-    }
+    /* ── STATS ── */
+    .stats-strip{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:36px 40px;}
+    .stats-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:880px;margin:0 auto;}
+    .stat{text-align:center;padding:0 24px;border-right:1px solid var(--border2);}
+    .stat:last-child{border-right:none;}
+    .stat-num{font-size:40px;font-weight:900;letter-spacing:-2px;color:var(--fleet-l);line-height:1;margin-bottom:4px;}
+    .stat-lbl{font-size:13px;color:var(--text2);}
 
     /* ── SECTIONS ── */
-    section {
-      padding: 80px 32px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    section h2 {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--text-primary);
-    }
-
-    .section-label {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .section-intro {
-      font-size: 15px;
-      color: var(--text-secondary);
-      margin-bottom: 48px;
-      max-width: 600px;
-    }
-
-    /* ── FEATURES ── */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-    }
-
-    .feature-card {
-      padding: 32px;
-      background: var(--bg-secondary);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      transition: all 200ms;
-      cursor: default;
-    }
-
-    .feature-card:hover {
-      border-color: var(--accent);
-      background: var(--bg-tertiary);
-      transform: translateY(-4px);
-    }
-
-    .feature-icon { font-size: 28px; margin-bottom: 16px; }
-
-    .feature-card h3 {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--text-primary);
-    }
-
-    .feature-card p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    /* ── HOW IT WORKS ── */
-    /* ── COMPARISON TABLE ── */
-    .comparison-section {
-      padding: 80px 32px;
-      background: var(--bg-primary);
-    }
-    .comparison-inner { max-width: 900px; margin: 0 auto; }
-    .comparison-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      margin-top: 40px;
-    }
-    .comparison-col { display: flex; flex-direction: column; }
-    .comparison-header {
-      padding: 20px 28px;
-      font-size: 14px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .comparison-header.old { background: #1a1a2e; color: #64748b; border-right: 1px solid var(--border); }
-    .comparison-header.new { background: rgba(59,130,246,0.12); color: var(--accent-light); }
-    .comparison-row {
-      display: contents;
-    }
-    .comparison-cell {
-      padding: 16px 28px;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-top: 1px solid var(--border);
-    }
-    .comparison-cell.old {
-      background: #0d1117;
-      color: var(--text-tertiary);
-      border-right: 1px solid var(--border);
-    }
-    .comparison-cell.new {
-      background: rgba(59,130,246,0.04);
-      color: var(--text-secondary);
-    }
-    .comparison-cell .icon { font-size: 16px; flex-shrink: 0; }
-    @media (max-width: 600px) {
-      .comparison-grid { grid-template-columns: 1fr; }
-      .comparison-cell.old { border-right: none; }
-      .comparison-header.old { border-right: none; border-bottom: 1px solid var(--border); }
-    }
-
-    .how-it-works {
-      background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-      padding: 80px 32px;
-    }
-
-    /* ── FLOW DIAGRAM ── */
-    .flow-diagram {
-      display: flex;
-      align-items: stretch;
-      gap: 0;
-      max-width: 1200px;
-      margin: 0 auto 40px;
-      overflow-x: auto;
-    }
-    .flow-node {
-      flex: 1;
-      min-width: 160px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 18px;
-      position: relative;
-    }
-    .flow-node.accent {
-      border-color: var(--accent);
-      background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(59,130,246,0.04));
-    }
-    .flow-node-icon { font-size: 26px; margin-bottom: 10px; }
-    .flow-node-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent-light); margin-bottom: 6px; }
-    .flow-node-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
-    .flow-node-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
-    .flow-arrow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 10px;
-      color: var(--accent);
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .step {
-      background: var(--bg-secondary);
-      padding: 32px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      position: relative;
-    }
-
-    .step::after {
-      content: '';
-      position: absolute;
-      right: -24px; top: 50%;
-      transform: translateY(-50%);
-      width: 16px; height: 2px;
-      background: var(--border);
-    }
-
-    .step:last-child::after { display: none; }
-
-    .step-number {
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-      color: white;
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      margin-bottom: 16px;
-      font-size: 18px;
-    }
-
-    .step h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-    .step p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-
-    /* ── DEMO SECTION ── */
-    .demo-section {
-      background: var(--bg-primary);
-      padding: 80px 32px;
-      border-top: 1px solid var(--border);
-    }
-
-    .demo-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .demo-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: start;
-    }
-
-    .demo-video-wrap {
-      position: relative;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      aspect-ratio: 16/9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: border-color 200ms;
-    }
-
-    .demo-video-wrap:hover { border-color: var(--accent); }
-
-    .demo-play {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .demo-play-btn {
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      background: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 0 40px rgba(59,130,246,0.4);
-      transition: transform 200ms;
-    }
-
-    .demo-video-wrap:hover .demo-play-btn { transform: scale(1.08); }
-
-    .demo-play-title { font-weight: 700; font-size: 15px; }
-    .demo-play-sub { font-size: 13px; color: var(--text-tertiary); }
-
-    .demo-chips {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      background: linear-gradient(transparent, rgba(15,23,42,0.9));
-      padding: 12px 16px;
-      display: flex;
-      gap: 6px;
-    }
-
-    .chip {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 100px;
-    }
-
-    .chip-blue {
-      background: rgba(59,130,246,0.2);
-      border: 1px solid rgba(59,130,246,0.35);
-      color: var(--accent-light);
-    }
-
-    .chip-green {
-      background: rgba(16,185,129,0.15);
-      border: 1px solid rgba(16,185,129,0.35);
-      color: var(--success);
-    }
-
-    .demo-portal-links {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .portal-link {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      transition: border-color 150ms;
-    }
-
-    .portal-link:hover { border-color: var(--accent); color: var(--accent-light); }
-
-    .demo-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .demo-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-    }
-
-    .demo-card-icon { font-size: 24px; margin-bottom: 10px; }
-
-    .demo-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-
-    .demo-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; }
-
-    .demo-checklist { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-
-    .demo-checklist li {
-      font-size: 13px; color: var(--text-secondary);
-      display: flex; gap: 8px;
-    }
-
-    .demo-checklist li::before { content: '✓'; color: var(--success); font-weight: 700; flex-shrink: 0; }
-
-    /* ── PRICING ── */
-    .pricing-section {
-      background: var(--bg-secondary);
-      padding: 80px 32px;
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .pricing-card {
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 40px;
-      transition: all 200ms;
-    }
-
-    .pricing-card.featured {
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 30px rgba(59,130,246,0.2);
-      transform: scale(1.05);
-    }
-
-    .pricing-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-
-    .pricing-value {
-      font-size: 36px;
-      font-weight: 700;
-      color: var(--accent-light);
-      margin-bottom: 4px;
-    }
-
-    .pricing-meta {
-      font-size: 13px;
-      color: var(--text-tertiary);
-      margin-bottom: 32px;
-      font-weight: 500;
-    }
-
-    .pricing-features { list-style: none; margin-bottom: 32px; }
-
-    .pricing-features li {
-      padding: 10px 0;
-      font-size: 13px;
-      color: var(--text-secondary);
-      display: flex;
-      gap: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .pricing-features li:last-child { border-bottom: none; }
-
-    .pricing-features li::before { content: '✓'; color: var(--success); font-weight: 700; flex-shrink: 0; }
-
-    /* ── OPERATORS ── */
-    .operators-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .operator-card {
-      background: var(--bg-secondary);
-      padding: 32px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      transition: all 200ms;
-    }
-
-    .operator-card:hover { border-color: var(--accent); background: var(--bg-tertiary); }
-
-    .operator-header { display: flex; gap: 12px; margin-bottom: 20px; }
-
-    .operator-icon {
-      font-size: 28px;
-      width: 48px; height: 48px;
-      background: rgba(59,130,246,0.2);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .operator-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-
-    .operator-status { font-size: 12px; color: var(--success); font-weight: 600; }
-
-    .operator-meta { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-    .operator-meta:last-of-type { border-bottom: none; margin-bottom: 16px; }
-
-    .meta-label {
-      font-size: 11px;
-      color: var(--text-tertiary);
-      text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .meta-value { font-size: 13px; color: var(--text-primary); font-weight: 600; }
-
-    .operator-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-
-    .tag {
-      background: rgba(59,130,246,0.2);
-      color: var(--accent-light);
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 600;
-      border: 1px solid rgba(59,130,246,0.3);
-    }
-
-    /* ── AUDIENCE TABS ── */
-    .tab-nav {
-      display: flex; gap: 8px; flex-wrap: wrap;
-      margin-bottom: 32px;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 0;
-    }
-
-    .tab-btn {
-      background: none; border: none;
-      padding: 10px 20px;
-      font-size: 14px; font-weight: 600;
-      color: var(--text-tertiary);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      transition: all 150ms;
-      border-radius: 6px 6px 0 0;
-    }
-
-    .tab-btn:hover { color: var(--text-primary); background: var(--bg-secondary); }
-
-    .tab-btn.active {
-      color: var(--accent-light);
-      border-bottom-color: var(--accent);
-      background: var(--bg-secondary);
-    }
-
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    /* ── CALCULATOR ── */
-    .calc-field { display: flex; flex-direction: column; gap: 8px; }
-
-    .calc-label-row {
-      display: flex; justify-content: space-between; align-items: center;
-    }
-
-    .calc-label-row label {
-      font-size: 13px; font-weight: 600; color: var(--text-secondary);
-    }
-
-    .calc-val {
-      font-size: 14px; font-weight: 700; color: var(--accent-light);
-      min-width: 56px; text-align: right;
-    }
-
-    input[type=range] {
-      -webkit-appearance: none; width: 100%; height: 4px;
-      border-radius: 2px;
-      background: var(--border); outline: none;
-      cursor: pointer;
-    }
-
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px; height: 18px; border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 6px rgba(59,130,246,0.4);
-      cursor: pointer;
-    }
-
-    .calc-range-hint {
-      display: flex; justify-content: space-between;
-      font-size: 11px; color: var(--text-tertiary);
-    }
-
-    .how-switcher {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 8px 18px;
-      color: var(--text-secondary);
-      font-size: 13px; font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 150ms;
-    }
-    .how-switcher:hover { color: var(--text-primary); border-color: var(--accent); }
-    .how-switcher.active { border-color: var(--accent); background: rgba(59,130,246,0.12); color: var(--accent-light); }
-
-    .plan-toggle {
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      border-radius: 8px; padding: 12px;
-      color: var(--text-secondary);
-      font-size: 13px; font-weight: 600;
-      cursor: pointer; text-align: center;
-      transition: all 150ms; line-height: 1.4;
-    }
-
-    .plan-toggle.active {
-      border-color: var(--accent);
-      background: rgba(59,130,246,0.1);
-      color: var(--text-primary);
-    }
-
-    .result-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 20px 24px;
-    }
-
-    .result-card.highlight {
-      background: var(--bg-tertiary);
-      border-color: var(--success);
-    }
-
-    .result-label {
-      font-size: 11px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.8px;
-      color: var(--text-tertiary); margin-bottom: 6px;
-    }
-
-    .result-value {
-      font-size: 28px; font-weight: 800;
-      color: var(--success); line-height: 1.1;
-      margin-bottom: 4px;
-    }
-
-    .result-card.highlight .result-value { font-size: 36px; }
-
-    .result-sub { font-size: 12px; color: var(--text-tertiary); }
-
-    /* ── APPLY FORM ── */
-    .apply-section {
-      background: linear-gradient(135deg, #1e3a8a 0%, var(--bg-secondary) 100%);
-      padding: 80px 32px;
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-
-    .apply-section h2 { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
-
-    .apply-section > p {
-      color: var(--text-secondary);
-      font-size: 15px;
-      max-width: 480px;
-      margin: 0 auto 40px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      max-width: 560px;
-      margin: 0 auto;
-      text-align: left;
-    }
-
-    .form-field { display: flex; flex-direction: column; gap: 6px; }
-    .form-field.full { grid-column: 1 / -1; }
-
-    .form-field label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text-tertiary);
-    }
-
-    .form-field input,
-    .form-field select,
-    .form-field textarea {
-      background: rgba(15,23,42,0.7);
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      padding: 10px 14px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 150ms;
-    }
-
-    .form-field input:focus,
-    .form-field select:focus,
-    .form-field textarea:focus { border-color: var(--accent); }
-
-    .form-field textarea { min-height: 90px; resize: vertical; }
-    .form-field select option { background: var(--bg-secondary); }
-
-    .form-submit {
-      grid-column: 1 / -1;
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 150ms;
-    }
-
-    .form-submit:hover { background: var(--accent-light); transform: translateY(-1px); }
-    .form-submit:disabled { background: #475569; cursor: not-allowed; transform: none; }
-
-    .form-msg {
-      grid-column: 1 / -1;
-      padding: 10px 14px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      display: none;
-    }
-
-    .form-msg.success {
-      background: rgba(16,185,129,0.12);
-      border: 1px solid var(--success);
-      color: var(--success);
-      display: block;
-    }
-
-    .form-msg.error {
-      background: rgba(239,68,68,0.12);
-      border: 1px solid #ef4444;
-      color: #ef4444;
-      display: block;
-    }
+    .section{max-width:1020px;margin:0 auto;padding:80px 40px;}
+    .slabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--fleet-l);margin-bottom:12px;}
+    .stitle{font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-1.2px;line-height:1.1;margin-bottom:16px;}
+    .ssub{font-size:17px;color:var(--text2);max-width:580px;line-height:1.7;margin-bottom:48px;}
+
+    /* ── SCENARIO ── */
+    .scenario{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:48px;margin-bottom:64px;position:relative;overflow:hidden;}
+    .scenario::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(245,158,11,0.05),transparent 60%);pointer-events:none;}
+    .scenario-time{font-size:13px;font-weight:700;color:var(--fleet-l);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;}
+    .scenario-text{font-size:19px;line-height:1.75;color:var(--text2);max-width:680px;}
+    .scenario-text strong{color:var(--text);}
+    .scenario-flip{margin-top:32px;padding-top:28px;border-top:1px solid var(--border);}
+    .scenario-flip-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--green);margin-bottom:14px;}
+    .scenario-flip-text{font-size:19px;line-height:1.75;color:var(--text2);max-width:680px;}
+    .scenario-flip-text strong{color:var(--text);}
+
+    /* ── PAIN ── */
+    .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .pain-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:32px;position:relative;overflow:hidden;}
+    .pain-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(248,113,113,0.05),transparent 60%);pointer-events:none;}
+    .pain-cost{font-size:42px;font-weight:900;color:var(--red);letter-spacing:-2px;line-height:1;margin-bottom:4px;}
+    .pain-ctx{font-size:13px;color:var(--text3);margin-bottom:20px;}
+    .pain-card h3{font-size:18px;font-weight:700;margin-bottom:10px;}
+    .pain-card p{font-size:14px;color:var(--text2);line-height:1.65;}
+    .pain-fix{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);font-size:13px;color:var(--fleet-l);font-weight:600;}
+
+    /* ── INTERACTIVE DEMO ── */
+    .demo-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0;}
+    .demo-inner{max-width:1020px;margin:0 auto;padding:0 40px;}
+    .demo-head{text-align:center;margin-bottom:64px;}
+    .demo-wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+
+    .demo-steps{display:flex;flex-direction:column;gap:0;}
+    .demo-step{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;border-radius:0;}
+    .demo-step:last-child{border-bottom:none;}
+    .demo-step.active{background:rgba(245,158,11,0.05);border-radius:10px;padding:24px 16px;margin:0 -16px;}
+    .demo-step-num{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;border:2px solid var(--border2);color:var(--text3);transition:all 0.2s;}
+    .demo-step.active .demo-step-num{border-color:var(--fleet);background:var(--fleet-g);color:var(--fleet-l);}
+    .demo-step-body{flex:1;}
+    .demo-step-title{font-size:16px;font-weight:700;margin-bottom:4px;}
+    .demo-step-desc{font-size:14px;color:var(--text2);line-height:1.6;}
+    .demo-step.active .demo-step-title{color:var(--fleet-l);}
+
+    .demo-nav{display:flex;gap:10px;justify-content:flex-start;margin-top:24px;}
+    .demo-btn{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer;color:var(--text);font-family:inherit;transition:all 0.15s;}
+    .demo-btn:hover{border-color:var(--fleet);color:var(--fleet-l);}
+    .demo-btn.primary{background:var(--fleet);border-color:var(--fleet);color:#070c1a;}
+    .demo-btn.primary:hover{opacity:0.85;}
+    .demo-btn:disabled{opacity:0.35;cursor:not-allowed;}
+
+    /* ── PHONE ── */
+    .phone-wrap{position:sticky;top:84px;}
+    .phone{width:280px;margin:0 auto;background:#111827;border-radius:40px;border:6px solid #1f2937;box-shadow:0 24px 60px rgba(0,0,0,0.6),inset 0 0 0 1px rgba(255,255,255,0.06);overflow:hidden;padding-bottom:24px;}
+    .phone-notch{height:32px;background:#111827;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;}
+    .phone-notch-bar{width:100px;height:5px;background:#1f2937;border-radius:3px;}
+    .phone-status{display:flex;justify-content:space-between;padding:8px 20px 4px;font-size:11px;color:#6b7280;font-weight:600;}
+    .phone-screen{padding:0 8px;}
+    .sms-header{background:#1f2937;border-radius:12px 12px 0 0;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:2px;}
+    .sms-avatar{width:36px;height:36px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:white;flex-shrink:0;}
+    .sms-header-info{flex:1;}
+    .sms-header-name{font-size:13px;font-weight:700;}
+    .sms-header-sub{font-size:11px;color:#6b7280;}
+    .sms-body{background:#111827;border-radius:0 0 12px 12px;padding:12px 8px;display:flex;flex-direction:column;gap:8px;min-height:280px;}
+    .msg{max-width:85%;border-radius:16px;padding:10px 14px;font-size:13px;line-height:1.5;}
+    .msg.incoming{background:#1f2937;color:var(--text);align-self:flex-start;border-bottom-left-radius:4px;}
+    .msg.outgoing{background:var(--blue);color:white;align-self:flex-end;border-bottom-right-radius:4px;}
+    .msg.system{background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.3);color:var(--green);align-self:center;text-align:center;font-size:12px;border-radius:8px;}
+    .msg strong{font-weight:700;}
+    .msg-time{font-size:10px;color:#4b5563;text-align:right;margin-top:4px;}
+    .msg.outgoing .msg-time{color:rgba(255,255,255,0.5);}
+    .msg.hidden{display:none;}
+    .typing{display:flex;align-items:center;gap:4px;padding:10px 14px;background:#1f2937;border-radius:16px;border-bottom-left-radius:4px;width:60px;}
+    .typing-dot{width:6px;height:6px;border-radius:50%;background:#4b5563;animation:typing-anim 1.2s infinite;}
+    .typing-dot:nth-child(2){animation-delay:0.2s;}
+    .typing-dot:nth-child(3){animation-delay:0.4s;}
+    @keyframes typing-anim{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+    .typing.hidden{display:none;}
+    .payment-card{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);border-radius:12px;padding:20px 16px;margin:8px;}
+    .payment-card.hidden{display:none;}
+    .payment-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:6px;}
+    .payment-amount{font-size:28px;font-weight:800;color:var(--green);}
+    .payment-sub{font-size:11px;color:var(--text2);margin-top:4px;}
+
+    /* ── WORKFLOW ── */
+    .wf-section{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0;}
+    .wf-inner{max-width:1020px;margin:0 auto;padding:0 40px;}
+    .wf-head{text-align:center;margin-bottom:64px;}
+    .wf-track{display:flex;align-items:center;overflow-x:auto;padding-bottom:12px;gap:0;}
+    .wf-node{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:100px;opacity:0.2;transition:opacity 0.45s,transform 0.45s;}
+    .wf-node.wf-on{opacity:1;transform:translateY(-3px);}
+    .wf-node.fleet-step.wf-on{transform:translateY(-7px);}
+    .wf-circle{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;border:2px solid var(--border2);background:var(--bg3);transition:border-color 0.45s,box-shadow 0.45s;flex-shrink:0;}
+    .wf-node[data-r="fleet"].wf-on .wf-circle{border-color:var(--fleet);box-shadow:0 0 28px rgba(245,158,11,0.7);}
+    .wf-node[data-r="rin"].wf-on .wf-circle{border-color:var(--blue);box-shadow:0 0 22px rgba(59,130,246,0.5);}
+    .wf-node[data-r="op"].wf-on .wf-circle{border-color:var(--green);box-shadow:0 0 20px rgba(52,211,153,0.45);}
+    .wf-node[data-r="drv"].wf-on .wf-circle{border-color:var(--purple);box-shadow:0 0 20px rgba(167,139,250,0.45);}
+    .wf-lbl{font-size:11.5px;font-weight:700;text-align:center;line-height:1.35;color:var(--text);}
+    .wf-node[data-r="fleet"] .wf-lbl{color:var(--fleet-l);}
+    .wf-t{font-size:11px;color:var(--text3);}
+    .wf-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;padding:2px 8px;border-radius:4px;}
+    .wf-node[data-r="fleet"] .wf-tag{background:var(--fleet-g);color:var(--fleet-l);}
+    .wf-node[data-r="rin"] .wf-tag{background:var(--blue-g);color:var(--blue-l);}
+    .wf-node[data-r="op"] .wf-tag{background:var(--green-g);color:var(--green);}
+    .wf-node[data-r="drv"] .wf-tag{background:rgba(167,139,250,0.12);color:var(--purple);}
+    .wf-conn{flex:1;height:2px;background:var(--border);position:relative;overflow:hidden;min-width:16px;}
+    .wf-conn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--fleet-l));transition:left 0.55s ease;}
+    .wf-conn.wf-lit::after{left:0;}
+    .wf-legend{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:28px;}
+    .wfl-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);}
+    .wfl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+    /* ── NOTIFICATION MOCKUP ── */
+    .notif-layout{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+    .notif-copy h3{font-size:28px;font-weight:800;letter-spacing:-0.8px;margin-bottom:14px;line-height:1.2;}
+    .notif-copy p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:24px;}
+    .notif-bullets{display:flex;flex-direction:column;gap:14px;}
+    .nb{display:flex;align-items:flex-start;gap:12px;font-size:14px;}
+    .nb .dot{width:8px;height:8px;border-radius:50%;background:var(--fleet);flex-shrink:0;margin-top:5px;}
+    .nb span{color:var(--text2);line-height:1.55;}
+    .fleet-phone{background:var(--bg2);border:1px solid var(--border2);border-radius:24px;padding:20px;max-width:300px;margin:0 auto;}
+    .fp-bar{background:var(--bg3);border-radius:12px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+    .fp-av{width:36px;height:36px;border-radius:50%;background:var(--fleet-g);border:1.5px solid var(--fleet);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+    .fp-info .pname{font-size:14px;font-weight:700;}
+    .fp-info .psub{font-size:12px;color:var(--text3);}
+    .fp-msgs{display:flex;flex-direction:column;gap:10px;}
+    .fmsg{padding:14px 16px;border-radius:14px;font-size:13px;line-height:1.55;color:var(--text2);}
+    .fmsg.alert{background:var(--fleet-g);border:1px solid rgba(245,158,11,0.25);color:var(--text);}
+    .fmsg.notif{background:var(--green-g);border:1px solid rgba(52,211,153,0.25);color:var(--text);}
+    .fmsg.report{background:var(--bg3);border:1px solid var(--border);}
+    .fmsg .ptop{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;}
+    .fmsg.alert .ptop{color:var(--fleet-l);}
+    .fmsg.notif .ptop{color:var(--green);}
+    .fmsg.report .ptop{color:var(--blue-l);}
+    .fmsg .prow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px;}
+    .fmsg .pk{color:var(--text3);}
+    .fmsg .pv{font-weight:600;}
+
+    /* ── COMPARE ── */
+    .ctable{width:100%;border-collapse:collapse;}
+    .ctable th{padding:14px 24px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;}
+    .ctable th:first-child{text-align:left;color:var(--text3);width:34%;}
+    .ctable th.bad-h{color:var(--red);text-align:center;}
+    .ctable th.good-h{color:var(--fleet-l);text-align:center;}
+    .ctable td{padding:16px 24px;font-size:15px;border-top:1px solid var(--border);}
+    .ctable td:first-child{color:var(--text2);font-weight:500;}
+    .ctable td.bad{text-align:center;color:var(--red);font-weight:600;}
+    .ctable td.good{text-align:center;color:var(--fleet-l);font-weight:600;}
+
+    /* ── OFFER GRID ── */
+    .offer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .offer-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;}
+    .offer-icon{font-size:28px;margin-bottom:16px;}
+    .offer-card h3{font-size:17px;font-weight:700;margin-bottom:10px;}
+    .offer-card p{font-size:14px;color:var(--text2);line-height:1.65;}
+
+    /* ── OPERATOR STRIP ── */
+    .audience-strip{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0;}
+    .aud-link{font-size:14px;font-weight:700;color:var(--blue-l);display:inline-flex;align-items:center;gap:6px;transition:gap 150ms;}
+    .aud-link:hover{gap:10px;}
+
+    /* ── PILOT CTA ── */
+    .pilot-section{background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(59,130,246,0.06));border:1px solid rgba(245,158,11,0.2);border-radius:24px;padding:64px;text-align:center;max-width:780px;margin:0 auto;}
+    .pilot-section h2{font-size:38px;font-weight:800;letter-spacing:-1px;margin-bottom:14px;}
+    .pilot-section p{font-size:17px;color:var(--text2);max-width:520px;margin:0 auto 36px;line-height:1.7;}
+    .pilot-terms{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-top:28px;}
+    .pt{font-size:14px;color:var(--text2);display:flex;align-items:center;gap:6px;}
+    .pt::before{content:'✓';color:var(--fleet-l);font-weight:700;}
+
+    /* ── FORM ── */
+    .form-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:48px;max-width:640px;margin:0 auto;}
+    .form-card h2{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:10px;}
+    .form-card .fsub{font-size:15px;color:var(--text2);margin-bottom:32px;}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .fg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+    .fg label{font-size:13px;font-weight:600;color:var(--text2);}
+    .fg input,.fg select,.fg textarea{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;font-size:15px;color:var(--text);font-family:inherit;transition:border-color 200ms;outline:none;width:100%;}
+    .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--fleet);}
+    .fg select option{background:var(--bg3);}
+    .btn-sub{width:100%;background:var(--fleet);color:#070c1a;padding:18px;border-radius:10px;font-size:17px;font-weight:800;border:none;cursor:pointer;transition:opacity 150ms,transform 150ms;letter-spacing:-0.3px;}
+    .btn-sub:hover{opacity:0.85;transform:translateY(-1px);}
+    .fnote{text-align:center;font-size:12px;color:var(--text3);margin-top:14px;}
+    #f-success{display:none;text-align:center;padding:40px;}
+    #f-success .sicon{font-size:56px;margin-bottom:16px;}
+    #f-success h3{font-size:26px;font-weight:700;margin-bottom:10px;}
+    #f-success p{color:var(--text2);font-size:15px;}
+
+    /* ── ROLES GRID ── */
+    .roles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+    .role-card{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;}
+    .role-card::before{content:'';position:absolute;inset:0;opacity:0.04;pointer-events:none;}
+    .role-card.enterprise{border-color:rgba(167,139,250,0.35);}
+    .role-card.enterprise::before{background:var(--purple);}
+    .role-card.dispatcher{border-color:rgba(59,130,246,0.35);}
+    .role-card.dispatcher::before{background:var(--blue);}
+    .role-card.operator{border-color:rgba(245,158,11,0.35);}
+    .role-card.operator::before{background:var(--fleet);}
+    .role-card.driver{border-color:rgba(52,211,153,0.35);}
+    .role-card.driver::before{background:var(--green);}
+    .role-icon{font-size:32px;}
+    .role-badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.6px;padding:4px 12px;border-radius:100px;display:inline-block;width:fit-content;}
+    .enterprise .role-badge{background:rgba(167,139,250,0.1);color:var(--purple);border:1px solid rgba(167,139,250,0.3);}
+    .dispatcher .role-badge{background:var(--blue-g);color:var(--blue-l);border:1px solid rgba(59,130,246,0.3);}
+    .operator .role-badge{background:var(--fleet-g);color:var(--fleet-l);border:1px solid rgba(245,158,11,0.3);}
+    .driver .role-badge{background:var(--green-g);color:var(--green);border:1px solid rgba(52,211,153,0.3);}
+    .role-card h3{font-size:18px;font-weight:800;letter-spacing:-0.4px;line-height:1.2;}
+    .role-card p{font-size:14px;color:var(--text2);line-height:1.7;}
+    .role-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+    .role-list li{font-size:13px;color:var(--text2);padding-left:18px;position:relative;line-height:1.5;}
+    .role-list li::before{content:'→';position:absolute;left:0;font-weight:700;}
+    .enterprise .role-list li::before{color:var(--purple);}
+    .dispatcher .role-list li::before{color:var(--blue-l);}
+    .operator .role-list li::before{color:var(--fleet-l);}
+    .driver .role-list li::before{color:var(--green);}
+    @media(max-width:860px){.roles-grid{grid-template-columns:1fr;}}
 
     /* ── FOOTER ── */
-    footer {
-      background: var(--bg-secondary);
-      padding: 60px 32px 24px;
-      border-top: 1px solid var(--border);
+    footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+    .footer-copy{font-size:13px;color:var(--text3);}
+    .footer-links{display:flex;gap:24px;flex-wrap:wrap;}
+    .footer-links a{font-size:13px;color:var(--text3);transition:color 150ms;}
+    .footer-links a:hover{color:var(--blue-l);}
+
+    /* ── MOBILE ── */
+    @media(max-width:900px){
+      .demo-wrap{grid-template-columns:1fr;}
+      .phone-wrap{position:static;}
+      .notif-layout{grid-template-columns:1fr;}
+      .audience-inner{grid-template-columns:1fr;}
     }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 40px;
-      max-width: 1200px;
-      margin: 0 auto 40px;
+    @media(max-width:768px){
+      header{padding:0 20px;}
+      .nav-r a:not(.nav-cta){display:none;}
+      .hero{padding:80px 20px 60px;}
+      .stats-inner{grid-template-columns:repeat(2,1fr);}
+      .stat:nth-child(2){border-right:none;}
+      .pain-grid{grid-template-columns:1fr;}
+      .section{padding:60px 20px;}
+      .demo-inner,.wf-inner,.audience-strip{padding-left:20px;padding-right:20px;}
+      .offer-grid{grid-template-columns:1fr;}
+      .pilot-section{padding:40px 24px;}
+      .form-card{padding:32px 20px;}
+      .frow{grid-template-columns:1fr;}
+      footer{flex-direction:column;align-items:flex-start;padding:28px 20px;}
     }
-
-    .footer-section h4 {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-      color: var(--text-secondary);
-    }
-
-    .footer-section ul { list-style: none; }
-
-    .footer-section a {
-      color: var(--text-tertiary);
-      font-size: 13px;
-      display: block;
-      padding: 6px 0;
-      transition: color 150ms;
-    }
-
-    .footer-section a:hover { color: var(--accent-light); }
-
-    .footer-bottom {
-      border-top: 1px solid var(--border);
-      padding-top: 24px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-tertiary);
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--success);
-    }
-
-    .status-pill::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--success);
-      animation: blink 2s infinite;
-    }
-
-    /* ── VIDEO MODAL ── */
-    #videoModal {
-      display: none;
-      position: fixed; inset: 0; z-index: 999;
-      background: rgba(0,0,0,0.88);
-      backdrop-filter: blur(8px);
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-
-    #videoModal.open { display: flex; }
-
-    .modal-inner {
-      width: 100%;
-      max-width: 900px;
-      position: relative;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: -2.5rem; right: 0;
-      background: none; border: none;
-      color: white; font-size: 1.1rem;
-      cursor: pointer; font-weight: 600;
-    }
-
-    .modal-video {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .modal-video iframe {
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 100%; border: none;
-    }
-
-    .modal-placeholder {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 16px; color: white;
-      background: var(--bg-secondary);
-      text-align: center; padding: 2rem;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      h1 { font-size: 36px; }
-      .metrics { grid-template-columns: repeat(2, 1fr); }
-      .features-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: repeat(2, 1fr); }
-      .step::after { display: none; }
-      .pricing-grid { grid-template-columns: 1fr; }
-      .pricing-card.featured { transform: scale(1); }
-      .operators-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: repeat(2, 1fr); }
-      nav ul { gap: 16px; }
-      section { padding: 60px 20px; }
-      .demo-grid { grid-template-columns: 1fr; }
-      .form-grid { grid-template-columns: 1fr; }
-      .form-field.full { grid-column: 1; }
-      #navTagline { display: none; }
+    @media(max-width:480px){
+      .hero h1{font-size:34px;}
+      .hero-ctas{flex-direction:column;align-items:center;}
+      .btn-primary,.btn-outline{width:100%;text-align:center;}
+      .pilot-terms{flex-direction:column;align-items:center;gap:12px;}
     }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
-  <div class="logo-wrap">
-    <div class="logo">
-      <div class="logo-dot"></div>
-      RIN
-    </div>
-    <div id="navTagline">Faster Dispatch. Better Driver Utilization. No Workflow Change.</div>
+  <a href="/" class="logo"><div class="logo-dot"></div> RIN</a>
+  <div class="nav-r">
+    <a href="#demo">See Demo</a>
+    <a href="#how-it-works">Who We Serve</a>
+    <a href="/for-operators">For Operators</a>
+    <a href="#contact-form" class="nav-cta">Book a Pilot Call</a>
   </div>
-  <nav>
-    <ul>
-      <li><a href="#why" onclick="switchTab('whoweserve')" data-track="nav_whoweserve">Who We Serve</a></li>
-      <li><a href="#how" data-track="nav_how">How It Works</a></li>
-      <li><a href="#demo" data-track="nav_demo">Demo</a></li>
-      <li><a href="#pricing" data-track="nav_plans">Pricing</a></li>
-      <li><a href="#operators" data-track="nav_network">Our Operators</a></li>
-      <li><a href="#why" onclick="switchTab('calculator')" data-track="nav_calculator">📊 ROI Calculator</a></li>
-      <li><a href="/for-operators.html" data-track="nav_operators" style="color:var(--accent-light);font-weight:600;">For Operators</a></li>
-      <li><a href="/for-drivers.html" data-track="nav_drivers" style="color:var(--accent-light);font-weight:600;">For Drivers</a></li>
-      <li><a href="/for-fleets.html" data-track="nav_fleets" style="color:var(--accent-light);font-weight:600;">For Fleets</a></li>
-      <li><a href="/driver.html" data-track="nav_driver">RIN Driver App</a></li>
-      <li><a href="/dispatcher.html" data-track="nav_dispatcher">Dispatcher</a></li>
-    </ul>
-  </nav>
-  <a href="#apply" class="header-btn" data-track="nav_apply">Get Started</a>
 </header>
 
 <!-- HERO -->
-<section class="hero" data-section="hero">
-  <div class="hero-content">
-    <span class="hero-tag">✓ Now Accepting Operators — Toronto &amp; GTA</span>
-    <h1 id="hero-headline">More jobs. Faster pay.<br>Zero overhead.</h1>
-    <p class="hero-subtitle">AI dispatch for tow operators, insurance carriers, fleets, and dealerships. Less calling around. Faster service. Clean records — every time.</p>
-
-    <div class="hero-cta">
-      <a href="#apply" class="btn btn-primary" data-track="hero_apply">Apply to Join Network</a>
-      <a href="#demo" class="btn btn-secondary" data-track="hero_demo">Schedule 30-Min Demo</a>
-    </div>
-
-    <div class="metrics">
-      <div class="metric">
-        <div class="metric-value">80%</div>
-        <div class="metric-label">Payout Per Job</div>
-      </div>
-      <div class="metric">
-        <div class="metric-value">&lt;15 min</div>
-        <div class="metric-label">Avg Dispatch Time</div>
-      </div>
-      <div class="metric">
-        <div class="metric-value">48 hrs</div>
-        <div class="metric-label">Onboarding</div>
-      </div>
-      <div class="metric">
-        <div class="metric-value">$0</div>
-        <div class="metric-label">Setup Cost</div>
-      </div>
-    </div>
+<div class="hero">
+  <div class="hero-badge">🚚 Built for Fleet Managers & Operations Teams</div>
+  <h1>A vehicle goes down.<br><span class="accent">Your team shouldn't have to stop everything.</span></h1>
+  <p class="hero-sub">Every minute a fleet vehicle sits waiting for a tow costs you money and delays your operation. RIN dispatches in under 15 minutes, locks the rate before anyone moves, and sends you a report when it's done. Your team gets a notification — not a task.</p>
+  <div class="hero-ctas">
+    <a href="#contact-form" class="btn-primary">Book a 20-Minute Pilot Call →</a>
+    <a href="#demo" class="btn-outline">See How a Job Works</a>
   </div>
-</section>
+</div>
 
-<!-- AUDIENCE TABS -->
-<section id="why" data-section="operators">
-  <div class="section-label">Who RIN Serves</div>
-  <h2>Built for Every Side of the Road</h2>
-  <p class="section-intro">Roadside service has always run on phone calls, paper invoices, and chased payments. RIN replaces all three — with locked pricing, AI dispatch, and automatic payout.</p>
-
-  <!-- Tab Nav -->
-  <div class="tab-nav" role="tablist">
-    <button class="tab-btn" onclick="switchTab('whoweserve')" data-track="tab_whoweserve">👥 Who We Serve</button>
-    <button class="tab-btn active" onclick="switchTab('operators')" data-track="tab_operators">🚚 Tow Operators</button>
-    <button class="tab-btn" onclick="switchTab('insurance')" data-track="tab_insurance">🏛️ Insurance Companies</button>
-    <button class="tab-btn" onclick="switchTab('dealerships')" data-track="tab_dealerships">🏎️ Dealerships</button>
-    <button class="tab-btn" onclick="switchTab('fleet')" data-track="tab_fleet">🚛 Fleet Operators</button>
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">$340</div><div class="stat-lbl">avg cost per hour of fleet downtime</div></div>
+    <div class="stat"><div class="stat-num">&lt;15m</div><div class="stat-lbl">guaranteed dispatch time</div></div>
+    <div class="stat"><div class="stat-num">1 text</div><div class="stat-lbl">to initiate a full dispatch</div></div>
+    <div class="stat"><div class="stat-num">Monthly</div><div class="stat-lbl">consolidated invoice — one line item</div></div>
   </div>
+</div>
 
-  <!-- Who We Serve Tab -->
-  <div class="tab-panel" id="tab-whoweserve">
-    <p style="text-align:center;color:var(--text-secondary);max-width:560px;margin:0 auto 32px;font-size:16px;line-height:1.7;">
-      Roadside service is broken for everyone in this chain. RIN fixes it — differently for each of you.
-    </p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;">
-
-      <div class="feature-card" data-track="whoweserve_operators">
-        <div class="feature-icon">🚚</div>
-        <h3>Tow Operators</h3>
-        <p style="margin:12px 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.65;">You're good at this job. You shouldn't have to hustle for clients. RIN brings enterprise work to you — pre-priced, pre-approved, and paid in 7 days.</p>
-        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
-          <span onclick="switchTab('operators')" style="font-size:13px;font-weight:600;color:var(--accent-light);cursor:pointer;">See how it works →</span>
-          <a href="/for-operators.html" style="font-size:13px;font-weight:600;color:var(--success);white-space:nowrap;">Operator page →</a>
-        </div>
-      </div>
-
-      <div class="feature-card" style="cursor:pointer;" onclick="switchTab('insurance')" data-track="whoweserve_insurance">
-        <div class="feature-icon">🏛️</div>
-        <h3>Insurance Companies</h3>
-        <p style="margin:12px 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.65;">Your policyholder needs help right now. RIN dispatches a vetted operator, locks the rate before anyone moves, and hands you a clean audit record. Automatically.</p>
-        <div style="font-size:13px;font-weight:600;color:var(--accent-light);">See how it works →</div>
-      </div>
-
-      <div class="feature-card" style="cursor:pointer;" onclick="switchTab('dealerships')" data-track="whoweserve_dealerships">
-        <div class="feature-icon">🏎️</div>
-        <h3>Dealerships</h3>
-        <p style="margin:12px 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.65;">Your customer broke down and they're calling you. RIN answers under your brand, dispatches help, and keeps them updated every step of the way. They come back to your bay.</p>
-        <div style="font-size:13px;font-weight:600;color:var(--accent-light);">See how it works →</div>
-      </div>
-
-      <div class="feature-card" style="cursor:pointer;" onclick="switchTab('fleet')" data-track="whoweserve_fleet">
-        <div class="feature-icon">🚛</div>
-        <h3>Fleet Operators</h3>
-        <p style="margin:12px 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.65;">One truck down costs you a delivery, a client, or a whole day. RIN gets the right help there fast — and logs every incident by vehicle so you're never scrambling again.</p>
-        <div style="font-size:13px;font-weight:600;color:var(--accent-light);">See how it works →</div>
-      </div>
-
-    </div>
-    <div style="margin-top:2rem;text-align:center;">
-      <a href="#apply" class="btn btn-primary" data-track="whoweserve_apply">Apply to Join the Network →</a>
-    </div>
-  </div>
-
-  <!-- Operators Tab -->
-  <div class="tab-panel active" id="tab-operators">
-    <div class="features-grid">
-      <div class="feature-card"><div class="feature-icon">📋</div><h3>Enterprise Job Volume</h3><p>Get dispatched by insurance companies, fleet operators, and dealerships. Pre-qualified jobs. No phone tag.</p></div>
-      <div class="feature-card"><div class="feature-icon">🤖</div><h3>AI Handles Logistics</h3><p>Automatic driver matching by location, rating, and availability. One SMS confirmation. You're on your way.</p></div>
-      <div class="feature-card"><div class="feature-icon">💰</div><h3>Transparent 80% Payout</h3><p>No hidden fees. No chasing invoices. Automatic billing. Your 80% tracked in your portal every job.</p></div>
-      <div class="feature-card"><div class="feature-icon">📱</div><h3>No Workflow Change</h3><p>Drivers confirm via SMS. No new app. No retraining. Your team works exactly as they do today.</p></div>
-      <div class="feature-card"><div class="feature-icon">⏱️</div><h3>Eliminate Scheduling Chaos</h3><p>Stop spending 2–4 hrs/day on the phone. RIN dispatches automatically. You focus on running jobs.</p></div>
-      <div class="feature-card"><div class="feature-icon">🔒</div><h3>Price Lock-In Before You Roll</h3><p>AI-set pricing locked in before dispatch. Customer-approved via SMS. No disputes at the scene.</p></div>
-    </div>
-    <div style="margin-top:2rem;text-align:center;">
-      <p style="font-size:13px;color:var(--text-tertiary);margin-bottom:14px;">Independent operators welcome — whether you run 1 truck or 50.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-        <a href="#calculator" class="btn btn-primary" data-track="tab_operators_calc">Calculate Your Earnings →</a>
-        <a href="/for-operators.html" class="btn btn-secondary" data-track="tab_operators_page" style="font-size:14px;">Full Operator Page →</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Insurance Tab -->
-  <div class="tab-panel" id="tab-insurance">
-    <div class="features-grid">
-      <div class="feature-card"><div class="feature-icon">⚡</div><h3>Guaranteed Response SLAs</h3><p>Sub-15 minute dispatch times backed by a vetted operator network. Your policyholders never wait in the dark.</p></div>
-      <div class="feature-card"><div class="feature-icon">📍</div><h3>Real-Time Job Tracking</h3><p>Know exactly where the tow truck is at every moment. Driver status updates flow automatically to your team.</p></div>
-      <div class="feature-card"><div class="feature-icon">📄</div><h3>Full Audit Trail</h3><p>Every job logged — location, time, price, driver, completion. Clean records for claims processing.</p></div>
-      <div class="feature-card"><div class="feature-icon">💳</div><h3>Transparent Pricing Per Incident</h3><p>AI-calculated rates by incident type. No surprise invoices. Customer approves before work starts.</p></div>
-      <div class="feature-card"><div class="feature-icon">🌐</div><h3>GTA-Wide Coverage</h3><p>Toronto, Mississauga, Brampton, Scarborough, North York — one network, one dispatch platform.</p></div>
-      <div class="feature-card"><div class="feature-icon">🤝</div><h3>White-Label Integration</h3><p>RIN can operate under your brand. Your policyholders see your service — we power it behind the scenes.</p></div>
-    </div>
-    <div style="margin-top:2rem;text-align:center;">
-      <a href="#apply" class="btn btn-primary" data-track="tab_insurance_cta">Book a Partnership Call →</a>
-    </div>
-  </div>
-
-  <!-- Dealerships Tab -->
-  <div class="tab-panel" id="tab-dealerships">
-    <div class="features-grid">
-      <div class="feature-card"><div class="feature-icon">🏷️</div><h3>Branded Roadside Experience</h3><p>Your customers get a seamless roadside experience under your dealership brand — powered by RIN's network.</p></div>
-      <div class="feature-card"><div class="feature-icon">📞</div><h3>Zero Coordination Overhead</h3><p>No more staff time managing tow calls. RIN handles dispatch, driver comms, and customer updates automatically.</p></div>
-      <div class="feature-card"><div class="feature-icon">⭐</div><h3>Protect Your CSI Score</h3><p>Fast, professional roadside response directly impacts customer satisfaction. RIN makes your brand look good.</p></div>
-      <div class="feature-card"><div class="feature-icon">🔁</div><h3>Drive Service Bay Referrals</h3><p>Every roadside job is an opportunity to bring the vehicle back to your service bay. RIN closes that loop.</p></div>
-      <div class="feature-card"><div class="feature-icon">📊</div><h3>Monthly Reporting</h3><p>Job volume, response times, customer feedback — all in one monthly report you can share with your GM.</p></div>
-      <div class="feature-card"><div class="feature-icon">💼</div><h3>Simple Billing</h3><p>One monthly invoice from RIN. No per-call billing surprises. Predictable cost for roadside coverage.</p></div>
-    </div>
-    <div style="margin-top:2rem;text-align:center;">
-      <a href="#apply" class="btn btn-primary" data-track="tab_dealership_cta">Talk to Us About Your Dealership →</a>
-    </div>
-  </div>
-
-  <!-- Calculator Tab -->
-  <div class="tab-panel" id="tab-calculator">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;">
-      <!-- Inputs -->
-      <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:32px;display:flex;flex-direction:column;gap:28px;">
-        <div class="calc-field">
-          <div class="calc-label-row"><label>Jobs per month</label><span class="calc-val" id="v_jobs">60</span></div>
-          <input type="range" id="r_jobs" min="10" max="300" value="60" step="5" oninput="calcUpdate()">
-          <div class="calc-range-hint"><span>10</span><span>300</span></div>
-        </div>
-        <div class="calc-field">
-          <div class="calc-label-row"><label>Average revenue per job</label><span class="calc-val" id="v_rate">$200</span></div>
-          <input type="range" id="r_rate" min="100" max="600" value="200" step="10" oninput="calcUpdate()">
-          <div class="calc-range-hint"><span>$100</span><span>$600</span></div>
-        </div>
-        <div class="calc-field">
-          <div class="calc-label-row"><label>Hours/week on dispatch coordination</label><span class="calc-val" id="v_hours">10</span></div>
-          <input type="range" id="r_hours" min="1" max="40" value="10" step="1" oninput="calcUpdate()">
-          <div class="calc-range-hint"><span>1 hr</span><span>40 hrs</span></div>
-        </div>
-        <div class="calc-field">
-          <div class="calc-label-row"><label>Days to get paid (current average)</label><span class="calc-val" id="v_days">45</span></div>
-          <input type="range" id="r_days" min="1" max="90" value="45" step="1" oninput="calcUpdate()">
-          <div class="calc-range-hint"><span>1 day</span><span>90 days</span></div>
-        </div>
-        <div class="calc-field">
-          <div class="calc-label-row"><label>Number of trucks</label><span class="calc-val" id="v_trucks">3</span></div>
-          <input type="range" id="r_trucks" min="1" max="30" value="3" step="1" oninput="calcUpdate()">
-          <div class="calc-range-hint"><span>1</span><span>30</span></div>
-        </div>
-        <div>
-          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-tertiary);margin-bottom:10px;">Your Plan</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <button id="plan_platform" class="plan-toggle active" onclick="setPlan('platform')" data-track="calc_plan_platform">Platform Only<br><span style="font-size:18px;font-weight:700;color:var(--accent-light);">10%</span></button>
-            <button id="plan_network" class="plan-toggle" onclick="setPlan('network')" data-track="calc_plan_network">Network Dispatch<br><span style="font-size:18px;font-weight:700;color:var(--accent-light);">20%</span></button>
-          </div>
-        </div>
-      </div>
-      <!-- Results -->
-      <div style="display:flex;flex-direction:column;gap:16px;">
-        <div class="result-card highlight">
-          <div class="result-label">Monthly Take-Home</div>
-          <div class="result-value" id="r_monthly">$9,600</div>
-          <div class="result-sub" id="r_monthly_sub">After 20% RIN commission</div>
-        </div>
-        <div class="result-card">
-          <div class="result-label">Annual Earnings</div>
-          <div class="result-value" id="r_annual">$115,200</div>
-          <div class="result-sub">Projected yearly take-home</div>
-        </div>
-        <div class="result-card">
-          <div class="result-label">Hours Saved per Month</div>
-          <div class="result-value" id="r_hours_saved">40 hrs</div>
-          <div class="result-sub" id="r_hours_value">Worth ~$2,000/mo at $50/hr</div>
-        </div>
-        <div class="result-card">
-          <div class="result-label">Payment Cycle</div>
-          <div class="result-value" id="r_payment">45 days → 7 days</div>
-          <div class="result-sub" id="r_payment_sub">38 days faster cash in hand</div>
-        </div>
-        <div class="result-card" id="r_network_card" style="display:none;">
-          <div class="result-label">Enterprise Bonus Jobs</div>
-          <div class="result-value" id="r_bonus_jobs">+18 jobs/mo</div>
-          <div class="result-sub" id="r_bonus_value">+$2,880/mo from RIN clients</div>
-        </div>
-        <div class="result-card" style="background:rgba(59,130,246,0.08);border-color:rgba(59,130,246,0.3);">
-          <div class="result-label">Total Monthly Value with RIN</div>
-          <div class="result-value" id="r_total" style="color:var(--accent-light);">$11,600</div>
-          <div class="result-sub">Earnings + time savings + faster pay</div>
-        </div>
-        <a href="#apply" class="btn btn-primary" style="text-align:center;display:block;" data-track="calc_apply_cta">Apply to Join — Start Earning This →</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Fleet Tab -->
-  <div class="tab-panel" id="tab-fleet">
-    <div class="features-grid">
-      <div class="feature-card"><div class="feature-icon">🕐</div><h3>24/7 Commercial Coverage</h3><p>Your vehicles don't stop at 5pm. RIN's network is available around the clock across the GTA.</p></div>
-      <div class="feature-card"><div class="feature-icon">🚛</div><h3>Heavy Duty Capable</h3><p>Light, medium, and heavy-duty incidents. Flatbed, wheel-lift, winching — matched to your vehicle type.</p></div>
-      <div class="feature-card"><div class="feature-icon">📡</div><h3>Fleet-Wide Visibility</h3><p>Track all active roadside incidents across your fleet in real time. One dashboard. No phone calls needed.</p></div>
-      <div class="feature-card"><div class="feature-icon">📉</div><h3>Reduce Downtime Cost</h3><p>Faster dispatch = less time your vehicle and driver are stuck on the side of the road. Revenue-hours saved.</p></div>
-      <div class="feature-card"><div class="feature-icon">📋</div><h3>Per-Vehicle Job History</h3><p>Every incident logged by vehicle. Useful for maintenance tracking, insurance claims, and driver accountability.</p></div>
-      <div class="feature-card"><div class="feature-icon">🤝</div><h3>Custom SLA Agreements</h3><p>Enterprise fleet accounts get dedicated coverage commitments, priority dispatch, and dedicated account support.</p></div>
-    </div>
-    <div style="margin-top:2rem;text-align:center;">
-      <a href="#apply" class="btn btn-primary" data-track="tab_fleet_cta">Set Up Fleet Coverage →</a>
-    </div>
-  </div>
-</section>
-
-<!-- OLD WAY / RIN WAY -->
-<div class="comparison-section">
-  <div class="comparison-inner">
-    <div class="section-label" style="text-align:center;">Why RIN</div>
-    <h2 style="text-align:center;font-size:32px;margin-bottom:8px;">The Old Way Is Costing Everyone</h2>
-    <p style="text-align:center;color:var(--text-secondary);max-width:520px;margin:0 auto;font-size:16px;line-height:1.7;">Every delay, dispute, and missed payment in roadside is a process problem. Here's what RIN fixes.</p>
-    <div class="comparison-grid">
-      <div class="comparison-col">
-        <div class="comparison-header old">❌ &nbsp;Without RIN</div>
-      </div>
-      <div class="comparison-col">
-        <div class="comparison-header new">✓ &nbsp;With RIN</div>
-      </div>
-
-      <div class="comparison-cell old"><span class="icon">📞</span>Call 4 carriers to find a driver</div>
-      <div class="comparison-cell new"><span class="icon">⚡</span>Job dispatched automatically in minutes</div>
-
-      <div class="comparison-cell old"><span class="icon">💬</span>Negotiate price at the scene</div>
-      <div class="comparison-cell new"><span class="icon">🔒</span>Rate locked before anyone moves</div>
-
-      <div class="comparison-cell old"><span class="icon">📅</span>Wait 30–60 days to get paid</div>
-      <div class="comparison-cell new"><span class="icon">💰</span>80% in your account within 7 days</div>
-
-      <div class="comparison-cell old"><span class="icon">📋</span>Manual paperwork per job</div>
-      <div class="comparison-cell new"><span class="icon">📂</span>Full audit trail — automatic, every time</div>
-
-      <div class="comparison-cell old"><span class="icon">🔍</span>No visibility until the job is done</div>
-      <div class="comparison-cell new"><span class="icon">📡</span>Real-time tracking from dispatch to drop-off</div>
+<!-- SCENARIO -->
+<div class="section" style="padding-bottom:0;">
+  <div class="scenario">
+    <div class="scenario-time">Tuesday, 7:14 AM — Without RIN</div>
+    <p class="scenario-text">Your driver calls in. Vehicle #12 is dead on the 401. <strong>Your ops manager drops everything</strong> and starts calling dispatch services. First one: voicemail. Second: 45-minute ETA, no price until they see it. Third: available but not sure they cover that area. Meanwhile <strong>your driver is on the shoulder, the schedule is already slipping, and nobody knows what this is going to cost.</strong> Two hours later the vehicle is moving. The invoice arrives three weeks later and it's $80 more than expected. Someone has to deal with that too.</p>
+    <div class="scenario-flip">
+      <div class="scenario-flip-label">Tuesday, 7:14 AM — With RIN</div>
+      <p class="scenario-flip-text">Your driver texts the RIN number. <strong>In 12 seconds, a vetted tow operator is assigned</strong> — price locked, ETA confirmed, driver notified. Your ops manager gets one notification: "Vehicle #12 — dispatch confirmed, ETA 11 min." <strong>They go back to their day.</strong> End of month: one invoice, every incident logged, ready for accounting and insurance.</p>
     </div>
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
-<div class="how-it-works" data-section="how">
-  <section id="how" style="padding-top:0;padding-bottom:0;">
-    <div class="section-label" id="how-label">For Tow Operators — The Process</div>
-    <h2>How It Works</h2>
-    <p class="section-intro" id="how-intro">Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That's it.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;">
-      <button class="how-switcher active" onclick="switchHow('operators')">🚚 Tow Operators</button>
-      <button class="how-switcher" onclick="switchHow('insurance')">🏛️ Insurance</button>
-      <button class="how-switcher" onclick="switchHow('dealerships')">🏎️ Dealerships</button>
-      <button class="how-switcher" onclick="switchHow('fleet')">🚛 Fleet Operators</button>
+<!-- PAIN -->
+<div class="section">
+  <div class="slabel">What breakdowns actually cost you</div>
+  <h2 class="stitle">It's never just the tow.</h2>
+  <p class="ssub">The tow fee is visible. Everything around it isn't — until you add it up.</p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-cost">$340/hr</div>
+      <div class="pain-ctx">average fleet downtime cost while you wait for dispatch</div>
+      <h3>Every minute waiting is money gone</h3>
+      <p>Delayed deliveries, idle drivers, missed schedules — all compounding from the moment the vehicle stops. The longer you wait for a tow, the deeper the hole gets.</p>
+      <div class="pain-fix">→ RIN dispatches in under 15 minutes. Guaranteed. Not "we'll try."</div>
     </div>
-
-    <!-- TOW OPERATORS -->
-    <div class="how-panel" id="how-operators">
-      <div class="flow-diagram">
-        <div class="flow-node">
-          <div class="flow-node-icon">🏢</div>
-          <div class="flow-node-label">Client</div>
-          <div class="flow-node-title">Job Comes In</div>
-          <div class="flow-node-desc">Enterprise clients send jobs directly. No calls, no hustle.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node accent">
-          <div class="flow-node-icon">🤖</div>
-          <div class="flow-node-label">RIN</div>
-          <div class="flow-node-title">You're Matched</div>
-          <div class="flow-node-desc">AI picks the nearest operator. Rate locked before anyone rolls.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node" style="border-color:var(--accent);background:rgba(59,130,246,0.08);">
-          <div class="flow-node-icon">🚚</div>
-          <div class="flow-node-label" style="color:#34d399;">You</div>
-          <div class="flow-node-title">One SMS to Confirm</div>
-          <div class="flow-node-desc">Your driver replies yes. That's it. No new app needed.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node accent">
-          <div class="flow-node-icon">💰</div>
-          <div class="flow-node-label">Payout</div>
-          <div class="flow-node-title">80% in 7 Days</div>
-          <div class="flow-node-desc">Automatic. Every time. No invoicing required.</div>
-        </div>
-      </div>
-      <div class="steps-grid">
-        <div class="step"><div class="step-number">1</div><h3>A Job Lands</h3><p>Insurance, fleet, or dealership sends a request through RIN. No phone call to your office.</p></div>
-        <div class="step"><div class="step-number">2</div><h3>Your Rate Is Set</h3><p>AI calculates the price. Client approves. Your cut is confirmed before your driver moves.</p></div>
-        <div class="step"><div class="step-number">3</div><h3>Confirm &amp; Go</h3><p>One SMS to your driver. One reply. On the way. No new app, no extra steps.</p></div>
-        <div class="step"><div class="step-number">4</div><h3>Get Paid</h3><p>Job done. RIN handles the invoice. Your 80% hits your account in 7 days.</p></div>
-      </div>
+    <div class="pain-card">
+      <div class="pain-cost">2–3 hrs</div>
+      <div class="pain-ctx">of operations manager time per breakdown incident</div>
+      <h3>Your team is the dispatch service</h3>
+      <p>Calling around, coordinating, following up, explaining the situation three times to three different people. That's skilled operations time going to a problem that should handle itself.</p>
+      <div class="pain-fix">→ One text to RIN. Your team gets a notification, not a job.</div>
     </div>
-
-    <!-- INSURANCE COMPANIES -->
-    <div class="how-panel" id="how-insurance" style="display:none;">
-      <div class="flow-diagram">
-        <div class="flow-node">
-          <div class="flow-node-icon">🚗</div>
-          <div class="flow-node-label">Incident</div>
-          <div class="flow-node-title">Request Filed</div>
-          <div class="flow-node-desc">Policyholder incident logged. Everything captured automatically.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node accent">
-          <div class="flow-node-icon">🔒</div>
-          <div class="flow-node-label">RIN</div>
-          <div class="flow-node-title">Price Locked</div>
-          <div class="flow-node-desc">Fair rate set by AI. No surprise invoices. Ever.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node">
-          <div class="flow-node-icon">🚚</div>
-          <div class="flow-node-label">Dispatch</div>
-          <div class="flow-node-title">Driver Sent</div>
-          <div class="flow-node-desc">Vetted operator dispatched. Tracked start to finish.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node accent">
-          <div class="flow-node-icon">📋</div>
-          <div class="flow-node-label">Done</div>
-          <div class="flow-node-title">Audit Ready</div>
-          <div class="flow-node-desc">One clean record per claim. Ready when you need it.</div>
-        </div>
-      </div>
-      <div class="steps-grid">
-        <div class="step"><div class="step-number">1</div><h3>Request Filed</h3><p>Submit a roadside incident through RIN. Details captured automatically — no calls, no back-and-forth.</p></div>
-        <div class="step"><div class="step-number">2</div><h3>Price Locked</h3><p>AI sets a fair rate before anyone moves. No inflated invoices, no billing surprises.</p></div>
-        <div class="step"><div class="step-number">3</div><h3>Driver Dispatched</h3><p>Verified operator on the way. Real-time tracking from dispatch to drop-off.</p></div>
-        <div class="step"><div class="step-number">4</div><h3>Audit Ready</h3><p>Job complete. One clean record per claim — signed, timestamped, ready for your files.</p></div>
-      </div>
+    <div class="pain-card">
+      <div class="pain-cost">No record</div>
+      <div class="pain-ctx">of what each incident cost and why — until accounting asks</div>
+      <h3>Surprise invoices. No audit trail.</h3>
+      <p>You don't know the rate until after the job. You don't know the total until the invoice arrives weeks later. And when insurance or finance asks for documentation, there's nothing clean to show them.</p>
+      <div class="pain-fix">→ Price locked before the truck moves. Full incident report after.</div>
     </div>
-
-    <!-- FLEET OPERATORS -->
-    <div class="how-panel" id="how-fleet" style="display:none;">
-      <div class="flow-diagram">
-        <div class="flow-node">
-          <div class="flow-node-icon">🚛</div>
-          <div class="flow-node-label">Breakdown</div>
-          <div class="flow-node-title">Reported Instantly</div>
-          <div class="flow-node-desc">Driver or manager flags the incident. Location captured automatically.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node accent">
-          <div class="flow-node-icon">🎯</div>
-          <div class="flow-node-label">RIN</div>
-          <div class="flow-node-title">Right Truck Sent</div>
-          <div class="flow-node-desc">Nearest qualified operator dispatched. No manual coordination.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node">
-          <div class="flow-node-icon">📡</div>
-          <div class="flow-node-label">Live</div>
-          <div class="flow-node-title">Track Everything</div>
-          <div class="flow-node-desc">ETAs and status in real time. No calls to find out where things stand.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node accent">
-          <div class="flow-node-icon">📁</div>
-          <div class="flow-node-label">Logged</div>
-          <div class="flow-node-title">Always on File</div>
-          <div class="flow-node-desc">Every job tied to a vehicle ID. Ready for maintenance or insurance.</div>
-        </div>
-      </div>
-      <div class="steps-grid">
-        <div class="step"><div class="step-number">1</div><h3>Breakdown Reported</h3><p>Driver or manager flags the incident. Location and vehicle details captured — no call center, no paperwork.</p></div>
-        <div class="step"><div class="step-number">2</div><h3>Right Truck Dispatched</h3><p>RIN matches the job to the nearest qualified operator. Correct tow type, automatically.</p></div>
-        <div class="step"><div class="step-number">3</div><h3>Track It Live</h3><p>Real-time status from one dashboard. ETAs, updates, completion — no calls needed.</p></div>
-        <div class="step"><div class="step-number">4</div><h3>Job on File</h3><p>Every incident logged by vehicle. Maintenance records, insurance claims — always ready to export.</p></div>
-      </div>
-    </div>
-
-    <!-- DEALERSHIPS -->
-    <div class="how-panel" id="how-dealerships" style="display:none;">
-      <div class="flow-diagram">
-        <div class="flow-node">
-          <div class="flow-node-icon">📞</div>
-          <div class="flow-node-label">Customer</div>
-          <div class="flow-node-title">Calls for Help</div>
-          <div class="flow-node-desc">Under your brand. Not ours. Customer never sees a third party.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node accent">
-          <div class="flow-node-icon">🏎️</div>
-          <div class="flow-node-label">RIN</div>
-          <div class="flow-node-title">Help Dispatched</div>
-          <div class="flow-node-desc">Fast. Professional. Your dealership's name on every update.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node">
-          <div class="flow-node-icon">📲</div>
-          <div class="flow-node-label">Customer</div>
-          <div class="flow-node-title">Kept in the Loop</div>
-          <div class="flow-node-desc">Real-time SMS updates. ETA, driver name, status — all in your name.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node accent">
-          <div class="flow-node-icon">🔧</div>
-          <div class="flow-node-label">Return</div>
-          <div class="flow-node-title">Back to Your Bay</div>
-          <div class="flow-node-desc">Every roadside call is a service return opportunity. RIN closes that loop.</div>
-        </div>
-      </div>
-      <div class="steps-grid">
-        <div class="step"><div class="step-number">1</div><h3>Customer Calls</h3><p>Your customer reaches roadside assistance under your brand. They never see a third-party name.</p></div>
-        <div class="step"><div class="step-number">2</div><h3>Help Dispatched</h3><p>A vetted operator is on the way. Fast, professional, and presenting under your dealership — not ours.</p></div>
-        <div class="step"><div class="step-number">3</div><h3>Customer Kept Happy</h3><p>Real-time SMS updates with your name attached. ETA, driver info, job status — no calls, no silence.</p></div>
-        <div class="step"><div class="step-number">4</div><h3>Back to Your Bay</h3><p>Job done. Every incident is a service return opportunity. RIN routes it back to you.</p></div>
-      </div>
-    </div>
-
-  </section>
+  </div>
 </div>
 
-<!-- DEMO -->
-<div class="demo-section" id="demo" data-section="demo">
+<!-- INTERACTIVE DEMO -->
+<div class="demo-section" id="demo">
   <div class="demo-inner">
-    <div class="section-label">See It In Action</div>
-    <h2 style="font-size:36px;font-weight:700;margin-bottom:16px;">Watch how RIN works</h2>
-    <p class="section-intro">A 3-minute walkthrough of the full dispatch flow — intake, AI pricing, driver match, payment.</p>
+    <div class="demo-head">
+      <div class="slabel" style="text-align:center;">Live Job Walkthrough</div>
+      <h2 class="stitle" style="text-align:center;margin-bottom:14px;">See a real job — from breakdown to payment.</h2>
+      <p style="text-align:center;color:var(--text2);font-size:16px;max-width:560px;margin:0 auto;">Click through each step. This is the actual experience your tow operator and driver see — and all your fleet manager sees is a single notification at step 4.</p>
+    </div>
 
-    <div class="demo-grid">
-      <!-- Video -->
+    <div class="demo-wrap">
+      <!-- STEPS -->
       <div>
-        <div class="demo-video-wrap" onclick="openDemo()" data-track="demo_video_play">
-          <div class="demo-play">
-            <div class="demo-play-btn">▶</div>
-            <div class="demo-play-title">Watch the Demo</div>
-            <div class="demo-play-sub">3 min · Full dispatch walkthrough</div>
+        <div class="demo-steps" id="demoSteps">
+          <div class="demo-step active" data-step="0" onclick="goStep(0)">
+            <div class="demo-step-num">1</div>
+            <div class="demo-step-body">
+              <div class="demo-step-title">Enterprise client sends a job</div>
+              <div class="demo-step-desc">An insurance company files a roadside request through RIN. Vehicle, location, and incident type — captured automatically. No call to your operator's office.</div>
+            </div>
           </div>
-          <div class="demo-chips">
-            <span class="chip chip-blue">Dispatch Portal</span>
-            <span class="chip chip-blue">Partner Portal</span>
-            <span class="chip chip-green">Live AI Pricing</span>
+          <div class="demo-step" data-step="1" onclick="goStep(1)">
+            <div class="demo-step-num">2</div>
+            <div class="demo-step-body">
+              <div class="demo-step-title">Rate locked before anyone moves</div>
+              <div class="demo-step-desc">RIN AI calculates $220 for the job. Client approves via SMS. Operator payout confirmed: <strong style="color:var(--green)">$176 (80%)</strong> — before any driver leaves.</div>
+            </div>
+          </div>
+          <div class="demo-step" data-step="2" onclick="goStep(2)">
+            <div class="demo-step-num">3</div>
+            <div class="demo-step-body">
+              <div class="demo-step-title">Driver gets one SMS</div>
+              <div class="demo-step-desc">RIN texts the nearest available driver. Job details, pickup, destination, payout — everything in one message. One reply to confirm.</div>
+            </div>
+          </div>
+          <div class="demo-step" data-step="3" onclick="goStep(3)">
+            <div class="demo-step-num">4</div>
+            <div class="demo-step-body">
+              <div class="demo-step-title">Driver replies Y — on the way</div>
+              <div class="demo-step-desc">No app. No login. No retraining. Driver replies and RIN notifies the client automatically. Job is in motion. <strong style="color:var(--fleet-l)">Your fleet manager gets a single notification here.</strong></div>
+            </div>
+          </div>
+          <div class="demo-step" data-step="4" onclick="goStep(4)">
+            <div class="demo-step-num">5</div>
+            <div class="demo-step-body">
+              <div class="demo-step-title">Job complete — payout queued</div>
+              <div class="demo-step-desc">Driver marks it done. RIN logs GPS, timestamp, and sign-off automatically. 80% queued for operator deposit. Full incident report delivered to your fleet account. No invoice. No follow-up. Done.</div>
+            </div>
           </div>
         </div>
-
-        <div class="demo-portal-links">
-          <a href="https://x-rin-dispatcher.netlify.app" target="_blank" class="portal-link" data-track="demo_dispatcher_portal">
-            🖥️ Dispatch Portal
-          </a>
-          <a href="https://x-rin-partner-portal.netlify.app" target="_blank" class="portal-link" data-track="demo_partner_portal">
-            🤝 Partner Portal
-          </a>
+        <div class="demo-nav">
+          <button class="demo-btn" id="btnPrev" onclick="prevStep()" disabled>← Back</button>
+          <button class="demo-btn primary" id="btnNext" onclick="nextStep()">Next Step →</button>
         </div>
       </div>
 
-      <!-- Schedule -->
-      <div class="demo-cards">
-        <div class="demo-card">
-          <div class="demo-card-icon">📅</div>
-          <h3>Schedule a Live Demo</h3>
-          <p>30 minutes with Barnes — see the full dispatch flow live, ask questions, and find out if RIN is right for your operation.</p>
-          <a href="https://calendly.com/barnes-thestrategypitch/30min" target="_blank"
-            class="btn btn-primary" style="display:block;text-align:center;width:100%;" data-track="demo_schedule_calendly">
-            Book a 30-Min Demo →
-          </a>
-        </div>
-        <div class="demo-card">
-          <div class="demo-card-icon">💬</div>
-          <h3>What you'll see</h3>
-          <ul class="demo-checklist">
-            <li>Live job intake → AI pricing → SMS confirmation</li>
-            <li>Driver matching and dispatch flow</li>
-            <li>Partner portal — jobs, earnings, billing</li>
-            <li>Your ROI based on current volume</li>
-            <li>Onboarding timeline for your company</li>
-          </ul>
+      <!-- PHONE -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-notch"><div class="phone-notch-bar"></div></div>
+          <div class="phone-status"><span>9:14 AM</span><span>●●● LTE</span></div>
+          <div class="phone-screen">
+            <div class="sms-header">
+              <div class="sms-avatar">R</div>
+              <div class="sms-header-info">
+                <div class="sms-header-name">RIN Dispatch</div>
+                <div class="sms-header-sub">+1 (647) 555-RIN1</div>
+              </div>
+            </div>
+            <div class="sms-body" id="smsBody">
+              <div class="msg system" id="msg-waiting">Waiting for next job...</div>
+              <div class="msg incoming hidden" id="msg-job">
+                🚨 <strong>New RIN Job</strong><br><br>
+                Insurance tow — North York to Brampton<br>
+                Flatbed required · 34km<br><br>
+                <strong>Your payout: $176</strong><br>
+                Reply Y to accept
+                <div class="msg-time">9:15 AM</div>
+              </div>
+              <div class="msg incoming hidden" id="msg-detail">
+                📍 Pickup: 142 Sheppard Ave W, North York<br>
+                🏁 Drop: Brampton Honda, Brampton<br>
+                ⏱ ETA requested: 25 min<br>
+                🔒 Price approved by client
+                <div class="msg-time">9:15 AM</div>
+              </div>
+              <div class="msg outgoing hidden" id="msg-reply">
+                Y
+                <div class="msg-time">9:16 AM</div>
+              </div>
+              <div class="typing hidden" id="msg-typing">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+              </div>
+              <div class="msg incoming hidden" id="msg-confirm">
+                ✅ <strong>Confirmed!</strong><br>
+                Client notified you're on the way.<br>
+                Job #RIN-4821 is active.
+                <div class="msg-time">9:16 AM</div>
+              </div>
+              <div class="msg system hidden" id="msg-complete">Job #RIN-4821 marked complete ✓</div>
+            </div>
+            <div class="payment-card hidden" id="paymentCard">
+              <div class="payment-label">Payout Queued</div>
+              <div class="payment-amount">$176.00</div>
+              <div class="payment-sub">Deposited within 7 days · No invoice needed</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- PRICING -->
-<div class="pricing-section" data-section="plans">
-  <section id="pricing" style="padding-top:0;padding-bottom:0;">
-    <div class="section-label">Pricing</div>
-    <h2>Simple Pricing. No Lock-In.</h2>
-    <p class="section-intro">Choose the plan that fits your operation. We succeed when you succeed.</p>
-
-    <div class="pricing-grid">
-      <div class="pricing-card">
-        <h3>Platform Only</h3>
-        <div class="pricing-value">10%</div>
-        <div class="pricing-meta">Per completed job · no monthly fee</div>
-        <ul class="pricing-features">
-          <li>Use your own driver network</li>
-          <li>RIN dispatcher portal included</li>
-          <li>AI-powered pricing engine</li>
-          <li>SMS-based driver &amp; customer flow</li>
-          <li>Job history &amp; billing dashboard</li>
-          <li>Real-time job monitoring</li>
-        </ul>
-        <a href="#apply" class="btn btn-secondary" style="display:block;text-align:center;width:100%;" data-track="plan_platform_apply">Apply for Platform Only</a>
+<!-- ANIMATED WORKFLOW -->
+<div class="wf-section">
+  <div class="wf-inner">
+    <div class="wf-head">
+      <div class="slabel" style="text-align:center;">What Actually Happens</div>
+      <h2 class="stitle" style="text-align:center;margin-bottom:14px;">You touch it twice. RIN handles everything in between.</h2>
+      <p style="text-align:center;color:var(--text2);font-size:16px;max-width:540px;margin:0 auto;">Report the breakdown. Get the confirmation. That's your entire role.</p>
+    </div>
+    <div class="wf-track" id="wf-track">
+      <div class="wf-node fleet-step" id="n1" data-r="fleet">
+        <div class="wf-circle">🚛</div>
+        <div class="wf-lbl">Breakdown<br>Reported</div>
+        <div class="wf-t">t + 0:00</div>
+        <div class="wf-tag">YOU — FLEET</div>
       </div>
-
-      <div class="pricing-card featured">
-        <h3>Network Dispatch ✦ Most Popular</h3>
-        <div class="pricing-value">20%</div>
-        <div class="pricing-meta">Per completed job · no monthly fee</div>
-        <ul class="pricing-features">
-          <li>Everything in Platform Only</li>
-          <li>Enterprise job volume from RIN clients</li>
-          <li>Insurance &amp; fleet partner referrals</li>
-          <li>Priority dispatch for top-rated operators</li>
-          <li>Network performance dashboard</li>
-          <li>Dedicated onboarding support</li>
-        </ul>
-        <a href="#apply" class="btn btn-primary" style="display:block;text-align:center;width:100%;" data-track="plan_network_apply">Apply to Join Network</a>
+      <div class="wf-conn" id="c1"></div>
+      <div class="wf-node" id="n2" data-r="rin">
+        <div class="wf-circle">🤖</div>
+        <div class="wf-lbl">RIN Prices<br>& Assigns</div>
+        <div class="wf-t">t + 12s</div>
+        <div class="wf-tag">RIN DISPATCH</div>
+      </div>
+      <div class="wf-conn" id="c2"></div>
+      <div class="wf-node" id="n3" data-r="rin">
+        <div class="wf-circle">🔒</div>
+        <div class="wf-lbl">Rate<br>Locked</div>
+        <div class="wf-t">t + 14s</div>
+        <div class="wf-tag">RIN DISPATCH</div>
+      </div>
+      <div class="wf-conn" id="c3"></div>
+      <div class="wf-node fleet-step" id="n4" data-r="fleet">
+        <div class="wf-circle">🔔</div>
+        <div class="wf-lbl">You're<br>Notified</div>
+        <div class="wf-t">t + 18s</div>
+        <div class="wf-tag">YOU — FLEET</div>
+      </div>
+      <div class="wf-conn" id="c4"></div>
+      <div class="wf-node" id="n5" data-r="drv">
+        <div class="wf-circle">🚛</div>
+        <div class="wf-lbl">Operator<br>En Route</div>
+        <div class="wf-t">t + 25 min</div>
+        <div class="wf-tag">OPERATOR</div>
+      </div>
+      <div class="wf-conn" id="c5"></div>
+      <div class="wf-node" id="n6" data-r="op">
+        <div class="wf-circle">✅</div>
+        <div class="wf-lbl">Job<br>Complete</div>
+        <div class="wf-t">t + varies</div>
+        <div class="wf-tag">COMPLETE</div>
+      </div>
+      <div class="wf-conn" id="c6"></div>
+      <div class="wf-node fleet-step" id="n7" data-r="fleet">
+        <div class="wf-circle">📋</div>
+        <div class="wf-lbl">Report<br>Delivered</div>
+        <div class="wf-t">Same day</div>
+        <div class="wf-tag">YOU — FLEET</div>
       </div>
     </div>
-  </section>
+    <div class="wf-legend">
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--fleet);box-shadow:0 0 6px var(--fleet);"></div>You (Fleet Manager)</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--blue);"></div>RIN Dispatch</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--purple);"></div>Tow Operator</div>
+      <div class="wfl-item"><div class="wfl-dot" style="background:var(--green);"></div>Completion</div>
+    </div>
+    <div style="background:var(--fleet-g);border:1px solid rgba(245,158,11,0.25);border-radius:16px;padding:28px;margin-top:48px;text-align:center;">
+      <div style="font-size:14px;font-weight:700;color:var(--fleet-l);margin-bottom:8px;">Your role in the flow</div>
+      <div style="font-size:20px;font-weight:800;margin-bottom:10px;">Steps 1, 4, and 7. Three touchpoints. That's it.</div>
+      <p style="font-size:15px;color:var(--text2);max-width:520px;margin:0 auto;">Report the breakdown. Get a 30-second notification when dispatch is confirmed. Receive the incident report at the end. Everything else runs automatically.</p>
+    </div>
+  </div>
 </div>
 
-<!-- OUR OPERATORS -->
-<section id="operators" data-section="network">
-  <div class="section-label">Our Operators</div>
-  <h2>Vetted. Reliable. Ready.</h2>
-  <p class="section-intro">Built with established tow operators across the GTA. Every partner is screened, rated, and dispatched by AI — light duty to heavy commercial.</p>
-
-  <div class="operators-grid">
-    <div class="operator-card">
-      <div class="operator-header">
-        <div class="operator-icon">🚚</div>
-        <div class="operator-info">
-          <h3>Company A</h3>
-          <div class="operator-status">● Active on RIN Network</div>
-        </div>
-      </div>
-      <div class="operator-meta">
-        <div class="meta-label">Coverage</div>
-        <div class="meta-value">Toronto &amp; North York</div>
-      </div>
-      <div class="operator-tags">
-        <span class="tag">Flatbed</span>
-        <span class="tag">Accidents</span>
-        <span class="tag">Lockouts</span>
+<!-- NOTIFICATION MOCKUP -->
+<div class="section">
+  <div class="slabel">What you actually see</div>
+  <h2 class="stitle" style="max-width:600px;">A notification, not a task.</h2>
+  <div class="notif-layout">
+    <div class="notif-copy">
+      <p>This is what lands on your phone when a RIN job is dispatched for your fleet. Not a question. Not a "can you call us back." A confirmation — every detail you need, nothing more.</p>
+      <p>At the end of the month, you get a full incident report: every vehicle, every job, cost per incident, response time, operator rating. One document. Ready for accounting, insurance, or your director.</p>
+      <div class="notif-bullets">
+        <div class="nb"><div class="dot"></div><span><strong>Dispatch confirmed in real time</strong> — know the operator and ETA before you go back to your meeting</span></div>
+        <div class="nb"><div class="dot"></div><span><strong>Rate locked before anyone moves</strong> — no invoice surprise at the end of the month</span></div>
+        <div class="nb"><div class="dot"></div><span><strong>Every incident documented</strong> — vehicle ID, time, operator, rate, completion — audit-ready</span></div>
+        <div class="nb"><div class="dot"></div><span><strong>One monthly invoice</strong> — all incidents, consolidated, with the breakdown attached</span></div>
       </div>
     </div>
-
-    <div class="operator-card">
-      <div class="operator-header">
-        <div class="operator-icon">🔧</div>
-        <div class="operator-info">
-          <h3>Company B</h3>
-          <div class="operator-status">● Active on RIN Network</div>
+    <div>
+      <div class="fleet-phone">
+        <div class="fp-bar">
+          <div class="fp-av">🤖</div>
+          <div class="fp-info"><div class="pname">RIN Fleet</div><div class="psub">Your fleet account</div></div>
         </div>
-      </div>
-      <div class="operator-meta">
-        <div class="meta-label">Coverage</div>
-        <div class="meta-value">Mississauga &amp; Brampton</div>
-      </div>
-      <div class="operator-tags">
-        <span class="tag">Heavy Duty</span>
-        <span class="tag">Commercial</span>
-        <span class="tag">Winching</span>
-      </div>
-    </div>
-
-    <div class="operator-card">
-      <div class="operator-header">
-        <div class="operator-icon">⚡</div>
-        <div class="operator-info">
-          <h3>Company C</h3>
-          <div class="operator-status">● Active on RIN Network</div>
+        <div class="fp-msgs">
+          <div class="fmsg alert">
+            <div class="ptop">Dispatch Confirmed — Vehicle #12</div>
+            <div class="prow"><span class="pk">Operator</span><span class="pv">Ace Towing</span></div>
+            <div class="prow"><span class="pk">Location</span><span class="pv">401 & Warden</span></div>
+            <div class="prow"><span class="pk">ETA</span><span class="pv">11 min</span></div>
+            <div class="prow"><span class="pk">Locked rate</span><span class="pv">$195</span></div>
+          </div>
+          <div class="fmsg notif">
+            <div class="ptop">Job Complete</div>
+            <div class="prow"><span class="pk">Vehicle #12</span><span class="pv">Delivered ✓</span></div>
+            <div class="prow"><span class="pk">Total time</span><span class="pv">38 min</span></div>
+            <div class="prow"><span class="pk">Final cost</span><span class="pv">$195 (locked)</span></div>
+          </div>
+          <div class="fmsg report">
+            <div class="ptop">Monthly Report Ready</div>
+            <div class="prow"><span class="pk">April incidents</span><span class="pv">4 jobs</span></div>
+            <div class="prow"><span class="pk">Avg response</span><span class="pv">13 min</span></div>
+            <div class="prow"><span class="pk">Total billed</span><span class="pv">$780</span></div>
+            <div style="margin-top:8px;font-size:12px;color:var(--blue-l);">Invoice + incident log attached →</div>
+          </div>
         </div>
-      </div>
-      <div class="operator-meta">
-        <div class="meta-label">Coverage</div>
-        <div class="meta-value">Scarborough &amp; East GTA</div>
-      </div>
-      <div class="operator-tags">
-        <span class="tag">Battery</span>
-        <span class="tag">Tire</span>
-        <span class="tag">Fuel Delivery</span>
       </div>
     </div>
   </div>
-</section>
-
-<!-- APPLY FORM -->
-<div class="apply-section" id="apply" data-section="contact">
-  <h2>Ready to join the network?</h2>
-  <p>Tell us about your company and we'll be in touch within 24 hours.</p>
-  <form class="form-grid" id="applyForm" novalidate>
-    <div class="form-field">
-      <label>Company Name *</label>
-      <input type="text" id="f_company" placeholder="Your company name" required />
-    </div>
-    <div class="form-field">
-      <label>Your Name *</label>
-      <input type="text" id="f_name" placeholder="Your name" required />
-    </div>
-    <div class="form-field">
-      <label>Phone Number *</label>
-      <input type="tel" id="f_phone" placeholder="Your phone number" required />
-    </div>
-    <div class="form-field">
-      <label>Number of Trucks</label>
-      <select id="f_trucks">
-        <option value="">Select...</option>
-        <option>1–3 trucks</option>
-        <option>4–10 trucks</option>
-        <option>11–25 trucks</option>
-        <option>25+ trucks</option>
-      </select>
-    </div>
-    <div class="form-field full">
-      <label>Inquiry Type</label>
-      <select id="f_type">
-        <option>Join as a Network Operator</option>
-        <option>Platform Only (my own clients)</option>
-        <option>Enterprise Partnership (Insurance / Fleet)</option>
-        <option>General Question</option>
-      </select>
-    </div>
-    <div class="form-field full">
-      <label>Tell us about your operation</label>
-      <textarea id="f_message" placeholder="Coverage area, truck types, current volume..."></textarea>
-    </div>
-    <div class="form-msg" id="formMsg"></div>
-    <button type="submit" class="form-submit" id="formSubmit">Submit Application →</button>
-  </form>
 </div>
 
-<!-- FOOTER -->
+<!-- COMPARE TABLE -->
+<div class="section" style="padding-top:0;">
+  <div class="slabel">Side by side</div>
+  <h2 class="stitle">How your team handles breakdowns today vs. with RIN.</h2>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden;">
+    <table class="ctable">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="bad-h">❌ Today</th>
+          <th class="good-h">✅ With RIN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Dispatch time</td><td class="bad">45–90 min of calling around</td><td class="good">Under 15 min, automatic</td></tr>
+        <tr><td>Ops manager time</td><td class="bad">2–3 hours per incident</td><td class="good">30 seconds — read a notification</td></tr>
+        <tr><td>Rate visibility</td><td class="bad">Find out when invoice arrives</td><td class="good">Locked before truck moves</td></tr>
+        <tr><td>Incident documentation</td><td class="bad">Nothing clean</td><td class="good">Full report, every job</td></tr>
+        <tr><td>Monthly billing</td><td class="bad">Multiple invoices, no context</td><td class="good">One invoice, itemized</td></tr>
+        <tr><td>Operator reliability</td><td class="bad">Whoever picks up</td><td class="good">Vetted, rated, accountable</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- WHAT YOU GET -->
+<div class="section" style="padding-top:0;">
+  <div class="slabel">What's included</div>
+  <h2 class="stitle">Everything your fleet account covers.</h2>
+  <div class="offer-grid">
+    <div class="offer-card">
+      <div class="offer-icon">⚡</div>
+      <h3>Guaranteed &lt;15 Min Dispatch</h3>
+      <p>Not a target — a commitment. Every breakdown gets a confirmed operator with ETA in under 15 minutes, or we escalate automatically.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">🔒</div>
+      <h3>Rate Locked Before Dispatch</h3>
+      <p>AI-calculated rate based on job type, distance, and vehicle. Confirmed before the truck rolls. The invoice matches exactly.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">📋</div>
+      <h3>Full Incident Documentation</h3>
+      <p>Every job logged: vehicle ID, timestamp, operator, photos, rate, completion confirmation. Audit-ready for insurance and finance.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">📊</div>
+      <h3>Monthly Fleet Report</h3>
+      <p>Consolidated view of every incident, cost per vehicle, average response times, and operator ratings. One document, ready to present.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">💳</div>
+      <h3>Single Monthly Invoice</h3>
+      <p>All incidents in one invoice, with itemized breakdown. No chasing multiple operators for receipts. Accounting gets one clean line item.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">🌐</div>
+      <h3>GTA-Wide Coverage</h3>
+      <p>Toronto, Mississauga, Brampton, Scarborough, Hamilton, Durham — every vehicle in your fleet covered wherever it operates in the region.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ROLES SECTION -->
+<div class="audience-strip" id="how-it-works">
+  <div class="demo-inner">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div class="slabel" style="text-align:center;">Everyone in the network</div>
+      <h2 class="stitle" style="text-align:center;font-size:clamp(26px,3.5vw,40px);margin-bottom:12px;">RIN connects the entire roadside operation.</h2>
+      <p style="text-align:center;color:var(--text2);font-size:16px;max-width:560px;margin:0 auto;">Every role gets exactly what they need — and nothing they don't.</p>
+    </div>
+    <div class="roles-grid">
+
+      <!-- ENTERPRISE CLIENT -->
+      <div class="role-card enterprise">
+        <div class="role-icon">🏢</div>
+        <div class="role-badge">Enterprise Client</div>
+        <h3>Insurance companies &amp; enterprise accounts</h3>
+        <p>You submit a roadside request — vehicle, location, incident type. RIN does the rest. You get a rate confirmation before any truck moves, and a job report when it's done. No phone tag. No surprise invoices. One API or SMS integration, and every incident is tracked automatically.</p>
+        <ul class="role-list">
+          <li>Submit jobs via API, SMS, or web form</li>
+          <li>Locked rate before dispatch — no authorization surprises</li>
+          <li>Real-time job status updates</li>
+          <li>Monthly consolidated invoice with full incident log</li>
+          <li>Audit-ready documentation for claims processing</li>
+        </ul>
+      </div>
+
+      <!-- DISPATCHER -->
+      <div class="role-card dispatcher">
+        <div class="role-icon">📡</div>
+        <div class="role-badge">Dispatcher</div>
+        <h3>The operators who run the day-to-day</h3>
+        <p>RIN gives dispatchers a real-time dashboard to monitor every active job, override routing when needed, and resolve exceptions — without the phone chaos. Incoming jobs are auto-assigned by proximity and availability. You step in only when something needs a human call.</p>
+        <ul class="role-list">
+          <li>Live job board — every active dispatch visible in one screen</li>
+          <li>Auto-assign engine routes to nearest available driver</li>
+          <li>Manual override for exceptions and escalations</li>
+          <li>Driver communication via SMS — no separate app</li>
+          <li>Full audit trail per job for every status change</li>
+        </ul>
+        <a href="/dispatcher" class="aud-link" style="margin-top:8px;">See the dispatcher dashboard →</a>
+      </div>
+
+      <!-- TOW OPERATOR -->
+      <div class="role-card operator">
+        <div class="role-icon">🔧</div>
+        <div class="role-badge">Tow Operator</div>
+        <h3>Independent operators &amp; tow companies</h3>
+        <p>Fill your trucks with enterprise volume jobs you'd never get on your own. Rate is confirmed before dispatch — no price disputes at the scene. Get paid in 7 days, not 45. Your drivers need no app or retraining: one SMS, reply Y, done.</p>
+        <ul class="role-list">
+          <li>Jobs routed directly to your fleet — no broker middleman</li>
+          <li>Payout confirmed upfront: 80% of the locked rate</li>
+          <li>Zero setup cost, zero monthly fee</li>
+          <li>7-day payment cycle — direct deposit</li>
+          <li>Your drivers use SMS only — no app to install</li>
+        </ul>
+        <a href="/for-operators" class="aud-link" style="margin-top:8px;">How operators join the network →</a>
+      </div>
+
+      <!-- DRIVER -->
+      <div class="role-card driver">
+        <div class="role-icon">🚛</div>
+        <div class="role-badge">Driver</div>
+        <h3>The people who actually do the job</h3>
+        <p>No app. No login. No training session. When a job is routed to your truck, you get one SMS with everything you need: pickup, drop-off, payout, ETA. Reply Y. Drive. Mark complete when done. Your payout is queued automatically — no invoice to chase.</p>
+        <ul class="role-list">
+          <li>One SMS per job — reply Y to accept</li>
+          <li>Pickup + drop-off + rate in one message</li>
+          <li>Mark complete via SMS — no app required</li>
+          <li>Payout queued automatically on completion</li>
+          <li>No disputes — rate was locked before you left</li>
+        </ul>
+        <a href="/for-drivers" class="aud-link" style="margin-top:8px;">See the full driver experience →</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- PILOT CTA -->
+<div class="section" id="pilot" style="padding-top:80px;">
+  <div class="pilot-section">
+    <div class="slabel" style="color:var(--fleet-l);text-align:center;">30-Day Pilot</div>
+    <h2>Try it with your actual fleet. No commitment.</h2>
+    <p>Add all your vehicles. Pay only for jobs that run. If RIN doesn't perform exactly as described — faster response, locked rates, clean reporting — cancel with nothing owed.</p>
+    <a href="#contact-form" class="btn-primary" style="font-size:17px;padding:18px 40px;">Book a 20-Minute Call →</a>
+    <div class="pilot-terms">
+      <div class="pt">No setup cost</div>
+      <div class="pt">No monthly fee</div>
+      <div class="pt">Pay per incident only</div>
+      <div class="pt">Cancel anytime</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT FORM -->
+<div class="section" id="contact-form">
+  <div class="form-card">
+    <h2>Book your pilot call</h2>
+    <p class="fsub">We'll walk through your fleet size, coverage area, and typical incident volume. If it's a fit, we get you live within 48 hours.</p>
+    <div id="fleet-form">
+      <div class="frow">
+        <div class="fg">
+          <label>Company name</label>
+          <input type="text" id="f_co" placeholder="Acme Logistics Inc.">
+        </div>
+        <div class="fg">
+          <label>Your name</label>
+          <input type="text" id="f_name" placeholder="Full name">
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label>Phone</label>
+          <input type="tel" id="f_phone" placeholder="+1 (416) 000-0000">
+        </div>
+        <div class="fg">
+          <label>Fleet size (vehicles)</label>
+          <select id="f_fleet">
+            <option value="">Select...</option>
+            <option value="1-10">1–10 vehicles</option>
+            <option value="11-50">11–50 vehicles</option>
+            <option value="51-200">51–200 vehicles</option>
+            <option value="200+">200+ vehicles</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Primary operating area</label>
+        <input type="text" id="f_area" placeholder="e.g. GTA, Hamilton, Durham Region">
+      </div>
+      <div class="fg">
+        <label>What's your biggest pain with breakdowns right now?</label>
+        <textarea id="f_pain" rows="3" placeholder="Response time, cost unpredictability, admin burden..."></textarea>
+      </div>
+      <button class="btn-sub" onclick="submitFleet()">Book My Pilot Call →</button>
+      <div class="fnote">We'll reach out within 4 business hours to schedule. No sales pressure.</div>
+    </div>
+    <div id="f-success">
+      <div class="sicon">✅</div>
+      <h3>Request received.</h3>
+      <p>We'll contact you within 4 hours to schedule your 20-minute call. Come ready to talk fleet size and incident frequency — we'll take it from there.</p>
+    </div>
+  </div>
+</div>
+
 <footer>
-  <div class="footer-grid">
-    <div class="footer-section">
-      <h4>Platform</h4>
-      <ul>
-        <li><a href="#why" data-track="footer_whoweserve">Who We Serve</a></li>
-        <li><a href="#pricing" data-track="footer_plans">Pricing</a></li>
-        <li><a href="#how" data-track="footer_how">How It Works</a></li>
-        <li><a href="#demo" data-track="footer_demo">Demo</a></li>
-      </ul>
-    </div>
-    <div class="footer-section">
-      <h4>Portals</h4>
-      <ul>
-        <li><a href="https://x-rin-dispatcher.netlify.app" target="_blank" data-track="footer_dispatcher">Dispatch Portal</a></li>
-        <li><a href="https://x-rin-partner-portal.netlify.app" target="_blank" data-track="footer_partner">Partner Portal</a></li>
-        <li><a href="https://rintowquote.online" target="_blank" data-track="footer_quote">Get a Quote</a></li>
-      </ul>
-    </div>
-    <div class="footer-section">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#operators" data-track="footer_network">Our Network</a></li>
-        <li><a href="#apply" data-track="footer_contact">Contact Us</a></li>
-        <li><a href="https://calendly.com/barnes-thestrategypitch/30min" target="_blank" data-track="footer_demo_book">Book a Demo</a></li>
-      </ul>
-    </div>
-    <div class="footer-section">
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="#">Terms of Service</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Status</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 Roadside Intelligence Network. Toronto, ON.</span>
-    <span class="status-pill">All systems operational</span>
+  <div class="footer-copy">© 2026 Roadside Intelligence Network</div>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/for-operators">For Tow Operators</a>
+    <a href="/for-drivers">For Drivers</a>
+    <a href="#demo">See Demo</a>
+    <a href="#contact-form">Book a Call</a>
   </div>
 </footer>
 
-<!-- VIDEO MODAL -->
-<div id="videoModal" onclick="closeDemo()">
-  <div class="modal-inner" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeDemo()">✕ Close</button>
-    <div class="modal-video">
-      <iframe id="demoFrame" src="" allow="autoplay;fullscreen" allowfullscreen></iframe>
-      <div class="modal-placeholder" id="demoPlaceholder">
-        <div style="font-size:3rem;">🎬</div>
-        <div style="font-size:1.1rem;font-weight:700;">Demo video coming soon</div>
-        <div style="font-size:13px;color:#94a3b8;">In the meantime, book a live walkthrough</div>
-        <a href="https://calendly.com/barnes-thestrategypitch/30min" target="_blank" class="btn btn-primary" style="margin-top:8px;">Book a Live Demo →</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
-// ── HERO HEADLINE ROTATION ───────────────────────────────────────
-(function() {
-  const lines = [
-    'Enterprise clients need you.<br>RIN makes sure they find you.',
-    'No more billing disputes.<br>RIN prices the job before the truck moves.',
-    'Vehicle down. Right help there<br>in minutes. Every time.',
-  ];
-  let idx = 0;
-  const el = document.getElementById('hero-headline');
-  setInterval(() => {
-    el.classList.add('fading');
+// ── INTERACTIVE DEMO ──
+let currentStep = 0;
+const totalSteps = 5;
+
+const msgStates = [
+  [],
+  ['msg-job'],
+  ['msg-job', 'msg-detail'],
+  ['msg-job', 'msg-detail', 'msg-reply', 'msg-confirm'],
+  ['msg-job', 'msg-detail', 'msg-reply', 'msg-confirm', 'msg-complete']
+];
+
+function goStep(step) {
+  currentStep = step;
+
+  // Update step highlights
+  document.querySelectorAll('.demo-step').forEach((el, i) => {
+    el.classList.toggle('active', i === step);
+  });
+
+  // Update phone messages
+  const allMsgs = ['msg-waiting','msg-job','msg-detail','msg-reply','msg-typing','msg-confirm','msg-complete'];
+  allMsgs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('hidden');
+  });
+  document.getElementById('paymentCard').classList.add('hidden');
+
+  if (step === 0) {
+    document.getElementById('msg-waiting').classList.remove('hidden');
+  } else if (step === 3) {
+    // Show reply + typing animation then confirm
+    const visible = msgStates[2];
+    visible.forEach(id => document.getElementById(id).classList.remove('hidden'));
+    document.getElementById('msg-reply').classList.remove('hidden');
+    const typing = document.getElementById('msg-typing');
+    typing.classList.remove('hidden');
     setTimeout(() => {
-      idx = (idx + 1) % lines.length;
-      el.innerHTML = lines[idx];
-      el.classList.remove('fading');
-    }, 500);
-  }, 4000);
-})();
-
-// ── AUDIENCE TABS ────────────────────────────────────────────────
-const howContent = {
-  whoweserve:  { label: 'For Tow Operators — The Process', panel: 'operators', intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
-  calculator:  { label: 'For Tow Operators — The Process', panel: 'operators', intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
-  operators:   { label: 'For Tow Operators — The Process',      panel: 'operators', intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
-  insurance:   { label: 'For Insurance Companies — The Process', panel: 'insurance', intro: 'Submit a roadside request, get a verified operator dispatched, and receive a clean audit trail per claim — all through one platform.' },
-  fleet:       { label: 'For Fleet Operators — The Process',     panel: 'fleet',     intro: 'Report an incident, get the right truck dispatched, and track every vehicle in real time — with a full per-vehicle record at job close.' },
-  dealerships: { label: 'For Dealerships — The Process',         panel: 'dealerships', intro: 'Your customer gets professional roadside service under your brand. Fast dispatch, real-time updates, and every job routed back to your service bay.' },
-};
-
-function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
-  document.getElementById(`tab-${tab}`).classList.add('active');
-  track('tab_switch', { tab });
-
-  // Update How It Works section to match audience
-  const content = howContent[tab] || howContent.operators;
-  document.querySelectorAll('.how-panel').forEach(p => p.style.display = 'none');
-  document.getElementById(`how-${content.panel}`).style.display = 'block';
-  document.getElementById('how-label').textContent = content.label;
-  document.getElementById('how-intro').textContent = content.intro;
-}
-
-// ── HOW IT WORKS INLINE SWITCHER ─────────────────────────────────
-function switchHow(audience) {
-  const content = howContent[audience] || howContent.operators;
-  document.querySelectorAll('.how-panel').forEach(p => p.style.display = 'none');
-  document.getElementById(`how-${content.panel}`).style.display = 'block';
-  document.getElementById('how-label').textContent = content.label;
-  document.getElementById('how-intro').textContent = content.intro;
-  document.querySelectorAll('.how-switcher').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.how-switcher[onclick="switchHow('${audience}')"]`).classList.add('active');
-}
-
-// ── CALCULATOR ────────────────────────────────────────────────────
-let currentPlan = 'platform';
-
-function setPlan(plan) {
-  currentPlan = plan;
-  document.getElementById('plan_platform').classList.toggle('active', plan === 'platform');
-  document.getElementById('plan_network').classList.toggle('active', plan === 'network');
-  calcUpdate();
-  track('calc_plan_change', { plan });
-}
-
-function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
-
-function calcUpdate() {
-  const jobs   = +document.getElementById('r_jobs').value;
-  const rate   = +document.getElementById('r_rate').value;
-  const hours  = +document.getElementById('r_hours').value;
-  const days   = +document.getElementById('r_days').value;
-  const trucks = +document.getElementById('r_trucks').value;
-
-  document.getElementById('v_jobs').textContent   = jobs;
-  document.getElementById('v_rate').textContent   = '$' + rate;
-  document.getElementById('v_hours').textContent  = hours;
-  document.getElementById('v_days').textContent   = days;
-  document.getElementById('v_trucks').textContent = trucks;
-
-  const commission  = currentPlan === 'platform' ? 0.10 : 0.20;
-  const payout      = 1 - commission;
-  const gross       = jobs * rate;
-  const monthly     = gross * payout;
-  const annual      = monthly * 12;
-
-  // Time savings: eliminate ~80% of coordination hours
-  const hoursSaved  = Math.round(hours * 4.3 * 0.80); // weekly → monthly
-  const hourValue   = hoursSaved * 50; // $50/hr operator value
-
-  // Payment cycle: RIN pays in 7 days
-  const daysSaved   = Math.max(0, days - 7);
-
-  // Network bonus: +30% job volume from enterprise (network plan only)
-  const bonusJobs   = currentPlan === 'network' ? Math.round(jobs * 0.30) : 0;
-  const bonusValue  = bonusJobs * rate * 0.80;
-
-  const totalValue  = monthly + hourValue + bonusValue;
-
-  document.getElementById('r_monthly').textContent      = fmt(monthly);
-  document.getElementById('r_monthly_sub').textContent  = `After ${commission * 100}% RIN commission on ${fmt(gross)} gross`;
-  document.getElementById('r_annual').textContent       = fmt(annual);
-  document.getElementById('r_hours_saved').textContent  = hoursSaved + ' hrs';
-  document.getElementById('r_hours_value').textContent  = `Worth ~${fmt(hourValue)}/mo at $50/hr`;
-  document.getElementById('r_payment').textContent      = days + ' days → 7 days';
-  document.getElementById('r_payment_sub').textContent  = daysSaved > 0 ? `${daysSaved} days faster cash in hand` : 'Already fast — RIN keeps you there';
-
-  const netCard = document.getElementById('r_network_card');
-  if (currentPlan === 'network') {
-    netCard.style.display = 'block';
-    document.getElementById('r_bonus_jobs').textContent  = `+${bonusJobs} jobs/mo`;
-    document.getElementById('r_bonus_value').textContent = `+${fmt(bonusValue)}/mo from RIN enterprise clients`;
+      typing.classList.add('hidden');
+      document.getElementById('msg-confirm').classList.remove('hidden');
+    }, 1200);
+  } else if (step === 4) {
+    msgStates[3].forEach(id => document.getElementById(id).classList.remove('hidden'));
+    document.getElementById('msg-complete').classList.remove('hidden');
+    document.getElementById('paymentCard').classList.remove('hidden');
   } else {
-    netCard.style.display = 'none';
+    msgStates[step].forEach(id => document.getElementById(id).classList.remove('hidden'));
   }
 
-  document.getElementById('r_total').textContent = fmt(totalValue);
+  document.getElementById('btnPrev').disabled = step === 0;
+  document.getElementById('btnNext').disabled = step === totalSteps - 1;
+  if (step === totalSteps - 1) {
+    document.getElementById('btnNext').textContent = 'See the Result ✓';
+  } else {
+    document.getElementById('btnNext').textContent = 'Next Step →';
+  }
 }
 
-// Init calculator
-calcUpdate();
+function nextStep() { if (currentStep < totalSteps - 1) goStep(currentStep + 1); }
+function prevStep() { if (currentStep > 0) goStep(currentStep - 1); }
 
-// ── CONFIG ────────────────────────────────────────────────────────
-const SUPABASE_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDU3OTMsImV4cCI6MjA4OTA4MTc5M30.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
-const DEMO_VIDEO_URL = ''; // Paste Loom or YouTube embed URL here
+// ── WORKFLOW ANIMATION ──
+const nodes = ['n1','n2','n3','n4','n5','n6','n7'];
+const conns = ['c1','c2','c3','c4','c5','c6'];
+let wfRunning = false;
 
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+function resetWf() {
+  nodes.forEach(id => document.getElementById(id).classList.remove('wf-on'));
+  conns.forEach(id => document.getElementById(id).classList.remove('wf-lit'));
+}
 
-// ── SESSION ───────────────────────────────────────────────────────
-function uuid() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-    const r = Math.random() * 16 | 0;
-    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+function runWf() {
+  resetWf();
+  nodes.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('wf-on');
+      if (i > 0) document.getElementById(conns[i-1]).classList.add('wf-lit');
+    }, i * 720 + 100);
   });
+  setTimeout(runWf, nodes.length * 720 + 3200);
 }
 
-let SESSION_ID = sessionStorage.getItem('rin_sid');
-if (!SESSION_ID) { SESSION_ID = uuid(); sessionStorage.setItem('rin_sid', SESSION_ID); }
-const SESSION_START = Date.now();
-const REFERRER = document.referrer || 'direct';
+const track = document.getElementById('wf-track');
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !wfRunning) { wfRunning = true; runWf(); }
+  });
+}, { threshold: 0.15 }).observe(track);
 
-async function track(event_type, data = {}) {
+// ── FORM ──
+const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MDc2MjYsImV4cCI6MjA1OTI4MzYyNn0.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
+
+async function submitFleet() {
+  const co = document.getElementById('f_co').value.trim();
+  const name = document.getElementById('f_name').value.trim();
+  const phone = document.getElementById('f_phone').value.trim();
+  if (!co || !name || !phone) { alert('Please fill in company, name, and phone.'); return; }
+  const btn = document.querySelector('.btn-sub');
+  btn.textContent = 'Sending...'; btn.disabled = true;
   try {
-    await sb.from('ui_events').insert({
-      session_id: SESSION_ID, event_type, event_data: data,
-      page: 'marketing_home', referrer: REFERRER, user_agent: navigator.userAgent,
+    const res = await fetch(`${SB_URL}/rest/v1/marketing_leads`, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'return=minimal' },
+      body: JSON.stringify({
+        company_name: co,
+        contact_name: name,
+        phone,
+        truck_count: document.getElementById('f_fleet').value || null,
+        message: `Area: ${document.getElementById('f_area').value.trim()}\nPain: ${document.getElementById('f_pain').value.trim()}`,
+        inquiry_type: 'fleet',
+        page: '/',
+        referrer: document.referrer || null
+      })
     });
-  } catch (_) {}
-}
-
-track('page_view', { referrer: REFERRER, screen: `${screen.width}x${screen.height}` });
-
-// ── CTA CLICKS ────────────────────────────────────────────────────
-document.addEventListener('click', e => {
-  const el = e.target.closest('[data-track]');
-  if (el) track('cta_click', { label: el.dataset.track, text: el.innerText?.trim().slice(0, 80) });
-});
-
-// ── SCROLL DEPTH ──────────────────────────────────────────────────
-const depths = new Set();
-window.addEventListener('scroll', () => {
-  const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-  [25, 50, 75, 100].forEach(d => {
-    if (pct >= d && !depths.has(d)) { depths.add(d); track('scroll_depth', { depth_pct: d }); }
-  });
-}, { passive: true });
-
-// ── SECTION DWELL ─────────────────────────────────────────────────
-const sectionTimes = {};
-const sectionObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    const name = entry.target.dataset.section;
-    if (!name) return;
-    if (entry.isIntersecting) {
-      sectionTimes[name] = Date.now();
-      track('section_view', { section: name });
-    } else if (sectionTimes[name]) {
-      const dwell = Math.round((Date.now() - sectionTimes[name]) / 1000);
-      track('section_leave', { section: name, dwell_seconds: dwell });
-      delete sectionTimes[name];
-    }
-  });
-}, { threshold: 0.3 });
-
-document.querySelectorAll('[data-section]').forEach(el => sectionObserver.observe(el));
-
-// ── PAGE EXIT ─────────────────────────────────────────────────────
-window.addEventListener('beforeunload', () => {
-  const seconds = Math.round((Date.now() - SESSION_START) / 1000);
-  navigator.sendBeacon(`${SUPABASE_URL}/rest/v1/ui_events`, JSON.stringify({
-    session_id: SESSION_ID, event_type: 'page_exit',
-    event_data: { time_on_page_seconds: seconds },
-    page: 'marketing_home', referrer: REFERRER, user_agent: navigator.userAgent,
-  }));
-});
-
-// ── NAV TAGLINE ───────────────────────────────────────────────────
-const taglines = {
-  default:   'Faster Dispatch. Better Driver Utilization. No Workflow Change.',
-  operators: 'Dispatch Intelligence for Towing Operations',
-  how:       'From Intake to Payment — Fully Automated',
-  demo:      'See the Full Dispatch Flow in 3 Minutes',
-  plans:     'No Monthly Fees. We Succeed When You Succeed.',
-  network:   'Vetted Operators. AI Dispatch. One Platform.',
-  contact:   'Join the Network — Onboard in 48 Hours',
-};
-
-function setTagline(key) {
-  const el = document.getElementById('navTagline');
-  if (!el) return;
-  el.style.opacity = '0';
-  setTimeout(() => { el.textContent = taglines[key] || taglines.default; el.style.opacity = '1'; }, 150);
-}
-
-document.querySelectorAll('nav a[data-track]').forEach(link => {
-  link.addEventListener('click', () => setTagline(link.dataset.track.replace('nav_', '')));
-});
-
-const taglineObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const s = entry.target.dataset.section;
-      if (s && taglines[s]) setTagline(s);
-    }
-  });
-}, { threshold: 0.4 });
-
-document.querySelectorAll('[data-section]').forEach(el => taglineObserver.observe(el));
-
-// ── DEMO MODAL ────────────────────────────────────────────────────
-function openDemo() {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('demoFrame');
-  const placeholder = document.getElementById('demoPlaceholder');
-  modal.classList.add('open');
-  if (DEMO_VIDEO_URL) { frame.src = DEMO_VIDEO_URL; placeholder.style.display = 'none'; }
-  document.body.style.overflow = 'hidden';
-  track('demo_open', {});
-}
-
-function closeDemo() {
-  document.getElementById('videoModal').classList.remove('open');
-  document.getElementById('demoFrame').src = '';
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDemo(); });
-
-// ── FORM ──────────────────────────────────────────────────────────
-let formStarted = false;
-document.getElementById('applyForm').addEventListener('focusin', () => {
-  if (!formStarted) { formStarted = true; track('form_start', { form: 'apply' }); }
-});
-
-document.getElementById('applyForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  const btn = document.getElementById('formSubmit');
-  const msg = document.getElementById('formMsg');
-
-  const company = document.getElementById('f_company').value.trim();
-  const name    = document.getElementById('f_name').value.trim();
-  const phone   = document.getElementById('f_phone').value.trim();
-  const trucks  = document.getElementById('f_trucks').value;
-  const type    = document.getElementById('f_type').value;
-  const message = document.getElementById('f_message').value.trim();
-
-  if (!company || !name || !phone) {
-    msg.className = 'form-msg error';
-    msg.textContent = 'Please fill in Company Name, Your Name, and Phone Number.';
-    return;
+    if (!res.ok) throw new Error();
+    document.getElementById('fleet-form').style.display = 'none';
+    document.getElementById('f-success').style.display = 'block';
+  } catch {
+    btn.textContent = 'Book My Pilot Call →'; btn.disabled = false;
+    alert('Something went wrong. Please try again.');
   }
-
-  btn.disabled = true;
-  btn.textContent = 'Submitting...';
-  msg.className = 'form-msg';
-
-  track('form_submit', { inquiry_type: type, truck_count: trucks });
-
-  const { error } = await sb.from('marketing_leads').insert({
-    session_id: SESSION_ID, company_name: company,
-    contact_name: name, phone, truck_count: trucks || null,
-    inquiry_type: type, message: message || null,
-    referrer: REFERRER, page: 'marketing_home',
-  });
-
-  if (error) {
-    btn.disabled = false;
-    btn.textContent = 'Submit Application →';
-    msg.className = 'form-msg error';
-    msg.textContent = 'Something went wrong. Please try again.';
-    track('form_error', { error: error.message });
-  } else {
-    msg.className = 'form-msg success';
-    msg.textContent = '✓ Application received! We\'ll be in touch within 24 hours.';
-    btn.textContent = 'Submitted';
-    document.getElementById('applyForm').querySelectorAll('input,select,textarea').forEach(el => el.disabled = true);
-    track('form_success', { inquiry_type: type });
-  }
-});
+}
 </script>
 </body>
 </html>
