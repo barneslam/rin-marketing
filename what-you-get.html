@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What You Get — RIN Operator Membership</title>
+  <meta name="description" content="Exactly what's included when you join the RIN tow operator network. No surprises.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #243455;
+      --border: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --accent-glow: rgba(59,130,246,0.12);
+      --success: #34d399;
+      --warning: #f59e0b;
+      --danger: #f87171;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(15,23,42,0.97); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-size: 20px; font-weight: 700; color: var(--accent-light); display: flex; align-items: center; gap: 8px; }
+    .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.4} }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-link { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+    .nav-link:hover { color: var(--accent-light); }
+    .btn-nav { background: var(--accent); color: white; padding: 9px 18px; border-radius: 6px; font-size: 14px; font-weight: 600; transition: background 150ms; display: inline-block; }
+    .btn-nav:hover { background: var(--accent-light); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 72px 32px 56px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(59,130,246,0.1), transparent);
+    }
+    .page-tag {
+      display: inline-block; background: var(--accent-glow);
+      border: 1px solid rgba(59,130,246,0.3); border-radius: 6px;
+      padding: 4px 14px; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px; color: var(--accent-light);
+      margin-bottom: 20px;
+    }
+    .page-header h1 { font-size: 46px; font-weight: 800; letter-spacing: -1px; margin-bottom: 14px; line-height: 1.15; }
+    .page-header p { font-size: 17px; color: var(--text-secondary); max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+    /* LAYOUT */
+    .content { max-width: 860px; margin: 0 auto; padding: 0 32px; }
+
+    /* OFFER SUMMARY */
+    .offer-card {
+      background: var(--bg-secondary); border: 1px solid var(--accent);
+      border-radius: 16px; padding: 40px;
+      margin: 48px 0; position: relative; overflow: hidden;
+    }
+    .offer-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+    }
+    .offer-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 32px; }
+    .offer-terms { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; }
+    .offer-term { }
+    .term-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary); margin-bottom: 6px; }
+    .term-value { font-size: 26px; font-weight: 800; color: var(--success); }
+    .term-note { font-size: 12px; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+
+    /* SECTION */
+    .section { padding: 56px 0; border-top: 1px solid var(--border); }
+    .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-light); margin-bottom: 10px; }
+    h2.section-h2 { font-size: 30px; font-weight: 800; margin-bottom: 8px; }
+    .section-sub { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 32px; }
+
+    /* JOB EXAMPLE */
+    .job-example { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .job-header { background: var(--bg-card); padding: 18px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+    .job-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success); }
+    .job-header span { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+    .job-body { padding: 24px; display: flex; flex-direction: column; gap: 0; }
+    .job-step { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .job-step:last-child { border-bottom: none; }
+    .job-step-icon { font-size: 20px; flex-shrink: 0; width: 36px; text-align: center; padding-top: 2px; }
+    .job-step-body { flex: 1; }
+    .job-step-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-tertiary); margin-bottom: 4px; }
+    .job-step-text { font-size: 14px; color: var(--text-primary); line-height: 1.55; }
+    .job-step-text strong { color: var(--success); }
+    .job-step-time { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+
+    /* CHECKLIST */
+    .checklist { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .check-row { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    .check-row:last-child { border-bottom: none; }
+    .check-row:nth-child(odd) { background: rgba(255,255,255,0.02); }
+    .check-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .check-body { flex: 1; }
+    .check-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+    .check-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+    /* REQUIREMENTS */
+    .req-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+    .req-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+    .req-card.pass { border-color: rgba(52,211,153,0.3); }
+    .req-card.note { border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.05); }
+    .req-icon { font-size: 22px; margin-bottom: 10px; }
+    .req-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .req-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+    /* ONBOARDING STEPS */
+    .onboard-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .onboard-step { padding: 28px 22px; border-right: 1px solid var(--border); }
+    .onboard-step:last-child { border-right: none; }
+    .onboard-num { font-size: 32px; font-weight: 800; color: var(--accent-light); margin-bottom: 10px; }
+    .onboard-step h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .onboard-step p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .onboard-time { margin-top: 8px; font-size: 11px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* FAQ */
+    .faq { display: flex; flex-direction: column; gap: 2px; }
+    .faq-item { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
+    .faq-q {
+      padding: 18px 20px; font-size: 15px; font-weight: 600;
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      user-select: none;
+    }
+    .faq-q:hover { background: rgba(255,255,255,0.03); }
+    .faq-q .faq-arrow { color: var(--text-tertiary); font-size: 18px; transition: transform 0.2s; flex-shrink: 0; }
+    .faq-item.open .faq-arrow { transform: rotate(45deg); }
+    .faq-a { display: none; padding: 0 20px 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; border-top: 1px solid var(--border); padding-top: 16px; }
+    .faq-item.open .faq-a { display: block; }
+
+    /* CTA */
+    .cta-block {
+      background: var(--bg-secondary); border: 1px solid var(--accent);
+      border-radius: 16px; padding: 48px; text-align: center; margin: 56px 0;
+    }
+    .cta-block h2 { font-size: 32px; font-weight: 800; margin-bottom: 12px; }
+    .cta-block p { font-size: 16px; color: var(--text-secondary); max-width: 440px; margin: 0 auto 32px; line-height: 1.7; }
+    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: white; padding: 14px 28px; border-radius: 8px; font-size: 15px; font-weight: 700; display: inline-block; transition: background 150ms; }
+    .btn-primary:hover { background: var(--accent-light); }
+    .btn-outline { border: 1px solid var(--border); color: var(--text-primary); padding: 14px 28px; border-radius: 8px; font-size: 15px; font-weight: 600; display: inline-block; transition: border-color 150ms; }
+    .btn-outline:hover { border-color: var(--accent); }
+    .cta-note { margin-top: 16px; font-size: 13px; color: var(--text-tertiary); }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 28px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: var(--text-tertiary); }
+    .footer-links a:hover { color: var(--accent-light); }
+    .footer-copy { font-size: 13px; color: var(--text-tertiary); }
+
+    @media (max-width: 640px) {
+      .page-header h1 { font-size: 32px; }
+      .onboard-steps { grid-template-columns: 1fr; }
+      .onboard-step { border-right: none; border-bottom: 1px solid var(--border); }
+      .onboard-step:last-child { border-bottom: none; }
+      .offer-terms { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo"><div class="logo-dot"></div> RIN</a>
+  <div class="nav-right">
+    <a href="/for-operators.html" class="nav-link">For Operators</a>
+    <a href="#apply" class="btn-nav">Apply to Join →</a>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-tag">Operator Membership</div>
+  <h1>Here's exactly what<br>you're signing up for.</h1>
+  <p>No fine print. No surprises. This is what RIN membership includes, what it costs, and what we expect from you.</p>
+</div>
+
+<div class="content">
+
+  <!-- OFFER SUMMARY -->
+  <div class="offer-card">
+    <h2>The deal, in plain numbers</h2>
+    <div class="offer-terms">
+      <div class="offer-term">
+        <div class="term-label">You Keep</div>
+        <div class="term-value">80%</div>
+        <div class="term-note">Of every job completed through RIN. RIN takes 20% as a dispatch and billing fee.</div>
+      </div>
+      <div class="offer-term">
+        <div class="term-label">Paid In</div>
+        <div class="term-value">7 days</div>
+        <div class="term-note">After job completion. Deposited to your account automatically. No invoicing needed.</div>
+      </div>
+      <div class="offer-term">
+        <div class="term-label">Setup Cost</div>
+        <div class="term-value">$0</div>
+        <div class="term-note">No monthly fee. No subscription. You only pay commission on jobs you complete.</div>
+      </div>
+      <div class="offer-term">
+        <div class="term-label">Onboarding</div>
+        <div class="term-value">48 hrs</div>
+        <div class="term-note">From application to first job. No equipment to install. No app to learn.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT A JOB LOOKS LIKE -->
+  <div class="section">
+    <div class="section-label">A Real Job</div>
+    <h2 class="section-h2">What happens start to finish</h2>
+    <p class="section-sub">This is a typical insurance tow — $220 job, GTA dispatch, your driver on the road in under 15 minutes.</p>
+
+    <div class="job-example">
+      <div class="job-header">
+        <div class="job-dot"></div>
+        <span>Example: Insurance Tow — North York to Brampton · $220 job</span>
+      </div>
+      <div class="job-body">
+        <div class="job-step">
+          <div class="job-step-icon">🏢</div>
+          <div class="job-step-body">
+            <div class="job-step-label">Step 1 — Client Request</div>
+            <div class="job-step-text">Insurance company files a roadside request through RIN for a policyholder in North York. Vehicle type and location logged automatically.</div>
+            <div class="job-step-time">9:14 AM</div>
+          </div>
+        </div>
+        <div class="job-step">
+          <div class="job-step-icon">🤖</div>
+          <div class="job-step-body">
+            <div class="job-step-label">Step 2 — Price Set &amp; Approved</div>
+            <div class="job-step-text">RIN AI calculates <strong>$220</strong> based on incident type, distance, and time of day. Insurance approves via SMS before anyone moves.</div>
+            <div class="job-step-time">9:15 AM</div>
+          </div>
+        </div>
+        <div class="job-step">
+          <div class="job-step-icon">📲</div>
+          <div class="job-step-body">
+            <div class="job-step-label">Step 3 — Your Driver Gets the SMS</div>
+            <div class="job-step-text">RIN texts your nearest available driver: job details, pickup address, destination, and payout. Driver replies <strong>Y</strong> to confirm.</div>
+            <div class="job-step-time">9:15 AM — one text, one reply</div>
+          </div>
+        </div>
+        <div class="job-step">
+          <div class="job-step-icon">🚚</div>
+          <div class="job-step-body">
+            <div class="job-step-label">Step 4 — Job Completed</div>
+            <div class="job-step-text">Driver completes the tow. Marks done in the app. RIN captures GPS, timestamp, and customer sign-off automatically.</div>
+            <div class="job-step-time">11:02 AM</div>
+          </div>
+        </div>
+        <div class="job-step">
+          <div class="job-step-icon">💰</div>
+          <div class="job-step-body">
+            <div class="job-step-label">Step 5 — You Get Paid</div>
+            <div class="job-step-text">RIN invoices the insurance company. <strong>$176 (80%)</strong> is deposited to your account within 7 days. No invoice. No follow-up. Automatic.</div>
+            <div class="job-step-time">Within 7 days · $176 net to you</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT'S INCLUDED -->
+  <div class="section">
+    <div class="section-label">What's Included</div>
+    <h2 class="section-h2">Everything in your membership</h2>
+    <p class="section-sub">One flat commission. No add-ons. No tiers. Everything below is included for every operator on the network.</p>
+
+    <div class="checklist">
+      <div class="check-row">
+        <div class="check-icon">✅</div>
+        <div class="check-body">
+          <div class="check-title">Enterprise job pipeline</div>
+          <div class="check-desc">Jobs from insurance carriers, fleet managers, and dealerships — dispatched to your drivers automatically. No cold calls, no motor club rate cuts.</div>
+        </div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon">✅</div>
+        <div class="check-body">
+          <div class="check-title">AI dispatch by SMS</div>
+          <div class="check-desc">Your driver gets a text with everything they need. One reply to confirm. No new app to install. No retraining your team.</div>
+        </div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon">✅</div>
+        <div class="check-body">
+          <div class="check-title">Pre-approved pricing on every job</div>
+          <div class="check-desc">Rate is calculated by RIN and approved by the client before your driver rolls. No negotiating at the scene. No disputes.</div>
+        </div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon">✅</div>
+        <div class="check-body">
+          <div class="check-title">Automatic billing &amp; collections</div>
+          <div class="check-desc">RIN invoices the client and chases payment. You never see an unpaid invoice. Never follow up on a job again.</div>
+        </div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon">✅</div>
+        <div class="check-body">
+          <div class="check-title">7-day guaranteed payout</div>
+          <div class="check-desc">Your 80% is deposited within 7 days of job completion — regardless of when the client pays RIN. That's our guarantee.</div>
+        </div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon">✅</div>
+        <div class="check-body">
+          <div class="check-title">Operator earnings dashboard</div>
+          <div class="check-desc">See every job, every payout, and every status in one portal. Know exactly what you've earned and what's pending at any time.</div>
+        </div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon">✅</div>
+        <div class="check-body">
+          <div class="check-title">Full job record per dispatch</div>
+          <div class="check-desc">Every job logged with GPS route, timestamps, driver ID, and customer sign-off. Your paper trail is built automatically — useful for insurance and disputes.</div>
+        </div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon">✅</div>
+        <div class="check-body">
+          <div class="check-title">GTA-wide client coverage</div>
+          <div class="check-desc">Toronto, Mississauga, Brampton, Scarborough, North York, Etobicoke — one network, one dispatch platform across the region.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REQUIREMENTS -->
+  <div class="section">
+    <div class="section-label">To Join</div>
+    <h2 class="section-h2">What we need from you</h2>
+    <p class="section-sub">RIN is open to independent operators of any size. Here's what you need to qualify.</p>
+
+    <div class="req-grid">
+      <div class="req-card pass">
+        <div class="req-icon">📄</div>
+        <h4>Valid CVOR or equivalent</h4>
+        <p>You must hold a current commercial vehicle operating record or equivalent provincial license for your tow class.</p>
+      </div>
+      <div class="req-card pass">
+        <div class="req-icon">🛡️</div>
+        <h4>Minimum $2M liability insurance</h4>
+        <p>Standard commercial tow insurance covering your operation. We'll ask for a certificate of insurance during onboarding.</p>
+      </div>
+      <div class="req-card pass">
+        <div class="req-icon">🚚</div>
+        <h4>At least one operational tow truck</h4>
+        <p>Any class — flatbed, wheel-lift, heavy. 1 truck is enough to get started. No fleet minimum.</p>
+      </div>
+      <div class="req-card pass">
+        <div class="req-icon">📍</div>
+        <h4>GTA service coverage</h4>
+        <p>You need to cover at least part of the Greater Toronto Area. No exclusivity required — keep your existing clients and accounts.</p>
+      </div>
+      <div class="req-card pass">
+        <div class="req-icon">📱</div>
+        <h4>A phone that can receive SMS</h4>
+        <p>That's it for tech. Your drivers confirm jobs by text. No smartphone required. No app to install.</p>
+      </div>
+      <div class="req-card note">
+        <div class="req-icon">⚠️</div>
+        <h4>Good standing — no active complaints</h4>
+        <p>RIN does a basic background check on your business. Active TSSA complaints or unresolved consumer disputes may delay onboarding.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONBOARDING -->
+  <div class="section">
+    <div class="section-label">Onboarding</div>
+    <h2 class="section-h2">From application to first job in 48 hours</h2>
+    <p class="section-sub">No equipment. No IT setup. No training sessions. Here's the exact path from sign-up to dispatched.</p>
+
+    <div class="onboard-steps">
+      <div class="onboard-step">
+        <div class="onboard-num">01</div>
+        <h4>Apply Online</h4>
+        <p>Fill out the operator application — company name, contact, truck count, and coverage area.</p>
+        <div class="onboard-time">5 minutes</div>
+      </div>
+      <div class="onboard-step">
+        <div class="onboard-num">02</div>
+        <h4>We Review &amp; Call</h4>
+        <p>Our team reviews your application and calls you within 24 hours to confirm details and answer questions.</p>
+        <div class="onboard-time">Within 24 hours</div>
+      </div>
+      <div class="onboard-step">
+        <div class="onboard-num">03</div>
+        <h4>Insurance &amp; Setup</h4>
+        <p>Send us your certificate of insurance and driver phone numbers. We register your drivers in the dispatch system.</p>
+        <div class="onboard-time">Same day</div>
+      </div>
+      <div class="onboard-step">
+        <div class="onboard-num">04</div>
+        <h4>First Job</h4>
+        <p>You're live. Your drivers start receiving job alerts by SMS. Accept the first job, and RIN handles everything else.</p>
+        <div class="onboard-time">Within 48 hours of applying</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section">
+    <div class="section-label">Questions</div>
+    <h2 class="section-h2">The ones operators always ask</h2>
+    <p class="section-sub">If your question isn't here, call us.</p>
+
+    <div class="faq">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Do I have to give up my current clients or contracts?
+          <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">
+          No. RIN adds volume to your operation — it doesn't replace it. Keep every existing client, motor club contract, or private call. RIN is additive, not exclusive.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What if I don't want to accept a job that comes in?
+          <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">
+          You can decline. RIN will move to the next available operator. There's no penalty for occasional declines. Consistently declining jobs may affect your dispatch priority — we'll tell you if that happens.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How exactly does payment work?
+          <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">
+          When your driver marks a job complete, RIN logs it. Within 7 days, 80% of the job total is deposited directly to your registered bank account via EFT. RIN invoices the client separately — you never have to think about collections.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What if there's a dispute about a job?
+          <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">
+          Every job is logged with GPS tracking, timestamps, driver ID, and customer sign-off. If a client disputes a charge, RIN handles the resolution — not you. Your payment isn't withheld during a dispute unless fraud is suspected.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is the 20% fee negotiable?
+          <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">
+          Not for standard membership. High-volume operators (50+ jobs/month) can discuss volume pricing with our team. The 20% covers dispatch, billing, collections, platform, and the 7-day payment guarantee.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What kinds of jobs come through RIN?
+          <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">
+          Insurance roadside (lockouts, tows, tire changes, fuel delivery), fleet breakdowns, and dealer transport jobs. All jobs are pre-qualified — no cash calls, no unknown clients. Rates are set before dispatch.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I add more drivers or trucks later?
+          <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">
+          Yes. Just let us know and we'll register additional drivers in the system. There's no limit on fleet size and no additional cost to add drivers.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block" id="apply">
+    <h2>Ready to join?</h2>
+    <p>Takes 5 minutes to apply. Our team calls you within 24 hours. You could be dispatching your first RIN job this week.</p>
+    <div class="cta-buttons">
+      <a href="/for-operators.html#apply" class="btn-primary">Apply to Join the Network →</a>
+      <a href="/for-operators.html" class="btn-outline">Back to Operator Overview</a>
+    </div>
+    <div class="cta-note">$0 to start · No monthly fee · Cancel any time · 1 truck or 50</div>
+  </div>
+
+</div><!-- /content -->
+
+<footer>
+  <a href="/" class="logo" style="font-size:16px;"><div class="logo-dot"></div> RIN</a>
+  <div class="footer-links">
+    <a href="/">Main Site</a>
+    <a href="/for-operators.html">Operator Overview</a>
+    <a href="/driver.html">Driver App</a>
+    <a href="/dispatcher.html">Dispatcher</a>
+  </div>
+  <div class="footer-copy">© 2026 Roadside Intelligence Network</div>
+</footer>
+
+<script>
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    item.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
