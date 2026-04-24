@@ -44,16 +44,37 @@
     .nav-cta:hover{opacity:0.85;}
 
     /* ── HERO ── */
-    .hero{padding:120px 40px 80px;text-align:center;background:radial-gradient(ellipse 90% 55% at 50% -5%,rgba(245,158,11,0.09),transparent 70%);}
-    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.35);border-radius:100px;padding:6px 20px;font-size:13px;font-weight:600;color:var(--fleet-l);margin-bottom:36px;}
-    .hero h1{font-size:clamp(38px,6vw,72px);font-weight:900;line-height:1.05;letter-spacing:-2.5px;margin-bottom:24px;}
+    .hero{padding:120px 40px 80px;text-align:center;position:relative;overflow:hidden;
+      background:radial-gradient(ellipse 90% 55% at 50% -5%,rgba(245,158,11,0.11),transparent 70%);}
+    .hero-grid{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(245,158,11,0.08) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;mask-image:radial-gradient(ellipse 80% 70% at 50% 0%,black 30%,transparent 100%);}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.35);border-radius:100px;padding:6px 20px;font-size:13px;font-weight:600;color:var(--fleet-l);margin-bottom:36px;position:relative;}
+    .hero h1{font-size:clamp(38px,6vw,72px);font-weight:900;line-height:1.05;letter-spacing:-2.5px;margin-bottom:24px;position:relative;}
     .hero h1 .accent{color:var(--fleet-l);}
-    .hero-sub{font-size:19px;color:var(--text2);max-width:640px;margin:0 auto 52px;line-height:1.7;}
-    .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
-    .btn-primary{background:var(--fleet);color:#070c1a;padding:18px 38px;border-radius:10px;font-size:17px;font-weight:800;letter-spacing:-0.3px;display:inline-block;transition:all 150ms;}
-    .btn-primary:hover{opacity:0.85;transform:translateY(-2px);}
+    .hero-sub{font-size:19px;color:var(--text2);max-width:640px;margin:0 auto 52px;line-height:1.7;position:relative;}
+    .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;}
+    .hero-social{margin-top:48px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;position:relative;}
+    .hero-social-lbl{font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:1px;}
+    .hero-avatars{display:flex;align-items:center;}
+    .hero-av{width:32px;height:32px;border-radius:50%;border:2px solid var(--bg);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-left:-8px;}
+    .hero-av:first-child{margin-left:0;}
+    .hero-av-1{background:#1e40af;color:#93c5fd;}
+    .hero-av-2{background:#065f46;color:#6ee7b7;}
+    .hero-av-3{background:#7c3aed;color:#c4b5fd;}
+    .hero-av-4{background:#92400e;color:#fcd34d;}
+    .hero-social-text{font-size:13px;color:var(--text2);}
+    .hero-social-text strong{color:var(--text);}
+    .btn-primary{background:var(--fleet);color:#070c1a;padding:18px 38px;border-radius:10px;font-size:17px;font-weight:800;letter-spacing:-0.3px;display:inline-block;transition:all 150ms;box-shadow:0 0 32px rgba(245,158,11,0.25);}
+    .btn-primary:hover{opacity:0.85;transform:translateY(-2px);box-shadow:0 0 48px rgba(245,158,11,0.4);}
     .btn-outline{border:1.5px solid var(--border2);color:var(--text);padding:18px 38px;border-radius:10px;font-size:17px;font-weight:600;display:inline-block;transition:all 150ms;}
     .btn-outline:hover{border-color:var(--fleet-l);color:var(--fleet-l);}
+
+    /* ── TRUST BAR ── */
+    .trust-bar{border-bottom:1px solid var(--border);padding:20px 40px;background:var(--bg);}
+    .trust-inner{max-width:920px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;}
+    .trust-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);white-space:nowrap;}
+    .trust-items{display:flex;align-items:center;gap:32px;flex-wrap:wrap;justify-content:center;}
+    .trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text3);font-weight:500;}
+    .trust-item svg{flex-shrink:0;opacity:0.5;}
 
     /* ── STATS ── */
     .stats-strip{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:36px 40px;}
@@ -279,6 +300,61 @@
     .driver .role-list li::before{color:var(--green);}
     @media(max-width:860px){.roles-grid{grid-template-columns:1fr;}}
 
+    /* ── DASHBOARD MOCKUP ── */
+    .dash-section{padding:80px 0;background:var(--bg);}
+    .dash-inner{max-width:1020px;margin:0 auto;padding:0 40px;}
+    .dash-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:56px;align-items:center;}
+    .dash-copy h3{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-0.8px;line-height:1.2;margin-bottom:16px;}
+    .dash-copy p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:24px;}
+    .dash-features{display:flex;flex-direction:column;gap:16px;}
+    .df{display:flex;align-items:flex-start;gap:14px;}
+    .df-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:var(--bg3);border:1px solid var(--border);}
+    .df-body{flex:1;}
+    .df-title{font-size:14px;font-weight:700;margin-bottom:2px;}
+    .df-desc{font-size:13px;color:var(--text2);line-height:1.5;}
+    .dash-mock{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+    .dash-topbar{background:var(--bg3);padding:12px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+    .dash-dot{width:10px;height:10px;border-radius:50%;}
+    .dash-title{font-size:13px;font-weight:600;color:var(--text2);margin-left:6px;}
+    .dash-live{margin-left:auto;font-size:11px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:6px;}
+    .dash-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.5s infinite;}
+    .dash-body{padding:16px;}
+    .dash-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+    .dash-kpi{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;}
+    .dash-kpi-val{font-size:22px;font-weight:800;letter-spacing:-1px;margin-bottom:2px;}
+    .dash-kpi-lbl{font-size:11px;color:var(--text3);}
+    .dash-kpi.fleet .dash-kpi-val{color:var(--fleet-l);}
+    .dash-kpi.green .dash-kpi-val{color:var(--green);}
+    .dash-kpi.blue .dash-kpi-val{color:var(--blue-l);}
+    .dash-jobs{display:flex;flex-direction:column;gap:8px;}
+    .dash-job{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;}
+    .dj-status{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .dj-status.active{background:var(--fleet);box-shadow:0 0 6px var(--fleet);animation:blink 1.5s infinite;}
+    .dj-status.enroute{background:var(--blue);box-shadow:0 0 6px var(--blue);}
+    .dj-status.done{background:var(--green);}
+    .dj-info{flex:1;}
+    .dj-title{font-size:12px;font-weight:700;}
+    .dj-sub{font-size:11px;color:var(--text3);}
+    .dj-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;}
+    .dj-badge.dispatched{background:var(--fleet-g);color:var(--fleet-l);}
+    .dj-badge.enroute{background:var(--blue-g);color:var(--blue-l);}
+    .dj-badge.complete{background:var(--green-g);color:var(--green);}
+    @media(max-width:860px){.dash-layout{grid-template-columns:1fr;}}
+
+    /* ── FAQ ── */
+    .faq-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0;}
+    .faq-inner{max-width:740px;margin:0 auto;padding:0 40px;}
+    .faq-head{text-align:center;margin-bottom:48px;}
+    .faq-list{display:flex;flex-direction:column;gap:0;}
+    .faq-item{border-bottom:1px solid var(--border);padding:0;}
+    .faq-item:first-child{border-top:1px solid var(--border);}
+    .faq-q{width:100%;background:none;border:none;color:var(--text);font-family:inherit;font-size:16px;font-weight:600;padding:22px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:left;gap:16px;}
+    .faq-q:hover{color:var(--fleet-l);}
+    .faq-icon{font-size:20px;color:var(--text3);flex-shrink:0;transition:transform 0.2s;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);color:var(--fleet-l);}
+    .faq-a{display:none;padding:0 0 22px;font-size:15px;color:var(--text2);line-height:1.75;}
+    .faq-item.open .faq-a{display:block;}
+
     /* ── FOOTER ── */
     footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
     .footer-copy{font-size:13px;color:var(--text3);}
@@ -301,7 +377,10 @@
       .stat:nth-child(2){border-right:none;}
       .pain-grid{grid-template-columns:1fr;}
       .section{padding:60px 20px;}
-      .demo-inner,.wf-inner,.audience-strip{padding-left:20px;padding-right:20px;}
+      .demo-inner,.wf-inner,.audience-strip,.dash-inner,.faq-inner{padding-left:20px;padding-right:20px;}
+      .trust-bar{padding:16px 20px;}
+      .trust-inner{gap:16px;}
+      .trust-lbl{display:none;}
       .offer-grid{grid-template-columns:1fr;}
       .pilot-section{padding:40px 24px;}
       .form-card{padding:32px 20px;}
@@ -330,12 +409,52 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-badge">🚚 Built for Fleet Managers & Operations Teams</div>
+  <div class="hero-grid"></div>
+  <div class="hero-badge">🚚 Built for Fleet Managers &amp; Operations Teams</div>
   <h1>A vehicle goes down.<br><span class="accent">Your team shouldn't have to stop everything.</span></h1>
   <p class="hero-sub">Every minute a fleet vehicle sits waiting for a tow costs you money and delays your operation. RIN dispatches in under 15 minutes, locks the rate before anyone moves, and sends you a report when it's done. Your team gets a notification — not a task.</p>
   <div class="hero-ctas">
     <a href="#contact-form" class="btn-primary">Book a 20-Minute Pilot Call →</a>
     <a href="#demo" class="btn-outline">See How a Job Works</a>
+  </div>
+  <div class="hero-social">
+    <span class="hero-social-lbl">Trusted by</span>
+    <div class="hero-avatars">
+      <div class="hero-av hero-av-1">JK</div>
+      <div class="hero-av hero-av-2">MT</div>
+      <div class="hero-av hero-av-3">SR</div>
+      <div class="hero-av hero-av-4">AL</div>
+    </div>
+    <span class="hero-social-text"><strong>Fleet operators</strong> in the GTA pilot network</span>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <span class="trust-lbl">Covered across</span>
+    <div class="trust-items">
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        GTA — 24/7 coverage
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Rate locked before dispatch
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        SMS-based — no app required
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Vetted tow operators only
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Pay per incident — no monthly fee
+      </div>
+    </div>
   </div>
 </div>
 
@@ -398,6 +517,10 @@
       <div class="slabel" style="text-align:center;">Live Job Walkthrough</div>
       <h2 class="stitle" style="text-align:center;margin-bottom:14px;">See a real job — from breakdown to payment.</h2>
       <p style="text-align:center;color:var(--text2);font-size:16px;max-width:560px;margin:0 auto;">Click through each step. This is the actual experience your tow operator and driver see — and all your fleet manager sees is a single notification at step 4.</p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;font-size:13px;font-weight:600;color:var(--fleet-l);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+        Click any step or use the buttons below to walk through
+      </div>
     </div>
 
     <div class="demo-wrap">
@@ -765,6 +888,162 @@
   </div>
 </div>
 
+<!-- DASHBOARD MOCKUP -->
+<div class="dash-section">
+  <div class="dash-inner">
+    <div class="dash-layout">
+      <div class="dash-copy">
+        <div class="slabel">Dispatcher dashboard</div>
+        <h3>One screen. Every job. Full control.</h3>
+        <p>When a job comes in, your dispatcher sees it in real time — operator assigned, ETA visible, price locked. No phone calls. No status updates to chase. Step in only when something needs a human call.</p>
+        <div class="dash-features">
+          <div class="df">
+            <div class="df-icon">📡</div>
+            <div class="df-body">
+              <div class="df-title">Live job board</div>
+              <div class="df-desc">Every active dispatch visible — status, operator, ETA, vehicle ID — in one view.</div>
+            </div>
+          </div>
+          <div class="df">
+            <div class="df-icon">🔁</div>
+            <div class="df-body">
+              <div class="df-title">Manual override</div>
+              <div class="df-desc">Re-route, reassign, or escalate any job with one click. Full audit trail maintained.</div>
+            </div>
+          </div>
+          <div class="df">
+            <div class="df-icon">📊</div>
+            <div class="df-body">
+              <div class="df-title">Performance at a glance</div>
+              <div class="df-desc">Response times, completion rates, operator ratings — updated in real time.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dash-mock">
+        <div class="dash-topbar">
+          <div class="dash-dot" style="background:#ef4444;"></div>
+          <div class="dash-dot" style="background:#f59e0b;margin-left:6px;"></div>
+          <div class="dash-dot" style="background:#22c55e;margin-left:6px;"></div>
+          <div class="dash-title">RIN Dispatcher — Live Dashboard</div>
+          <div class="dash-live">LIVE</div>
+        </div>
+        <div class="dash-body">
+          <div class="dash-row">
+            <div class="dash-kpi fleet">
+              <div class="dash-kpi-val">3</div>
+              <div class="dash-kpi-lbl">Active jobs</div>
+            </div>
+            <div class="dash-kpi green">
+              <div class="dash-kpi-val">11m</div>
+              <div class="dash-kpi-lbl">Avg dispatch time</div>
+            </div>
+            <div class="dash-kpi blue">
+              <div class="dash-kpi-val">$780</div>
+              <div class="dash-kpi-lbl">Revenue today</div>
+            </div>
+          </div>
+          <div class="dash-jobs">
+            <div class="dash-job">
+              <div class="dj-status active"></div>
+              <div class="dj-info">
+                <div class="dj-title">Job #RIN-4821 — Flatbed, North York → Brampton</div>
+                <div class="dj-sub">Ace Towing · ETA 9 min · $195 locked</div>
+              </div>
+              <div class="dj-badge dispatched">Dispatched</div>
+            </div>
+            <div class="dash-job">
+              <div class="dj-status enroute"></div>
+              <div class="dj-info">
+                <div class="dj-title">Job #RIN-4819 — Battery, Scarborough</div>
+                <div class="dj-sub">FastTow · En route · $95 locked</div>
+              </div>
+              <div class="dj-badge enroute">En Route</div>
+            </div>
+            <div class="dash-job">
+              <div class="dj-status done"></div>
+              <div class="dj-info">
+                <div class="dj-title">Job #RIN-4817 — Tow, Mississauga → Hamilton</div>
+                <div class="dj-sub">Pro Tow · Completed 14 min ago · $490</div>
+              </div>
+              <div class="dj-badge complete">Complete</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div class="faq-inner">
+    <div class="faq-head">
+      <div class="slabel" style="text-align:center;">Common questions</div>
+      <h2 class="stitle" style="text-align:center;font-size:clamp(26px,3.5vw,38px);">What fleet managers ask before signing up.</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How does my driver actually initiate a job?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Your driver texts the RIN number with the vehicle ID, location, and issue — in plain language. RIN parses the request automatically and dispatches a tow operator in under 15 minutes. No app, no account, no training. If your driver can send a text, they can use RIN.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How is the rate calculated? Can it change after dispatch?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">RIN calculates the rate based on job type, distance, vehicle class, and regional market data. The rate is locked before any tow operator moves — meaning you see the price and confirm before the job starts. The final invoice will always match the locked rate. No surprise surcharges.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What if a job goes wrong — driver dispute, damage claim, service failure?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Every job is documented: GPS timestamps, operator sign-off, photos where required, and a full incident log. If a dispute arises, RIN has the records. Our dispatchers handle escalations and can reassign or compensate depending on the situation. You're not left to chase an operator on your own.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          We have 50+ vehicles across multiple locations. Can RIN handle that?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes. RIN is built for multi-vehicle, multi-location fleets. Each vehicle gets its own ID. Incidents are tracked per vehicle so you can see cost-per-unit trends. Your monthly report breaks down every incident by vehicle, location, operator, and cost. Accounting and insurance get one consolidated document.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is there a setup fee or monthly commitment?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">No setup fee, no monthly fee, no commitment. You pay per incident — only when a job runs. We start with a 30-day pilot where you add all your vehicles, run live jobs, and pay only for what happens. If RIN doesn't perform as described, cancel with nothing owed.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What areas do you cover?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Currently operating across the Greater Toronto Area: Toronto, Mississauga, Brampton, Scarborough, North York, Etobicoke, Hamilton, and Durham Region. We're expanding into additional Ontario markets in 2026. If your fleet operates outside these areas, contact us — we may be able to accommodate on a case-by-case basis.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How do I get the incident reports and invoices?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">At the end of each month, you receive a single consolidated invoice with every incident itemized — vehicle ID, date, job type, operator, response time, and cost. A full incident log PDF is attached. If your accounting team needs specific formats or PO numbers attached, we accommodate that during setup.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- PILOT CTA -->
 <div class="section" id="pilot" style="padding-top:80px;">
   <div class="pilot-section">
@@ -932,6 +1211,14 @@ new IntersectionObserver(entries => {
     if (e.isIntersecting && !wfRunning) { wfRunning = true; runWf(); }
   });
 }, { threshold: 0.15 }).observe(track);
+
+// ── FAQ ──
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
 
 // ── FORM ──
 const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
