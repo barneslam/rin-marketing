@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIN Outreach Templates</title>
+<style>
+  :root {
+    --bg: #05091a; --bg2: #0c1426; --bg3: #111d35; --bg4: #1e2d50;
+    --blue: #3b82f6; --blue-l: #60a5fa; --blue-d: #2563eb;
+    --green: #34d399; --text: #f1f5f9; --text2: #94a3b8; --text3: #64748b;
+    --border: #1e293b; --border2: #334155;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 40px 24px; }
+  .page { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+  .sub { color: var(--text2); font-size: 0.9rem; margin-bottom: 40px; }
+  .letter { background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 28px 32px; margin-bottom: 28px; }
+  .letter-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+  .persona-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue-l); background: rgba(59,130,246,0.12); padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  .letter h2 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .subject-line { font-size: 0.82rem; color: var(--text2); margin-bottom: 20px; }
+  .subject-line span { color: var(--text); font-weight: 600; }
+  .body { font-size: 0.92rem; line-height: 1.75; color: var(--text); white-space: pre-wrap; background: var(--bg3); border-radius: 8px; padding: 20px 22px; position: relative; }
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: var(--bg4); border: 1px solid var(--border2); color: var(--text2); font-size: 0.75rem; padding: 5px 12px; border-radius: 6px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+  .copy-btn:hover { background: var(--blue-d); color: white; }
+  .copy-btn.copied { background: var(--green); color: #05091a; border-color: var(--green); }
+  .rule { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+  .note { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 8px; padding: 14px 18px; margin-top: 36px; font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+  .note strong { color: var(--blue-l); }
+  .follow-up-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text3); margin-top: 20px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>RIN Outreach — Email Templates</h1>
+  <p class="sub">3 cold intro letters + universal follow-up. No link on first send — include the 15-min Calendly after a positive reply.</p>
+
+  <!-- LETTER 1: OPS MANAGER -->
+  <div class="letter">
+    <div class="letter-header">
+      <div>
+        <h2>Letter 1 — Ops Manager / Fleet Manager</h2>
+        <p class="subject-line">Subject: <span>When a truck goes down, does your whole day go with it?</span></p>
+      </div>
+      <span class="persona-tag">Ops Manager</span>
+    </div>
+    <div class="body" id="body1">Hi [Name],
+
+Every breakdown hits the same way: someone pulls their dispatcher off everything else, phones start flying, and an hour later you still don't have a truck moving.
+
+We built RIN specifically so that doesn't happen. Fleet manager texts in the vehicle ID and location. We handle the rest — dispatch, rate, ETAs, documentation. Your team never touches it.
+
+We're running a pilot with a small group of fleet operators this quarter at a locked per-incident rate. No contracts, no monthly minimums.
+
+Worth a 15-minute call to see if it fits your operation?
+
+Barnes
+RIN — Roadside Intelligence Network<button class="copy-btn" onclick="copyText('body1', this)">Copy</button></div>
+  </div>
+
+  <!-- LETTER 2: DISPATCHER -->
+  <div class="letter">
+    <div class="letter-header">
+      <div>
+        <h2>Letter 2 — Fleet Dispatcher</h2>
+        <p class="subject-line">Subject: <span>How many calls does a single breakdown take you?</span></p>
+      </div>
+      <span class="persona-tag">Dispatcher</span>
+    </div>
+    <div class="body" id="body2">Hi [Name],
+
+If you're dispatching for a fleet, you already know: one breakdown can eat 2–3 hours of your day across calls to find a tower, negotiate rates, confirm ETAs, and update the driver.
+
+RIN replaces the whole chain with a single inbound text. Driver texts their location. We confirm the tower, lock the rate, and send status updates back automatically. You get a full incident report when it closes.
+
+We're in pilot now with a handful of fleet dispatch teams. No integration work, no software to install.
+
+If that sounds like it fits — would a quick call make sense?
+
+Barnes
+RIN — Roadside Intelligence Network<button class="copy-btn" onclick="copyText('body2', this)">Copy</button></div>
+  </div>
+
+  <!-- LETTER 3: CFO / FINANCE -->
+  <div class="letter">
+    <div class="letter-header">
+      <div>
+        <h2>Letter 3 — Finance / CFO / VP Operations</h2>
+        <p class="subject-line">Subject: <span>What does a breakdown actually cost your fleet?</span></p>
+      </div>
+      <span class="persona-tag">Finance / CFO</span>
+    </div>
+    <div class="body" id="body3">Hi [Name],
+
+Industry average is $340/hour in downtime per incident. Add the labor to manage it and the variable towing rates that show up on an expense report three weeks later — and most fleet operators have no idea what roadside actually costs them.
+
+RIN locks the rate at dispatch, bundles incidents into a single monthly invoice, and attaches a full report to every job. You know exactly what you're paying before we send a truck.
+
+We're working with a small group of fleet operators this quarter in a structured pilot. Flat per-incident pricing, no commitment beyond the pilot.
+
+Happy to share the numbers if it's worth a conversation.
+
+Barnes
+RIN — Roadside Intelligence Network<button class="copy-btn" onclick="copyText('body3', this)">Copy</button></div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- FOLLOW-UP -->
+  <div class="letter">
+    <div class="letter-header">
+      <div>
+        <h2>Follow-Up — 5–7 Days, No Reply</h2>
+        <p class="subject-line">Subject: <span>Re: [original subject line]</span></p>
+      </div>
+      <span class="persona-tag" style="background:rgba(52,211,153,0.1);color:var(--green);">Follow-Up</span>
+    </div>
+    <div class="body" id="body4">Hi [Name],
+
+Following up in case this got buried.
+
+We're at capacity for this pilot quarter so I wanted to make sure you had the option before we close the spots.
+
+If the timing isn't right, no problem at all — happy to check back in later in the year.
+
+Barnes<button class="copy-btn" onclick="copyText('body4', this)">Copy</button></div>
+  </div>
+
+  <!-- SMS -->
+  <div class="letter">
+    <div class="letter-header">
+      <div>
+        <h2>SMS — Short Version (warm intros / referrals only)</h2>
+        <p class="subject-line">Use only after a warm intro or prior email exchange.</p>
+      </div>
+      <span class="persona-tag" style="background:rgba(251,191,36,0.1);color:#fbbf24;">SMS</span>
+    </div>
+    <div class="body" id="body5">Hi [Name], Barnes here from RIN. We handle roadside dispatch for fleets — locked rate, single invoice, your team texts in and we manage the rest. Running a small pilot this quarter. Worth 15 min? Happy to share details.<button class="copy-btn" onclick="copyText('body5', this)">Copy</button></div>
+  </div>
+
+  <div class="note">
+    <strong>Sending rules:</strong> First touch → no Calendly link. After a positive reply → include the 15-min link: https://calendly.com/barnes-lam/free-consultation-24-hour-business-sprint. After qualification call → upgrade to 30-min: https://calendly.com/barnes-lam/30-min-free-strategy-call-clone
+  </div>
+
+</div>
+<script>
+function copyText(id, btn) {
+  const el = document.getElementById(id);
+  const clone = el.cloneNode(true);
+  clone.querySelectorAll('button').forEach(b => b.remove());
+  const text = clone.innerText.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
