@@ -1081,47 +1081,35 @@
   <!-- Who We Serve Tab -->
   <div class="tab-panel" id="tab-whoweserve">
     <p style="text-align:center;color:var(--text-secondary);max-width:560px;margin:0 auto 32px;font-size:16px;line-height:1.7;">
-      RIN connects four industries that need each other — and removes every inefficiency in between. Select your role below.
+      Roadside service is broken for everyone in this chain. RIN fixes it — differently for each of you.
     </p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;">
 
       <div class="feature-card" style="cursor:pointer;" onclick="switchTab('operators')" data-track="whoweserve_operators">
         <div class="feature-icon">🚚</div>
         <h3>Tow Operators</h3>
-        <div style="margin:10px 0 6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#f87171;">The Problem</div>
-        <p style="margin:0 0 10px;font-size:14px;color:var(--text-secondary);">Scheduling chaos, slow pay, and chasing jobs that don't materialize.</p>
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#34d399;margin-bottom:6px;">RIN Delivers</div>
-        <p style="margin:0 0 16px;font-size:14px;color:var(--text-secondary);">Pre-qualified enterprise jobs, automatic dispatch, and guaranteed 7-day payout.</p>
+        <p style="margin:12px 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.65;">You're good at this job. You shouldn't have to hustle for clients. RIN brings enterprise work to you — pre-priced, pre-approved, and paid in 7 days.</p>
         <div style="font-size:13px;font-weight:600;color:var(--accent-light);">See how it works →</div>
       </div>
 
       <div class="feature-card" style="cursor:pointer;" onclick="switchTab('insurance')" data-track="whoweserve_insurance">
         <div class="feature-icon">🏛️</div>
         <h3>Insurance Companies</h3>
-        <div style="margin:10px 0 6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#f87171;">The Problem</div>
-        <p style="margin:0 0 10px;font-size:14px;color:var(--text-secondary);">No visibility on dispatch status, billing disputes, and unverified operators.</p>
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#34d399;margin-bottom:6px;">RIN Delivers</div>
-        <p style="margin:0 0 16px;font-size:14px;color:var(--text-secondary);">Real-time tracking, verified operators, and a full audit trail per claim.</p>
+        <p style="margin:12px 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.65;">Your policyholder needs help right now. RIN dispatches a vetted operator, locks the rate before anyone moves, and hands you a clean audit record. Automatically.</p>
         <div style="font-size:13px;font-weight:600;color:var(--accent-light);">See how it works →</div>
       </div>
 
       <div class="feature-card" style="cursor:pointer;" onclick="switchTab('dealerships')" data-track="whoweserve_dealerships">
         <div class="feature-icon">🏎️</div>
         <h3>Dealerships</h3>
-        <div style="margin:10px 0 6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#f87171;">The Problem</div>
-        <p style="margin:0 0 10px;font-size:14px;color:var(--text-secondary);">Poor roadside experience damages CSI scores and loses service bay opportunities.</p>
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#34d399;margin-bottom:6px;">RIN Delivers</div>
-        <p style="margin:0 0 16px;font-size:14px;color:var(--text-secondary);">White-labeled roadside coverage that protects your brand and drives return visits.</p>
+        <p style="margin:12px 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.65;">Your customer broke down and they're calling you. RIN answers under your brand, dispatches help, and keeps them updated every step of the way. They come back to your bay.</p>
         <div style="font-size:13px;font-weight:600;color:var(--accent-light);">See how it works →</div>
       </div>
 
       <div class="feature-card" style="cursor:pointer;" onclick="switchTab('fleet')" data-track="whoweserve_fleet">
         <div class="feature-icon">🚛</div>
         <h3>Fleet Operators</h3>
-        <div style="margin:10px 0 6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#f87171;">The Problem</div>
-        <p style="margin:0 0 10px;font-size:14px;color:var(--text-secondary);">Vehicle downtime, no incident visibility, and no consistent commercial coverage.</p>
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#34d399;margin-bottom:6px;">RIN Delivers</div>
-        <p style="margin:0 0 16px;font-size:14px;color:var(--text-secondary);">24/7 heavy-duty dispatch, fleet-wide incident tracking, and custom SLA agreements.</p>
+        <p style="margin:12px 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.65;">One truck down costs you a delivery, a client, or a whole day. RIN gets the right help there fast — and logs every incident by vehicle so you're never scrambling again.</p>
         <div style="font-size:13px;font-weight:600;color:var(--accent-light);">See how it works →</div>
       </div>
 
@@ -1714,9 +1702,9 @@
 // ── HERO HEADLINE ROTATION ───────────────────────────────────────
 (function() {
   const lines = [
-    'More jobs. Faster pay.<br>Zero overhead.',
-    'Faster claims. Verified dispatch.<br>Zero billing disputes.',
-    'Full fleet coverage. Real-time visibility.<br>One platform.',
+    'Enterprise clients need you.<br>RIN makes sure they find you.',
+    'No more billing disputes.<br>RIN prices the job before the truck moves.',
+    'Vehicle down. Right help there<br>in minutes. Every time.',
   ];
   let idx = 0;
   const el = document.getElementById('hero-headline');
