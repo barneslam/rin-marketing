@@ -1220,32 +1220,42 @@
 <!-- HOW IT WORKS -->
 <div class="how-it-works" data-section="how">
   <section id="how" style="padding-top:0;padding-bottom:0;">
-    <div class="section-label">For Tow Operators — The Process</div>
+    <div class="section-label" id="how-label">For Tow Operators — The Process</div>
     <h2>How It Works</h2>
-    <p class="section-intro">Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That's it.</p>
+    <p class="section-intro" id="how-intro">Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That's it.</p>
 
-    <div class="steps-grid">
-      <div class="step">
-        <div class="step-number">1</div>
-        <h3>Enterprise Client Sends a Job</h3>
-        <p>An insurance company, fleet manager, or dealership submits a roadside request through RIN. No phone call to your dispatch. It lands in the system automatically.</p>
-      </div>
-      <div class="step">
-        <div class="step-number">2</div>
-        <h3>Your Rate Is Locked In</h3>
-        <p>RIN's AI calculates a fair rate based on incident type, distance, and time of day. The client approves via SMS — your payout is confirmed before your driver leaves.</p>
-      </div>
-      <div class="step">
-        <div class="step-number">3</div>
-        <h3>Your Driver Gets the Job</h3>
-        <p>RIN dispatches to the nearest qualified driver in your fleet via SMS. One reply to confirm. No new app. No retraining. Your driver is on the way.</p>
-      </div>
-      <div class="step">
-        <div class="step-number">4</div>
-        <h3>You're Paid in 7 Days</h3>
-        <p>Job complete. RIN invoices the client and deposits your 80% within 7 days — automatically. No chasing invoices, no payment delays.</p>
-      </div>
+    <!-- TOW OPERATORS -->
+    <div class="steps-grid how-panel" id="how-operators">
+      <div class="step"><div class="step-number">1</div><h3>Enterprise Client Sends a Job</h3><p>An insurance company, fleet manager, or dealership submits a roadside request through RIN. No phone call to your dispatch. It lands in the system automatically.</p></div>
+      <div class="step"><div class="step-number">2</div><h3>Your Rate Is Locked In</h3><p>RIN's AI calculates a fair rate based on incident type, distance, and time of day. The client approves via SMS — your payout is confirmed before your driver leaves.</p></div>
+      <div class="step"><div class="step-number">3</div><h3>Your Driver Gets the Job</h3><p>RIN dispatches to the nearest qualified driver in your fleet via SMS. One reply to confirm. No new app. No retraining. Your driver is on the way.</p></div>
+      <div class="step"><div class="step-number">4</div><h3>You're Paid in 7 Days</h3><p>Job complete. RIN invoices the client and deposits your 80% within 7 days — automatically. No chasing invoices, no payment delays.</p></div>
     </div>
+
+    <!-- INSURANCE COMPANIES -->
+    <div class="steps-grid how-panel" id="how-insurance" style="display:none;">
+      <div class="step"><div class="step-number">1</div><h3>Submit a Roadside Request</h3><p>File a claim request through RIN. Vehicle details, policy number, location, and incident type — all captured automatically. No back-and-forth with your team.</p></div>
+      <div class="step"><div class="step-number">2</div><h3>Pricing Verified Upfront</h3><p>RIN calculates a fair market rate for the incident. No inflated invoices, no surprise billing. Price is locked and approved before any driver rolls.</p></div>
+      <div class="step"><div class="step-number">3</div><h3>Vetted Operator Dispatched</h3><p>A rated, verified tow operator is assigned automatically. Your team gets real-time tracking — from dispatch to drop-off — with no calls required.</p></div>
+      <div class="step"><div class="step-number">4</div><h3>Clean Audit Trail Per Claim</h3><p>Job complete. Timestamps, driver ID, GPS route, and policyholder sign-off — all logged. One clean, itemized record per claim. Ready for your files.</p></div>
+    </div>
+
+    <!-- FLEET OPERATORS -->
+    <div class="steps-grid how-panel" id="how-fleet" style="display:none;">
+      <div class="step"><div class="step-number">1</div><h3>Incident Reported</h3><p>Your driver or fleet manager reports a breakdown. Vehicle, location, and incident type are captured instantly — no manual logging, no call center.</p></div>
+      <div class="step"><div class="step-number">2</div><h3>Right Truck, Right Match</h3><p>RIN matches the incident to the correct tow type — light, medium, or heavy. The nearest qualified operator is dispatched automatically.</p></div>
+      <div class="step"><div class="step-number">3</div><h3>Real-Time Fleet Visibility</h3><p>Track the tow truck and your vehicle in real time from one dashboard. ETAs, status updates, and completion — no phone calls needed.</p></div>
+      <div class="step"><div class="step-number">4</div><h3>Per-Vehicle Job Record</h3><p>Every incident logged by vehicle ID. Useful for maintenance tracking, insurance claims, and driver accountability. Exportable any time.</p></div>
+    </div>
+
+    <!-- DEALERSHIPS -->
+    <div class="steps-grid how-panel" id="how-dealerships" style="display:none;">
+      <div class="step"><div class="step-number">1</div><h3>Customer Reports an Incident</h3><p>Your customer contacts roadside assistance. RIN captures the request under your dealership brand — seamlessly. No third-party branding your customer sees.</p></div>
+      <div class="step"><div class="step-number">2</div><h3>Vetted Operator Dispatched</h3><p>A qualified tow operator is assigned from RIN's network. Fast response. Professional service — presented under your dealership name, not ours.</p></div>
+      <div class="step"><div class="step-number">3</div><h3>Your Customer Stays Informed</h3><p>Real-time SMS updates to your customer: ETA, driver name, job status. All under your dealership identity. Their experience, your brand.</p></div>
+      <div class="step"><div class="step-number">4</div><h3>Vehicle Routed to Your Bay</h3><p>Job complete. RIN closes the loop — every roadside incident is an opportunity to route the vehicle back to your service department. More return visits.</p></div>
+    </div>
+
   </section>
 </div>
 
@@ -1541,12 +1551,30 @@
 })();
 
 // ── AUDIENCE TABS ────────────────────────────────────────────────
+const howContent = {
+  operators:   { label: 'For Tow Operators — The Process',      intro: 'Insurance companies, fleet managers, and dealerships send jobs directly into RIN. You get dispatched, you do the job, you get paid. That\'s it.' },
+  insurance:   { label: 'For Insurance Companies — The Process', intro: 'Submit a roadside request, get a verified operator dispatched, and receive a clean audit trail per claim — all through one platform.' },
+  fleet:       { label: 'For Fleet Operators — The Process',     intro: 'Report an incident, get the right truck dispatched, and track every vehicle in real time — with a full per-vehicle record at job close.' },
+  dealerships: { label: 'For Dealerships — The Process',         intro: 'Your customer gets professional roadside service under your brand. Fast dispatch, real-time updates, and every job routed back to your service bay.' },
+};
+
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
   document.getElementById(`tab-${tab}`).classList.add('active');
   track('tab_switch', { tab });
+
+  // Update How It Works section to match audience
+  document.querySelectorAll('.how-panel').forEach(p => p.style.display = 'none');
+  const howPanel = document.getElementById(`how-${tab}`);
+  if (howPanel) {
+    howPanel.style.display = 'grid';
+    if (howContent[tab]) {
+      document.getElementById('how-label').textContent = howContent[tab].label;
+      document.getElementById('how-intro').textContent = howContent[tab].intro;
+    }
+  }
 }
 
 // ── CALCULATOR ────────────────────────────────────────────────────
