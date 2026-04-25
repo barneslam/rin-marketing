@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIN Outreach Tracker</title>
+<style>
+:root {
+  --bg: #05091a; --bg2: #0c1426; --bg3: #111d35; --bg4: #1e2d50;
+  --blue: #3b82f6; --blue-l: #60a5fa; --blue-d: #2563eb;
+  --green: #34d399; --amber: #fbbf24; --red: #f87171; --purple: #a78bfa;
+  --text: #f1f5f9; --text2: #94a3b8; --text3: #64748b;
+  --border: #1e293b; --border2: #334155;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+.header { padding: 28px 32px 0; max-width: 1200px; margin: 0 auto; }
+.header h1 { font-size: 1.35rem; font-weight: 700; }
+.header p { color: var(--text2); font-size: 0.87rem; margin-top: 4px; }
+
+/* STATS ROW */
+.stats { display: flex; gap: 12px; padding: 20px 32px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
+.stat { background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px; padding: 14px 20px; min-width: 120px; }
+.stat-n { font-size: 1.7rem; font-weight: 800; line-height: 1; }
+.stat-l { font-size: 0.73rem; color: var(--text2); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+.stat.identified .stat-n { color: var(--text2); }
+.stat.contacted .stat-n { color: var(--blue-l); }
+.stat.replied .stat-n { color: var(--amber); }
+.stat.qualified .stat-n { color: var(--purple); }
+.stat.pilot .stat-n { color: var(--green); }
+.stat.closed .stat-n { color: #4ade80; }
+
+/* FILTERS */
+.filters { display: flex; gap: 8px; padding: 0 32px 16px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; align-items: center; }
+.filter-btn { background: var(--bg2); border: 1px solid var(--border2); color: var(--text2); font-size: 0.78rem; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: all 0.15s; }
+.filter-btn.active, .filter-btn:hover { background: var(--blue-d); border-color: var(--blue); color: white; }
+.filter-sep { color: var(--text3); font-size: 0.78rem; }
+
+/* TABLE */
+.table-wrap { padding: 0 32px 40px; max-width: 1200px; margin: 0 auto; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th { text-align: left; padding: 10px 12px; color: var(--text3); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--border2); }
+td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* BADGES */
+.tier { font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.04em; }
+.tier-1 { background: rgba(248,113,113,0.12); color: var(--red); }
+.tier-2 { background: rgba(59,130,246,0.12); color: var(--blue-l); }
+.tier-3 { background: rgba(100,116,139,0.15); color: var(--text3); }
+.persona { font-size: 0.72rem; background: var(--bg3); color: var(--text2); padding: 3px 8px; border-radius: 4px; }
+
+/* STATUS PILL */
+.status-select {
+  background: var(--bg3); border: 1px solid var(--border2); color: var(--text);
+  font-size: 0.78rem; padding: 4px 10px; border-radius: 20px; cursor: pointer;
+  outline: none; font-family: inherit; transition: border-color 0.15s;
+}
+.status-select:focus { border-color: var(--blue); }
+.s-identified { border-color: #334155; color: var(--text2); }
+.s-contacted   { border-color: var(--blue); color: var(--blue-l); background: rgba(59,130,246,0.08); }
+.s-replied     { border-color: var(--amber); color: var(--amber); background: rgba(251,191,36,0.08); }
+.s-qualified   { border-color: var(--purple); color: var(--purple); background: rgba(167,139,250,0.08); }
+.s-pilot       { border-color: var(--green); color: var(--green); background: rgba(52,211,153,0.08); }
+.s-closed      { border-color: #4ade80; color: #4ade80; background: rgba(74,222,128,0.08); }
+.s-pass        { border-color: #475569; color: #475569; background: transparent; }
+
+/* DATE INPUT */
+.date-input {
+  background: transparent; border: none; border-bottom: 1px solid var(--border2);
+  color: var(--text2); font-size: 0.78rem; font-family: inherit;
+  padding: 2px 4px; width: 108px; cursor: pointer; outline: none;
+}
+.date-input:focus { border-color: var(--blue-l); color: var(--text); }
+
+/* NOTES */
+.note-input {
+  background: transparent; border: none; border-bottom: 1px solid transparent;
+  color: var(--text2); font-size: 0.8rem; font-family: inherit;
+  padding: 2px 4px; width: 100%; min-width: 160px; outline: none;
+  transition: border-color 0.15s;
+}
+.note-input:focus { border-color: var(--border2); color: var(--text); }
+
+/* BATCH HEADER */
+.batch-row td { background: var(--bg3); color: var(--text3); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 12px; }
+
+/* TEMPLATE LINK */
+.tmpl { font-size: 0.72rem; color: var(--text3); text-decoration: none; padding: 3px 8px; border-radius: 4px; background: var(--bg3); }
+.tmpl:hover { color: var(--blue-l); }
+
+/* NEXT ACTION */
+.next { font-size: 0.78rem; color: var(--text2); }
+
+/* SAVE NOTICE */
+.save-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg4); border-top: 1px solid var(--border2); padding: 10px 32px; display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; color: var(--text2); z-index: 100; }
+.save-btn { background: var(--blue-d); border: none; color: white; font-size: 0.82rem; font-weight: 600; padding: 7px 20px; border-radius: 8px; cursor: pointer; }
+.save-btn:hover { background: var(--blue); }
+.saved-notice { color: var(--green); font-size: 0.78rem; opacity: 0; transition: opacity 0.3s; }
+.saved-notice.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>RIN Outreach Tracker</h1>
+  <p>28 targets · GTA fleet operators · Pilot Q2 2026 — <strong style="color:var(--text)">5 sends/day max</strong> to protect deliverability</p>
+</div>
+
+<div class="stats" id="statsRow">
+  <div class="stat identified"><div class="stat-n" id="s-identified">0</div><div class="stat-l">Identified</div></div>
+  <div class="stat contacted"><div class="stat-n" id="s-contacted">0</div><div class="stat-l">Contacted</div></div>
+  <div class="stat replied"><div class="stat-n" id="s-replied">0</div><div class="stat-l">Replied</div></div>
+  <div class="stat qualified"><div class="stat-n" id="s-qualified">0</div><div class="stat-l">Qualified</div></div>
+  <div class="stat pilot"><div class="stat-n" id="s-pilot">0</div><div class="stat-l">In Pilot</div></div>
+  <div class="stat closed"><div class="stat-n" id="s-closed">0</div><div class="stat-l">Closed</div></div>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filterTable('all', this)">All</button>
+  <button class="filter-btn" onclick="filterTable('1', this)">Tier 1</button>
+  <button class="filter-btn" onclick="filterTable('2', this)">Tier 2</button>
+  <button class="filter-btn" onclick="filterTable('3', this)">Tier 3 (watch)</button>
+  <span class="filter-sep">|</span>
+  <button class="filter-btn" onclick="filterTable('identified', this)">Not contacted</button>
+  <button class="filter-btn" onclick="filterTable('contacted', this)">Awaiting reply</button>
+  <button class="filter-btn" onclick="filterTable('replied', this)">Replied</button>
+  <button class="filter-btn" onclick="filterTable('qualified', this)">Qualified</button>
+</div>
+
+<div class="table-wrap">
+<table id="tbl">
+  <thead>
+    <tr>
+      <th style="width:200px">Company</th>
+      <th>Tier</th>
+      <th>Contact Title</th>
+      <th>Template</th>
+      <th>Status</th>
+      <th>Sent Date</th>
+      <th>Follow-Up</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody id="tbody"></tbody>
+</table>
+</div>
+
+<div class="save-bar">
+  <span>Changes are auto-saved to your browser. Export CSV to share.</span>
+  <div style="display:flex;gap:12px;align-items:center;">
+    <span class="saved-notice" id="savedNotice">Saved</span>
+    <button class="save-btn" onclick="exportCSV()">Export CSV</button>
+  </div>
+</div>
+
+<script>
+const TEMPLATE_LABELS = { ops_manager: 'Letter 1 — Ops', dispatcher: 'Letter 2 — Dispatch', finance: 'Letter 3 — Finance' };
+const TEMPLATE_URL = 'templates.html';
+
+const TARGETS_DEFAULT = [
+  // BATCH 1 — Tier 2, mid-size, send first
+  {batch:'BATCH 1 — Mid-Size Fleet (Send First · Tier 2)',isBatch:true},
+  {tier:'2',company:'Apps Transport Group',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario-based'},
+  {tier:'2',company:'Onfreight Logistics',title:'Dispatch Manager',persona:'dispatcher',template:'dispatcher',notes:'Ontario'},
+  {tier:'2',company:'Trans4 Group Ltd.',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario'},
+  {tier:'2',company:'J&R Hall Transport Inc.',title:'Fleet Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario'},
+  {tier:'2',company:'B.S.D. Linehaul',title:'Dispatch Manager',persona:'dispatcher',template:'dispatcher',notes:'Ontario linehaul'},
+  {tier:'2',company:'Woodcock Brothers Transportation Group',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario'},
+  {tier:'2',company:'ONE for Freight',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario'},
+  {tier:'2',company:'Diversco Transport Inc.',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario'},
+  {tier:'2',company:'ASL Global Logistics',title:'VP Operations',persona:'finance',template:'finance',notes:'GTA'},
+  {tier:'2',company:'Walmart Fleet ULC',title:'VP Fleet/Operations',persona:'finance',template:'finance',notes:'Large structured fleet ops team'},
+  // BATCH 2 — Tier 1, enterprise, send second
+  {batch:'BATCH 2 — Enterprise Fleet (Send Second · Tier 1)',isBatch:true},
+  {tier:'1',company:'Canada Cartage Systems Ltd.',title:'Fleet/Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Large GTA cartage fleet 24/7 ops - high breakdown volume'},
+  {tier:'1',company:'JD Smith Supply Chain Solutions',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'GTA-based full fleet distribution'},
+  {tier:'1',company:'Fortigo Freight Services Inc.',title:'Fleet Manager',persona:'dispatcher',template:'dispatcher',notes:'Ontario-based freight regional routes'},
+  {tier:'1',company:'GX Transportation Solutions Inc.',title:'VP Operations',persona:'finance',template:'finance',notes:'Mississauga road/rail/air - structured ops team'},
+  {tier:'1',company:'Tandet',title:'Fleet Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario linehaul large fleet'},
+  {tier:'1',company:'XTL Transport Inc.',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario-wide heavy commercial fleet'},
+  {tier:'1',company:'Polaris Transportation Group',title:'Fleet/Dispatch Manager',persona:'dispatcher',template:'dispatcher',notes:'Ontario cross-border freight'},
+  {tier:'1',company:'Cardinal Couriers',title:'Dispatch Manager',persona:'dispatcher',template:'dispatcher',notes:'GTA last-mile high breakdown exposure'},
+  {tier:'1',company:'Liberty Linehaul Inc.',title:'Fleet Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario linehaul'},
+  {tier:'1',company:'Loblaw Transport',title:'VP Fleet/Operations',persona:'finance',template:'finance',notes:'Massive GTA-based fleet - finance angle strongest'},
+  // BATCH 3 — Watch list, send after first replies
+  {batch:'BATCH 3 — Watch List (Hold Until 2+ Pilots Live · Tier 3)',isBatch:true},
+  {tier:'3',company:'Autobahn Freight Lines Ltd.',title:'Fleet Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario - watch list'},
+  {tier:'3',company:'Beyond Transportation Inc.',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario - watch list'},
+  {tier:'3',company:'Frontier Distribution Services Inc.',title:'Fleet Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario - watch list'},
+  {tier:'3',company:'Mill Creek Motor Freight LP',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario - watch list'},
+  {tier:'3',company:'Spring Creek Carriers Inc.',title:'Fleet Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario - watch list'},
+  {tier:'3',company:'Rosedale Transport',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario - watch list'},
+  {tier:'3',company:'Steed Standard Transport Limited',title:'Fleet Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario - watch list'},
+  {tier:'3',company:'Joseph Haulage Canada Corp.',title:'Operations Manager',persona:'ops_manager',template:'ops_manager',notes:'Ontario - watch list'},
+];
+
+const STATUSES = ['identified','contacted','replied','qualified','pilot','closed','pass'];
+
+function loadData() {
+  const saved = localStorage.getItem('rin-tracker-v2');
+  if (saved) {
+    try { return JSON.parse(saved); } catch(e) {}
+  }
+  // Build initial state from defaults
+  const data = {};
+  TARGETS_DEFAULT.forEach(t => {
+    if (!t.isBatch) {
+      data[t.company] = { status: 'identified', sentDate: '', followUp: '', notes: t.notes || '' };
+    }
+  });
+  return data;
+}
+
+let state = loadData();
+
+function saveData() {
+  localStorage.setItem('rin-tracker-v2', JSON.stringify(state));
+  const n = document.getElementById('savedNotice');
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 1500);
+}
+
+function renderTable(filterVal = 'all') {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+
+  TARGETS_DEFAULT.forEach(t => {
+    if (t.isBatch) {
+      const tr = document.createElement('tr');
+      tr.className = 'batch-row';
+      tr.dataset.batch = 'true';
+      tr.innerHTML = `<td colspan="8">${t.batch}</td>`;
+      tbody.appendChild(tr);
+      return;
+    }
+
+    const d = state[t.company] || { status: 'identified', sentDate: '', followUp: '', notes: t.notes || '' };
+    const show = filterVal === 'all'
+      || filterVal === t.tier
+      || filterVal === d.status;
+    if (!show) return;
+
+    const tr = document.createElement('tr');
+    tr.dataset.tier = t.tier;
+    tr.dataset.status = d.status;
+
+    const statusOpts = STATUSES.map(s =>
+      `<option value="${s}" ${d.status===s?'selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`
+    ).join('');
+
+    const tmplLabel = TEMPLATE_LABELS[t.template] || t.template;
+
+    tr.innerHTML = `
+      <td><strong style="font-size:0.85rem">${t.company}</strong></td>
+      <td><span class="tier tier-${t.tier}">T${t.tier}</span></td>
+      <td><span style="font-size:0.82rem;color:var(--text2)">${t.title}</span></td>
+      <td><a class="tmpl" href="${TEMPLATE_URL}" target="_blank">${tmplLabel}</a></td>
+      <td>
+        <select class="status-select s-${d.status}" onchange="updateField('${t.company}','status',this.value,this)">
+          ${statusOpts}
+        </select>
+      </td>
+      <td><input type="date" class="date-input" value="${d.sentDate||''}" onchange="updateField('${t.company}','sentDate',this.value)" placeholder="—"></td>
+      <td><input type="date" class="date-input" value="${d.followUp||''}" onchange="updateField('${t.company}','followUp',this.value)" placeholder="—"></td>
+      <td><input type="text" class="note-input" value="${d.notes||''}" onchange="updateField('${t.company}','notes',this.value)" placeholder="Add note…"></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  updateStats();
+}
+
+function updateField(company, field, value, el) {
+  if (!state[company]) state[company] = { status: 'identified', sentDate: '', followUp: '', notes: '' };
+  state[company][field] = value;
+
+  if (field === 'status' && el) {
+    el.className = `status-select s-${value}`;
+    // Auto-set sent date if marking contacted
+    if (value === 'contacted' && !state[company].sentDate) {
+      state[company].sentDate = new Date().toISOString().split('T')[0];
+      // Re-render to show the date
+      setTimeout(() => renderTable(currentFilter), 50);
+    }
+    // Auto-suggest follow-up date 7 days out
+    if (value === 'contacted' && !state[company].followUp) {
+      const d = new Date(); d.setDate(d.getDate() + 7);
+      state[company].followUp = d.toISOString().split('T')[0];
+      setTimeout(() => renderTable(currentFilter), 50);
+    }
+  }
+  saveData();
+  updateStats();
+}
+
+function updateStats() {
+  const counts = { identified:0, contacted:0, replied:0, qualified:0, pilot:0, closed:0 };
+  Object.values(state).forEach(d => {
+    if (counts[d.status] !== undefined) counts[d.status]++;
+  });
+  Object.entries(counts).forEach(([k,v]) => {
+    const el = document.getElementById('s-'+k);
+    if (el) el.textContent = v;
+  });
+}
+
+let currentFilter = 'all';
+function filterTable(val, btn) {
+  currentFilter = val;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable(val);
+}
+
+function exportCSV() {
+  const rows = ['tier,company,title,persona,template,status,sent_date,follow_up,notes'];
+  TARGETS_DEFAULT.forEach(t => {
+    if (t.isBatch) return;
+    const d = state[t.company] || {};
+    rows.push([t.tier, `"${t.company}"`, `"${t.title}"`, t.persona, t.template,
+      d.status||'identified', d.sentDate||'', d.followUp||'', `"${(d.notes||'').replace(/"/g,'""')}"`].join(','));
+  });
+  const blob = new Blob([rows.join('\n')], {type:'text/csv'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `rin-outreach-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+renderTable();
+</script>
+</body>
+</html>

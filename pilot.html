@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIN Pilot Program — Join the Q2 2026 Fleet Cohort</title>
+  <meta name="description" content="RIN is accepting a small group of fleet operators for Q2 2026. No contract. No monthly fee. Pay per incident. Here's exactly what the pilot looks like.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#05091a; --bg2:#0c1428; --bg3:#162040; --bg4:#1e2d50;
+      --border:#1e2d50; --border2:#2e4070;
+      --text:#f0f4ff; --text2:#9aabc8; --text3:#7a90b0;
+      --fleet:#f59e0b; --fleet-l:#fbbf24; --fleet-d:#d97706;
+      --fleet-g:rgba(245,158,11,0.10); --fleet-g2:rgba(245,158,11,0.18);
+      --blue:#3b82f6; --blue-l:#60a5fa; --blue-d:#2563eb;
+      --blue-g:rgba(59,130,246,0.10);
+      --green:#34d399; --green-d:#10b981; --green-g:rgba(52,211,153,0.10);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
+
+    /* NAV */
+    header{position:sticky;top:0;z-index:200;background:rgba(7,12,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:blink 2s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .logo-name{font-size:20px;font-weight:800;color:var(--blue-l);letter-spacing:-0.5px;}
+    .logo-tagline{font-size:9.5px;color:var(--text3);font-weight:500;letter-spacing:0.05em;text-transform:uppercase;margin-top:2px;}
+    .nav-r{display:flex;align-items:center;gap:20px;}
+    .nav-r a{font-size:14px;color:var(--text2);font-weight:500;transition:color 150ms;}
+    .nav-r a:hover{color:var(--blue-l);}
+    .nav-cta{background:var(--fleet-d);color:white !important;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;}
+
+    /* LAYOUT */
+    .page{max-width:780px;margin:0 auto;padding:0 28px 120px;}
+
+    /* HERO */
+    .hero{padding:80px 0 64px;text-align:center;border-bottom:1px solid var(--border);}
+    .cohort-badge{display:inline-flex;align-items:center;gap:8px;background:var(--fleet-g);border:1px solid rgba(245,158,11,0.35);border-radius:100px;padding:7px 20px;font-size:13px;font-weight:700;color:var(--fleet-l);margin-bottom:28px;}
+    .cohort-dot{width:7px;height:7px;border-radius:50%;background:var(--fleet-l);box-shadow:0 0 7px var(--fleet-l);animation:blink 1.8s infinite;}
+    .hero h1{font-size:clamp(32px,5vw,54px);font-weight:900;letter-spacing:-2px;line-height:1.08;margin-bottom:18px;}
+    .hero h1 span{color:var(--fleet-l);}
+    .hero p{font-size:18px;color:var(--text2);max-width:540px;margin:0 auto 36px;line-height:1.72;}
+    .hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+    .btn-primary{display:inline-block;background:var(--fleet-d);color:white;font-weight:700;font-size:15px;padding:14px 30px;border-radius:10px;transition:opacity 150ms;}
+    .btn-primary:hover{opacity:0.85;}
+    .btn-ghost{display:inline-block;background:transparent;color:var(--text2);font-weight:600;font-size:14px;padding:14px 24px;border-radius:10px;border:1px solid var(--border2);transition:border-color 150ms,color 150ms;}
+    .btn-ghost:hover{border-color:var(--blue-l);color:var(--blue-l);}
+
+    /* SECTIONS */
+    .section{padding:60px 0;border-bottom:1px solid var(--border);}
+    .section:last-child{border-bottom:none;}
+    .sec-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fleet-l);margin-bottom:10px;}
+    .sec-title{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-0.8px;margin-bottom:10px;}
+    .sec-sub{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:36px;max-width:560px;}
+
+    /* COMMITMENT CARDS */
+    .commit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:600px){.commit-grid{grid-template-columns:1fr;}}
+    .commit-card{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:24px 20px;}
+    .commit-card .val{font-size:2rem;font-weight:900;color:var(--fleet-l);line-height:1;margin-bottom:6px;}
+    .commit-card .lbl{font-size:0.82rem;color:var(--text2);font-weight:500;line-height:1.5;}
+
+    /* TIMELINE */
+    .timeline{display:flex;flex-direction:column;gap:0;}
+    .tl-item{display:grid;grid-template-columns:48px 1fr;gap:16px;position:relative;}
+    .tl-item + .tl-item .tl-left::before{content:'';position:absolute;top:-32px;left:23px;width:2px;height:32px;background:var(--border2);}
+    .tl-left{position:relative;display:flex;flex-direction:column;align-items:center;padding-top:4px;}
+    .tl-num{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--text2);flex-shrink:0;position:relative;z-index:1;}
+    .tl-item.done .tl-num{background:var(--green-g);border-color:var(--green);color:var(--green);}
+    .tl-item.active .tl-num{background:var(--fleet-g2);border-color:var(--fleet-l);color:var(--fleet-l);}
+    .tl-connector{flex:1;width:2px;background:var(--border2);margin-top:4px;}
+    .tl-item:last-child .tl-connector{display:none;}
+    .tl-right{padding:4px 0 36px;}
+    .tl-right h3{font-size:15px;font-weight:700;margin-bottom:4px;}
+    .tl-right p{font-size:14px;color:var(--text2);line-height:1.65;}
+    .tl-right .day{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--text3);margin-bottom:6px;}
+
+    /* WHAT YOU GET */
+    .get-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    @media(max-width:540px){.get-grid{grid-template-columns:1fr;}}
+    .get-item{display:flex;gap:14px;align-items:flex-start;background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:18px;}
+    .get-icon{font-size:20px;flex-shrink:0;line-height:1;}
+    .get-item h4{font-size:14px;font-weight:700;margin-bottom:3px;}
+    .get-item p{font-size:13px;color:var(--text2);line-height:1.55;}
+
+    /* CRITERIA */
+    .criteria-list{display:flex;flex-direction:column;gap:10px;}
+    .criteria-item{display:flex;align-items:center;gap:12px;font-size:15px;}
+    .criteria-item .ck{width:22px;height:22px;border-radius:50%;background:var(--green-g);border:1px solid var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;color:var(--green);}
+    .criteria-item .cx{width:22px;height:22px;border-radius:50%;background:rgba(248,113,113,0.08);border:1px solid #f87171;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;color:#f87171;}
+
+    /* FAQ */
+    .faq-list{display:flex;flex-direction:column;gap:0;}
+    .faq-item{border-bottom:1px solid var(--border);padding:22px 0;}
+    .faq-item:first-child{border-top:1px solid var(--border);}
+    .faq-q{font-size:15px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;}
+    .faq-q .arrow{font-size:18px;color:var(--text3);transition:transform 0.2s;flex-shrink:0;}
+    .faq-q.open .arrow{transform:rotate(90deg);}
+    .faq-a{font-size:14px;color:var(--text2);line-height:1.7;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding-top 0.2s;}
+    .faq-a.open{max-height:300px;padding-top:14px;}
+
+    /* CTA BLOCK */
+    .cta-block{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:48px 40px;text-align:center;}
+    @media(max-width:540px){.cta-block{padding:32px 20px;}}
+    .cta-block h2{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-0.8px;margin-bottom:12px;}
+    .cta-block p{font-size:15px;color:var(--text2);max-width:440px;margin:0 auto 30px;line-height:1.7;}
+    .cta-note{font-size:12px;color:var(--text3);margin-top:16px;}
+
+    /* SPOTS INDICATOR */
+    .spots{display:inline-flex;align-items:center;gap:8px;background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.25);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:700;color:#f87171;margin-bottom:28px;}
+    .spots-dot{width:7px;height:7px;border-radius:50%;background:#f87171;animation:blink 1.2s infinite;}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--border);padding:32px 40px;text-align:center;font-size:13px;color:var(--text3);}
+    footer a{color:var(--text2);}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <a href="/" class="logo">
+    <div class="logo-dot"></div>
+    <div>
+      <div class="logo-name">RIN</div>
+      <div class="logo-tagline">Roadside Intelligence</div>
+    </div>
+  </a>
+  <nav class="nav-r">
+    <a href="/for-fleets">For Fleets</a>
+    <a href="/for-operators">For Operators</a>
+    <a href="https://calendly.com/barnes-lam/30-min-free-strategy-call-clone" target="_blank" class="nav-cta">Book 30-Min Call</a>
+  </nav>
+</header>
+
+<main class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="cohort-badge"><span class="cohort-dot"></span>Q2 2026 · GTA Pilot Cohort — Limited Spots</div>
+    <h1>The RIN Pilot.<br><span>Exactly what it involves.</span></h1>
+    <p>We're onboarding a small group of fleet operators this quarter. No contracts, no monthly minimums. Here's the full picture before you commit to a call.</p>
+    <div class="hero-ctas">
+      <a href="https://calendly.com/barnes-lam/30-min-free-strategy-call-clone" target="_blank" class="btn-primary">Book the 30-Minute Call →</a>
+      <a href="https://rin-fleet.netlify.app" target="_blank" class="btn-ghost">See how it works first</a>
+    </div>
+  </div>
+
+  <!-- COMMITMENT -->
+  <div class="section">
+    <div class="sec-label">What You Commit To</div>
+    <div class="sec-title">Three things. That's it.</div>
+    <p class="sec-sub">No software to install. No integration work. No long-term contract. Your commitment is minimal by design — we earn the relationship one incident at a time.</p>
+    <div class="commit-grid">
+      <div class="commit-card">
+        <div class="val">$0</div>
+        <div class="lbl">Monthly fee<br>during the pilot</div>
+      </div>
+      <div class="commit-card">
+        <div class="val">$0</div>
+        <div class="lbl">Setup fee or<br>integration cost</div>
+      </div>
+      <div class="commit-card">
+        <div class="val" style="color:var(--blue-l)">Per<br>Incident</div>
+        <div class="lbl">You pay only when<br>RIN handles a job</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section">
+    <div class="sec-label">What Happens</div>
+    <div class="sec-title">From call to first job — 48 hours.</div>
+    <p class="sec-sub">The pilot onboarding is intentionally fast. We don't need IT access, API integrations, or a long procurement process.</p>
+    <div class="timeline">
+      <div class="tl-item active">
+        <div class="tl-left"><div class="tl-num">1</div><div class="tl-connector"></div></div>
+        <div class="tl-right">
+          <div class="day">30-Min Call</div>
+          <h3>We confirm fit and answer your questions</h3>
+          <p>We walk through your fleet size, breakdown frequency, and how your dispatch currently works. If RIN is a fit, we agree on pilot terms before the call ends.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-num">2</div><div class="tl-connector"></div></div>
+        <div class="tl-right">
+          <div class="day">Same Day</div>
+          <h3>You receive the one-page pilot agreement</h3>
+          <p>Flat per-incident rate, pilot duration, what we handle vs. what stays with your team. One page. No legal department required.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-num">3</div><div class="tl-connector"></div></div>
+        <div class="tl-right">
+          <div class="day">Day 1</div>
+          <h3>Your fleet contact number goes live in RIN</h3>
+          <p>We register your fleet in the system. Your driver — or dispatcher — texts the vehicle ID and location to the RIN dispatch number. That's the entire activation.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-num">4</div><div class="tl-connector"></div></div>
+        <div class="tl-right">
+          <div class="day">Day 1–2</div>
+          <h3>Test job — we simulate a real incident</h3>
+          <p>Before you're live, we run a test dispatch to make sure everything works: rate lock, driver ETA, status updates, job close report. You see the full flow before the first real breakdown.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-num">5</div><div class="tl-connector"></div></div>
+        <div class="tl-right">
+          <div class="day">First Real Incident</div>
+          <h3>Your team texts in. We handle it.</h3>
+          <p>Driver down at 7am on the 400? Text RIN. Rate is locked before a truck moves. ETAs go back automatically. You get a report when the job closes. Your dispatcher never touches it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT YOU GET -->
+  <div class="section">
+    <div class="sec-label">What's Included</div>
+    <div class="sec-title">Every incident, every time.</div>
+    <p class="sec-sub">No menu of add-ons. Everything below is included in the per-incident rate.</p>
+    <div class="get-grid">
+      <div class="get-item">
+        <div class="get-icon">⏱</div>
+        <div>
+          <h4>Under 15-Min Dispatch</h4>
+          <p>Confirmed tow truck en route in under 15 minutes from the first text.</p>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-icon">🔒</div>
+        <div>
+          <h4>Rate Locked at Dispatch</h4>
+          <p>Price is confirmed before a truck moves. No surprise invoice three weeks later.</p>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-icon">📨</div>
+        <div>
+          <h4>Real-Time Status Updates</h4>
+          <p>Driver and dispatcher receive automatic ETAs and status messages throughout the job.</p>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-icon">📋</div>
+        <div>
+          <h4>Full Incident Report</h4>
+          <p>Every job closes with a timestamped report: vehicle, location, rate, tower, duration. Audit-ready.</p>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-icon">🧾</div>
+        <div>
+          <h4>Monthly Invoice Summary</h4>
+          <p>One clean invoice at month end. All incidents itemized. No disputed line items.</p>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-icon">📞</div>
+        <div>
+          <h4>Direct Pilot Support</h4>
+          <p>During the pilot, you have a direct line. Not a ticket queue — a direct line.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHO IT'S FOR -->
+  <div class="section">
+    <div class="sec-label">Who This Fits</div>
+    <div class="sec-title">The pilot is designed for one type of operator.</div>
+    <p class="sec-sub">We're not trying to fit every fleet. This cohort is built around operators who match the conditions below.</p>
+    <div class="criteria-list">
+      <div class="criteria-item"><span class="ck">✓</span><span>GTA or Southern Ontario operation</span></div>
+      <div class="criteria-item"><span class="ck">✓</span><span>10 to 60 vehicles in active rotation</span></div>
+      <div class="criteria-item"><span class="ck">✓</span><span>Breakdowns currently handled by a manager or dispatcher making calls</span></div>
+      <div class="criteria-item"><span class="ck">✓</span><span>At least 5–8 roadside incidents per month</span></div>
+      <div class="criteria-item"><span class="ck">✓</span><span>Decision-maker available — no 6-month procurement cycle</span></div>
+      <div class="criteria-item" style="opacity:0.55"><span class="cx">✗</span><span>Enterprise fleets with existing managed vendor contracts (different program)</span></div>
+      <div class="criteria-item" style="opacity:0.55"><span class="cx">✗</span><span>Owner-operators with 1–3 vehicles</span></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section">
+    <div class="sec-label">Common Questions</div>
+    <div class="sec-title">Before the call.</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What is the per-incident rate?<span class="arrow">›</span></div>
+        <div class="faq-a">The rate is confirmed on the 30-minute call based on your fleet profile and vehicle types. It's a flat rate per dispatch — no variable add-ons. The rate is locked in the pilot agreement before you go live.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Does my team need to download anything or change how they work?<span class="arrow">›</span></div>
+        <div class="faq-a">No. Your driver or dispatcher texts a single number. That's it. No app to install, no account to create, no software training. The change for your team is one new contact saved in their phone.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What happens if RIN can't find a tow fast enough?<span class="arrow">›</span></div>
+        <div class="faq-a">If we can't confirm a tower within the SLA window, you're notified immediately with the status and we escalate. During the pilot, you also have a direct escalation line. We don't go silent on an open job.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How long does the pilot run?<span class="arrow">›</span></div>
+        <div class="faq-a">The pilot runs for 60 days. At the end, you decide whether to continue on a standard agreement or part ways — no obligation either way. There's no auto-renewal and no cancellation fee.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What if we only have 2–3 incidents during the pilot?<span class="arrow">›</span></div>
+        <div class="faq-a">That's fine. You pay for what happens. Low-volume months are low-cost months. The pilot is designed to demonstrate the workflow even on a small number of jobs — most fleets see the value by the second or third incident.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="section" style="border-bottom:none;padding-bottom:0;">
+    <div class="cta-block">
+      <div class="spots"><span class="spots-dot"></span>3 spots remaining in Q2 cohort</div>
+      <h2>Ready to see if it fits your fleet?</h2>
+      <p>Book the 30-minute call. We'll walk through your operation, confirm fit, and give you the rate before you leave. No pitch deck, no follow-up sales sequence.</p>
+      <a href="https://calendly.com/barnes-lam/30-min-free-strategy-call-clone" target="_blank" class="btn-primary" style="font-size:16px;padding:16px 36px;">Book the 30-Minute Call →</a>
+      <div class="cta-note">Or email us at <a href="mailto:hello@roadside-ai.com" style="color:var(--text2)">hello@roadside-ai.com</a> if you have questions first.</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <a href="/">RIN — Roadside Intelligence Network</a> &nbsp;·&nbsp;
+  <a href="/for-fleets">For Fleet Operators</a> &nbsp;·&nbsp;
+  <a href="/for-operators">For Tow Operators</a> &nbsp;·&nbsp;
+  <a href="mailto:hello@roadside-ai.com">hello@roadside-ai.com</a>
+</footer>
+
+<script>
+function toggleFaq(el) {
+  const a = el.nextElementSibling;
+  const isOpen = a.classList.contains('open');
+  document.querySelectorAll('.faq-a.open').forEach(x => { x.classList.remove('open'); x.previousElementSibling.classList.remove('open'); });
+  if (!isOpen) { a.classList.add('open'); el.classList.add('open'); }
+}
+</script>
+</body>
+</html>
