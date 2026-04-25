@@ -1,0 +1,29 @@
+tier,company,title_to_target,persona,template,notes,status,source
+1,Canada Cartage Systems Ltd.,Fleet/Operations Manager,ops_manager,ops_manager,Large GTA cartage fleet 24/7 ops - high breakdown volume,identified,mto_fleet_research
+1,JD Smith Supply Chain Solutions,Operations Manager,ops_manager,ops_manager,GTA-based full fleet distribution,identified,mto_fleet_research
+1,Fortigo Freight Services Inc.,Fleet Manager,dispatcher,dispatcher,Ontario-based freight regional routes,identified,mto_fleet_research
+1,GX Transportation Solutions Inc.,VP Operations,finance,finance,Mississauga road/rail/air - structured ops team,identified,mto_fleet_research
+1,Tandet,Fleet Manager,ops_manager,ops_manager,Ontario linehaul large fleet,identified,mto_fleet_research
+1,XTL Transport Inc.,Operations Manager,ops_manager,ops_manager,Ontario-wide heavy commercial fleet,identified,mto_fleet_research
+1,Polaris Transportation Group,Fleet/Dispatch Manager,dispatcher,dispatcher,Ontario cross-border freight,identified,mto_fleet_research
+1,Cardinal Couriers,Dispatch Manager,dispatcher,dispatcher,GTA last-mile high breakdown exposure,identified,mto_fleet_research
+1,Liberty Linehaul Inc.,Fleet Manager,ops_manager,ops_manager,Ontario linehaul,identified,mto_fleet_research
+1,Loblaw Transport,VP Fleet/Operations,finance,finance,Massive GTA-based fleet - finance angle strongest,identified,mto_fleet_research
+2,Walmart Fleet ULC,VP Fleet/Operations,finance,finance,Large structured fleet ops team,identified,mto_fleet_research
+2,Apps Transport Group,Operations Manager,ops_manager,ops_manager,Ontario-based,identified,mto_fleet_research
+2,Onfreight Logistics,Dispatch Manager,dispatcher,dispatcher,Ontario,identified,mto_fleet_research
+2,Trans4 Group Ltd.,Operations Manager,ops_manager,ops_manager,Ontario,identified,mto_fleet_research
+2,J&R Hall Transport Inc.,Fleet Manager,ops_manager,ops_manager,Ontario,identified,mto_fleet_research
+2,B.S.D. Linehaul,Dispatch Manager,dispatcher,dispatcher,Ontario linehaul,identified,mto_fleet_research
+2,Woodcock Brothers Transportation Group,Operations Manager,ops_manager,ops_manager,Ontario,identified,mto_fleet_research
+2,ASL Global Logistics,VP Operations,finance,finance,GTA,identified,mto_fleet_research
+2,ONE for Freight,Operations Manager,ops_manager,ops_manager,Ontario,identified,mto_fleet_research
+2,Diversco Transport Inc.,Operations Manager,ops_manager,ops_manager,Ontario,identified,mto_fleet_research
+3,Autobahn Freight Lines Ltd.,Fleet Manager,ops_manager,ops_manager,Ontario - watch list,identified,mto_fleet_research
+3,Beyond Transportation Inc.,Operations Manager,ops_manager,ops_manager,Ontario - watch list,identified,mto_fleet_research
+3,Frontier Distribution Services Inc.,Fleet Manager,ops_manager,ops_manager,Ontario - watch list,identified,mto_fleet_research
+3,Mill Creek Motor Freight LP,Operations Manager,ops_manager,ops_manager,Ontario - watch list,identified,mto_fleet_research
+3,Spring Creek Carriers Inc.,Fleet Manager,ops_manager,ops_manager,Ontario - watch list,identified,mto_fleet_research
+3,Rosedale Transport,Operations Manager,ops_manager,ops_manager,Ontario - watch list,identified,mto_fleet_research
+3,Steed Standard Transport Limited,Fleet Manager,ops_manager,ops_manager,Ontario - watch list,identified,mto_fleet_research
+3,Joseph Haulage Canada Corp.,Operations Manager,ops_manager,ops_manager,Ontario - watch list,identified,mto_fleet_research
