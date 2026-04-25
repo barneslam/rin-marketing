@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What It Feels Like — RIN</title>
+  <meta name="description" content="A fleet vehicle goes down on the 401. Here's what happens next.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #05091a;
+      --bg2:     #0c1428;
+      --bg3:     #162040;
+      --border:  #1e2d50;
+      --border2: #2e4070;
+      --text:    #f0f4ff;
+      --text2:   #9aabc8;
+      --text3:   #7a90b0;
+      --fleet:   #f59e0b;
+      --fleet-l: #fbbf24;
+      --blue:    #3b82f6;
+      --blue-l:  #60a5fa;
+      --blue-d:  #2563eb;
+      --green:   #34d399;
+      --red:     #fb923c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAV ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(5,9,26,0.0);
+      backdrop-filter: blur(0px);
+      border-bottom: 1px solid transparent;
+      padding: 0 40px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 400ms, backdrop-filter 400ms, border-color 400ms;
+    }
+    header.scrolled {
+      background: rgba(7,12,26,0.97);
+      backdrop-filter: blur(16px);
+      border-color: var(--border);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px var(--blue); animation: blink 2s infinite; flex-shrink: 0; }
+    .logo-name { font-size: 20px; font-weight: 800; color: var(--blue-l); line-height: 1.1; letter-spacing: -0.5px; }
+    .logo-tagline { font-size: 9.5px; color: var(--text3); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; margin-top: 2px; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .nav-back { font-size: 14px; color: var(--text3); font-weight: 500; transition: color 150ms; }
+    .nav-back:hover { color: var(--blue-l); }
+    .nav-cta {
+      background: var(--blue-d); color: white;
+      padding: 10px 22px; border-radius: 8px;
+      font-size: 14px; font-weight: 700; transition: opacity 150ms;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── SCENE SYSTEM ── */
+    .scene {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 100px 40px 80px;
+      position: relative;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .scene.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Scene 1 — Time stamp opener */
+    .scene-1 {
+      background: var(--bg);
+      text-align: center;
+    }
+    .timestamp {
+      font-size: clamp(56px, 12vw, 120px);
+      font-weight: 900;
+      letter-spacing: -4px;
+      line-height: 1;
+      color: var(--text);
+    }
+    .timestamp-label {
+      font-size: 18px;
+      color: var(--text3);
+      font-weight: 400;
+      margin-top: 20px;
+      letter-spacing: 0.05em;
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--text3); font-size: 12px; font-weight: 500;
+      animation: float 2.5s ease-in-out infinite;
+    }
+    .scroll-arrow {
+      width: 20px; height: 20px;
+      border-right: 2px solid var(--text3);
+      border-bottom: 2px solid var(--text3);
+      transform: rotate(45deg);
+    }
+    @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+    /* Scene 2 — The situation */
+    .scene-2 {
+      background: radial-gradient(ellipse at 50% 0%, rgba(251,146,60,0.06) 0%, transparent 65%), var(--bg);
+      text-align: center;
+    }
+    .situation-kicker {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 32px;
+    }
+    .situation-headline {
+      font-size: clamp(32px, 6vw, 72px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      max-width: 800px;
+      color: var(--text);
+    }
+    .situation-headline em {
+      font-style: normal;
+      color: var(--red);
+    }
+
+    /* Scene 3 — The old way */
+    .scene-3 {
+      background: var(--bg2);
+      text-align: left;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .old-way-label {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text3); margin-bottom: 48px;
+    }
+    .old-way-steps {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .old-step {
+      display: flex; align-items: flex-start; gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .old-step:last-child { border-bottom: none; }
+    .old-step.visible { opacity: 1; transform: translateX(0); }
+    .old-step-num {
+      font-size: 13px; font-weight: 700; color: var(--text3);
+      min-width: 28px; margin-top: 4px;
+    }
+    .old-step-text {
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 500;
+      color: var(--text2);
+      line-height: 1.4;
+    }
+    .old-step-text strong { color: var(--text); font-weight: 700; }
+    .old-step-time {
+      margin-left: auto;
+      font-size: 13px; font-weight: 700;
+      color: var(--red);
+      white-space: nowrap;
+      padding-left: 20px;
+      margin-top: 4px;
+    }
+
+    /* Scene 4 — The cost line */
+    .scene-4 {
+      text-align: center;
+      background: var(--bg);
+    }
+    .cost-question {
+      font-size: clamp(28px, 5vw, 60px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      max-width: 700px;
+      color: var(--text2);
+    }
+    .cost-question span {
+      color: var(--text);
+      display: block;
+    }
+    .cost-aside {
+      font-size: 16px;
+      color: var(--text3);
+      margin-top: 24px;
+      font-weight: 400;
+    }
+
+    /* Scene 5 — The pivot */
+    .scene-5 {
+      text-align: center;
+      background: var(--bg);
+      position: relative;
+    }
+    .pivot-pre {
+      font-size: 16px; color: var(--text3); font-weight: 500;
+      letter-spacing: 0.05em; margin-bottom: 28px;
+    }
+    .pivot-headline {
+      font-size: clamp(40px, 8vw, 96px);
+      font-weight: 900;
+      letter-spacing: -4px;
+      line-height: 0.95;
+      color: var(--text);
+      max-width: 900px;
+    }
+    .pivot-headline em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--blue-l), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Scene 6 — The phone notification */
+    .scene-6 {
+      background: radial-gradient(ellipse at 50% 30%, rgba(59,130,246,0.08) 0%, transparent 70%), var(--bg);
+      align-items: center;
+      justify-content: center;
+      gap: 80px;
+    }
+    .scene-6-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 80px;
+      flex-wrap: wrap;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .scene-6-copy {
+      max-width: 400px;
+    }
+    .notif-kicker {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--blue-l); margin-bottom: 20px;
+    }
+    .notif-headline {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .notif-sub {
+      font-size: 18px;
+      color: var(--text2);
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    /* Phone mock */
+    .phone-mock {
+      width: 300px;
+      background: #1a1a2e;
+      border-radius: 44px;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      padding: 50px 20px 40px;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.4),
+        0 40px 80px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.07);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .phone-notch {
+      position: absolute;
+      top: 16px; left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 26px;
+      background: #0d0d1a;
+      border-radius: 20px;
+    }
+    .phone-screen {
+      background: linear-gradient(160deg, #0f1a35 0%, #0a1020 100%);
+      border-radius: 28px;
+      overflow: hidden;
+    }
+    .phone-time {
+      text-align: center;
+      font-size: 48px;
+      font-weight: 300;
+      color: white;
+      padding: 28px 0 8px;
+      letter-spacing: -1px;
+    }
+    .phone-date {
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      padding-bottom: 24px;
+    }
+    .phone-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 0 12px;
+    }
+    .notification {
+      margin: 16px 12px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 14px 16px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .notif-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .notif-icon {
+      width: 26px; height: 26px;
+      background: var(--blue-d);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .notif-app {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .notif-app-time {
+      margin-left: auto;
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+    }
+    .notif-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 4px;
+    }
+    .notif-body {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.4;
+    }
+    .notif-body strong {
+      color: var(--green);
+      font-weight: 600;
+    }
+    .notif-body .locked {
+      color: var(--fleet-l);
+    }
+    .phone-bottom {
+      display: flex;
+      justify-content: center;
+      padding: 20px 0 8px;
+    }
+    .phone-home-bar {
+      width: 120px; height: 4px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+    }
+
+    /* Scene 7 — After */
+    .scene-7 {
+      text-align: center;
+      background: var(--bg);
+    }
+    .after-steps {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 900px;
+      margin-top: 60px;
+    }
+    .after-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      max-width: 220px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .after-step.visible { opacity: 1; transform: translateY(0); }
+    .after-step:nth-child(2) { transition-delay: 0.15s; }
+    .after-step:nth-child(3) { transition-delay: 0.3s; }
+    .after-icon {
+      width: 52px; height: 52px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+    }
+    .after-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .after-body {
+      font-size: 14px;
+      color: var(--text3);
+      line-height: 1.6;
+      text-align: center;
+    }
+    .after-headline {
+      font-size: clamp(28px, 5vw, 54px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.1;
+    }
+    .after-headline em {
+      font-style: normal;
+      color: var(--green);
+    }
+    .after-sub {
+      font-size: 20px;
+      color: var(--text2);
+      max-width: 540px;
+      margin: 20px auto 0;
+      line-height: 1.6;
+    }
+
+    /* Scene 8 — Product reveal */
+    .scene-8 {
+      text-align: center;
+      background: radial-gradient(ellipse at 50% 40%, rgba(59,130,246,0.1) 0%, transparent 65%), var(--bg2);
+    }
+    .reveal-eyebrow {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text3); margin-bottom: 28px;
+    }
+    .reveal-name {
+      font-size: clamp(48px, 10vw, 120px);
+      font-weight: 900;
+      letter-spacing: -5px;
+      line-height: 0.9;
+      background: linear-gradient(135deg, var(--blue-l) 0%, #a5f3fc 50%, var(--green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .reveal-full {
+      font-size: 18px;
+      color: var(--text3);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      margin-top: 12px;
+      text-transform: uppercase;
+    }
+    .reveal-tagline {
+      font-size: clamp(20px, 3vw, 32px);
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.5px;
+      margin-top: 36px;
+      max-width: 600px;
+    }
+    .reveal-tagline em {
+      font-style: normal;
+      color: var(--blue-l);
+    }
+    .reveal-metrics {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 60px;
+    }
+    .reveal-metric {
+      text-align: center;
+    }
+    .reveal-metric-num {
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      color: var(--fleet-l);
+    }
+    .reveal-metric-label {
+      font-size: 13px;
+      color: var(--text3);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    /* Scene 9 — CTA */
+    .scene-9 {
+      text-align: center;
+      background: var(--bg);
+      min-height: 70vh;
+    }
+    .cta-headline {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 900;
+      letter-spacing: -3px;
+      line-height: 1;
+      max-width: 700px;
+    }
+    .cta-sub {
+      font-size: 20px;
+      color: var(--text2);
+      margin-top: 20px;
+      max-width: 480px;
+      line-height: 1.6;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 48px;
+    }
+    .btn-primary {
+      background: var(--blue-d);
+      color: white;
+      padding: 18px 44px;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 700;
+      transition: opacity 150ms;
+      display: inline-block;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text2);
+      padding: 18px 36px;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 600;
+      border: 1.5px solid var(--border2);
+      transition: color 150ms, border-color 150ms;
+      display: inline-block;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text3); }
+    .cta-footnote {
+      font-size: 13px;
+      color: var(--text3);
+      margin-top: 24px;
+    }
+
+    /* progress bar */
+    .progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      width: 0%;
+      z-index: 300;
+      transition: width 0.1s linear;
+    }
+
+    /* scene separator */
+    .scene-sep {
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--border2), transparent);
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<header id="site-header">
+  <a href="/" class="logo">
+    <div class="logo-dot"></div>
+    <div>
+      <div class="logo-name">RIN</div>
+      <div class="logo-tagline">Roadside Intelligence Network</div>
+    </div>
+  </a>
+  <div style="display:flex;align-items:center;gap:24px;">
+    <a href="/" class="nav-back">← Back to site</a>
+    <a href="https://calendly.com/barnes-thestrategypitch/rin-pilot" class="nav-cta" target="_blank">Book a Pilot Call</a>
+  </div>
+</header>
+
+<!-- Scene 1 — Time stamp -->
+<section class="scene scene-1" id="s1">
+  <div class="timestamp">6:47 AM</div>
+  <div class="timestamp-label">Tuesday. Your phone is already going.</div>
+  <div class="scroll-hint">
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<div class="scene-sep"></div>
+
+<!-- Scene 2 — The situation -->
+<section class="scene scene-2" id="s2">
+  <div class="situation-kicker">The call you didn't want</div>
+  <div class="situation-headline">
+    Driver on the 401.<br>
+    Left rear. Won't move.<br>
+    <em>Next pickup is at 7:30.</em>
+  </div>
+</section>
+
+<div class="scene-sep"></div>
+
+<!-- Scene 3 — The old way -->
+<section class="scene scene-3" id="s3" style="min-height:auto;padding:100px 40px;">
+  <div class="old-way-label">The next 90 minutes</div>
+  <div class="old-way-steps">
+    <div class="old-step" data-delay="0">
+      <div class="old-step-num">01</div>
+      <div class="old-step-text">You call three tow companies. <strong>Two don't answer.</strong></div>
+      <div class="old-step-time">+12 min</div>
+    </div>
+    <div class="old-step" data-delay="100">
+      <div class="old-step-num">02</div>
+      <div class="old-step-text">The one that answers gives you <strong>a two-hour window</strong> and no price.</div>
+      <div class="old-step-time">+18 min</div>
+    </div>
+    <div class="old-step" data-delay="200">
+      <div class="old-step-num">03</div>
+      <div class="old-step-text">Your dispatcher calls the driver. Your driver calls you. <strong>Everyone is managing the breakdown</strong> instead of the fleet.</div>
+      <div class="old-step-time">+31 min</div>
+    </div>
+    <div class="old-step" data-delay="300">
+      <div class="old-step-num">04</div>
+      <div class="old-step-text">The tow shows up. Then the <strong>invoice arrives Friday</strong> with three line items you didn't approve.</div>
+      <div class="old-step-time">+94 min</div>
+    </div>
+    <div class="old-step" data-delay="400">
+      <div class="old-step-num">05</div>
+      <div class="old-step-text">You spend another 20 minutes on the phone with accounting. <strong>For a single tow.</strong></div>
+      <div class="old-step-time">+114 min</div>
+    </div>
+  </div>
+</section>
+
+<div class="scene-sep"></div>
+
+<!-- Scene 4 — The cost question -->
+<section class="scene scene-4" id="s4">
+  <div class="cost-question">
+    How many breakdowns
+    <span>does your team manage</span>
+    every month?
+  </div>
+  <div class="cost-aside">Each one is 2 hours of your ops team's time. At minimum.</div>
+</section>
+
+<div class="scene-sep"></div>
+
+<!-- Scene 5 — The pivot -->
+<section class="scene scene-5" id="s5">
+  <div class="pivot-pre">There's a different way.</div>
+  <div class="pivot-headline">
+    Your team gets a
+    <em>notification.</em><br>
+    Not a task.
+  </div>
+</section>
+
+<div class="scene-sep"></div>
+
+<!-- Scene 6 — The phone notification -->
+<section class="scene scene-6" id="s6">
+  <div class="scene-6-inner">
+    <div class="scene-6-copy">
+      <div class="notif-kicker">What it actually looks like</div>
+      <div class="notif-headline">Your driver is covered before you finish your coffee.</div>
+      <div class="notif-sub">RIN dispatches, locks the rate, and confirms completion. You get a single notification. No calls. No invoices to chase. No surprises.</div>
+    </div>
+    <div class="phone-mock">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-time">6:51</div>
+        <div class="phone-date">Tuesday, April 22</div>
+        <div class="phone-divider"></div>
+        <div class="notification">
+          <div class="notif-header">
+            <div class="notif-icon">🚛</div>
+            <div class="notif-app">RIN Fleet</div>
+            <div class="notif-app-time">now</div>
+          </div>
+          <div class="notif-title">Driver covered — Unit 14</div>
+          <div class="notif-body">
+            ETA <strong>18 min</strong> · Rate <span class="locked">locked at $247</span> · No action needed.
+          </div>
+        </div>
+        <div class="notification" style="opacity:0.55;">
+          <div class="notif-header">
+            <div class="notif-icon">✅</div>
+            <div class="notif-app">RIN Fleet</div>
+            <div class="notif-app-time">7:09</div>
+          </div>
+          <div class="notif-title">Tow complete — Unit 14</div>
+          <div class="notif-body">
+            Vehicle at <strong>Rona Auto, Brampton</strong> · Report attached.
+          </div>
+        </div>
+        <div class="phone-bottom">
+          <div class="phone-home-bar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="scene-sep"></div>
+
+<!-- Scene 7 — After -->
+<section class="scene scene-7" id="s7">
+  <div class="after-headline">
+    Back on your feet<br>
+    in <em>22 minutes.</em>
+  </div>
+  <div class="after-sub">Not 114. Not a spreadsheet. Not a Friday invoice fight.</div>
+  <div class="after-steps">
+    <div class="after-step">
+      <div class="after-icon">⚡</div>
+      <div class="after-title">Dispatched in under 15 min</div>
+      <div class="after-body">Verified provider on the way before most operators have finished the call.</div>
+    </div>
+    <div class="after-step">
+      <div class="after-icon">🔒</div>
+      <div class="after-title">Rate locked upfront</div>
+      <div class="after-body">No surprise charges. No negotiating after the fact. The price you see is the price you pay.</div>
+    </div>
+    <div class="after-step">
+      <div class="after-icon">📋</div>
+      <div class="after-title">Full report on close</div>
+      <div class="after-body">Time, provider, cost, and outcome — logged automatically. Accounting thanks you.</div>
+    </div>
+  </div>
+</section>
+
+<div class="scene-sep"></div>
+
+<!-- Scene 8 — Product reveal -->
+<section class="scene scene-8" id="s8">
+  <div class="reveal-eyebrow">This is</div>
+  <div class="reveal-name">RIN</div>
+  <div class="reveal-full">Roadside Intelligence Network</div>
+  <div class="reveal-tagline">
+    One platform. Every breakdown <em>handled.</em><br>Your team never manages another tow.
+  </div>
+  <div class="reveal-metrics">
+    <div class="reveal-metric">
+      <div class="reveal-metric-num">&lt;15 min</div>
+      <div class="reveal-metric-label">to dispatch</div>
+    </div>
+    <div class="reveal-metric">
+      <div class="reveal-metric-num">$0</div>
+      <div class="reveal-metric-label">monthly fee</div>
+    </div>
+    <div class="reveal-metric">
+      <div class="reveal-metric-num">100%</div>
+      <div class="reveal-metric-label">rate locked before dispatch</div>
+    </div>
+  </div>
+</section>
+
+<div class="scene-sep"></div>
+
+<!-- Scene 9 — CTA -->
+<section class="scene scene-9" id="s9">
+  <div class="cta-headline">Ready to hand off the next one?</div>
+  <div class="cta-sub">A 30-minute diagnostic call. We map your breakdown volume, show you RIN on a live incident, and tell you exactly what you'd save.</div>
+  <div class="cta-buttons">
+    <a href="https://calendly.com/barnes-thestrategypitch/rin-pilot" class="btn-primary" target="_blank">Book a Pilot Call</a>
+    <a href="/operator-demo.html" class="btn-ghost">See the Demo</a>
+  </div>
+  <div class="cta-footnote">No contract. No setup fee. Pay only when you use it.</div>
+</section>
+
+<script>
+  // Nav scroll effect
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Progress bar
+  const progressBar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    progressBar.style.width = pct + '%';
+  });
+
+  // Scene reveal on scroll
+  const scenes = document.querySelectorAll('.scene');
+  const sceneObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  scenes.forEach(s => sceneObserver.observe(s));
+
+  // Staggered old-step reveals
+  const steps = document.querySelectorAll('.old-step');
+  const stepObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const delay = parseInt(e.target.dataset.delay || 0);
+        setTimeout(() => e.target.classList.add('visible'), delay);
+      }
+    });
+  }, { threshold: 0.2 });
+  steps.forEach(s => stepObserver.observe(s));
+
+  // Staggered after-step reveals
+  const afterSteps = document.querySelectorAll('.after-step');
+  const afterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.3 });
+  afterSteps.forEach(s => afterObserver.observe(s));
+
+  // Auto-set first scene visible immediately
+  document.querySelector('.scene-1').classList.add('visible');
+</script>
+</body>
+</html>
