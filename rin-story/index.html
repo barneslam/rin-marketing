@@ -18,7 +18,6 @@
       --text:    #f0f4ff;
       --text2:   #9aabc8;
       --text3:   #7a90b0;
-      --fleet:   #f59e0b;
       --fleet-l: #fbbf24;
       --blue:    #3b82f6;
       --blue-l:  #60a5fa;
@@ -28,708 +27,650 @@
       --red:     #fb923c;
       --purple:  #a78bfa;
     }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+    html, body { height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
     a { text-decoration: none; color: inherit; }
-
-    /* ── PROGRESS ── */
-    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--blue), var(--green)); width: 0%; z-index: 500; transition: width 0.1s linear; }
-
-    /* ── NAV ── */
-    header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 400;
-      background: rgba(5,9,26,0); backdrop-filter: blur(0);
-      border-bottom: 1px solid transparent;
-      padding: 0 40px; height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-      transition: background 400ms, backdrop-filter 400ms, border-color 400ms;
-    }
-    header.scrolled { background: rgba(7,12,26,0.97); backdrop-filter: blur(16px); border-color: var(--border); }
-    .logo { display: flex; align-items: center; gap: 10px; }
-    .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px var(--blue); animation: blink 2s infinite; }
-    .logo-name { font-size: 20px; font-weight: 800; color: var(--blue-l); line-height: 1.1; letter-spacing: -0.5px; }
-    .logo-tagline { font-size: 9.5px; color: var(--text3); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; margin-top: 2px; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    @keyframes pulse-ring { 0%{transform:scale(1);opacity:0.7} 100%{transform:scale(1.8);opacity:0} }
+
+    /* ── SNAP CONTAINER ── */
+    .snap-wrap {
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .snap-wrap::-webkit-scrollbar { display: none; }
+
+    /* ── FIXED HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      padding: 0 40px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(5,9,26,0.0); transition: background 400ms, border-color 400ms;
+      border-bottom: 1px solid transparent;
+    }
+    header.scrolled { background: rgba(7,12,26,0.95); backdrop-filter: blur(16px); border-color: var(--border); }
+    .logo { display: flex; align-items: center; gap: 9px; }
+    .logo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 7px var(--blue); animation: blink 2s infinite; }
+    .logo-name { font-size: 18px; font-weight: 800; color: var(--blue-l); letter-spacing: -0.5px; line-height: 1.1; }
+    .logo-tag { font-size: 8.5px; color: var(--text3); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; margin-top: 2px; }
     .nav-r { display: flex; align-items: center; gap: 20px; }
-    .nav-link { font-size: 14px; color: var(--text3); font-weight: 500; transition: color 150ms; }
+    .nav-link { font-size: 13px; color: var(--text3); font-weight: 500; transition: color 150ms; }
     .nav-link:hover { color: var(--blue-l); }
-    .nav-cta { background: var(--blue-d); color: white; padding: 10px 22px; border-radius: 8px; font-size: 14px; font-weight: 700; transition: opacity 150ms; }
+    .nav-cta { background: var(--blue-d); color: white; padding: 9px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; transition: opacity 150ms; }
     .nav-cta:hover { opacity: 0.85; }
 
-    /* ── SCENE SYSTEM ── */
+    /* ── DOT NAV ── */
+    .dot-nav {
+      position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+      z-index: 500; display: flex; flex-direction: column; gap: 10px; align-items: center;
+    }
+    .dot-nav a {
+      display: block; width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+      transition: all 200ms; cursor: pointer; position: relative;
+    }
+    .dot-nav a:hover { background: rgba(255,255,255,0.4); transform: scale(1.3); }
+    .dot-nav a.active { background: var(--blue-l); border-color: var(--blue-l); box-shadow: 0 0 8px var(--blue-l); transform: scale(1.2); }
+    .dot-nav a[title]:hover::after {
+      content: attr(title);
+      position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+      background: var(--bg2); border: 1px solid var(--border2);
+      color: var(--text2); font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 6px; white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ── SCENES (base) ── */
     .scene {
-      min-height: 100vh;
+      height: 100vh;
+      scroll-snap-align: start;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 100px 40px 80px;
-      position: relative;
-      opacity: 0; transform: translateY(40px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
+      padding: 72px 40px 48px;
+      position: relative; overflow: hidden;
     }
-    .scene.visible { opacity: 1; transform: translateY(0); }
+    /* entrance animation — triggered by JS adding .in */
+    .scene > * { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .scene.in > * { opacity: 1; transform: translateY(0); }
+    .scene.in > *:nth-child(2) { transition-delay: 0.1s; }
+    .scene.in > *:nth-child(3) { transition-delay: 0.2s; }
+    .scene.in > *:nth-child(4) { transition-delay: 0.3s; }
 
-    /* ── SEPARATORS ── */
-    .sep { width: 1px; height: 80px; background: linear-gradient(to bottom, transparent, var(--border2), transparent); margin: 0 auto; }
-    .sep-wide { height: 1px; background: linear-gradient(to right, transparent, var(--border2), transparent); max-width: 600px; margin: 0 auto; }
+    /* ── SCENE BACKGROUNDS ── */
+    .bg-dark  { background: var(--bg); }
+    .bg-dark2 { background: var(--bg2); }
+    .bg-blue  { background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.09) 0%, transparent 70%), var(--bg); }
+    .bg-amber { background: radial-gradient(ellipse at 50% 0%, rgba(251,146,60,0.07) 0%, transparent 65%), var(--bg); }
+    .bg-reveal { background: radial-gradient(ellipse at 50% 40%, rgba(59,130,246,0.11) 0%, transparent 65%), var(--bg2); }
 
-    /* ── SCENE 1: TIME OPENER ── */
-    .s1 { background: var(--bg); text-align: center; }
-    .timestamp { font-size: clamp(64px, 14vw, 140px); font-weight: 900; letter-spacing: -6px; line-height: 1; color: var(--text); }
-    .timestamp-sub { font-size: 18px; color: var(--text3); font-weight: 400; margin-top: 20px; letter-spacing: 0.04em; }
-    .scroll-cue { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text3); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; animation: float 2.5s ease-in-out infinite; }
-    .scroll-arrow { width: 18px; height: 18px; border-right: 2px solid var(--text3); border-bottom: 2px solid var(--text3); transform: rotate(45deg); }
-    @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+    /* ── TYPOGRAPHY ── */
+    .kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+    .kicker.red   { color: var(--red); }
+    .kicker.blue  { color: var(--blue-l); }
+    .kicker.green { color: var(--green); }
+    .kicker.amber { color: var(--fleet-l); }
+    .kicker.muted { color: var(--text3); }
 
-    /* ── SCENE 2: SITUATION ── */
-    .s2 { text-align: center; background: radial-gradient(ellipse at 50% 0%, rgba(251,146,60,0.07) 0%, transparent 65%), var(--bg); }
-    .kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-bottom: 28px; }
-    .big-statement { font-size: clamp(30px, 5.5vw, 68px); font-weight: 800; letter-spacing: -2px; line-height: 1.08; max-width: 820px; }
-    .big-statement em { font-style: normal; color: var(--red); }
+    /* ── S1: OPENER ── */
+    .s1 .timestamp { font-size: clamp(80px, 16vw, 148px); font-weight: 900; letter-spacing: -7px; line-height: 1; color: var(--text); }
+    .s1 .ts-sub { font-size: 17px; color: var(--text3); font-weight: 400; margin-top: 16px; }
+    .scroll-cue { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text3); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; animation: float 2.5s ease-in-out infinite; }
+    .scroll-arrow { width: 16px; height: 16px; border-right: 1.5px solid var(--text3); border-bottom: 1.5px solid var(--text3); transform: rotate(45deg); }
+    @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(7px)} }
 
-    /* ── SCENE 3: OLD WAY ── */
-    .s3 { background: var(--bg2); align-items: stretch; padding: 100px 0 80px; }
-    .s3-inner { max-width: 860px; width: 100%; margin: 0 auto; padding: 0 40px; }
-    .section-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); margin-bottom: 40px; }
+    /* ── S2: SITUATION ── */
+    .s2 .big-stmt { font-size: clamp(30px, 5.5vw, 64px); font-weight: 800; letter-spacing: -2px; line-height: 1.07; max-width: 800px; text-align: center; }
+    .s2 .big-stmt em { font-style: normal; color: var(--red); }
+
+    /* ── S3: OLD WAY ── */
+    .s3 { align-items: stretch; padding: 72px 0 48px; }
+    .s3-inner { max-width: 820px; width: 100%; margin: 0 auto; padding: 0 40px; }
     .old-steps { display: flex; flex-direction: column; }
-    .old-step { display: flex; align-items: flex-start; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateX(-16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .old-step { display: flex; align-items: flex-start; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateX(-14px); transition: opacity 0.45s ease, transform 0.45s ease; }
     .old-step:last-child { border-bottom: none; }
-    .old-step.visible { opacity: 1; transform: translateX(0); }
-    .step-num { font-size: 12px; font-weight: 700; color: var(--text3); min-width: 28px; padding-top: 5px; }
-    .step-text { font-size: clamp(16px, 2.5vw, 24px); font-weight: 500; color: var(--text2); line-height: 1.45; flex: 1; }
+    .old-step.in { opacity: 1; transform: translateX(0); }
+    .step-num { font-size: 11px; font-weight: 700; color: var(--text3); min-width: 24px; padding-top: 3px; }
+    .step-text { font-size: clamp(14px, 2vw, 17px); font-weight: 500; color: var(--text2); line-height: 1.45; flex: 1; }
     .step-text strong { color: var(--text); font-weight: 700; }
-    .step-time { font-size: 13px; font-weight: 700; color: var(--red); white-space: nowrap; padding-left: 20px; padding-top: 5px; }
+    .step-time { font-size: 12px; font-weight: 700; color: var(--red); white-space: nowrap; padding-left: 16px; padding-top: 3px; }
 
-    /* ── SCENE 4: COST ── */
-    .s4 { text-align: center; background: var(--bg); }
-    .cost-q { font-size: clamp(26px, 4.5vw, 56px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; max-width: 680px; color: var(--text2); }
-    .cost-q span { color: var(--text); display: block; }
-    .cost-stat { margin-top: 32px; font-size: clamp(48px, 10vw, 100px); font-weight: 900; letter-spacing: -4px; color: var(--red); line-height: 1; }
-    .cost-stat-label { font-size: 16px; color: var(--text3); font-weight: 400; margin-top: 8px; }
+    /* ── S4: COST ── */
+    .s4 .cost-q { font-size: clamp(22px, 4vw, 50px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; max-width: 640px; text-align: center; color: var(--text2); }
+    .s4 .cost-q span { color: var(--text); display: block; }
+    .s4 .cost-big { font-size: clamp(60px, 12vw, 110px); font-weight: 900; letter-spacing: -5px; color: var(--red); line-height: 1; }
+    .s4 .cost-note { font-size: 15px; color: var(--text3); font-weight: 400; }
 
-    /* ── SCENE 5: PIVOT ── */
-    .s5 { text-align: center; background: var(--bg); }
-    .pivot-pre { font-size: 16px; color: var(--text3); font-weight: 500; letter-spacing: 0.04em; margin-bottom: 24px; }
-    .pivot-big { font-size: clamp(36px, 7vw, 88px); font-weight: 900; letter-spacing: -4px; line-height: 0.95; max-width: 900px; }
-    .pivot-big em { font-style: normal; background: linear-gradient(135deg, var(--blue-l), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    /* ── S5: PIVOT ── */
+    .s5 .pivot-pre { font-size: 15px; color: var(--text3); font-weight: 500; }
+    .s5 .pivot-big { font-size: clamp(36px, 7vw, 82px); font-weight: 900; letter-spacing: -4px; line-height: 0.95; max-width: 860px; text-align: center; }
+    .s5 .pivot-big em { font-style: normal; background: linear-gradient(135deg, var(--blue-l), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-    /* ── SCENE 6: PHONE NOTIFICATION ── */
-    .s6 { background: radial-gradient(ellipse at 50% 30%, rgba(59,130,246,0.09) 0%, transparent 70%), var(--bg); }
-    .s6-inner { display: flex; align-items: center; gap: 80px; flex-wrap: wrap; max-width: 1060px; width: 100%; justify-content: center; }
-    .s6-copy { max-width: 380px; }
-    .notif-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-l); margin-bottom: 18px; }
-    .notif-h { font-size: clamp(24px, 3.5vw, 44px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 18px; }
-    .notif-p { font-size: 17px; color: var(--text2); line-height: 1.65; }
+    /* ── PHONE MOCK (shared S6/S7/S8) ── */
+    .two-col { display: flex; align-items: center; gap: 64px; flex-wrap: wrap; max-width: 1020px; width: 100%; justify-content: center; }
+    .two-col.flip { flex-direction: row-reverse; }
+    .col-copy { max-width: 360px; display: flex; flex-direction: column; gap: 14px; }
+    .col-copy h2 { font-size: clamp(22px, 3vw, 38px); font-weight: 800; letter-spacing: -1.2px; line-height: 1.1; }
+    .col-copy h2 em { font-style: normal; }
+    .col-copy p { font-size: 15px; color: var(--text2); line-height: 1.6; }
+    .check-list { display: flex; flex-direction: column; gap: 9px; }
+    .check-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text2); }
+    .chk { width: 19px; height: 19px; border-radius: 50%; background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.4); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
 
-    /* phone mock shared */
-    .phone-wrap { width: 290px; flex-shrink: 0; }
-    .phone-frame { background: #141428; border-radius: 42px; border: 1.5px solid rgba(255,255,255,0.09); padding: 48px 18px 38px; box-shadow: 0 0 0 1px rgba(0,0,0,0.5), 0 40px 80px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06); position: relative; }
-    .phone-notch { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); width: 96px; height: 24px; background: #0a0a1a; border-radius: 18px; }
-    .phone-screen { background: linear-gradient(160deg, #101830 0%, #080e1e 100%); border-radius: 26px; overflow: hidden; }
-    .phone-time-big { text-align: center; font-size: 46px; font-weight: 300; color: white; padding: 26px 0 6px; letter-spacing: -1px; }
-    .phone-date-sm { text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); padding-bottom: 20px; }
-    .phone-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 0 10px; }
-    .notif-card { margin: 14px 10px; background: rgba(255,255,255,0.07); border-radius: 14px; padding: 12px 14px; border: 1px solid rgba(255,255,255,0.1); }
-    .notif-card + .notif-card { opacity: 0.5; }
-    .nc-head { display: flex; align-items: center; gap: 7px; margin-bottom: 7px; }
-    .nc-icon { width: 24px; height: 24px; background: var(--blue-d); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
-    .nc-app { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.05em; }
-    .nc-time { margin-left: auto; font-size: 10px; color: rgba(255,255,255,0.25); }
-    .nc-title { font-size: 13px; font-weight: 700; color: white; margin-bottom: 3px; }
-    .nc-body { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.4; }
-    .nc-body strong { color: var(--green); font-weight: 600; }
+    .phone-frame { width: 256px; flex-shrink: 0; background: #12142a; border-radius: 38px; border: 1.5px solid rgba(255,255,255,0.08); padding: 42px 16px 32px; box-shadow: 0 0 0 1px rgba(0,0,0,0.5), 0 32px 64px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05); position: relative; }
+    .ph-notch { position: absolute; top: 13px; left: 50%; transform: translateX(-50%); width: 86px; height: 21px; background: #070812; border-radius: 16px; }
+    .ph-screen { background: linear-gradient(160deg, #0e1a30 0%, #070d1c 100%); border-radius: 22px; overflow: hidden; }
+    .ph-time { text-align: center; font-size: 40px; font-weight: 300; color: white; padding: 22px 0 5px; letter-spacing: -1px; }
+    .ph-date { text-align: center; font-size: 11px; color: rgba(255,255,255,0.38); padding-bottom: 16px; }
+    .ph-div { height: 1px; background: rgba(255,255,255,0.06); margin: 0 9px; }
+    .notif-card { margin: 12px 9px; background: rgba(255,255,255,0.07); border-radius: 12px; padding: 11px 12px; border: 1px solid rgba(255,255,255,0.1); }
+    .notif-card.dim { opacity: 0.45; }
+    .nc-head { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+    .nc-icon { width: 21px; height: 21px; background: var(--blue-d); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+    .nc-app { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; }
+    .nc-time { margin-left: auto; font-size: 9.5px; color: rgba(255,255,255,0.22); }
+    .nc-title { font-size: 12px; font-weight: 700; color: white; margin-bottom: 3px; }
+    .nc-body { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.4; }
+    .nc-body strong { color: var(--green); }
     .nc-body .amber { color: var(--fleet-l); }
-    .phone-home { display: flex; justify-content: center; padding: 16px 0 6px; }
-    .home-pill { width: 110px; height: 4px; background: rgba(255,255,255,0.18); border-radius: 2px; }
+    .ph-home { display: flex; justify-content: center; padding: 12px 0 4px; }
+    .ph-pill { width: 96px; height: 3px; background: rgba(255,255,255,0.16); border-radius: 2px; }
 
-    /* ── SCENE 7: RATE LOCK ── */
-    .s7 { background: var(--bg2); }
-    .s7-inner { display: flex; align-items: center; gap: 72px; flex-wrap: wrap; max-width: 1060px; width: 100%; justify-content: center; }
-    .s7-copy { max-width: 380px; }
-    .rate-h { font-size: clamp(24px, 3.5vw, 44px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 18px; }
-    .rate-h em { font-style: normal; color: var(--fleet-l); }
-    .rate-p { font-size: 16px; color: var(--text2); line-height: 1.65; margin-bottom: 24px; }
-    .rate-proof { display: flex; flex-direction: column; gap: 12px; }
-    .rp-item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text2); }
-    .rp-check { width: 22px; height: 22px; border-radius: 50%; background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.4); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+    /* SMS mock */
+    .sms-frame { width: 256px; flex-shrink: 0; background: #12142a; border-radius: 38px; border: 1.5px solid rgba(255,255,255,0.08); padding: 42px 16px 32px; box-shadow: 0 0 0 1px rgba(0,0,0,0.5), 0 32px 64px rgba(0,0,0,0.7); position: relative; }
+    .sms-notch { position: absolute; top: 13px; left: 50%; transform: translateX(-50%); width: 86px; height: 21px; background: #070812; border-radius: 16px; }
+    .sms-screen { background: #000; border-radius: 22px; overflow: hidden; padding: 10px 7px; }
+    .sms-hdr { background: #1c1c2e; border-radius: 9px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 9px; }
+    .sms-av { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: white; flex-shrink: 0; }
+    .sms-from { font-size: 12px; font-weight: 700; color: white; }
+    .sms-sub-txt { font-size: 9.5px; color: rgba(255,255,255,0.38); }
+    .bubbles { padding: 0 3px; display: flex; flex-direction: column; gap: 7px; min-height: 190px; }
+    .bbl { padding: 9px 11px; border-radius: 14px; font-size: 11px; line-height: 1.45; max-width: 92%; }
+    .bbl.in { background: #1c1c2e; color: rgba(255,255,255,0.8); align-self: flex-start; border-bottom-left-radius: 3px; }
+    .bbl.out { background: #0a84ff; color: white; align-self: flex-end; border-bottom-right-radius: 3px; font-weight: 600; }
+    .bbl.sys { background: rgba(52,211,153,0.11); border: 1px solid rgba(52,211,153,0.28); color: var(--green); align-self: center; text-align: center; font-size: 10px; border-radius: 7px; max-width: 100%; }
+    .sms-input-bar { background: #1c1c2e; border-radius: 18px; padding: 8px 12px; display: flex; align-items: center; gap: 7px; margin-top: 9px; }
+    .sms-input-txt { font-size: 11px; color: rgba(255,255,255,0.25); flex: 1; }
+    .sms-send-btn { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
 
-    /* SMS approval mock */
-    .sms-wrap { width: 290px; flex-shrink: 0; }
-    .sms-frame { background: #141428; border-radius: 42px; border: 1.5px solid rgba(255,255,255,0.09); padding: 48px 18px 38px; box-shadow: 0 0 0 1px rgba(0,0,0,0.5), 0 40px 80px rgba(0,0,0,0.7); position: relative; }
-    .sms-notch { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); width: 96px; height: 24px; background: #0a0a1a; border-radius: 18px; }
-    .sms-screen { background: #000; border-radius: 26px; overflow: hidden; padding: 12px 8px; }
-    .sms-header { background: #1c1c2e; border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .sms-av { width: 32px; height: 32px; border-radius: 50%; background: var(--blue-d); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: white; flex-shrink: 0; }
-    .sms-from { font-size: 13px; font-weight: 700; color: white; }
-    .sms-sub { font-size: 10px; color: rgba(255,255,255,0.4); }
-    .sms-bubbles { padding: 0 4px; display: flex; flex-direction: column; gap: 8px; min-height: 220px; }
-    .bubble { padding: 10px 13px; border-radius: 16px; font-size: 12px; line-height: 1.45; max-width: 90%; }
-    .bubble.in { background: #1c1c2e; color: rgba(255,255,255,0.85); align-self: flex-start; border-bottom-left-radius: 4px; }
-    .bubble.out { background: #0a84ff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 600; }
-    .bubble.sys { background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); color: var(--green); align-self: center; text-align: center; font-size: 11px; border-radius: 8px; max-width: 100%; }
-    .sms-input { background: #1c1c2e; border-radius: 20px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; margin-top: 10px; }
-    .sms-input-txt { font-size: 12px; color: rgba(255,255,255,0.3); flex: 1; }
-    .sms-send { width: 26px; height: 26px; border-radius: 50%; background: #0a84ff; display: flex; align-items: center; justify-content: center; font-size: 13px; }
-
-    /* ── SCENE 8: DRIVER ── */
-    .s8 { background: var(--bg); }
-    .s8-inner { display: flex; align-items: center; gap: 72px; flex-wrap: wrap; max-width: 1060px; width: 100%; justify-content: center; flex-direction: row-reverse; }
-    .s8-copy { max-width: 380px; }
-    .drv-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 18px; }
-    .drv-h { font-size: clamp(24px, 3.5vw, 44px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 18px; }
-    .drv-h em { font-style: normal; color: var(--green); }
-    .drv-p { font-size: 16px; color: var(--text2); line-height: 1.65; }
-
-    /* ── SCENE 9: REPORT / CLOSE ── */
-    .s9 { background: var(--bg2); text-align: center; }
-    .report-wrap { max-width: 680px; }
-    .report-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-l); margin-bottom: 20px; }
-    .report-h { font-size: clamp(26px, 4.5vw, 54px); font-weight: 800; letter-spacing: -2px; line-height: 1.05; margin-bottom: 18px; }
-    .report-h em { font-style: normal; color: var(--green); }
-    .report-p { font-size: 18px; color: var(--text2); line-height: 1.6; max-width: 500px; margin: 0 auto 48px; }
-    .report-card { background: var(--bg3); border: 1px solid var(--border2); border-radius: 18px; padding: 28px; text-align: left; max-width: 520px; margin: 0 auto; }
-    .rc-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
-    .rc-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); display: flex; align-items: center; justify-content: center; font-size: 18px; }
-    .rc-title { font-size: 15px; font-weight: 700; }
-    .rc-sub { font-size: 12px; color: var(--text3); }
-    .rc-badge { margin-left: auto; background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); color: var(--green); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.06em; }
-    .rc-rows { display: flex; flex-direction: column; gap: 0; }
-    .rc-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    /* ── S9: REPORT ── */
+    .report-card { background: var(--bg3); border: 1px solid var(--border2); border-radius: 16px; padding: 22px; max-width: 480px; width: 100%; }
+    .rc-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .rc-ico { width: 32px; height: 32px; border-radius: 9px; background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .rc-title { font-size: 14px; font-weight: 700; }
+    .rc-sub { font-size: 11px; color: var(--text3); }
+    .rc-badge { margin-left: auto; background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); color: var(--green); font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .rc-rows { display: flex; flex-direction: column; }
+    .rc-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
     .rc-row:last-child { border-bottom: none; }
-    .rc-key { font-size: 13px; color: var(--text3); }
-    .rc-val { font-size: 13px; font-weight: 600; color: var(--text); }
+    .rc-key { font-size: 12px; color: var(--text3); }
+    .rc-val { font-size: 12px; font-weight: 600; color: var(--text); }
     .rc-val.green { color: var(--green); }
     .rc-val.amber { color: var(--fleet-l); }
 
-    /* ── SCENE 10: OPERATOR TERMS ── */
-    .s10 { background: var(--bg); text-align: center; }
-    .terms-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fleet-l); margin-bottom: 20px; }
-    .terms-h { font-size: clamp(26px, 4.5vw, 54px); font-weight: 800; letter-spacing: -2px; line-height: 1.05; margin-bottom: 14px; }
-    .terms-sub { font-size: 18px; color: var(--text2); max-width: 500px; margin: 0 auto 56px; line-height: 1.6; }
-    .terms-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; max-width: 840px; width: 100%; }
-    .term-block { background: var(--bg2); padding: 36px 24px; text-align: center; }
-    .term-num { font-size: clamp(36px, 6vw, 60px); font-weight: 900; letter-spacing: -3px; line-height: 1; color: var(--fleet-l); margin-bottom: 8px; }
-    .term-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-    .term-note { font-size: 12px; color: var(--text3); line-height: 1.5; }
+    /* ── S10: OPERATOR TERMS ── */
+    .terms-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; max-width: 820px; width: 100%; }
+    .term-block { background: var(--bg2); padding: 28px 20px; text-align: center; }
+    .term-num { font-size: clamp(32px, 5vw, 52px); font-weight: 900; letter-spacing: -3px; line-height: 1; color: var(--fleet-l); margin-bottom: 6px; }
+    .term-label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .term-note { font-size: 11px; color: var(--text3); line-height: 1.5; }
 
-    /* ── SCENE 11: WHO IT SERVES ── */
-    .s11 { background: var(--bg2); text-align: center; }
-    .who-h { font-size: clamp(26px, 4.5vw, 52px); font-weight: 800; letter-spacing: -2px; line-height: 1.05; margin-bottom: 14px; }
-    .who-sub { font-size: 17px; color: var(--text2); max-width: 520px; margin: 0 auto 56px; line-height: 1.6; }
-    .who-cards { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 960px; width: 100%; }
-    .who-card { background: var(--bg3); border: 1px solid var(--border2); border-radius: 18px; padding: 32px; max-width: 280px; text-align: left; flex: 1 1 240px; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .who-card.visible { opacity: 1; transform: translateY(0); }
-    .who-card:nth-child(2) { transition-delay: 0.15s; }
-    .who-card:nth-child(3) { transition-delay: 0.3s; }
-    .who-icon { font-size: 28px; margin-bottom: 16px; }
-    .who-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 100px; display: inline-block; margin-bottom: 14px; }
-    .who-card.fleet .who-badge { background: rgba(245,158,11,0.12); color: var(--fleet-l); border: 1px solid rgba(245,158,11,0.3); }
-    .who-card.operator .who-badge { background: var(--blue-g, rgba(59,130,246,0.1)); color: var(--blue-l); border: 1px solid rgba(59,130,246,0.3); }
-    .who-card.driver .who-badge { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
-    .who-card h3 { font-size: 18px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 10px; line-height: 1.2; }
-    .who-card p { font-size: 14px; color: var(--text2); line-height: 1.65; margin-bottom: 18px; }
-    .who-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
-    .who-list li { font-size: 13px; color: var(--text2); display: flex; align-items: baseline; gap: 8px; }
-    .who-list li::before { content: '→'; font-weight: 700; flex-shrink: 0; }
+    /* ── S11: WHO IT SERVES ── */
+    .who-cards { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; max-width: 920px; width: 100%; }
+    .who-card { background: var(--bg3); border: 1px solid var(--border2); border-radius: 14px; padding: 22px; flex: 1 1 240px; max-width: 280px; opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .who-card.in { opacity: 1; transform: translateY(0); }
+    .who-card:nth-child(2) { transition-delay: 0.12s; }
+    .who-card:nth-child(3) { transition-delay: 0.24s; }
+    .who-badge { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 9px; border-radius: 100px; display: inline-block; margin-bottom: 10px; }
+    .who-card.fleet .who-badge  { background: rgba(245,158,11,0.12); color: var(--fleet-l); border: 1px solid rgba(245,158,11,0.3); }
+    .who-card.op .who-badge     { background: rgba(59,130,246,0.1);  color: var(--blue-l);  border: 1px solid rgba(59,130,246,0.3); }
+    .who-card.drv .who-badge    { background: rgba(52,211,153,0.1);  color: var(--green);   border: 1px solid rgba(52,211,153,0.3); }
+    .who-card h3 { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 10px; line-height: 1.2; }
+    .who-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .who-list li { font-size: 12px; color: var(--text2); display: flex; align-items: baseline; gap: 7px; line-height: 1.4; }
+    .who-list li::before { content: '→'; font-weight: 700; flex-shrink: 0; font-size: 11px; }
     .who-card.fleet .who-list li::before { color: var(--fleet-l); }
-    .who-card.operator .who-list li::before { color: var(--blue-l); }
-    .who-card.driver .who-list li::before { color: var(--green); }
+    .who-card.op    .who-list li::before { color: var(--blue-l); }
+    .who-card.drv   .who-list li::before { color: var(--green); }
 
-    /* ── SCENE 12: METRICS ── */
-    .s12 { background: var(--bg); text-align: center; }
-    .metrics-h { font-size: clamp(24px, 4vw, 48px); font-weight: 800; letter-spacing: -2px; line-height: 1.05; margin-bottom: 56px; }
-    .metrics-grid { display: flex; gap: 0; max-width: 800px; width: 100%; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-    .metric-block { flex: 1; padding: 40px 24px; text-align: center; border-right: 1px solid var(--border); }
-    .metric-block:last-child { border-right: none; }
-    .metric-num { font-size: clamp(36px, 6vw, 60px); font-weight: 900; letter-spacing: -3px; line-height: 1; margin-bottom: 10px; }
-    .metric-num.blue { color: var(--blue-l); }
-    .metric-num.green { color: var(--green); }
-    .metric-num.amber { color: var(--fleet-l); }
-    .metric-label { font-size: 14px; color: var(--text2); font-weight: 500; }
+    /* ── S12: METRICS ── */
+    .metrics-row { display: flex; gap: 0; max-width: 780px; width: 100%; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .met { flex: 1; padding: 32px 20px; text-align: center; border-right: 1px solid var(--border); }
+    .met:last-child { border-right: none; }
+    .met-num { font-size: clamp(28px, 5vw, 50px); font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
+    .met-num.blue  { color: var(--blue-l); }
+    .met-num.amber { color: var(--fleet-l); }
+    .met-num.green { color: var(--green); }
+    .met-label { font-size: 13px; color: var(--text2); line-height: 1.4; }
 
-    /* ── SCENE 13: PRODUCT REVEAL ── */
-    .s13 { text-align: center; background: radial-gradient(ellipse at 50% 40%, rgba(59,130,246,0.1) 0%, transparent 65%), var(--bg2); }
-    .reveal-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); margin-bottom: 24px; }
-    .reveal-name { font-size: clamp(56px, 12vw, 130px); font-weight: 900; letter-spacing: -6px; line-height: 0.9; background: linear-gradient(135deg, var(--blue-l) 0%, #a5f3fc 50%, var(--green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .reveal-full-name { font-size: 16px; color: var(--text3); font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; margin-top: 14px; }
-    .reveal-tagline { font-size: clamp(18px, 2.8vw, 30px); font-weight: 600; color: var(--text); letter-spacing: -0.5px; margin-top: 32px; max-width: 620px; line-height: 1.3; }
-    .reveal-tagline em { font-style: normal; color: var(--blue-l); }
+    /* ── S13: REVEAL ── */
+    .reveal-name { font-size: clamp(60px, 13vw, 132px); font-weight: 900; letter-spacing: -7px; line-height: 0.88; background: linear-gradient(135deg, var(--blue-l) 0%, #a5f3fc 50%, var(--green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .reveal-full { font-size: 14px; color: var(--text3); font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 12px; }
+    .reveal-line { font-size: clamp(17px, 2.5vw, 28px); font-weight: 600; color: var(--text); letter-spacing: -0.5px; margin-top: 28px; max-width: 580px; text-align: center; line-height: 1.35; }
+    .reveal-line em { font-style: normal; color: var(--blue-l); }
 
-    /* ── SCENE 14: CTA ── */
-    .s14 { text-align: center; background: var(--bg); min-height: 80vh; }
-    .cta-h { font-size: clamp(34px, 6vw, 72px); font-weight: 900; letter-spacing: -3px; line-height: 1; max-width: 720px; }
-    .cta-p { font-size: 19px; color: var(--text2); margin-top: 20px; max-width: 480px; line-height: 1.65; }
-    .cta-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 48px; }
-    .btn-primary { background: var(--blue-d); color: white; padding: 18px 44px; border-radius: 10px; font-size: 17px; font-weight: 700; display: inline-block; transition: opacity 150ms; }
-    .btn-primary:hover { opacity: 0.85; }
-    .btn-ghost { background: transparent; color: var(--text2); padding: 18px 36px; border-radius: 10px; font-size: 17px; font-weight: 600; border: 1.5px solid var(--border2); display: inline-block; transition: color 150ms, border-color 150ms; }
-    .btn-ghost:hover { color: var(--text); border-color: var(--text3); }
-    .cta-terms { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; margin-top: 32px; }
-    .cta-term { font-size: 13px; color: var(--text3); display: flex; align-items: center; gap: 7px; }
-    .cta-term::before { content: '✓'; color: var(--green); font-weight: 700; }
+    /* ── S14: CTA ── */
+    .cta-h { font-size: clamp(32px, 6vw, 66px); font-weight: 900; letter-spacing: -3px; line-height: 1; max-width: 680px; text-align: center; }
+    .cta-p { font-size: 18px; color: var(--text2); max-width: 460px; line-height: 1.65; text-align: center; }
+    .cta-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .btn-p { background: var(--blue-d); color: white; padding: 16px 40px; border-radius: 10px; font-size: 16px; font-weight: 700; display: inline-block; transition: opacity 150ms; }
+    .btn-p:hover { opacity: 0.85; }
+    .btn-g { background: transparent; color: var(--text2); padding: 16px 32px; border-radius: 10px; font-size: 16px; font-weight: 600; border: 1.5px solid var(--border2); display: inline-block; transition: color 150ms, border-color 150ms; }
+    .btn-g:hover { color: var(--text); border-color: var(--text3); }
+    .cta-terms { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+    .ct { font-size: 12px; color: var(--text3); display: flex; align-items: center; gap: 6px; }
+    .ct::before { content: '✓'; color: var(--green); font-weight: 700; }
 
-    /* ── FOOTER ── */
-    footer { border-top: 1px solid var(--border); padding: 32px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-    .footer-logo { display: flex; align-items: center; gap: 8px; }
-    .footer-copy { font-size: 13px; color: var(--text3); }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a { font-size: 13px; color: var(--text3); transition: color 150ms; }
+    /* ── FOOTER SCENE ── */
+    .footer-scene { height: auto; min-height: auto; scroll-snap-align: start; padding: 28px 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; background: var(--bg); }
+    .footer-copy { font-size: 12px; color: var(--text3); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 12px; color: var(--text3); transition: color 150ms; }
     .footer-links a:hover { color: var(--blue-l); }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 760px) {
-      .s6-inner, .s7-inner, .s8-inner { flex-direction: column; gap: 48px; }
-      .s8-inner { flex-direction: column; }
-      .terms-grid { grid-template-columns: repeat(2, 1fr); }
-      .metrics-grid { flex-direction: column; }
-      .metric-block { border-right: none; border-bottom: 1px solid var(--border); }
-      .metric-block:last-child { border-bottom: none; }
+    /* ── MOBILE ── */
+    @media (max-width: 700px) {
+      .two-col, .two-col.flip { flex-direction: column; gap: 32px; }
+      .phone-frame, .sms-frame { width: 220px; }
+      .col-copy { max-width: 100%; }
+      .terms-grid { grid-template-columns: repeat(2,1fr); }
+      .metrics-row { flex-direction: column; }
+      .met { border-right: none; border-bottom: 1px solid var(--border); }
+      .met:last-child { border-bottom: none; }
+      .dot-nav { display: none; }
       header { padding: 0 20px; }
       .nav-r .nav-link { display: none; }
-      .scene { padding: 80px 24px 60px; }
-      footer { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
+      .scene { padding: 64px 20px 40px; }
+      .s3-inner { padding: 0 20px; }
     }
     @media (max-width: 480px) {
       .terms-grid { grid-template-columns: 1fr; }
       .cta-btns { flex-direction: column; align-items: center; }
-      .btn-primary, .btn-ghost { width: 100%; text-align: center; }
+      .btn-p, .btn-g { width: 100%; text-align: center; }
+      .who-card { max-width: 100%; }
     }
   </style>
 </head>
 <body>
 
-<div class="progress-bar" id="pgbar"></div>
-
+<!-- FIXED HEADER -->
 <header id="hdr">
   <a href="/" class="logo">
     <div class="logo-dot"></div>
     <div>
       <div class="logo-name">RIN</div>
-      <div class="logo-tagline">Roadside Intelligence Network</div>
+      <div class="logo-tag">Roadside Intelligence Network</div>
     </div>
   </a>
   <div class="nav-r">
-    <a href="#s10" class="nav-link">For Operators</a>
-    <a href="#s8" class="nav-link">For Drivers</a>
+    <a href="#s10" class="nav-link" onclick="goTo(9)">For Operators</a>
+    <a href="#s8" class="nav-link" onclick="goTo(7)">For Drivers</a>
     <a href="https://calendly.com/barnes-thestrategypitch/rin-pilot" class="nav-cta" target="_blank">Book a Pilot Call</a>
   </div>
 </header>
 
-<!-- ── S1: OPENER ── -->
-<section class="scene s1" id="s1">
-  <div class="timestamp">6:47 AM</div>
-  <div class="timestamp-sub">Tuesday. Your phone is already going.</div>
-  <div class="scroll-cue">
-    <div class="scroll-arrow"></div>
-    Scroll
-  </div>
-</section>
+<!-- DOT NAV -->
+<nav class="dot-nav" id="dot-nav">
+  <a title="Opening" onclick="goTo(0)"></a>
+  <a title="The situation" onclick="goTo(1)"></a>
+  <a title="The old way" onclick="goTo(2)"></a>
+  <a title="The cost" onclick="goTo(3)"></a>
+  <a title="The pivot" onclick="goTo(4)"></a>
+  <a title="Notification" onclick="goTo(5)"></a>
+  <a title="Rate lock" onclick="goTo(6)"></a>
+  <a title="For drivers" onclick="goTo(7)"></a>
+  <a title="Job close" onclick="goTo(8)"></a>
+  <a title="Operator terms" onclick="goTo(9)"></a>
+  <a title="Who it serves" onclick="goTo(10)"></a>
+  <a title="The numbers" onclick="goTo(11)"></a>
+  <a title="RIN" onclick="goTo(12)"></a>
+  <a title="Get started" onclick="goTo(13)"></a>
+</nav>
 
-<div class="sep"></div>
+<!-- SNAP CONTAINER -->
+<div class="snap-wrap" id="snap">
 
-<!-- ── S2: SITUATION ── -->
-<section class="scene s2" id="s2">
-  <div class="kicker">The call you didn't want</div>
-  <div class="big-statement">
-    Driver on the 401.<br>
-    Left rear. Won't move.<br>
-    <em>Next pickup is at 7:30.</em>
-  </div>
-</section>
+  <!-- S1: OPENER -->
+  <section class="scene bg-dark s1" id="s1" data-idx="0">
+    <div class="timestamp">6:47 AM</div>
+    <div class="ts-sub">Tuesday. Your phone is already going.</div>
+    <div class="scroll-cue"><div class="scroll-arrow"></div>Scroll</div>
+  </section>
 
-<div class="sep"></div>
+  <!-- S2: SITUATION -->
+  <section class="scene bg-amber s2" id="s2" data-idx="1">
+    <div class="kicker red" style="margin-bottom:24px">The call you didn't want</div>
+    <div class="big-stmt">
+      Driver on the 401.<br>
+      Left rear. Won't move.<br>
+      <em>Next pickup is at 7:30.</em>
+    </div>
+  </section>
 
-<!-- ── S3: OLD WAY ── -->
-<section class="scene s3" id="s3">
-  <div class="s3-inner">
-    <div class="section-eyebrow">The next 2 hours — before RIN</div>
-    <div class="old-steps">
-      <div class="old-step" data-delay="0">
-        <div class="step-num">01</div>
-        <div class="step-text">You call three tow companies. <strong>Two don't answer.</strong></div>
-        <div class="step-time">+12 min</div>
-      </div>
-      <div class="old-step" data-delay="120">
-        <div class="step-num">02</div>
-        <div class="step-text">The one that answers gives you <strong>a two-hour window</strong> and no price.</div>
-        <div class="step-time">+18 min</div>
-      </div>
-      <div class="old-step" data-delay="240">
-        <div class="step-num">03</div>
-        <div class="step-text">Your dispatcher calls your driver. Your driver calls you. <strong>Everyone is managing the breakdown</strong> instead of the fleet.</div>
-        <div class="step-time">+31 min</div>
-      </div>
-      <div class="old-step" data-delay="360">
-        <div class="step-num">04</div>
-        <div class="step-text">The tow shows up. Then the <strong>invoice arrives Friday</strong> with three line items nobody approved.</div>
-        <div class="step-time">+94 min</div>
-      </div>
-      <div class="old-step" data-delay="480">
-        <div class="step-num">05</div>
-        <div class="step-text">You're on the phone with accounting. <strong>For a single tow.</strong></div>
-        <div class="step-time">+114 min</div>
+  <!-- S3: OLD WAY -->
+  <section class="scene bg-dark2 s3" id="s3" data-idx="2">
+    <div class="s3-inner">
+      <div class="kicker muted" style="margin-bottom:28px">The next 2 hours — before RIN</div>
+      <div class="old-steps">
+        <div class="old-step" data-d="0">
+          <div class="step-num">01</div>
+          <div class="step-text">You call three tow companies. <strong>Two don't answer.</strong></div>
+          <div class="step-time">+12 min</div>
+        </div>
+        <div class="old-step" data-d="110">
+          <div class="step-num">02</div>
+          <div class="step-text">The one that answers gives you <strong>a two-hour window</strong> and no price.</div>
+          <div class="step-time">+18 min</div>
+        </div>
+        <div class="old-step" data-d="220">
+          <div class="step-num">03</div>
+          <div class="step-text">Dispatcher calls driver. Driver calls you. <strong>Everyone managing the breakdown</strong> instead of the fleet.</div>
+          <div class="step-time">+31 min</div>
+        </div>
+        <div class="old-step" data-d="330">
+          <div class="step-num">04</div>
+          <div class="step-text">Tow shows up. <strong>Invoice arrives Friday</strong> with three line items nobody approved.</div>
+          <div class="step-time">+94 min</div>
+        </div>
+        <div class="old-step" data-d="440">
+          <div class="step-num">05</div>
+          <div class="step-text">You're on the phone with accounting. <strong>For a single tow.</strong></div>
+          <div class="step-time">+114 min</div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="sep"></div>
+  <!-- S4: COST -->
+  <section class="scene bg-dark s4" id="s4" data-idx="3">
+    <div class="cost-q">Every breakdown costs your team <span>2 hours.</span></div>
+    <div class="cost-big">× 12</div>
+    <div class="cost-note">breakdowns a month = 24 hours of ops time. Gone.</div>
+  </section>
 
-<!-- ── S4: COST ── -->
-<section class="scene s4" id="s4">
-  <div class="cost-q">
-    Every breakdown costs your team
-    <span>2 hours.</span>
-  </div>
-  <div class="cost-stat">× 12</div>
-  <div class="cost-stat-label">breakdowns a month = 24 hours of your ops team's time. Gone.</div>
-</section>
+  <!-- S5: PIVOT -->
+  <section class="scene bg-dark s5" id="s5" data-idx="4">
+    <div class="pivot-pre">There's a different way.</div>
+    <div class="pivot-big">Your team gets a<br><em>notification.</em><br>Not a task.</div>
+  </section>
 
-<div class="sep"></div>
-
-<!-- ── S5: PIVOT ── -->
-<section class="scene s5" id="s5">
-  <div class="pivot-pre">There's a different way.</div>
-  <div class="pivot-big">
-    Your team gets a<br>
-    <em>notification.</em><br>
-    Not a task.
-  </div>
-</section>
-
-<div class="sep"></div>
-
-<!-- ── S6: PHONE NOTIFICATION ── -->
-<section class="scene s6" id="s6">
-  <div class="s6-inner">
-    <div class="s6-copy">
-      <div class="notif-kicker">What it looks like</div>
-      <div class="notif-h">Driver covered before you finish your coffee.</div>
-      <div class="notif-p">RIN dispatches, locks the rate, and confirms completion. Your ops team gets one notification. No calls. No invoices to untangle.</div>
-    </div>
-    <div class="phone-wrap">
+  <!-- S6: PHONE NOTIFICATION -->
+  <section class="scene bg-blue" id="s6" data-idx="5">
+    <div class="two-col">
+      <div class="col-copy">
+        <div class="kicker blue">What it looks like</div>
+        <h2>Driver covered before you finish your coffee.</h2>
+        <p>RIN dispatches, locks the rate, and confirms completion. Your ops team gets one notification. No calls. No invoices to untangle. No task to manage.</p>
+      </div>
       <div class="phone-frame">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <div class="phone-time-big">6:51</div>
-          <div class="phone-date-sm">Tuesday, April 22</div>
-          <div class="phone-divider"></div>
+        <div class="ph-notch"></div>
+        <div class="ph-screen">
+          <div class="ph-time">6:51</div>
+          <div class="ph-date">Tuesday, April 22</div>
+          <div class="ph-div"></div>
           <div class="notif-card">
-            <div class="nc-head">
-              <div class="nc-icon">🚛</div>
-              <div class="nc-app">RIN Fleet</div>
-              <div class="nc-time">now</div>
-            </div>
+            <div class="nc-head"><div class="nc-icon">🚛</div><div class="nc-app">RIN Fleet</div><div class="nc-time">now</div></div>
             <div class="nc-title">Driver covered — Unit 14</div>
             <div class="nc-body">ETA <strong>18 min</strong> · Rate <span class="amber">locked at $247</span> · No action needed.</div>
           </div>
-          <div class="notif-card">
-            <div class="nc-head">
-              <div class="nc-icon">✅</div>
-              <div class="nc-app">RIN Fleet</div>
-              <div class="nc-time">7:09</div>
-            </div>
+          <div class="notif-card dim">
+            <div class="nc-head"><div class="nc-icon">✅</div><div class="nc-app">RIN Fleet</div><div class="nc-time">7:09</div></div>
             <div class="nc-title">Tow complete — Unit 14</div>
             <div class="nc-body">Vehicle at <strong>Rona Auto, Brampton</strong> · Report attached.</div>
           </div>
-          <div class="phone-home"><div class="home-pill"></div></div>
+          <div class="ph-home"><div class="ph-pill"></div></div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="sep"></div>
-
-<!-- ── S7: RATE LOCK ── -->
-<section class="scene s7" id="s7">
-  <div class="s7-inner">
-    <div class="s7-copy">
-      <div class="notif-kicker" style="color:var(--fleet-l)">Rate Lock</div>
-      <div class="rate-h">Price set before<br><em>anyone moves.</em></div>
-      <div class="rate-p">RIN AI calculates the rate based on incident type, vehicle, distance, and time of day. Your approval comes via SMS before dispatch. No surprises on Friday.</div>
-      <div class="rate-proof">
-        <div class="rp-item"><div class="rp-check">✓</div>AI-calculated before dispatch</div>
-        <div class="rp-item"><div class="rp-check">✓</div>You approve via SMS — one tap</div>
-        <div class="rp-item"><div class="rp-check">✓</div>Rate cannot change after approval</div>
-        <div class="rp-item"><div class="rp-check">✓</div>Invoice matches approval. Every time.</div>
+  <!-- S7: RATE LOCK -->
+  <section class="scene bg-dark2" id="s7" data-idx="6">
+    <div class="two-col">
+      <div class="col-copy">
+        <div class="kicker amber">Rate Lock</div>
+        <h2 style="color:var(--text)">Price set before <em style="color:var(--fleet-l)">anyone moves.</em></h2>
+        <p>RIN AI calculates the rate based on incident type, vehicle, distance, and time of day. You approve via SMS. No surprises on Friday.</p>
+        <div class="check-list">
+          <div class="check-item"><div class="chk">✓</div>AI-calculated before dispatch</div>
+          <div class="check-item"><div class="chk">✓</div>You approve via SMS — one tap</div>
+          <div class="check-item"><div class="chk">✓</div>Rate cannot change after approval</div>
+          <div class="check-item"><div class="chk">✓</div>Invoice matches approval. Every time.</div>
+        </div>
       </div>
-    </div>
-    <div class="sms-wrap">
       <div class="sms-frame">
         <div class="sms-notch"></div>
         <div class="sms-screen">
-          <div class="sms-header">
-            <div class="sms-av">R</div>
-            <div>
-              <div class="sms-from">RIN Dispatch</div>
-              <div class="sms-sub">Verified · 6:48 AM</div>
-            </div>
+          <div class="sms-hdr">
+            <div class="sms-av" style="background:var(--blue-d)">R</div>
+            <div><div class="sms-from">RIN Dispatch</div><div class="sms-sub-txt">Verified · 6:48 AM</div></div>
           </div>
-          <div class="sms-bubbles">
-            <div class="bubble in">Unit 14 breakdown — 401 &amp; Hwy 400, North York. Tow to City Towing, Brampton (18 km).<br><br>Rate: <strong style="color:var(--fleet-l)">$247</strong> · Locked on approval.<br>Reply YES to authorize.</div>
-            <div class="bubble out">YES</div>
-            <div class="bubble sys">✓ Rate approved · Dispatch confirmed · ETA 18 min</div>
+          <div class="bubbles">
+            <div class="bbl in">Unit 14 breakdown — 401 &amp; Hwy 400, North York. Tow to City Towing, Brampton.<br><br>Rate: <strong style="color:var(--fleet-l)">$247</strong> locked on approval.<br>Reply YES to authorize.</div>
+            <div class="bbl out">YES</div>
+            <div class="bbl sys">✓ Approved · Driver dispatched · ETA 18 min</div>
           </div>
-          <div class="sms-input">
+          <div class="sms-input-bar">
             <div class="sms-input-txt">iMessage</div>
-            <div class="sms-send">↑</div>
+            <div class="sms-send-btn" style="background:#0a84ff">↑</div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="sep"></div>
-
-<!-- ── S8: DRIVER ── -->
-<section class="scene s8" id="s8">
-  <div class="s8-inner">
-    <div class="s8-copy">
-      <div class="drv-kicker">For Drivers</div>
-      <div class="drv-h">One text.<br>One reply.<br><em>You're on the job.</em></div>
-      <div class="drv-p">No new app. No login. No retraining your crew. RIN texts your nearest available driver with everything they need — job, location, destination, and their cut. They reply Y. That's it.</div>
-    </div>
-    <div class="sms-wrap">
+  <!-- S8: DRIVER -->
+  <section class="scene bg-dark" id="s8" data-idx="7">
+    <div class="two-col flip">
+      <div class="col-copy">
+        <div class="kicker green">For Drivers</div>
+        <h2>One text. One reply. <em style="color:var(--green)">You're on the job.</em></h2>
+        <p>No new app. No login. No retraining. RIN texts your nearest driver with everything they need — job, location, and their cut. Reply Y. Done.</p>
+      </div>
       <div class="sms-frame">
         <div class="sms-notch"></div>
         <div class="sms-screen">
-          <div class="sms-header">
-            <div class="sms-av" style="background:var(--green-d,#10b981)">R</div>
-            <div>
-              <div class="sms-from">RIN Jobs</div>
-              <div class="sms-sub">6:49 AM</div>
-            </div>
+          <div class="sms-hdr">
+            <div class="sms-av" style="background:var(--green-d)">R</div>
+            <div><div class="sms-from">RIN Jobs</div><div class="sms-sub-txt">6:49 AM</div></div>
           </div>
-          <div class="sms-bubbles">
-            <div class="bubble in">🚛 RIN Job #847<br><br>Pickup: 401 &amp; Hwy 400, North York<br>Drop: City Towing, Brampton<br>Distance: ~18 km<br><br>Your cut: <strong style="color:var(--green)">$198</strong><br><br>Reply <strong>Y</strong> to accept · <strong>N</strong> to pass</div>
-            <div class="bubble out">Y</div>
-            <div class="bubble sys">✓ Job confirmed · Navigation sent · Customer notified</div>
+          <div class="bubbles">
+            <div class="bbl in">🚛 RIN Job #847<br><br>Pickup: 401 &amp; Hwy 400, North York<br>Drop: City Towing, Brampton (~18 km)<br><br>Your cut: <strong style="color:var(--green)">$198</strong><br><br>Reply <strong>Y</strong> to accept · <strong>N</strong> to pass</div>
+            <div class="bbl out">Y</div>
+            <div class="bbl sys" style="background:rgba(52,211,153,0.11);border:1px solid rgba(52,211,153,0.28);color:var(--green)">✓ Confirmed · Navigation sent · Customer notified</div>
           </div>
-          <div class="sms-input">
+          <div class="sms-input-bar">
             <div class="sms-input-txt">iMessage</div>
-            <div class="sms-send" style="background:var(--green-d,#10b981)">↑</div>
+            <div class="sms-send-btn" style="background:var(--green-d)">↑</div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="sep"></div>
-
-<!-- ── S9: REPORT / CLOSE ── -->
-<section class="scene s9" id="s9">
-  <div class="report-wrap">
-    <div class="report-kicker">Job Complete</div>
-    <div class="report-h">Everything closed.<br><em>Automatically.</em></div>
-    <div class="report-p">GPS, timestamp, customer sign-off, and invoice — all captured when the driver marks done. Your accounting team gets a clean record. No follow-up required.</div>
+  <!-- S9: JOB CLOSE -->
+  <section class="scene bg-dark2" id="s9" data-idx="8">
+    <div class="kicker blue" style="margin-bottom:14px">Job Complete</div>
+    <div style="font-size:clamp(24px,4vw,48px);font-weight:800;letter-spacing:-2px;line-height:1.05;text-align:center;margin-bottom:12px">Everything closed. <em style="font-style:normal;color:var(--green)">Automatically.</em></div>
+    <div style="font-size:16px;color:var(--text2);text-align:center;max-width:460px;margin-bottom:28px;line-height:1.6">GPS, timestamp, customer sign-off, and invoice — captured when the driver marks done. Your accounting team gets a clean record.</div>
     <div class="report-card">
-      <div class="rc-header">
-        <div class="rc-icon">📋</div>
-        <div>
-          <div class="rc-title">Job #847 — Close Report</div>
-          <div class="rc-sub">Auto-generated · 11:02 AM</div>
-        </div>
+      <div class="rc-head">
+        <div class="rc-ico">📋</div>
+        <div><div class="rc-title">Job #847 — Close Report</div><div class="rc-sub">Auto-generated · 11:02 AM</div></div>
         <div class="rc-badge">Complete</div>
       </div>
       <div class="rc-rows">
-        <div class="rc-row"><div class="rc-key">Unit</div><div class="rc-val">Unit 14 · License 9ADK 221</div></div>
-        <div class="rc-row"><div class="rc-key">Pickup</div><div class="rc-val">401 &amp; Hwy 400, North York</div></div>
-        <div class="rc-row"><div class="rc-key">Drop</div><div class="rc-val">City Towing, Brampton</div></div>
         <div class="rc-row"><div class="rc-key">Response time</div><div class="rc-val green">14 min</div></div>
+        <div class="rc-row"><div class="rc-key">Route</div><div class="rc-val">401 &amp; Hwy 400 → City Towing, Brampton</div></div>
         <div class="rc-row"><div class="rc-key">Rate approved</div><div class="rc-val amber">$247 (locked 6:49 AM)</div></div>
-        <div class="rc-row"><div class="rc-key">Operator payout</div><div class="rc-val green">$198 · paid in 7 days</div></div>
+        <div class="rc-row"><div class="rc-key">Operator payout</div><div class="rc-val green">$198 · paid within 7 days</div></div>
         <div class="rc-row"><div class="rc-key">Customer signature</div><div class="rc-val green">✓ Captured 11:01 AM</div></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="sep"></div>
+  <!-- S10: OPERATOR TERMS -->
+  <section class="scene bg-dark" id="s10" data-idx="9">
+    <div class="kicker amber" style="margin-bottom:14px">For Tow Operators</div>
+    <div style="font-size:clamp(26px,4.5vw,52px);font-weight:800;letter-spacing:-2px;line-height:1.05;text-align:center;margin-bottom:10px">The deal, in plain numbers.</div>
+    <div style="font-size:16px;color:var(--text2);text-align:center;max-width:480px;margin-bottom:36px;line-height:1.6">No monthly fee. No motor club rate cuts. No invoicing. Complete the job — we handle everything else.</div>
+    <div class="terms-grid">
+      <div class="term-block"><div class="term-num">80%</div><div class="term-label">You keep</div><div class="term-note">Of every job. RIN takes 20% as dispatch and billing fee.</div></div>
+      <div class="term-block"><div class="term-num">7</div><div class="term-label">Days to payment</div><div class="term-note">Auto-deposited after job close. No invoice. No follow-up.</div></div>
+      <div class="term-block"><div class="term-num">$0</div><div class="term-label">To start</div><div class="term-note">No subscription. No setup fee. Pay commission on jobs completed.</div></div>
+      <div class="term-block"><div class="term-num">48h</div><div class="term-label">To first job</div><div class="term-note">Application to first dispatch. No app. No retraining required.</div></div>
+    </div>
+  </section>
 
-<!-- ── S10: OPERATOR TERMS ── -->
-<section class="scene s10" id="s10">
-  <div class="terms-kicker">For Tow Operators</div>
-  <div class="terms-h">The deal, in plain numbers.</div>
-  <div class="terms-sub">No monthly fee. No motor club rate cuts. No invoicing. You complete the job — we handle everything else.</div>
-  <div class="terms-grid">
-    <div class="term-block">
-      <div class="term-num">80%</div>
-      <div class="term-label">You keep</div>
-      <div class="term-note">Of every job completed through RIN. We take 20% as a dispatch and billing fee.</div>
+  <!-- S11: WHO IT SERVES -->
+  <section class="scene bg-dark2" id="s11" data-idx="10">
+    <div style="font-size:clamp(24px,4vw,48px);font-weight:800;letter-spacing:-2px;line-height:1.05;text-align:center;margin-bottom:10px">Built for three. Managed by one.</div>
+    <div style="font-size:16px;color:var(--text2);text-align:center;max-width:500px;margin-bottom:32px;line-height:1.6">Fleet managers hand off the problem. Operators get clean jobs. Drivers get paid fast.</div>
+    <div class="who-cards">
+      <div class="who-card fleet">
+        <div class="who-badge">Fleet &amp; Insurance</div>
+        <h3>Hand it off completely</h3>
+        <ul class="who-list">
+          <li>Rate locked before dispatch</li>
+          <li>Real-time driver tracking</li>
+          <li>Incident report on close</li>
+          <li>No monthly subscription</li>
+        </ul>
+      </div>
+      <div class="who-card op">
+        <div class="who-badge">Tow Operators</div>
+        <h3>Enterprise jobs. No cold calls.</h3>
+        <ul class="who-list">
+          <li>Keep 80% of every job</li>
+          <li>Paid in 7 days, automatic</li>
+          <li>Driver dispatched by SMS</li>
+          <li>$0 to join, $0 monthly</li>
+        </ul>
+      </div>
+      <div class="who-card drv">
+        <div class="who-badge">Drivers</div>
+        <h3>One text. You're on it.</h3>
+        <ul class="who-list">
+          <li>See your payout upfront</li>
+          <li>Accept or pass — one reply</li>
+          <li>Navigation sent automatically</li>
+          <li>No app to download</li>
+        </ul>
+      </div>
     </div>
-    <div class="term-block">
-      <div class="term-num">7</div>
-      <div class="term-label">Days to payment</div>
-      <div class="term-note">Deposited automatically after job close. No invoice. No follow-up. No chasing.</div>
-    </div>
-    <div class="term-block">
-      <div class="term-num">$0</div>
-      <div class="term-label">To start</div>
-      <div class="term-note">No subscription. No setup fee. No equipment. Pay commission only on jobs you complete.</div>
-    </div>
-    <div class="term-block">
-      <div class="term-num">48h</div>
-      <div class="term-label">To first job</div>
-      <div class="term-note">From application to your first dispatch. No app to install. No retraining required.</div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<div class="sep"></div>
-
-<!-- ── S11: WHO IT SERVES ── -->
-<section class="scene s11" id="s11">
-  <div class="who-h">Built for three parties.<br>Managed by one platform.</div>
-  <div class="who-sub">Fleet managers hand off the problem. Operators get clean jobs. Drivers get paid fast.</div>
-  <div class="who-cards">
-    <div class="who-card fleet">
-      <div class="who-icon">🏢</div>
-      <div class="who-badge">Fleet &amp; Insurance</div>
-      <h3>Hand it off completely</h3>
-      <p>Your vehicle goes down. RIN handles dispatch, rate approval, and reporting. You get a notification, not a task.</p>
-      <ul class="who-list">
-        <li>Rate locked before dispatch</li>
-        <li>Real-time driver tracking</li>
-        <li>Incident report on close</li>
-        <li>No monthly subscription</li>
-      </ul>
+  <!-- S12: METRICS -->
+  <section class="scene bg-dark" id="s12" data-idx="11">
+    <div style="font-size:clamp(24px,4vw,46px);font-weight:800;letter-spacing:-2px;text-align:center;margin-bottom:44px">The numbers.</div>
+    <div class="metrics-row">
+      <div class="met"><div class="met-num blue">&lt;15 min</div><div class="met-label">request to driver dispatched</div></div>
+      <div class="met"><div class="met-num amber">100%</div><div class="met-label">rate locked before dispatch</div></div>
+      <div class="met"><div class="met-num green">$0</div><div class="met-label">monthly fee — ever</div></div>
+      <div class="met"><div class="met-num blue">7 days</div><div class="met-label">operator payout window</div></div>
     </div>
-    <div class="who-card operator">
-      <div class="who-icon">🔧</div>
-      <div class="who-badge">Tow Operators</div>
-      <h3>Enterprise jobs. No cold calls.</h3>
-      <p>Jobs from insurance carriers, fleet managers, and dealerships — dispatched to your drivers via SMS. No app. No motor club cuts.</p>
-      <ul class="who-list">
-        <li>Keep 80% of every job</li>
-        <li>Paid in 7 days, automatic</li>
-        <li>Driver dispatched by SMS</li>
-        <li>$0 to join, $0 monthly</li>
-      </ul>
-    </div>
-    <div class="who-card driver">
-      <div class="who-icon">🚛</div>
-      <div class="who-badge">Drivers</div>
-      <h3>One text. You're on it.</h3>
-      <p>RIN sends you a job, your cut, and the details. Reply Y to confirm. No new app. No dispatch to argue with. Just jobs.</p>
-      <ul class="who-list">
-        <li>See your payout upfront</li>
-        <li>Accept or pass in one reply</li>
-        <li>Navigation sent automatically</li>
-        <li>No app to download</li>
-      </ul>
-    </div>
-  </div>
-</section>
+  </section>
 
-<div class="sep"></div>
+  <!-- S13: PRODUCT REVEAL -->
+  <section class="scene bg-reveal" id="s13" data-idx="12" style="text-align:center">
+    <div style="font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3)">This is</div>
+    <div class="reveal-name">RIN</div>
+    <div class="reveal-full">Roadside Intelligence Network</div>
+    <div class="reveal-line">One platform. Every breakdown <em>handled.</em><br>Fleet managers hand it off. Operators get paid. Drivers hit the road.</div>
+  </section>
 
-<!-- ── S12: METRICS ── -->
-<section class="scene s12" id="s12">
-  <div class="metrics-h">The numbers speak.</div>
-  <div class="metrics-grid">
-    <div class="metric-block">
-      <div class="metric-num blue">&lt;15 min</div>
-      <div class="metric-label">from request to driver dispatched</div>
+  <!-- S14: CTA -->
+  <section class="scene bg-dark" id="s14" data-idx="13">
+    <div class="cta-h">Ready to hand off the next one?</div>
+    <div class="cta-p">A 30-minute call. We map your breakdown volume, show you RIN live, and tell you exactly what you'd save.</div>
+    <div class="cta-btns">
+      <a href="https://calendly.com/barnes-thestrategypitch/rin-pilot" class="btn-p" target="_blank">Book a Pilot Call</a>
+      <a href="https://roadside-ai.netlify.app/operator-demo.html" class="btn-g">See the Demo</a>
     </div>
-    <div class="metric-block">
-      <div class="metric-num amber">100%</div>
-      <div class="metric-label">rate locked before anyone moves</div>
+    <div class="cta-terms">
+      <div class="ct">No contract</div>
+      <div class="ct">No setup fee</div>
+      <div class="ct">Pay only when you use it</div>
+      <div class="ct">GTA pilot live now</div>
     </div>
-    <div class="metric-block">
-      <div class="metric-num green">$0</div>
-      <div class="metric-label">monthly fee for operators or fleets</div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer-scene">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      <div><div class="logo-name" style="font-size:15px">RIN</div><div class="logo-tag">Roadside Intelligence Network</div></div>
     </div>
-    <div class="metric-block">
-      <div class="metric-num blue">7 days</div>
-      <div class="metric-label">guaranteed operator payout window</div>
+    <div class="footer-copy">© 2026 RIN · GTA Pilot</div>
+    <div class="footer-links">
+      <a href="https://roadside-ai.netlify.app/">Main Site</a>
+      <a href="https://calendly.com/barnes-thestrategypitch/rin-pilot" target="_blank">Book a Call</a>
+      <a href="https://roadside-ai.netlify.app/what-you-get.html">For Operators</a>
     </div>
-  </div>
-</section>
+  </footer>
 
-<div class="sep"></div>
-
-<!-- ── S13: PRODUCT REVEAL ── -->
-<section class="scene s13" id="s13">
-  <div class="reveal-eyebrow">This is</div>
-  <div class="reveal-name">RIN</div>
-  <div class="reveal-full-name">Roadside Intelligence Network</div>
-  <div class="reveal-tagline">
-    One platform. Every breakdown <em>handled.</em><br>
-    Fleet managers hand it off. Operators get paid. Drivers hit the road.
-  </div>
-</section>
-
-<div class="sep"></div>
-
-<!-- ── S14: CTA ── -->
-<section class="scene s14" id="s14">
-  <div class="cta-h">Ready to hand off the next one?</div>
-  <div class="cta-p">A 30-minute diagnostic call. We map your breakdown volume, show you RIN live, and tell you exactly what you'd save.</div>
-  <div class="cta-btns">
-    <a href="https://calendly.com/barnes-thestrategypitch/rin-pilot" class="btn-primary" target="_blank">Book a Pilot Call</a>
-    <a href="https://roadside-ai.netlify.app/operator-demo.html" class="btn-ghost">See the Demo</a>
-  </div>
-  <div class="cta-terms">
-    <div class="cta-term">No contract</div>
-    <div class="cta-term">No setup fee</div>
-    <div class="cta-term">Pay only when you use it</div>
-    <div class="cta-term">GTA pilot live now</div>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-logo">
-    <div class="logo-dot"></div>
-    <div>
-      <div class="logo-name" style="font-size:16px">RIN</div>
-      <div class="logo-tagline" style="font-size:8.5px">Roadside Intelligence Network</div>
-    </div>
-  </div>
-  <div class="footer-copy">© 2026 RIN · GTA Pilot</div>
-  <div class="footer-links">
-    <a href="https://roadside-ai.netlify.app/">Main Site</a>
-    <a href="https://calendly.com/barnes-thestrategypitch/rin-pilot" target="_blank">Book a Call</a>
-    <a href="https://roadside-ai.netlify.app/what-you-get.html">For Operators</a>
-  </div>
-</footer>
+</div><!-- /snap-wrap -->
 
 <script>
-  // Nav scroll
-  const hdr = document.getElementById('hdr');
-  window.addEventListener('scroll', () => hdr.classList.toggle('scrolled', scrollY > 60), { passive: true });
+  const snap = document.getElementById('snap');
+  const hdr  = document.getElementById('hdr');
+  const dots  = document.querySelectorAll('.dot-nav a');
+  const scenes = document.querySelectorAll('.scene[data-idx]');
+  let current = 0;
 
-  // Progress bar
-  const pgbar = document.getElementById('pgbar');
-  window.addEventListener('scroll', () => {
-    pgbar.style.width = (scrollY / (document.body.scrollHeight - innerHeight) * 100) + '%';
+  // ── NAV HEADER ──
+  snap.addEventListener('scroll', () => {
+    hdr.classList.toggle('scrolled', snap.scrollTop > 40);
   }, { passive: true });
 
-  // Scene reveal
-  const sceneObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.scene').forEach(s => sceneObs.observe(s));
-  document.querySelector('.s1').classList.add('visible');
+  // ── SNAP: jump to scene ──
+  function goTo(idx) {
+    const el = document.querySelector(`.scene[data-idx="${idx}"]`);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
 
-  // Old steps stagger
-  const stepObs = new IntersectionObserver(entries => {
+  // ── INTERSECTION: trigger animations + active dot ──
+  const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        const delay = parseInt(e.target.dataset.delay || 0);
-        setTimeout(() => e.target.classList.add('visible'), delay);
-      }
-    });
-  }, { threshold: 0.2 });
-  document.querySelectorAll('.old-step').forEach(s => stepObs.observe(s));
+      if (!e.isIntersecting) return;
+      const idx = parseInt(e.target.dataset.idx);
 
-  // Who cards stagger
-  const whoObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.2 });
-  document.querySelectorAll('.who-card').forEach(c => whoObs.observe(c));
+      // scene fade-in
+      e.target.classList.add('in');
+
+      // staggered old steps
+      if (idx === 2) {
+        e.target.querySelectorAll('.old-step').forEach(step => {
+          setTimeout(() => step.classList.add('in'), parseInt(step.dataset.d || 0));
+        });
+      }
+
+      // who cards
+      if (idx === 10) {
+        e.target.querySelectorAll('.who-card').forEach(c => c.classList.add('in'));
+      }
+
+      // update dot nav
+      dots.forEach(d => d.classList.remove('active'));
+      if (dots[idx]) dots[idx].classList.add('active');
+      current = idx;
+    });
+  }, { root: snap, threshold: 0.5 });
+
+  scenes.forEach(s => obs.observe(s));
+
+  // ── KEYBOARD NAVIGATION ──
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goTo(Math.min(current + 1, scenes.length - 1)); }
+    if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); goTo(Math.max(current - 1, 0)); }
+  });
+
+  // init first scene
+  document.querySelector('.scene[data-idx="0"]').classList.add('in');
+  dots[0].classList.add('active');
 </script>
 </body>
 </html>
