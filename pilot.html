@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RIN Pilot Program — Join the Q2 2026 Fleet Cohort</title>
-  <meta name="description" content="RIN is accepting a small group of fleet operators for Q2 2026. No contract. No monthly fee. Pay per incident. Here's exactly what the pilot looks like.">
+  <title>RIN Partner Program — MTO Towing Companies</title>
+  <meta name="description" content="RIN is onboarding MTO-contracted towing companies onto the Partner Portal. Manage your own drivers, access RIN overflow network, and enter your government rates — all in one place.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -12,14 +12,14 @@
       --bg:#05091a; --bg2:#0c1428; --bg3:#162040; --bg4:#1e2d50;
       --border:#1e2d50; --border2:#2e4070;
       --text:#f0f4ff; --text2:#9aabc8; --text3:#7a90b0;
-      --fleet:#f59e0b; --fleet-l:#fbbf24; --fleet-d:#d97706;
-      --fleet-g:rgba(245,158,11,0.10); --fleet-g2:rgba(245,158,11,0.18);
+      --gold:#f59e0b; --gold-l:#fbbf24; --gold-d:#d97706;
+      --gold-g:rgba(245,158,11,0.10); --gold-g2:rgba(245,158,11,0.18);
       --blue:#3b82f6; --blue-l:#60a5fa; --blue-d:#2563eb;
       --blue-g:rgba(59,130,246,0.10);
       --green:#34d399; --green-d:#10b981; --green-g:rgba(52,211,153,0.10);
     }
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(rgba(5,9,26,0.85),rgba(5,9,26,0.92)),url('/assets/heroes/hero-highway-night.jpg') center/cover no-repeat fixed;color:var(--text);line-height:1.6;overflow-x:hidden;}
     a{text-decoration:none;color:inherit;}
 
     /* NAV */
@@ -32,20 +32,20 @@
     .nav-r{display:flex;align-items:center;gap:20px;}
     .nav-r a{font-size:14px;color:var(--text2);font-weight:500;transition:color 150ms;}
     .nav-r a:hover{color:var(--blue-l);}
-    .nav-cta{background:var(--fleet-d);color:white !important;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;}
+    .nav-cta{background:var(--gold-d);color:white !important;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;}
 
     /* LAYOUT */
     .page{max-width:780px;margin:0 auto;padding:0 28px 120px;}
 
     /* HERO */
     .hero{padding:80px 0 64px;text-align:center;border-bottom:1px solid var(--border);}
-    .cohort-badge{display:inline-flex;align-items:center;gap:8px;background:var(--fleet-g);border:1px solid rgba(245,158,11,0.35);border-radius:100px;padding:7px 20px;font-size:13px;font-weight:700;color:var(--fleet-l);margin-bottom:28px;}
-    .cohort-dot{width:7px;height:7px;border-radius:50%;background:var(--fleet-l);box-shadow:0 0 7px var(--fleet-l);animation:blink 1.8s infinite;}
-    .hero h1{font-size:clamp(32px,5vw,54px);font-weight:900;letter-spacing:-2px;line-height:1.08;margin-bottom:18px;}
-    .hero h1 span{color:var(--fleet-l);}
-    .hero p{font-size:18px;color:var(--text2);max-width:540px;margin:0 auto 36px;line-height:1.72;}
+    .partner-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-g);border:1px solid rgba(59,130,246,0.35);border-radius:100px;padding:7px 20px;font-size:13px;font-weight:700;color:var(--blue-l);margin-bottom:28px;}
+    .partner-dot{width:7px;height:7px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 7px var(--blue-l);animation:blink 1.8s infinite;}
+    .hero h1{font-size:clamp(30px,5vw,52px);font-weight:900;letter-spacing:-2px;line-height:1.08;margin-bottom:18px;}
+    .hero h1 span{color:var(--gold-l);}
+    .hero p{font-size:18px;color:var(--text2);max-width:560px;margin:0 auto 36px;line-height:1.72;}
     .hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-    .btn-primary{display:inline-block;background:var(--fleet-d);color:white;font-weight:700;font-size:15px;padding:14px 30px;border-radius:10px;transition:opacity 150ms;}
+    .btn-primary{display:inline-block;background:var(--gold-d);color:white;font-weight:700;font-size:15px;padding:14px 30px;border-radius:10px;transition:opacity 150ms;}
     .btn-primary:hover{opacity:0.85;}
     .btn-ghost{display:inline-block;background:transparent;color:var(--text2);font-weight:600;font-size:14px;padding:14px 24px;border-radius:10px;border:1px solid var(--border2);transition:border-color 150ms,color 150ms;}
     .btn-ghost:hover{border-color:var(--blue-l);color:var(--blue-l);}
@@ -53,15 +53,26 @@
     /* SECTIONS */
     .section{padding:60px 0;border-bottom:1px solid var(--border);}
     .section:last-child{border-bottom:none;}
-    .sec-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fleet-l);margin-bottom:10px;}
+    .sec-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-l);margin-bottom:10px;}
     .sec-title{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-0.8px;margin-bottom:10px;}
     .sec-sub{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:36px;max-width:560px;}
 
-    /* COMMITMENT CARDS */
+    /* PLAN CARDS */
+    .plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    @media(max-width:580px){.plan-grid{grid-template-columns:1fr;}}
+    .plan-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px 24px;}
+    .plan-card.featured{border-color:rgba(59,130,246,0.5);background:linear-gradient(135deg,#0c1428,#0f1f40);}
+    .plan-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:10px;}
+    .plan-name{font-size:20px;font-weight:800;margin-bottom:6px;}
+    .plan-price{font-size:14px;color:var(--text2);margin-bottom:20px;}
+    .plan-feat{font-size:13px;color:var(--text2);margin-bottom:8px;display:flex;gap:8px;align-items:flex-start;}
+    .plan-feat .ck{color:var(--green);flex-shrink:0;margin-top:2px;}
+
+    /* COMMIT CARDS */
     .commit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
     @media(max-width:600px){.commit-grid{grid-template-columns:1fr;}}
     .commit-card{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:24px 20px;}
-    .commit-card .val{font-size:2rem;font-weight:900;color:var(--fleet-l);line-height:1;margin-bottom:6px;}
+    .commit-card .val{font-size:2rem;font-weight:900;color:var(--gold-l);line-height:1;margin-bottom:6px;}
     .commit-card .lbl{font-size:0.82rem;color:var(--text2);font-weight:500;line-height:1.5;}
 
     /* TIMELINE */
@@ -71,7 +82,7 @@
     .tl-left{position:relative;display:flex;flex-direction:column;align-items:center;padding-top:4px;}
     .tl-num{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--text2);flex-shrink:0;position:relative;z-index:1;}
     .tl-item.done .tl-num{background:var(--green-g);border-color:var(--green);color:var(--green);}
-    .tl-item.active .tl-num{background:var(--fleet-g2);border-color:var(--fleet-l);color:var(--fleet-l);}
+    .tl-item.active .tl-num{background:var(--gold-g2);border-color:var(--gold-l);color:var(--gold-l);}
     .tl-connector{flex:1;width:2px;background:var(--border2);margin-top:4px;}
     .tl-item:last-child .tl-connector{display:none;}
     .tl-right{padding:4px 0 36px;}
@@ -114,6 +125,15 @@
     .spots{display:inline-flex;align-items:center;gap:8px;background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.25);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:700;color:#f87171;margin-bottom:28px;}
     .spots-dot{width:7px;height:7px;border-radius:50%;background:#f87171;animation:blink 1.2s infinite;}
 
+    /* RATE CALLOUT */
+    .rate-box{background:var(--bg3);border:1px solid rgba(59,130,246,0.3);border-radius:12px;padding:20px 24px;margin-bottom:24px;}
+    .rate-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+    .rate-row:last-child{border-bottom:none;padding-bottom:0;}
+    .rate-row .rate-label{font-size:13px;color:var(--text2);}
+    .rate-row .rate-val{font-size:14px;font-weight:700;color:var(--text);}
+    .rate-row .rate-val.green{color:var(--green);}
+    .rate-row .rate-val.gold{color:var(--gold-l);}
+
     /* FOOTER */
     footer{border-top:1px solid var(--border);padding:32px 40px;text-align:center;font-size:13px;color:var(--text3);}
     footer a{color:var(--text2);}
@@ -131,8 +151,8 @@
     </div>
   </a>
   <nav class="nav-r">
-    <a href="/for-fleets">For Fleets</a>
-    <a href="/for-operators">For Operators</a>
+    <a href="/tow-companies">For MTO Operators</a>
+    <a href="/for-operators">For Tow Operators</a>
     <a href="https://calendly.com/barnes-lam/30-min-free-strategy-call-clone" target="_blank" class="nav-cta">Book 30-Min Call</a>
   </nav>
 </header>
@@ -141,149 +161,242 @@
 
   <!-- HERO -->
   <div class="hero">
-    <div class="cohort-badge"><span class="cohort-dot"></span>Q2 2026 · GTA Pilot Cohort — Limited Spots</div>
-    <h1>The RIN Pilot.<br><span>Exactly what it involves.</span></h1>
-    <p>We're onboarding a small group of fleet operators this quarter. No contracts, no monthly minimums. Here's the full picture before you commit to a call.</p>
+    <div class="partner-badge"><span class="partner-dot"></span>2026 · MTO Partner Program — Invitation Only</div>
+    <h1>Your highway contract.<br><span>No more uncovered calls.</span></h1>
+    <p>You hold the MTO contract. We give you a partner portal to manage your own drivers and a network to draw on when your trucks are already running. Here's exactly what this looks like before you agree to anything.</p>
     <div class="hero-ctas">
       <a href="https://calendly.com/barnes-lam/30-min-free-strategy-call-clone" target="_blank" class="btn-primary">Book the 30-Minute Call →</a>
-      <a href="https://rin-fleet.netlify.app" target="_blank" class="btn-ghost">See how it works first</a>
+      <a href="/tow-companies" class="btn-ghost">See how it works first</a>
     </div>
   </div>
 
-  <!-- COMMITMENT -->
+  <!-- THE PROBLEM -->
   <div class="section">
-    <div class="sec-label">What You Commit To</div>
-    <div class="sec-title">Three things. That's it.</div>
-    <p class="sec-sub">No software to install. No integration work. No long-term contract. Your commitment is minimal by design — we earn the relationship one incident at a time.</p>
+    <div class="sec-label">Why This Exists</div>
+    <div class="sec-title">Your trucks can't be in two places at once.</div>
+    <p class="sec-sub">You've got a 400-series contract. But when your own trucks are already on calls, you're either turning down work or scrambling to sub it out to someone who may or may not show up. Managing contract drivers outside your core team is its own problem — different rates, no visibility, no accountability.</p>
+    <div class="get-grid">
+      <div class="get-item">
+        <div class="get-icon">📵</div>
+        <div>
+          <h4>Overflow goes dark</h4>
+          <p>When your trucks are committed, jobs outside your coverage window fall through or get logged as declined. That record doesn't help your contract renewal.</p>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-icon">📋</div>
+        <div>
+          <h4>Two rate systems, no system</h4>
+          <p>You're managing MTO contract rates in one place and commercial/private rates somewhere else — if at all. Every invoice is a manual reconciliation.</p>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-icon">👥</div>
+        <div>
+          <h4>Driver pool management is manual</h4>
+          <p>Your contract drivers are in a group chat. No dispatch log. No accountability chain. No record of who took what call and when.</p>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-icon">💸</div>
+        <div>
+          <h4>The real money is after the tow</h4>
+          <p>Storage. Repair referrals. Impound processing. You only get that revenue if your truck got there first. Every missed dispatch is a missed chain.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TWO PLANS -->
+  <div class="section">
+    <div class="sec-label">Your Options</div>
+    <div class="sec-title">Two ways to use the platform.</div>
+    <p class="sec-sub">Start with what you need. Add the overflow network when you're ready.</p>
+    <div class="plan-grid">
+      <div class="plan-card">
+        <div class="plan-label">Platform Only</div>
+        <div class="plan-name">Manage Your Operation</div>
+        <div class="plan-price">Monthly platform fee · discussed on call</div>
+        <div class="plan-feat"><span class="ck">✓</span>Dispatch portal for your own drivers</div>
+        <div class="plan-feat"><span class="ck">✓</span>Enter your MTO government contract rates</div>
+        <div class="plan-feat"><span class="ck">✓</span>Enter your commercial / private rates</div>
+        <div class="plan-feat"><span class="ck">✓</span>Real-time job tracking and status log</div>
+        <div class="plan-feat"><span class="ck">✓</span>Monthly billing summary per job</div>
+        <div class="plan-feat"><span class="ck">✓</span>Admin + dispatcher user accounts</div>
+        <div class="plan-feat" style="opacity:0.5"><span>—</span>&nbsp;No access to RIN overflow network</div>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-label" style="color:var(--blue-l)">Platform + RIN Network</div>
+        <div class="plan-name" style="color:var(--blue-l)">Manage + Fill Gaps</div>
+        <div class="plan-price">Monthly platform fee + 20% on overflow jobs only</div>
+        <div class="plan-feat"><span class="ck">✓</span>Everything in Platform Only</div>
+        <div class="plan-feat"><span class="ck">✓</span>Access to RIN-vetted driver network for overflow</div>
+        <div class="plan-feat"><span class="ck">✓</span>Your own drivers dispatch at 0% commission</div>
+        <div class="plan-feat"><span class="ck">✓</span>RIN overflow drivers: 20% commission per job</div>
+        <div class="plan-feat"><span class="ck">✓</span>MTO reference rate schedule (Ontario Open Data)</div>
+        <div class="plan-feat"><span class="ck">✓</span>7-day guaranteed payment on all RIN-dispatched jobs</div>
+        <div class="plan-feat"><span class="ck">✓</span>Full billing split: own vs. network per job</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT YOU COMMIT TO -->
+  <div class="section">
+    <div class="sec-label">The Commitment</div>
+    <div class="sec-title">What you're agreeing to.</div>
+    <p class="sec-sub">No long procurement cycle. No integration project. This is an operations tool, not an IT project.</p>
     <div class="commit-grid">
       <div class="commit-card">
         <div class="val">$0</div>
-        <div class="lbl">Monthly fee<br>during the pilot</div>
+        <div class="lbl">Setup fee or<br>onboarding cost</div>
       </div>
       <div class="commit-card">
-        <div class="val">$0</div>
-        <div class="lbl">Setup fee or<br>integration cost</div>
+        <div class="val">0%</div>
+        <div class="lbl">Commission on jobs<br>your own drivers run</div>
       </div>
       <div class="commit-card">
-        <div class="val" style="color:var(--blue-l)">Per<br>Incident</div>
-        <div class="lbl">You pay only when<br>RIN handles a job</div>
+        <div class="val" style="color:var(--blue-l)">20%</div>
+        <div class="lbl">Only on overflow jobs<br>from the RIN network</div>
       </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div class="rate-box">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:14px;">How the 20% works on overflow jobs</div>
+        <div class="rate-row">
+          <span class="rate-label">Customer pays (RIN rate locked at dispatch)</span>
+          <span class="rate-val">$208</span>
+        </div>
+        <div class="rate-row">
+          <span class="rate-label">RIN commission (overflow dispatch only)</span>
+          <span class="rate-val" style="color:#f87171;">–$41.60</span>
+        </div>
+        <div class="rate-row">
+          <span class="rate-label">Driver receives</span>
+          <span class="rate-val green">$166.40</span>
+        </div>
+        <div class="rate-row">
+          <span class="rate-label">Payment timeline</span>
+          <span class="rate-val gold">7 business days</span>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text3);">Your own drivers run at 100% — the 20% only applies when you pull from the RIN network to fill a gap. You always see the split in your billing dashboard.</p>
     </div>
   </div>
 
-  <!-- TIMELINE -->
+  <!-- ONBOARDING STEPS -->
   <div class="section">
     <div class="sec-label">What Happens</div>
-    <div class="sec-title">From call to first job — 48 hours.</div>
-    <p class="sec-sub">The pilot onboarding is intentionally fast. We don't need IT access, API integrations, or a long procurement process.</p>
+    <div class="sec-title">From call to live — under a week.</div>
+    <p class="sec-sub">No IT required. No API integration. We provision your portal, you add your rates and drivers, and you're operational.</p>
     <div class="timeline">
       <div class="tl-item active">
         <div class="tl-left"><div class="tl-num">1</div><div class="tl-connector"></div></div>
         <div class="tl-right">
           <div class="day">30-Min Call</div>
-          <h3>We confirm fit and answer your questions</h3>
-          <p>We walk through your fleet size, breakdown frequency, and how your dispatch currently works. If RIN is a fit, we agree on pilot terms before the call ends.</p>
+          <h3>We confirm fit and agree on your plan</h3>
+          <p>We review your highway zones, truck types, and driver count. If RIN is a fit, you leave the call with your plan confirmed, pricing documented, and a portal invite queued.</p>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-left"><div class="tl-num">2</div><div class="tl-connector"></div></div>
         <div class="tl-right">
           <div class="day">Same Day</div>
-          <h3>You receive the one-page pilot agreement</h3>
-          <p>Flat per-incident rate, pilot duration, what we handle vs. what stays with your team. One page. No legal department required.</p>
+          <h3>Your partner portal account is provisioned</h3>
+          <p>You receive login credentials for the RIN Partner Portal. Your company account, admin user, and plan type are set up. No forms to fill — we configure it from the call notes.</p>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-left"><div class="tl-num">3</div><div class="tl-connector"></div></div>
         <div class="tl-right">
-          <div class="day">Day 1</div>
-          <h3>Your fleet contact number goes live in RIN</h3>
-          <p>We register your fleet in the system. Your driver — or dispatcher — texts the vehicle ID and location to the RIN dispatch number. That's the entire activation.</p>
+          <div class="day">Day 1–2</div>
+          <h3>You enter your rates and your highway zones</h3>
+          <p>In the Pricing tab, you add your MTO government contract rates by zone and highway — and your commercial rates for non-government jobs. The portal keeps both separate. You can toggle each rate active or inactive anytime.</p>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-left"><div class="tl-num">4</div><div class="tl-connector"></div></div>
         <div class="tl-right">
-          <div class="day">Day 1–2</div>
-          <h3>Test job — we simulate a real incident</h3>
-          <p>Before you're live, we run a test dispatch to make sure everything works: rate lock, driver ETA, status updates, job close report. You see the full flow before the first real breakdown.</p>
+          <div class="day">Day 2–3</div>
+          <h3>Your drivers are loaded into the portal</h3>
+          <p>You add your driver roster in the Drivers tab — name and phone number for each. They show up as your own fleet. When a job comes in, the portal routes to your drivers first. RIN overflow is only triggered when you have no one available.</p>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-left"><div class="tl-num">5</div><div class="tl-connector"></div></div>
         <div class="tl-right">
-          <div class="day">First Real Incident</div>
-          <h3>Your team texts in. We handle it.</h3>
-          <p>Driver down at 7am on the 400? Text RIN. Rate is locked before a truck moves. ETAs go back automatically. You get a report when the job closes. Your dispatcher never touches it.</p>
+          <div class="day">Day 3–5</div>
+          <h3>Test dispatch — you see the full flow before going live</h3>
+          <p>We run a test job through the system. You see exactly how dispatch routes, how rates lock, how status messages flow, and what the billing record looks like at close. You go live only when that test passes to your satisfaction.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- WHAT YOU GET -->
+  <!-- PORTAL FEATURES -->
   <div class="section">
-    <div class="sec-label">What's Included</div>
-    <div class="sec-title">Every incident, every time.</div>
-    <p class="sec-sub">No menu of add-ons. Everything below is included in the per-incident rate.</p>
+    <div class="sec-label">What's Inside the Portal</div>
+    <div class="sec-title">Five tabs. Everything in one place.</div>
+    <p class="sec-sub">Your dispatchers use it live. Your admin uses it for billing and rate management. No separate systems.</p>
     <div class="get-grid">
       <div class="get-item">
-        <div class="get-icon">⏱</div>
+        <div class="get-icon">🗂</div>
         <div>
-          <h4>Under 15-Min Dispatch</h4>
-          <p>Confirmed tow truck en route in under 15 minutes from the first text.</p>
+          <h4>Jobs — Live and Historical</h4>
+          <p>Every dispatch, active or closed. Filter by status. See which jobs ran with your own driver vs. the RIN network.</p>
         </div>
       </div>
       <div class="get-item">
-        <div class="get-icon">🔒</div>
+        <div class="get-icon">👷</div>
         <div>
-          <h4>Rate Locked at Dispatch</h4>
-          <p>Price is confirmed before a truck moves. No surprise invoice three weeks later.</p>
+          <h4>Driver Pool Management</h4>
+          <p>Add, activate, and deactivate your drivers. Real-time availability status. No group chat, no spreadsheet.</p>
         </div>
       </div>
       <div class="get-item">
-        <div class="get-icon">📨</div>
+        <div class="get-icon">💰</div>
         <div>
-          <h4>Real-Time Status Updates</h4>
-          <p>Driver and dispatcher receive automatic ETAs and status messages throughout the job.</p>
+          <h4>Billing — Own vs. Network Split</h4>
+          <p>Monthly view: gross revenue, RIN commission, your net. Broken down per job so every invoice is verifiable.</p>
         </div>
       </div>
       <div class="get-item">
-        <div class="get-icon">📋</div>
+        <div class="get-icon">📑</div>
         <div>
-          <h4>Full Incident Report</h4>
-          <p>Every job closes with a timestamped report: vehicle, location, rate, tower, duration. Audit-ready.</p>
+          <h4>Dual Rate Entry</h4>
+          <p>Government contract rates by zone and highway. Commercial rates for non-contract jobs. Both live in the same tab. The MTO rate schedule auto-syncs monthly from Ontario Open Data for reference.</p>
         </div>
       </div>
       <div class="get-item">
-        <div class="get-icon">🧾</div>
+        <div class="get-icon">🔐</div>
         <div>
-          <h4>Monthly Invoice Summary</h4>
-          <p>One clean invoice at month end. All incidents itemized. No disputed line items.</p>
+          <h4>OTP-Secured Login</h4>
+          <p>Phone + password + one-time SMS code. Your account, your data. No shared logins. Admin can add dispatcher accounts under your company.</p>
         </div>
       </div>
       <div class="get-item">
-        <div class="get-icon">📞</div>
+        <div class="get-icon">📜</div>
         <div>
-          <h4>Direct Pilot Support</h4>
-          <p>During the pilot, you have a direct line. Not a ticket queue — a direct line.</p>
+          <h4>Platform Agreement on File</h4>
+          <p>Terms accepted at first login. Your acceptance is timestamped and logged — audit-ready from day one.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- WHO IT'S FOR -->
+  <!-- WHO QUALIFIES -->
   <div class="section">
-    <div class="sec-label">Who This Fits</div>
-    <div class="sec-title">The pilot is designed for one type of operator.</div>
-    <p class="sec-sub">We're not trying to fit every fleet. This cohort is built around operators who match the conditions below.</p>
+    <div class="sec-label">Who This Is For</div>
+    <div class="sec-title">The program is built for one type of company.</div>
+    <p class="sec-sub">We're starting with a small set of MTO-contracted operators in Southern Ontario. If you match the criteria below, you're in the right place.</p>
     <div class="criteria-list">
-      <div class="criteria-item"><span class="ck">✓</span><span>GTA or Southern Ontario operation</span></div>
-      <div class="criteria-item"><span class="ck">✓</span><span>10 to 60 vehicles in active rotation</span></div>
-      <div class="criteria-item"><span class="ck">✓</span><span>Breakdowns currently handled by a manager or dispatcher making calls</span></div>
-      <div class="criteria-item"><span class="ck">✓</span><span>At least 5–8 roadside incidents per month</span></div>
-      <div class="criteria-item"><span class="ck">✓</span><span>Decision-maker available — no 6-month procurement cycle</span></div>
-      <div class="criteria-item" style="opacity:0.55"><span class="cx">✗</span><span>Enterprise fleets with existing managed vendor contracts (different program)</span></div>
-      <div class="criteria-item" style="opacity:0.55"><span class="cx">✗</span><span>Owner-operators with 1–3 vehicles</span></div>
+      <div class="criteria-item"><span class="ck">✓</span><span>MTO-certified towing company with an active 400-series highway contract</span></div>
+      <div class="criteria-item"><span class="ck">✓</span><span>3 or more trucks in regular rotation</span></div>
+      <div class="criteria-item"><span class="ck">✓</span><span>Operates in GTA, Hwy 401/400/403/QEW corridor, or surrounding zones</span></div>
+      <div class="criteria-item"><span class="ck">✓</span><span>Has a mix of employee drivers and/or contracted outside drivers</span></div>
+      <div class="criteria-item"><span class="ck">✓</span><span>Owner or dispatcher makes decisions — no 6-month approval process</span></div>
+      <div class="criteria-item" style="opacity:0.55"><span class="cx">✗</span><span>Private property or accident-only operators without highway contracts</span></div>
+      <div class="criteria-item" style="opacity:0.55"><span class="cx">✗</span><span>Single-truck owner-operators (different program)</span></div>
     </div>
   </div>
 
@@ -293,24 +406,28 @@
     <div class="sec-title">Before the call.</div>
     <div class="faq-list">
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">What is the per-incident rate?<span class="arrow">›</span></div>
-        <div class="faq-a">The rate is confirmed on the 30-minute call based on your fleet profile and vehicle types. It's a flat rate per dispatch — no variable add-ons. The rate is locked in the pilot agreement before you go live.</div>
+        <div class="faq-q" onclick="toggleFaq(this)">Does RIN dispatch into my MTO contract zone or just outside it?<span class="arrow">›</span></div>
+        <div class="faq-a">RIN handles both. When a job falls inside your MTO contract zone and your trucks are available, it goes to your fleet at your government rate. When your trucks are committed, RIN can dispatch a network driver at the commercial rate. You control which jobs get routed where — the platform doesn't override your contract obligations.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Does my team need to download anything or change how they work?<span class="arrow">›</span></div>
-        <div class="faq-a">No. Your driver or dispatcher texts a single number. That's it. No app to install, no account to create, no software training. The change for your team is one new contact saved in their phone.</div>
+        <div class="faq-q" onclick="toggleFaq(this)">What happens to my government contract rates in the system?<span class="arrow">›</span></div>
+        <div class="faq-a">You enter your government contract rates in the portal under the Government Contract tab. Rates are stored per zone and per highway. The portal also pulls the current MTO rate schedule from Ontario Open Data monthly so you can compare your filed rates against the published reference — it's for your reference only; your filed rates control what appears on your invoices.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">What happens if RIN can't find a tow fast enough?<span class="arrow">›</span></div>
-        <div class="faq-a">If we can't confirm a tower within the SLA window, you're notified immediately with the status and we escalate. During the pilot, you also have a direct escalation line. We don't go silent on an open job.</div>
+        <div class="faq-q" onclick="toggleFaq(this)">Can I decline jobs from the RIN network if I don't want them?<span class="arrow">›</span></div>
+        <div class="faq-a">Yes. If you're on Platform + Network, overflow jobs are only dispatched when your own drivers are unavailable. There's no obligation to accept every job the network surfaces. The 20% commission only applies to jobs you actually run through the RIN network — nothing is charged for jobs you turn down or that go elsewhere.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">How long does the pilot run?<span class="arrow">›</span></div>
-        <div class="faq-a">The pilot runs for 60 days. At the end, you decide whether to continue on a standard agreement or part ways — no obligation either way. There's no auto-renewal and no cancellation fee.</div>
+        <div class="faq-q" onclick="toggleFaq(this)">We already use a dispatch system. Does RIN replace it?<span class="arrow">›</span></div>
+        <div class="faq-a">That depends on what your current system does. Most of the MTO operators we've spoken with are running dispatch from a phone and a spreadsheet — RIN replaces that. If you have a more formal TMS, we'd want to understand what you actually need before the call so we're not overselling replacement of something that works.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">What if we only have 2–3 incidents during the pilot?<span class="arrow">›</span></div>
-        <div class="faq-a">That's fine. You pay for what happens. Low-volume months are low-cost months. The pilot is designed to demonstrate the workflow even on a small number of jobs — most fleets see the value by the second or third incident.</div>
+        <div class="faq-q" onclick="toggleFaq(this)">How does billing work at the end of the month?<span class="arrow">›</span></div>
+        <div class="faq-a">Your billing dashboard shows every transaction for the month: which jobs ran with your own drivers (no commission), which ran through the RIN network (20% commission shown), gross per job, and your net payout. One invoice at month end. Everything is itemized so your bookkeeper can verify each line without calling us.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What's the monthly platform fee?<span class="arrow">›</span></div>
+        <div class="faq-a">The platform fee is confirmed on the 30-minute call based on your fleet size, zone coverage, and which plan you choose. We don't publish a rate card because the number of trucks and zones varies enough that a flat posted price would be wrong for most operators. You leave the call with the number in writing before you agree to anything.</div>
       </div>
     </div>
   </div>
@@ -318,11 +435,11 @@
   <!-- CTA -->
   <div class="section" style="border-bottom:none;padding-bottom:0;">
     <div class="cta-block">
-      <div class="spots"><span class="spots-dot"></span>3 spots remaining in Q2 cohort</div>
-      <h2>Ready to see if it fits your fleet?</h2>
-      <p>Book the 30-minute call. We'll walk through your operation, confirm fit, and give you the rate before you leave. No pitch deck, no follow-up sales sequence.</p>
+      <div class="spots"><span class="spots-dot"></span>5 partner slots available — Southern Ontario only</div>
+      <h2>Ready to see if your operation fits?</h2>
+      <p>Book the 30-minute call. We'll review your highway zones, truck types, and driver setup — and give you the platform fee and terms before you leave. No deck, no follow-up sequence.</p>
       <a href="https://calendly.com/barnes-lam/30-min-free-strategy-call-clone" target="_blank" class="btn-primary" style="font-size:16px;padding:16px 36px;">Book the 30-Minute Call →</a>
-      <div class="cta-note">Or email us at <a href="mailto:hello@roadside-ai.com" style="color:var(--text2)">hello@roadside-ai.com</a> if you have questions first.</div>
+      <div class="cta-note">Or email us at <a href="mailto:hello@roadside-ai.com" style="color:var(--text2)">hello@roadside-ai.com</a> if you'd rather ask a question first.</div>
     </div>
   </div>
 
@@ -330,7 +447,7 @@
 
 <footer>
   <a href="/">RIN — Roadside Intelligence Network</a> &nbsp;·&nbsp;
-  <a href="/for-fleets">For Fleet Operators</a> &nbsp;·&nbsp;
+  <a href="/tow-companies">For MTO Operators</a> &nbsp;·&nbsp;
   <a href="/for-operators">For Tow Operators</a> &nbsp;·&nbsp;
   <a href="mailto:hello@roadside-ai.com">hello@roadside-ai.com</a>
 </footer>
