@@ -125,8 +125,7 @@
     .ctable td.bad{text-align:center;color:var(--red);font-weight:600;}
     .ctable td.good{text-align:center;color:var(--green);font-weight:600;}
 
-    /* EARNINGS */
-    .earn-block{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:52px;display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+    /* EARNINGS / CALCULATOR */
     .earn-num{font-size:clamp(48px,7vw,80px);font-weight:900;letter-spacing:-3px;color:var(--green);line-height:1;margin-bottom:6px;}
     .earn-sub{font-size:15px;color:var(--text2);margin-bottom:24px;line-height:1.6;}
     .earn-rows{display:flex;flex-direction:column;gap:10px;}
@@ -136,6 +135,22 @@
     .er-v.g{color:var(--green);}
     .er-v.gold{color:var(--gold);}
     .er.highlight{border:1px solid var(--green);}
+
+    /* CALCULATOR */
+    .calc-block{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:52px;display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;}
+    .calc-inputs{display:flex;flex-direction:column;gap:30px;}
+    .calc-row{display:flex;flex-direction:column;gap:8px;}
+    .calc-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;}
+    .calc-label span:first-child{font-size:14px;color:var(--text2);font-weight:500;}
+    .calc-val{font-size:15px;font-weight:700;color:var(--green);}
+    .calc-slider{width:100%;-webkit-appearance:none;height:5px;border-radius:3px;background:var(--border2);outline:none;cursor:pointer;transition:background 150ms;}
+    .calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--green);cursor:pointer;box-shadow:0 0 10px rgba(52,211,153,0.45);}
+    .calc-slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--green);cursor:pointer;border:none;}
+    .calc-bounds{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:2px;}
+    .calc-output{display:flex;flex-direction:column;}
+    .calc-result-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--text3);margin-bottom:8px;}
+    .calc-saving{text-align:center;font-size:11px;color:var(--text3);margin-top:10px;min-height:16px;transition:opacity 300ms;}
+    .calc-saving.saved{color:var(--green);}
 
     /* STEPS */
     .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
@@ -179,7 +194,7 @@
       .section{padding:60px 20px;}
       .wf-inner{padding:0 20px;}
       .wf-roles{grid-template-columns:1fr;}
-      .earn-block{grid-template-columns:1fr;gap:32px;padding:32px;}
+      .calc-block{grid-template-columns:1fr;gap:32px;padding:32px;}
       .steps-grid{grid-template-columns:repeat(2,1fr);}
       .apply-card{padding:32px 20px;}
       .frow{grid-template-columns:1fr;}
@@ -369,23 +384,65 @@
   </div>
 </div>
 
-<!-- EARNINGS -->
-<div class="section" style="padding-top:0;">
-  <div class="slabel">The math</div>
-  <h2 class="stitle">What one extra job a day actually adds up to.</h2>
-  <div class="earn-block">
-    <div>
-      <div class="earn-num">+$3,520</div>
-      <div class="earn-sub">additional monthly net from 1 extra job per day at 80% payout — on a truck already on the road.</div>
-      <p style="font-size:14px;color:var(--text2);line-height:1.7;">The average insurance tow runs $220. At 80% payout that's $176 net per job. One extra job per day over 20 working days is $3,520 in additional revenue — without adding a truck, a driver, or a dollar of setup cost.</p>
+<!-- CALCULATOR -->
+<div class="section" style="padding-top:0;" id="calculator">
+  <div class="slabel">Your numbers — not ours</div>
+  <h2 class="stitle">What RIN actually adds to your fleet.</h2>
+  <p class="ssub">Drag the sliders to match your operation. Every input is saved so we can personalise your onboarding.</p>
+  <div class="calc-block">
+
+    <!-- INPUTS -->
+    <div class="calc-inputs">
+      <div class="calc-row">
+        <div class="calc-label">
+          <span>Number of trucks</span>
+          <span class="calc-val" id="d-trucks">3</span>
+        </div>
+        <input type="range" class="calc-slider" id="s-trucks" min="1" max="50" value="3">
+        <div class="calc-bounds"><span>1 truck</span><span>50 trucks</span></div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">
+          <span>Extra RIN jobs / truck / day</span>
+          <span class="calc-val" id="d-jobs">1</span>
+        </div>
+        <input type="range" class="calc-slider" id="s-jobs" min="0.5" max="5" step="0.5" value="1">
+        <div class="calc-bounds"><span>0.5 jobs</span><span>5 jobs</span></div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">
+          <span>Average job value</span>
+          <span class="calc-val" id="d-value">$220</span>
+        </div>
+        <input type="range" class="calc-slider" id="s-value" min="150" max="500" step="10" value="220">
+        <div class="calc-bounds"><span>$150</span><span>$500</span></div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">
+          <span>Working days / month</span>
+          <span class="calc-val" id="d-days">20</span>
+        </div>
+        <input type="range" class="calc-slider" id="s-days" min="15" max="26" step="1" value="20">
+        <div class="calc-bounds"><span>15 days</span><span>26 days</span></div>
+      </div>
     </div>
-    <div class="earn-rows">
-      <div class="er"><span class="er-l">Avg insurance tow value</span><span class="er-v">$220</span></div>
-      <div class="er"><span class="er-l">Your payout (80%)</span><span class="er-v g">$176</span></div>
-      <div class="er"><span class="er-l">1 extra job/day × 20 days</span><span class="er-v g">+$3,520 / mo</span></div>
-      <div class="er"><span class="er-l">Monthly fee to RIN</span><span class="er-v">$0</span></div>
-      <div class="er highlight"><span class="er-l" style="font-weight:700;">Net additional per month</span><span class="er-v gold" style="font-size:22px;">+$3,520</span></div>
+
+    <!-- OUTPUT -->
+    <div class="calc-output">
+      <div class="calc-result-label">Your estimated monthly net</div>
+      <div class="earn-num" id="calc-monthly">+$10,560</div>
+      <div class="earn-sub" id="calc-annual">+$126,720 / year across your fleet</div>
+      <div class="earn-rows">
+        <div class="er"><span class="er-l">Jobs / month (fleet total)</span><span class="er-v" id="cr-jobs">60</span></div>
+        <div class="er"><span class="er-l">Gross job revenue</span><span class="er-v" id="cr-gross">$13,200</span></div>
+        <div class="er"><span class="er-l">Your payout (80%)</span><span class="er-v g" id="cr-payout">$10,560</span></div>
+        <div class="er"><span class="er-l">Monthly fee to RIN</span><span class="er-v">$0</span></div>
+        <div class="er highlight"><span class="er-l" style="font-weight:700;">Net additional / month</span><span class="er-v gold" style="font-size:22px;" id="cr-net">+$10,560</span></div>
+      </div>
+      <a href="#apply" class="btn-primary" style="display:block;text-align:center;margin-top:28px;" onclick="prefillApply()">Get this revenue — Apply Now →</a>
+      <div class="calc-saving" id="calc-saving"></div>
     </div>
+
   </div>
 </div>
 
@@ -479,11 +536,14 @@
 </footer>
 
 <script>
+// ── SUPABASE CONFIG ──
+const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MDc2MjYsImV4cCI6MjA1OTI4MzYyNn0.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
+
 // ── WORKFLOW ANIMATION ──
 const nodes = ['n1','n2','n3','n4','n5','n6','n7'];
 const conns = ['c1','c2','c3','c4','c5','c6'];
 let wfRunning = false;
-let wfTimeout = null;
 
 function resetWf() {
   nodes.forEach(id => document.getElementById(id).classList.remove('wf-on'));
@@ -499,24 +559,102 @@ function runWf() {
       if (i > 0) document.getElementById(conns[i-1]).classList.add('wf-lit');
     }, i * step + 100);
   });
-  wfTimeout = setTimeout(runWf, nodes.length * step + 3200);
+  setTimeout(runWf, nodes.length * step + 3200);
 }
 
 const track = document.getElementById('wf-track');
-const obs = new IntersectionObserver(entries => {
+new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if (e.isIntersecting && !wfRunning) {
-      wfRunning = true;
-      runWf();
-    }
+    if (e.isIntersecting && !wfRunning) { wfRunning = true; runWf(); }
   });
-}, { threshold: 0.15 });
-obs.observe(track);
+}, { threshold: 0.15 }).observe(track);
+
+// ── CALCULATOR ──
+const calcSessionId = (() => {
+  let id = localStorage.getItem('rin_calc_session');
+  if (!id) { id = crypto.randomUUID(); localStorage.setItem('rin_calc_session', id); }
+  return id;
+})();
+let calcSaveTimer = null;
+
+function getCalcValues() {
+  return {
+    trucks: parseInt(document.getElementById('s-trucks').value),
+    extra_jobs: parseFloat(document.getElementById('s-jobs').value),
+    avg_value: parseInt(document.getElementById('s-value').value),
+    working_days: parseInt(document.getElementById('s-days').value)
+  };
+}
+
+function updateCalc() {
+  const { trucks, extra_jobs, avg_value, working_days } = getCalcValues();
+  document.getElementById('d-trucks').textContent = trucks;
+  document.getElementById('d-jobs').textContent = extra_jobs;
+  document.getElementById('d-value').textContent = '$' + avg_value;
+  document.getElementById('d-days').textContent = working_days;
+
+  const jobsPerMonth = Math.round(trucks * extra_jobs * working_days);
+  const gross = jobsPerMonth * avg_value;
+  const payout = Math.round(gross * 0.8);
+  const annual = payout * 12;
+  const fmt = n => '$' + n.toLocaleString();
+
+  document.getElementById('calc-monthly').textContent = '+' + fmt(payout);
+  document.getElementById('calc-annual').textContent = '+' + fmt(annual) + ' / year across your fleet';
+  document.getElementById('cr-jobs').textContent = jobsPerMonth.toLocaleString();
+  document.getElementById('cr-gross').textContent = fmt(gross);
+  document.getElementById('cr-payout').textContent = fmt(payout);
+  document.getElementById('cr-net').textContent = '+' + fmt(payout);
+
+  clearTimeout(calcSaveTimer);
+  calcSaveTimer = setTimeout(() => saveCalculation(trucks, extra_jobs, avg_value, working_days, payout, annual), 1200);
+}
+
+async function saveCalculation(trucks, extra_jobs, avg_value, working_days, monthly_net, annual_net) {
+  const saving = document.getElementById('calc-saving');
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/operator_calculator_sessions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        session_id: calcSessionId,
+        trucks,
+        extra_jobs_per_day: extra_jobs,
+        avg_job_value: avg_value,
+        working_days,
+        calculated_monthly_net: monthly_net,
+        calculated_annual_net: annual_net,
+        referrer: document.referrer || null
+      })
+    });
+    if (res.ok) {
+      saving.textContent = '✓ Your numbers are saved';
+      saving.classList.add('saved');
+      setTimeout(() => { saving.textContent = ''; saving.classList.remove('saved'); }, 2000);
+    }
+  } catch { /* silent — never interrupt UX for analytics */ }
+}
+
+function prefillApply() {
+  const t = parseInt(document.getElementById('s-trucks').value);
+  const select = document.getElementById('f_trucks');
+  if (t === 1) select.value = '1';
+  else if (t <= 5) select.value = '2-5';
+  else if (t <= 15) select.value = '6-15';
+  else select.value = '16+';
+}
+
+['s-trucks','s-jobs','s-value','s-days'].forEach(id =>
+  document.getElementById(id).addEventListener('input', updateCalc)
+);
+updateCalc();
 
 // ── APPLY FORM ──
-const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MDc2MjYsImV4cCI6MjA1OTI4MzYyNn0.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
-
 async function submitApply() {
   const co = document.getElementById('f_co').value.trim();
   const name = document.getElementById('f_name').value.trim();
@@ -524,6 +662,8 @@ async function submitApply() {
   if (!co || !name || !phone) { alert('Please fill in company, name, and phone.'); return; }
   const btn = document.querySelector('.btn-sub');
   btn.textContent = 'Submitting...'; btn.disabled = true;
+  const cv = getCalcValues();
+  const monthlyNet = parseInt(document.getElementById('cr-net').textContent.replace(/[^0-9]/g,''));
   try {
     const res = await fetch(`${SB_URL}/rest/v1/marketing_leads`, {
       method: 'POST',
@@ -536,7 +676,13 @@ async function submitApply() {
         message: `Area: ${document.getElementById('f_area').value.trim()}\n${document.getElementById('f_msg').value.trim()}`,
         inquiry_type: 'operator',
         page: '/for-operators',
-        referrer: document.referrer || null
+        referrer: document.referrer || null,
+        calculator_session_id: calcSessionId,
+        calc_trucks: cv.trucks,
+        calc_extra_jobs_per_day: cv.extra_jobs,
+        calc_avg_job_value: cv.avg_value,
+        calc_working_days: cv.working_days,
+        calc_monthly_net: monthlyNet
       })
     });
     if (!res.ok) throw new Error();
