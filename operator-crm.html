@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIN — Operator CRM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#070c1a;--bg2:#0f172a;--bg3:#1e293b;--bg4:#243455;--border:#1a2744;--border2:#334155;--text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--blue:#3b82f6;--blue-l:#60a5fa;--green:#34d399;--gold:#f59e0b;--red:#f87171;--purple:#a78bfa;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+    a{text-decoration:none;color:inherit;}
+
+    /* AUTH GATE */
+    #auth-gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;}
+    .auth-box{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:48px;width:380px;text-align:center;}
+    .auth-box h2{font-size:22px;font-weight:800;margin-bottom:8px;}
+    .auth-box p{font-size:14px;color:var(--text2);margin-bottom:28px;}
+    .auth-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:13px 16px;font-size:14px;color:var(--text);font-family:inherit;outline:none;margin-bottom:14px;}
+    .auth-input:focus{border-color:var(--blue);}
+    .auth-btn{width:100%;background:var(--blue);color:#fff;padding:14px;border-radius:8px;font-size:15px;font-weight:700;border:none;cursor:pointer;}
+    .auth-err{color:var(--red);font-size:13px;margin-top:10px;min-height:18px;}
+
+    /* HEADER */
+    header{height:56px;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+    .logo{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;color:var(--blue-l);}
+    .logo-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 6px var(--blue);animation:blink 2s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .hdr-right{display:flex;align-items:center;gap:16px;}
+    .hdr-btn{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);padding:7px 14px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;}
+    .hdr-btn:hover{color:var(--text);}
+
+    /* STATS STRIP */
+    .stats{display:flex;gap:0;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;}
+    .stat{flex:1;padding:12px 20px;border-right:1px solid var(--border);text-align:center;}
+    .stat:last-child{border-right:none;}
+    .stat-n{font-size:24px;font-weight:800;letter-spacing:-1px;line-height:1;}
+    .stat-l{font-size:11px;color:var(--text3);margin-top:2px;}
+
+    /* MAIN LAYOUT */
+    .main{display:flex;flex:1;overflow:hidden;}
+
+    /* LEFT PANEL — LIST */
+    .panel-left{width:320px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+    .filter-bar{padding:12px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px;}
+    .filt{font-size:11px;font-weight:600;padding:4px 10px;border-radius:100px;cursor:pointer;border:1px solid var(--border2);color:var(--text3);background:transparent;transition:all 150ms;}
+    .filt.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+    .op-list{overflow-y:auto;flex:1;}
+    .op-card{padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 120ms;}
+    .op-card:hover{background:var(--bg2);}
+    .op-card.selected{background:var(--bg3);border-left:3px solid var(--blue-l);}
+    .op-name{font-size:14px;font-weight:700;margin-bottom:3px;}
+    .op-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .op-trucks{font-size:12px;color:var(--text3);}
+    .op-net{font-size:12px;font-weight:700;color:var(--green);}
+    .status-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:2px 7px;border-radius:4px;}
+    .op-date{font-size:11px;color:var(--text3);margin-top:4px;}
+    .empty-list{padding:40px 20px;text-align:center;color:var(--text3);font-size:14px;}
+
+    /* RIGHT PANEL — DETAIL */
+    .panel-right{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:20px;}
+    .empty-state{flex:1;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:15px;flex-direction:column;gap:12px;}
+    .empty-state svg{opacity:0.2;}
+
+    /* DETAIL SECTIONS */
+    .detail-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+    .detail-title{font-size:22px;font-weight:800;letter-spacing:-0.5px;}
+    .detail-sub{font-size:14px;color:var(--text2);margin-top:4px;}
+    .status-select{background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:8px 12px;border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer;outline:none;}
+
+    .card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;}
+    .card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:14px;}
+    .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .field{display:flex;flex-direction:column;gap:4px;}
+    .field label{font-size:11px;color:var(--text3);font-weight:600;}
+    .field-val{font-size:14px;font-weight:500;color:var(--text);}
+    .field input,.field select,.field textarea{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);font-family:inherit;outline:none;width:100%;}
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);}
+    .field textarea{resize:vertical;min-height:80px;}
+
+    .calc-snapshot{display:flex;gap:10px;flex-wrap:wrap;}
+    .calc-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;font-size:13px;}
+    .calc-chip span{color:var(--green);font-weight:700;}
+
+    /* INTERACTIONS */
+    .interaction-list{display:flex;flex-direction:column;gap:8px;}
+    .interaction{display:flex;gap:12px;align-items:flex-start;}
+    .int-icon{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+    .int-body{flex:1;}
+    .int-summary{font-size:13px;font-weight:600;}
+    .int-time{font-size:11px;color:var(--text3);}
+    .int-notes{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;}
+
+    /* LOG INTERACTION */
+    .log-row{display:flex;gap:8px;}
+    .log-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);font-family:inherit;outline:none;}
+    .log-input:focus{border-color:var(--blue);}
+    .log-type{background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:9px 10px;border-radius:8px;font-size:13px;font-family:inherit;outline:none;}
+
+    /* BUTTONS */
+    .btn{padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:opacity 150ms;}
+    .btn-primary{background:var(--blue);color:#fff;}
+    .btn-primary:hover{opacity:0.85;}
+    .btn-green{background:var(--green);color:#070c1a;}
+    .btn-green:hover{opacity:0.85;}
+    .btn-ghost{background:var(--bg3);color:var(--text2);border:1px solid var(--border2);}
+    .save-row{display:flex;align-items:center;gap:12px;}
+    .save-status{font-size:12px;color:var(--green);min-width:80px;}
+
+    /* STATUS COLORS */
+    .s-calculator_visitor{background:rgba(100,116,139,0.15);color:#94a3b8;}
+    .s-applied{background:rgba(59,130,246,0.15);color:var(--blue-l);}
+    .s-contacted{background:rgba(245,158,11,0.15);color:var(--gold);}
+    .s-qual_call_booked{background:rgba(245,158,11,0.2);color:var(--gold);}
+    .s-qual_call_done{background:rgba(167,139,250,0.15);color:var(--purple);}
+    .s-pilot_offered{background:rgba(52,211,153,0.1);color:var(--green);}
+    .s-pilot_active{background:rgba(52,211,153,0.2);color:var(--green);}
+    .s-churned,.s-rejected{background:rgba(248,113,113,0.15);color:var(--red);}
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar{width:5px;height:5px;}
+    ::-webkit-scrollbar-track{background:transparent;}
+    ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+    @media(max-width:768px){
+      .panel-left{width:100%;border-right:none;border-bottom:1px solid var(--border);max-height:40vh;}
+      .main{flex-direction:column;}
+      .field-grid{grid-template-columns:1fr;}
+      .stats{flex-wrap:wrap;}
+      .stat{min-width:50%;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="auth-gate">
+  <div class="auth-box">
+    <div style="font-size:28px;margin-bottom:12px;">🚛</div>
+    <h2>RIN Operator CRM</h2>
+    <p>Enter your Supabase service key to access the dashboard.</p>
+    <input type="password" class="auth-input" id="auth-key" placeholder="eyJhbGciOiJIUzI1NiIs...">
+    <button class="auth-btn" onclick="authenticate()">Access Dashboard</button>
+    <div class="auth-err" id="auth-err"></div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo"><div class="logo-dot"></div> RIN — Operator CRM</div>
+  <div class="hdr-right">
+    <span id="hdr-count" style="font-size:13px;color:var(--text3);"></span>
+    <button class="hdr-btn" onclick="syncMemory()">↻ Sync Memory</button>
+    <button class="hdr-btn" onclick="loadProfiles()">↻ Refresh</button>
+  </div>
+</header>
+
+<!-- STATS STRIP -->
+<div class="stats" id="stats">
+  <div class="stat"><div class="stat-n" id="s-total">—</div><div class="stat-l">Total Operators</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--blue-l)" id="s-applied">—</div><div class="stat-l">Applied</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--gold)" id="s-active">—</div><div class="stat-l">Calls / Pilots Active</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--green)" id="s-avg-net">—</div><div class="stat-l">Avg Calc Monthly Net</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--purple)" id="s-week">—</div><div class="stat-l">New This Week</div></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LEFT: LIST -->
+  <div class="panel-left">
+    <div class="filter-bar" id="filter-bar">
+      <button class="filt active" data-status="all" onclick="setFilter(this)">All</button>
+      <button class="filt" data-status="calculator_visitor" onclick="setFilter(this)">Calculator</button>
+      <button class="filt" data-status="applied" onclick="setFilter(this)">Applied</button>
+      <button class="filt" data-status="contacted" onclick="setFilter(this)">Contacted</button>
+      <button class="filt" data-status="qual_call_booked" onclick="setFilter(this)">Call Booked</button>
+      <button class="filt" data-status="qual_call_done" onclick="setFilter(this)">Call Done</button>
+      <button class="filt" data-status="pilot_active" onclick="setFilter(this)">Pilot Active</button>
+    </div>
+    <div class="op-list" id="op-list">
+      <div class="empty-list">Loading operators…</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: DETAIL -->
+  <div class="panel-right" id="panel-right">
+    <div class="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Select an operator to view their profile</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
+let SB_KEY = '';
+let allProfiles = [];
+let currentFilter = 'all';
+let selectedId = null;
+
+// ── AUTH ──────────────────────────────────────────────────────────
+function authenticate() {
+  const key = document.getElementById('auth-key').value.trim();
+  if (!key || key.length < 40) {
+    document.getElementById('auth-err').textContent = 'Enter your full Supabase service key.';
+    return;
+  }
+  SB_KEY = key;
+  sessionStorage.setItem('rin_crm_key', key);
+  document.getElementById('auth-gate').style.display = 'none';
+  loadProfiles();
+}
+
+// Auto-restore key from session
+const savedKey = sessionStorage.getItem('rin_crm_key');
+if (savedKey) { SB_KEY = savedKey; document.getElementById('auth-gate').style.display = 'none'; }
+
+document.getElementById('auth-key').addEventListener('keydown', e => { if (e.key === 'Enter') authenticate(); });
+
+// ── API ───────────────────────────────────────────────────────────
+async function sbGet(path) {
+  const r = await fetch(`${SB_URL}/rest/v1/${path}`, {
+    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+async function sbPatch(table, id, data) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`,
+               'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify(data)
+  });
+  if (!r.ok) throw new Error(await r.text());
+}
+
+async function sbPost(table, data) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`,
+               'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+    body: JSON.stringify(data)
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+// ── LOAD PROFILES ────────────────────────────────────────────────
+async function loadProfiles() {
+  try {
+    allProfiles = await sbGet('operator_profiles?order=created_at.desc&limit=200');
+    renderStats();
+    renderList();
+    document.getElementById('hdr-count').textContent = `${allProfiles.length} operators`;
+  } catch(e) {
+    document.getElementById('op-list').innerHTML = `<div class="empty-list" style="color:var(--red)">Error: ${e.message}</div>`;
+  }
+}
+
+// ── STATS ─────────────────────────────────────────────────────────
+function renderStats() {
+  const p = allProfiles;
+  const applied = p.filter(x => ['applied','contacted','qual_call_booked','qual_call_done','pilot_offered','pilot_active'].includes(x.lead_status)).length;
+  const active  = p.filter(x => ['qual_call_booked','qual_call_done','pilot_offered','pilot_active'].includes(x.lead_status)).length;
+  const withNet = p.filter(x => x.calc_monthly_net_expected > 0);
+  const avgNet  = withNet.length ? Math.round(withNet.reduce((a,b) => a + b.calc_monthly_net_expected, 0) / withNet.length) : 0;
+  const weekAgo = new Date(Date.now() - 7*24*60*60*1000).toISOString();
+  const newWeek = p.filter(x => x.created_at > weekAgo).length;
+
+  document.getElementById('s-total').textContent   = p.length;
+  document.getElementById('s-applied').textContent = applied;
+  document.getElementById('s-active').textContent  = active;
+  document.getElementById('s-avg-net').textContent = avgNet ? '$'+avgNet.toLocaleString() : '—';
+  document.getElementById('s-week').textContent    = newWeek;
+}
+
+// ── FILTER & LIST ─────────────────────────────────────────────────
+function setFilter(btn) {
+  document.querySelectorAll('.filt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = btn.dataset.status;
+  renderList();
+}
+
+function renderList() {
+  const filtered = currentFilter === 'all'
+    ? allProfiles
+    : allProfiles.filter(p => p.lead_status === currentFilter);
+
+  if (!filtered.length) {
+    document.getElementById('op-list').innerHTML = '<div class="empty-list">No operators in this stage.</div>';
+    return;
+  }
+
+  document.getElementById('op-list').innerHTML = filtered.map(p => {
+    const trucks = p.calc_trucks || (p.truck_count_range ? p.truck_count_range : null);
+    const net    = p.calc_monthly_net_expected;
+    const date   = p.last_contact_at
+      ? 'Last contact: ' + fmtDate(p.last_contact_at)
+      : 'Added: ' + fmtDate(p.created_at);
+    const label  = statusLabel(p.lead_status);
+    return `
+    <div class="op-card${selectedId===p.id?' selected':''}" onclick="selectProfile('${p.id}')">
+      <div class="op-name">${p.company_name || '(No company)'}</div>
+      <div class="op-meta">
+        ${trucks ? `<span class="op-trucks">🚛 ${trucks} trucks</span>` : ''}
+        ${net    ? `<span class="op-net">+$${net.toLocaleString()}/mo</span>` : ''}
+        <span class="status-badge s-${p.lead_status}">${label}</span>
+      </div>
+      ${p.contact_name ? `<div class="op-date" style="margin-top:3px;color:var(--text2);font-size:12px;">${p.contact_name}</div>` : ''}
+      <div class="op-date">${date}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── SELECT PROFILE ────────────────────────────────────────────────
+async function selectProfile(id) {
+  selectedId = id;
+  renderList();
+  const p = allProfiles.find(x => x.id === id);
+  if (!p) return;
+
+  // Load interactions
+  let interactions = [];
+  try {
+    interactions = await sbGet(`operator_interactions?operator_id=eq.${id}&order=occurred_at.desc&limit=50`);
+  } catch(e) { /* non-fatal */ }
+
+  renderDetail(p, interactions);
+}
+
+// ── DETAIL PANEL ──────────────────────────────────────────────────
+function renderDetail(p, interactions) {
+  const right = document.getElementById('panel-right');
+
+  right.innerHTML = `
+  <div class="detail-header">
+    <div>
+      <div class="detail-title">${p.company_name || '(No company)'}</div>
+      <div class="detail-sub">${[p.contact_name, p.phone, p.email].filter(Boolean).join(' · ')}</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <select class="status-select" id="d-status" onchange="updateStatus('${p.id}',this.value)">
+        ${['calculator_visitor','applied','contacted','qual_call_booked','qual_call_done','pilot_offered','pilot_active','churned','rejected']
+          .map(s => `<option value="${s}"${s===p.lead_status?' selected':''}>${statusLabel(s)}</option>`).join('')}
+      </select>
+    </div>
+  </div>
+
+  <!-- CALCULATOR SNAPSHOT -->
+  ${p.calc_monthly_net_expected ? `
+  <div class="card">
+    <div class="card-title">Calculator Snapshot — What They Expect to Earn</div>
+    <div class="calc-snapshot">
+      <div class="calc-chip">🚛 <span>${p.calc_trucks||'?'}</span> trucks</div>
+      <div class="calc-chip">Jobs/day <span>${p.calc_extra_jobs_per_day||'?'}</span></div>
+      <div class="calc-chip">Avg job <span>$${p.calc_avg_job_value||'?'}</span></div>
+      <div class="calc-chip">Monthly net <span>+$${p.calc_monthly_net_expected.toLocaleString()}</span></div>
+    </div>
+  </div>` : ''}
+
+  <!-- CONTACT & FLEET INFO -->
+  <div class="card">
+    <div class="card-title">Contact & Fleet Info</div>
+    <div class="field-grid">
+      <div class="field"><label>Company</label><input id="d-company" value="${p.company_name||''}"></div>
+      <div class="field"><label>Contact Name</label><input id="d-contact" value="${p.contact_name||''}"></div>
+      <div class="field"><label>Phone</label><input id="d-phone" value="${p.phone||''}"></div>
+      <div class="field"><label>Email</label><input id="d-email" value="${p.email||''}"></div>
+      <div class="field"><label>Service Area</label><input id="d-area" value="${p.service_area||''}"></div>
+      <div class="field"><label>Actual Truck Count</label><input id="d-trucks-actual" type="number" value="${p.truck_count_actual||''}"></div>
+    </div>
+  </div>
+
+  <!-- QUALIFICATION NOTES -->
+  <div class="card">
+    <div class="card-title">Qualification Notes (After Discovery Call)</div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Dispatch Method</label>
+        <select id="d-dispatch">
+          <option value="">—</option>
+          <option value="phone_radio"${p.qual_dispatch_method==='phone_radio'?' selected':''}>Phone / Radio</option>
+          <option value="motor_club"${p.qual_dispatch_method==='motor_club'?' selected':''}>Motor Club</option>
+          <option value="none"${p.qual_dispatch_method==='none'?' selected':''}>No system</option>
+          <option value="other"${p.qual_dispatch_method==='other'?' selected':''}>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Pain Score (1–5)</label>
+        <select id="d-pain">
+          <option value="">—</option>
+          ${[1,2,3,4,5].map(n=>`<option value="${n}"${p.qual_pain_score==n?' selected':''}>${n}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label>Payment Cycle (days)</label>
+        <input id="d-payment-days" type="number" value="${p.qual_payment_cycle_days||''}">
+      </div>
+      <div class="field">
+        <label>Next Action Date</label>
+        <input id="d-next-date" type="date" value="${p.next_action_date||''}">
+      </div>
+    </div>
+    <div class="field" style="margin-top:12px;">
+      <label>Next Action</label>
+      <input id="d-next-action" value="${p.next_action||''}" placeholder="e.g. Send pilot terms, Follow-up call Tue 2pm">
+    </div>
+    <div class="field" style="margin-top:12px;">
+      <label>Call Notes</label>
+      <textarea id="d-notes" rows="4">${p.call_notes||''}</textarea>
+    </div>
+    <div class="save-row" style="margin-top:14px;">
+      <button class="btn btn-green" onclick="saveProfile('${p.id}')">Save Notes</button>
+      <span class="save-status" id="save-status"></span>
+    </div>
+  </div>
+
+  <!-- LOG INTERACTION -->
+  <div class="card">
+    <div class="card-title">Log an Interaction</div>
+    <div class="log-row" style="margin-bottom:8px;">
+      <select class="log-type" id="log-type">
+        <option value="call_outbound">📞 Outbound Call</option>
+        <option value="call_inbound">📲 Inbound Call</option>
+        <option value="email_sent">📧 Email Sent</option>
+        <option value="email_reply">📬 Email Reply</option>
+        <option value="sms_sent">💬 SMS Sent</option>
+        <option value="sms_reply">💬 SMS Reply</option>
+        <option value="calendly_booked">📅 Calendly Booked</option>
+        <option value="note">📝 Note</option>
+      </select>
+    </div>
+    <div class="log-row">
+      <input class="log-input" id="log-text" placeholder="Brief summary of what happened…">
+      <button class="btn btn-primary" onclick="logInteraction('${p.id}')">Log</button>
+    </div>
+  </div>
+
+  <!-- INTERACTION TIMELINE -->
+  <div class="card">
+    <div class="card-title">Interaction History (${interactions.length})</div>
+    ${interactions.length ? `
+    <div class="interaction-list">
+      ${interactions.map(i => `
+      <div class="interaction">
+        <div class="int-icon">${intIcon(i.interaction_type)}</div>
+        <div class="int-body">
+          <div class="int-summary">${i.summary || i.interaction_type}</div>
+          <div class="int-time">${fmtDateTime(i.occurred_at)}</div>
+          ${i.notes ? `<div class="int-notes">${i.notes}</div>` : ''}
+        </div>
+      </div>`).join('')}
+    </div>` : '<div style="color:var(--text3);font-size:13px;">No interactions logged yet.</div>'}
+  </div>
+  `;
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────
+async function updateStatus(id, status) {
+  try {
+    await sbPatch('operator_profiles', id, { lead_status: status });
+    const p = allProfiles.find(x => x.id === id);
+    if (p) { p.lead_status = status; renderList(); renderStats(); }
+  } catch(e) { alert('Save failed: ' + e.message); }
+}
+
+async function saveProfile(id) {
+  const btn = document.querySelector('.btn-green');
+  const status = document.getElementById('save-status');
+  btn.textContent = 'Saving…'; btn.disabled = true;
+  try {
+    const data = {
+      company_name:             document.getElementById('d-company').value.trim() || null,
+      contact_name:             document.getElementById('d-contact').value.trim() || null,
+      phone:                    document.getElementById('d-phone').value.trim() || null,
+      email:                    document.getElementById('d-email').value.trim() || null,
+      service_area:             document.getElementById('d-area').value.trim() || null,
+      truck_count_actual:       parseInt(document.getElementById('d-trucks-actual').value) || null,
+      qual_dispatch_method:     document.getElementById('d-dispatch').value || null,
+      qual_pain_score:          parseInt(document.getElementById('d-pain').value) || null,
+      qual_payment_cycle_days:  parseInt(document.getElementById('d-payment-days').value) || null,
+      next_action:              document.getElementById('d-next-action').value.trim() || null,
+      next_action_date:         document.getElementById('d-next-date').value || null,
+      call_notes:               document.getElementById('d-notes').value.trim() || null,
+      last_contact_at:          new Date().toISOString()
+    };
+    await sbPatch('operator_profiles', id, data);
+    // Update local cache
+    const p = allProfiles.find(x => x.id === id);
+    if (p) Object.assign(p, data);
+    renderList(); renderStats();
+    status.textContent = '✓ Saved';
+    setTimeout(() => { status.textContent = ''; }, 2000);
+  } catch(e) { status.style.color='var(--red)'; status.textContent = 'Error: ' + e.message; }
+  finally { btn.textContent = 'Save Notes'; btn.disabled = false; }
+}
+
+async function logInteraction(operatorId) {
+  const type = document.getElementById('log-type').value;
+  const text = document.getElementById('log-text').value.trim();
+  if (!text) return;
+  try {
+    await sbPost('operator_interactions', {
+      operator_id: operatorId,
+      interaction_type: type,
+      channel: type.includes('call') ? 'phone' : type.includes('email') ? 'email' : type.includes('sms') ? 'sms' : 'other',
+      summary: text,
+      occurred_at: new Date().toISOString()
+    });
+    await sbPatch('operator_profiles', operatorId, { last_contact_at: new Date().toISOString() });
+    document.getElementById('log-text').value = '';
+    // Reload interactions
+    const interactions = await sbGet(`operator_interactions?operator_id=eq.${operatorId}&order=occurred_at.desc&limit=50`);
+    const p = allProfiles.find(x => x.id === operatorId);
+    if (p) renderDetail(p, interactions);
+  } catch(e) { alert('Log failed: ' + e.message); }
+}
+
+async function syncMemory() {
+  const btn = document.querySelector('[onclick="syncMemory()"]');
+  btn.textContent = 'Syncing…';
+  try {
+    const res = await fetch('/sync-memory', { method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}` } });
+    btn.textContent = res.ok ? '✓ Synced' : '↻ Sync Memory';
+  } catch { btn.textContent = '↻ Sync Memory'; }
+  setTimeout(() => btn.textContent = '↻ Sync Memory', 2000);
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+const STATUS_LABELS = {
+  calculator_visitor: 'Calculator', applied: 'Applied', contacted: 'Contacted',
+  qual_call_booked: 'Call Booked', qual_call_done: 'Call Done',
+  pilot_offered: 'Pilot Offered', pilot_active: 'Pilot Active',
+  churned: 'Churned', rejected: 'Rejected'
+};
+function statusLabel(s){ return STATUS_LABELS[s] || s; }
+
+function intIcon(t){
+  const m = { call_outbound:'📞', call_inbound:'📲', email_sent:'📧', email_reply:'📬',
+              sms_sent:'💬', sms_reply:'💬', calendly_booked:'📅', calendly_completed:'✅',
+              calculator:'🧮', apply:'📋', pilot_started:'🚀', note:'📝' };
+  return m[t] || '•';
+}
+
+function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleDateString('en-CA',{month:'short',day:'numeric'}); }
+function fmtDateTime(d){ if(!d) return '—'; return new Date(d).toLocaleString('en-CA',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); }
+
+// Auto-load if key exists
+if (SB_KEY) loadProfiles();
+</script>
+</body>
+</html>
