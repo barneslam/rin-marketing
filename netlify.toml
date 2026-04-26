@@ -7,9 +7,3 @@
   to = "/assets/:splat"
   status = 200
   force = true
-
-# SPA fallback for HTML routes only
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
