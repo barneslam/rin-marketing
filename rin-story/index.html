@@ -271,6 +271,111 @@
     .footer-links a { font-size: 12px; color: var(--text3); transition: color 150ms; }
     .footer-links a:hover { color: var(--blue-l); }
 
+    /* ── SPLASH ── */
+    #splash {
+      position: fixed; inset: 0; z-index: 1000; background: #000;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+      overflow: hidden;
+    }
+    #splash.exit { transform: translateY(-100%); pointer-events: none; }
+
+    .sp-scan {
+      position: absolute; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(0,0,0,0.06) 3px,rgba(0,0,0,0.06) 4px);
+    }
+
+    /* two overlapping phases */
+    .sp-phase {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      opacity: 1; transition: opacity 0.6s ease;
+    }
+    .sp-phase.sp-out { opacity: 0; }
+
+    /* ── Phase 1: Clock ── */
+    .sp-clock {
+      font-size: clamp(72px,16vw,148px); font-weight: 900; letter-spacing: -7px;
+      line-height: 1; color: white; text-align: center;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+    }
+    .sp-phase-clock.sp-active .sp-clock { opacity: 1; transform: translateY(0); }
+    .sp-clock.ticking { animation: sp-tick-flash 0.3s ease; }
+
+    .sp-day {
+      font-size: 16px; color: rgba(255,255,255,0.32); font-weight: 400; margin-top: 18px;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 0.5s ease 1.5s, transform 0.5s ease 1.5s;
+    }
+    .sp-phase-clock.sp-active .sp-day { opacity: 1; transform: translateY(0); }
+
+    /* ── Phase 2: Brand ── */
+    .sp-phase-brand { opacity: 0; }
+    .sp-phase-brand.sp-active { opacity: 1; }
+
+    .spb-dot {
+      width: 9px; height: 9px; border-radius: 50%; margin-bottom: 26px;
+      background: var(--blue); box-shadow: 0 0 12px var(--blue),0 0 32px rgba(59,130,246,0.5);
+      opacity: 0; transform: scale(0.4);
+      transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+      animation: sp-pulse 2s ease-in-out infinite;
+    }
+    .sp-phase-brand.sp-active .spb-dot { opacity: 1; transform: scale(1); }
+
+    .spb-rin {
+      font-size: clamp(88px,20vw,172px); font-weight: 900; letter-spacing: -10px;
+      line-height: 0.9; color: white;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 0.65s ease 0.2s, transform 0.65s ease 0.2s;
+    }
+    .sp-phase-brand.sp-active .spb-rin { opacity: 1; transform: translateY(0); }
+
+    .spb-full {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); margin-top: 14px;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.5s ease 0.55s, transform 0.5s ease 0.55s;
+    }
+    .sp-phase-brand.sp-active .spb-full { opacity: 1; transform: translateY(0); }
+
+    .spb-bar {
+      height: 1px; background: linear-gradient(90deg,transparent,rgba(59,130,246,0.5),transparent);
+      width: 0; margin-top: 36px;
+      transition: width 0.7s ease 0.85s;
+    }
+    .sp-phase-brand.sp-active .spb-bar { width: 200px; }
+
+    .spb-tagline {
+      font-size: clamp(14px,2vw,20px); font-weight: 600; letter-spacing: -0.2px;
+      color: rgba(255,255,255,0.5); margin-top: 36px; text-align: center;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.5s ease 1.1s, transform 0.5s ease 1.1s;
+    }
+    .sp-phase-brand.sp-active .spb-tagline { opacity: 1; transform: translateY(0); }
+    .spb-tagline em { font-style: normal; color: var(--blue-l); }
+
+    /* controls */
+    .sp-skip {
+      position: absolute; bottom: 28px; right: 28px; z-index: 2;
+      font-size: 11px; color: rgba(255,255,255,0.22); font-weight: 500;
+      cursor: pointer; transition: color 200ms; letter-spacing: 0.08em; text-transform: uppercase;
+      opacity: 0; animation: sp-up 0.4s ease forwards 1.5s;
+      background: none; border: none; font-family: 'Inter', sans-serif;
+    }
+    .sp-skip:hover { color: rgba(255,255,255,0.5); }
+
+    .sp-progress {
+      position: absolute; bottom: 0; left: 0; height: 2px;
+      background: linear-gradient(90deg, var(--blue-d), var(--blue-l));
+      width: 0; animation: sp-prog 6.5s linear forwards 0.1s;
+    }
+
+    @keyframes sp-up        { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes sp-pulse     { 0%,100%{box-shadow:0 0 10px var(--blue),0 0 28px rgba(59,130,246,0.5)} 50%{box-shadow:0 0 18px var(--blue),0 0 50px rgba(59,130,246,0.7);transform:scale(1.3)} }
+    @keyframes sp-tick-flash{ 0%{opacity:1;color:white;transform:scale(1)} 35%{opacity:0.08;color:var(--blue-l);transform:scale(0.97)} 100%{opacity:1;color:white;transform:scale(1)} }
+    @keyframes sp-prog      { from{width:0} to{width:100%} }
+
     /* ── MOBILE ── */
     @media (max-width: 700px) {
       .two-col, .two-col.flip { flex-direction: column; gap: 32px; }
@@ -295,6 +400,29 @@
   </style>
 </head>
 <body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sp-scan"></div>
+
+  <!-- Act 1: Ticking clock -->
+  <div class="sp-phase sp-phase-clock sp-active" id="sp-phase-clock">
+    <div class="sp-clock" id="sp-clock">6:47 AM</div>
+    <div class="sp-day">Tuesday. Your phone is already going.</div>
+  </div>
+
+  <!-- Act 2: RIN brand reveal -->
+  <div class="sp-phase sp-phase-brand" id="sp-phase-brand">
+    <div class="spb-dot"></div>
+    <div class="spb-rin">RIN</div>
+    <div class="spb-full">Roadside Intelligence Network</div>
+    <div class="spb-bar"></div>
+    <div class="spb-tagline">Every breakdown. <em>Handled.</em></div>
+  </div>
+
+  <button class="sp-skip" id="sp-skip" aria-label="Skip intro">Skip →</button>
+  <div class="sp-progress"></div>
+</div>
 
 <!-- FIXED HEADER -->
 <header id="hdr">
@@ -668,9 +796,58 @@
     if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); goTo(Math.max(current - 1, 0)); }
   });
 
-  // init first scene
-  document.querySelector('.scene[data-idx="0"]').classList.add('in');
-  dots[0].classList.add('active');
+  // ── SPLASH ──
+  let tickInterval;
+
+  function dismissSplash() {
+    const splash = document.getElementById('splash');
+    if (!splash || splash.classList.contains('exit')) return;
+    clearInterval(tickInterval);
+    splash.classList.add('exit');
+    setTimeout(() => {
+      splash.remove();
+      document.querySelector('.scene[data-idx="0"]').classList.add('in');
+      dots[0].classList.add('active');
+    }, 900);
+  }
+
+  // Act 1: clock ticking
+  const clockEl  = document.getElementById('sp-clock');
+  const p1       = document.getElementById('sp-phase-clock');
+  const p2       = document.getElementById('sp-phase-brand');
+  const clockTimes = ['6:47 AM','6:48 AM','6:49 AM','6:50 AM','6:51 AM','6:52 AM'];
+  let tickIdx = 0;
+
+  function doTick() {
+    if (tickIdx >= clockTimes.length - 1) { clearInterval(tickInterval); return; }
+    tickIdx++;
+    clockEl.classList.add('ticking');
+    setTimeout(() => {
+      clockEl.textContent = clockTimes[tickIdx];
+      clockEl.classList.remove('ticking');
+    }, 150);
+  }
+
+  // clock starts ticking 1s in (it fades in at 0.15s)
+  setTimeout(() => {
+    doTick();
+    tickInterval = setInterval(doTick, 650);
+  }, 1000);
+
+  // Act 2: swap to brand at 4.2s
+  setTimeout(() => {
+    clearInterval(tickInterval);
+    p1.classList.remove('sp-active');
+    p1.classList.add('sp-out');
+    setTimeout(() => {
+      p2.classList.add('sp-active');
+    }, 300);
+  }, 4200);
+
+  // Auto-dismiss at 6.5s (progress bar matches)
+  setTimeout(dismissSplash, 6500);
+
+  document.getElementById('sp-skip').addEventListener('click', dismissSplash);
 </script>
 </body>
 </html>
