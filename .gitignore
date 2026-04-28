@@ -1,0 +1,9 @@
+.DS_Store
+.netlify/
+.claude-flow/
+.claude/
+sessions/
+node_modules/
+**/.netlify/
+**/.claude-flow/
+**/.claude/

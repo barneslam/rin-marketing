@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIN — MTO Outreach Launcher</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f1117;
+      color: #e4e4e7;
+      padding: 40px 24px;
+      min-height: 100vh;
+    }
+    .page { max-width: 840px; margin: 0 auto; }
+    .header { margin-bottom: 36px; }
+    .header h1 { font-size: 22px; font-weight: 700; color: #fff; }
+    .header .meta { font-size: 13px; color: #71717a; margin-top: 6px; }
+    .stats { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+    .stat { background: #18181b; border: 1px solid #27272a; border-radius: 8px; padding: 14px 18px; min-width: 110px; }
+    .stat-num { font-size: 28px; font-weight: 700; }
+    .stat-label { font-size: 12px; color: #71717a; margin-top: 2px; }
+    .stat.green .stat-num { color: #4ade80; }
+    .stat.orange .stat-num { color: #fb923c; }
+    .stat.gray .stat-num { color: #71717a; }
+    .stat.red .stat-num { color: #f87171; }
+
+    .section { margin-bottom: 40px; }
+    .section-header {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      color: #71717a;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #27272a;
+    }
+    .count-badge {
+      background: #27272a; color: #a1a1aa;
+      font-size: 11px; padding: 1px 8px;
+      border-radius: 10px; font-weight: 500;
+    }
+
+    .card {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .card.priority { border-color: #dc2626; }
+    .card-left { flex: 1; min-width: 0; }
+    .card-right { flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+
+    .company-name {
+      font-size: 15px; font-weight: 600; color: #fff;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .priority-tag {
+      font-size: 10px; font-weight: 700;
+      color: #ef4444; background: #450a0a;
+      padding: 2px 8px; border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+    .zone-line { font-size: 12px; color: #71717a; margin-top: 4px; }
+    .day-line { font-size: 12px; color: #52525b; margin-top: 2px; }
+
+    .contact-row {
+      display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px;
+    }
+    .contact-item {
+      font-size: 12px; color: #a1a1aa;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .contact-item.green { color: #4ade80; }
+    .contact-item.orange { color: #fb923c; }
+    .contact-item.dim { color: #52525b; }
+
+    .note-line { font-size: 11px; color: #a16207; margin-top: 8px; font-style: italic; }
+
+    .btn {
+      display: inline-block; padding: 8px 16px;
+      border-radius: 6px; font-size: 13px; font-weight: 600;
+      text-decoration: none; cursor: pointer; border: none; white-space: nowrap;
+    }
+    .btn-send { background: #2563eb; color: #fff; }
+    .btn-send:hover { background: #1d4ed8; }
+    .btn-guess { background: #92400e; color: #fef3c7; }
+    .btn-guess:hover { background: #78350f; }
+    .btn-disabled { background: #27272a; color: #52525b; cursor: default; }
+
+    .legend {
+      display: flex; gap: 20px; flex-wrap: wrap;
+      font-size: 12px; color: #71717a;
+      margin-bottom: 28px;
+      padding: 12px 16px;
+      background: #18181b; border: 1px solid #27272a; border-radius: 8px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dot.green { background: #4ade80; }
+    .dot.orange { background: #fb923c; }
+    .dot.gray { background: #52525b; }
+
+    .footer {
+      text-align: center; font-size: 12px; color: #3f3f46;
+      margin-top: 60px; padding-top: 20px; border-top: 1px solid #27272a;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>RIN — MTO Outreach Launcher</h1>
+    <div class="meta">From: barnes@thestrategypitch.com &nbsp;·&nbsp; Week of Apr 28–30, 2026 &nbsp;·&nbsp; 14 MTO zone contractors</div>
+    <div class="stats">
+      <div class="stat green">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Confirmed email</div>
+      </div>
+      <div class="stat orange">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Best-guess email</div>
+      </div>
+      <div class="stat gray">
+        <div class="stat-num">4</div>
+        <div class="stat-label">No contact found</div>
+      </div>
+      <div class="stat red">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Highest priority</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="dot green"></div> Confirmed email address</div>
+    <div class="legend-item"><div class="dot orange"></div> Best-guess (info@domain.ca) — may bounce</div>
+    <div class="legend-item"><div class="dot gray"></div> No email found — research 411.ca first</div>
+  </div>
+
+  <div id="root"></div>
+
+  <div class="footer">RIN — Roadside Intelligence Network &nbsp;·&nbsp; rin-fleet.netlify.app</div>
+</div>
+
+<script>
+const sig = `Barnes Lam
+RIN — Roadside Intelligence Network
+barnes@thestrategypitch.com
+https://rin-fleet.netlify.app/pilot`;
+
+const companies = [
+
+  // ===== MON APR 28 =====
+  {
+    id: 'abrams',
+    company: 'Abrams Towing',
+    zone: 'Zones 1A + 2B — Hwy 401 (400–404) AND (James Snow–Hwy 6 S)',
+    day: 'Mon Apr 28 — PRIORITY',
+    phone: null,
+    email: null,
+    emailStatus: 'no-contact',
+    priority: true,
+    note: 'ONLY company holding TWO MTO zones. Largest operation on the list. Find phone via 411.ca search: "Abrams Towing" GTA / Mississauga / Toronto.',
+    subject: null,
+    body: null,
+  },
+  {
+    id: 'classic',
+    company: 'Classic Towing & Storage Service',
+    zone: 'Zone 1D — Hwy 401 (Morningside to Hwy 412)',
+    day: 'Mon Apr 28',
+    phone: '416-604-3222',
+    email: 'info@classictowing.ca',
+    emailStatus: 'best-guess',
+    note: 'Kevin is a prior contact — warm call. Best-guess email to reach his team if Kevin not at desk.',
+    subject: 'Classic Towing + RIN — built for your MTO zone',
+    body: `Kevin,
+
+Classic has Zone 1D locked — Morningside to the 412. What happens when all your trucks are running and OPP calls in another?
+
+We built the RIN Partner Portal for exactly that gap. Your own drivers are in the system. You enter your MTO government contract rates. When you're at capacity, we surface overflow from our driver network — you only pay 20% on those jobs. Your own fleet: 0% commission.
+
+Everything closes with a timestamped report. Billing splits own vs. network each month. 7-day guaranteed payment on overflow.
+
+5 partner spots open in Southern Ontario. Worth a 30-minute look?
+
+→ https://x-rin-partner-portal.netlify.app
+
+${sig}`,
+  },
+  {
+    id: 'pacific',
+    company: 'Pacific Towing and Recovery',
+    zone: 'Zone 3B — Hwy 401 (Dixie to Islington)',
+    day: 'Mon Apr 28',
+    phone: '905-407-0000',
+    email: 'info@pacifictowing.ca',
+    emailStatus: 'confirmed',
+    subject: 'MTO Zone 3B — Pacific Towing partner opportunity',
+    body: `Hi,
+
+Pacific runs Zone 3B on the 401 — Dixie to Islington. You're also running heavy recovery and air cushion work, which tells me you're handling more than standard highway calls.
+
+We built the RIN Partner Portal for operators exactly at your level. You manage your own driver pool inside it — your MTO government contract rates and commercial rates are stored separately. When you're at capacity, we dispatch overflow from our network. You pay 20% on overflow jobs only. 7-day guaranteed payment.
+
+Every job closes with a timestamped record: driver, rate, duration. Billing dashboard shows own vs. network split each month.
+
+We're onboarding 5 partner companies in Southern Ontario right now.
+
+Worth a 30-minute look?
+
+${sig}`,
+  },
+  {
+    id: 'lyons',
+    company: 'Lyons Towing',
+    zone: 'Zone 2D — Hwy 403 (QEW to 401)',
+    day: 'Mon Apr 28',
+    phone: '905-277-1456',
+    email: 'dispatch@lyons-towing.com',
+    emailStatus: 'confirmed',
+    subject: 'Lyons Towing — partner portal for your 403/QEW zone',
+    body: `Hi,
+
+Lyons runs one of the most congested MTO zones in the GTA — the 403 between the QEW and 401. When your trucks are committed and another dispatch comes in, that's revenue and coverage slipping through.
+
+RIN Partner Portal lets you manage your own driver pool and enter your MTO government contract rates. When you're at capacity, we dispatch overflow at your discretion — 20% commission only on those jobs. Your own fleet: 0%.
+
+Everything is tracked and billed. One dashboard. 7-day payment on overflow dispatches.
+
+We're launching with 5 MTO operator partners in Southern Ontario.
+
+30 minutes to see if it fits your operation?
+
+${sig}`,
+  },
+  {
+    id: 'a-action',
+    company: 'A Action Towing and Recovery Inc.',
+    zone: 'Zone 4C — QEW (403 split to Fifty Rd)',
+    day: 'Mon Apr 28',
+    phone: '905-632-1502',
+    email: 'info@aactiontowing.ca',
+    emailStatus: 'best-guess',
+    note: 'ISO 9001 + MTO Tow Zone Pilot ACCREDITED. 70 trucks, 9 locations. Largest on list after Abrams.',
+    subject: 'A Action Towing — partner portal for your MTO Tow Zone operation',
+    body: `Hi,
+
+A Action is one of a small number of operators with both MTO Tow Zone Pilot accreditation and ISO 9001 certification. That puts you at a different operational level than most towing companies — and that's exactly who we're building the RIN Partner Portal with.
+
+The portal lets you manage your own driver pool across your 9 locations, store your MTO government contract rates and commercial rates separately, and access overflow dispatching from our network when you're at capacity. The 20% commission only applies to overflow jobs — your own fleet runs at 0%.
+
+Given your ISO background: every job closes with a full audit trail. Driver, rate, duration, timestamped. Monthly billing dashboard shows own vs. network split.
+
+We're launching with 5 MTO partner companies in Southern Ontario.
+
+Is there 30 minutes to walk through how this would work at A Action's scale?
+
+${sig}`,
+  },
+
+  // ===== TUE APR 29 =====
+  {
+    id: 'az',
+    company: 'A.Z. Towing',
+    zone: 'Zone 2A — Hwy 401 (Dixie to James Snow Pkwy)',
+    day: 'Tue Apr 29',
+    phone: '905-463-5555',
+    email: 'Dispatch@aztowing.ca',
+    emailStatus: 'confirmed',
+    subject: 'A.Z. Towing — partner portal for your Hwy 401 zone',
+    body: `Hi,
+
+A.Z. runs Zone 2A — Hwy 401 from Dixie to James Snow. With 20+ trucks in Mississauga, you're managing one of the busiest stretches of the 401.
+
+We're onboarding MTO-contracted operators onto the RIN Partner Portal. You manage your own driver pool inside it — government rates and commercial rates stored separately. When you're at capacity, we fill overflow at 20% commission. Your own fleet runs at 0%.
+
+7-day guaranteed payment on all overflow dispatches. Full audit trail on every job.
+
+5 partner spots in Southern Ontario. Worth a 30-minute look?
+
+${sig}`,
+  },
+  {
+    id: 'fellows',
+    company: 'Fellows Towing',
+    zone: 'Zone 3A — Hwy 400 (401 to Hwy 9)',
+    day: 'Tue Apr 29',
+    phone: '1-877-401-0401 / 416-656-4000',
+    email: 'info@fellowstowing.com',
+    emailStatus: 'confirmed',
+    subject: 'Fellows Towing — Zone 3A partner opportunity',
+    body: `Hi,
+
+Fellows runs Zone 3A on the 400 — one of the highest-incident corridors in Ontario coming off the 401 interchange.
+
+We built the RIN Partner Portal for MTO operators managing that kind of call volume. Your own driver pool lives in the system — government rates and commercial rates stored separately. When you're at capacity, we fill overflow from a vetted network. 20% on overflow only. 0% on your own fleet. 7-day payment.
+
+Heavy recovery, float, and storage operations all tracked through the same dashboard.
+
+We're launching with 5 MTO partners in Southern Ontario.
+
+30 minutes this week?
+
+${sig}`,
+  },
+  {
+    id: 'jkm',
+    company: 'JKM Towing Inc.',
+    zone: 'Zone 4B — QEW/403 (Third Line to Hwy 6 N)',
+    day: 'Tue Apr 29',
+    phone: '905-638-4344 (heavy) / 905-638-2400 (light)',
+    email: 'info@jkmtowing.com',
+    emailStatus: 'best-guess',
+    note: '4 locations: Burlington, Oakville, Hamilton, Cambridge. Use heavy line (905-638-4344) for best pickup.',
+    subject: 'JKM Towing — partner portal for your multi-location QEW operation',
+    body: `Hi,
+
+JKM runs Zone 4B — QEW and 403 from Third Line to Hwy 6. With locations in Burlington, Oakville, Hamilton, and Cambridge, you're managing cross-location driver allocation that most towing companies don't deal with.
+
+We built the RIN Partner Portal for exactly that. Each of your locations can have drivers loaded into the system. Government rates and commercial rates stored separately by zone. When you need overflow, we dispatch from our network — 20% only on those jobs. Your own fleet: 0%.
+
+Everything billed monthly. Full audit trail on every dispatch.
+
+We're launching with 5 MTO partners in Southern Ontario.
+
+30 minutes to walk through how JKM's multi-location setup would work inside the portal?
+
+${sig}`,
+  },
+  {
+    id: 'abc',
+    company: 'ABC Towing',
+    zone: 'Zone 4A — QEW (427 to Third Line)',
+    day: 'Tue Apr 29',
+    phone: '905-337-0688',
+    email: null,
+    emailStatus: 'no-contact',
+    note: 'No website found. 25+ years in business. Call is the only option.',
+    subject: null,
+    body: null,
+  },
+  {
+    id: 'jp',
+    company: 'JP Towing Service & Storage Ltd.',
+    zone: 'Zone 3D — Hwy 427 (409 to Major Mackenzie Dr)',
+    day: 'Tue Apr 29',
+    phone: null,
+    email: 'info@jptowing.ca',
+    emailStatus: 'best-guess',
+    note: 'Website jptowing.ca exists but has TLS error. Phone unknown — find via 411.ca (Etobicoke/North York).',
+    subject: 'JP Towing — Zone 3D partner opportunity (Hwy 427)',
+    body: `Hi,
+
+JP Towing runs Zone 3D — Hwy 427 between the 409 and Major Mackenzie. That's a high-density corridor near the airport, with commercial and residential recovery running through it.
+
+We built the RIN Partner Portal for MTO operators. Your driver pool is managed inside it — government rates and commercial rates stored separately. When you need overflow, our vetted network fills it. 20% on those jobs, 0% on your own fleet. 7-day payment.
+
+We're launching with 5 MTO partners in Southern Ontario.
+
+30 minutes to walk through the portal?
+
+${sig}`,
+  },
+
+  // ===== WED APR 30 =====
+  {
+    id: 'williams',
+    company: 'Williams Towing Service',
+    zone: 'Zone 1C — Hwy 404 (401 to Major Mackenzie Dr)',
+    day: 'Wed Apr 30',
+    phone: '416-299-8383',
+    email: 'dispatch@williamstowing.ca',
+    emailStatus: 'confirmed',
+    subject: 'Williams Towing — 55 years on the 404, partner portal built for your scale',
+    body: `Hi,
+
+Williams has been running Zone 1C on the 404 for over 55 years and handling 15,000 vehicles a year. At that volume, driver pool management and overflow coverage aren't theoretical problems — they're daily operations.
+
+We built the RIN Partner Portal for operators at your level. Your driver pool is managed inside the system. Your MTO government contract rates and commercial rates are stored separately. When you're at capacity, we dispatch from our vetted network — 20% on those overflow jobs, 0% on your own fleet.
+
+Every job closes with a full audit trail. Monthly billing split between own fleet and network dispatches.
+
+We're launching with 5 MTO partner companies in Southern Ontario.
+
+30 minutes this week?
+
+${sig}`,
+  },
+  {
+    id: 'bill-son',
+    company: 'Bill & Son Towing',
+    zone: 'Zone 3C — Hwy 401, 409, 427',
+    day: 'Wed Apr 30',
+    phone: null,
+    email: null,
+    emailStatus: 'no-contact',
+    note: 'Multi-highway zone (401+409+427) = medium-to-large operation. No website found. Find phone via 411.ca (Etobicoke area).',
+    subject: null,
+    body: null,
+  },
+  {
+    id: 'comtow',
+    company: 'COMTOW',
+    zone: 'Zone 2C — Hwy 410 (401 to Hurontario)',
+    day: 'Wed Apr 30',
+    phone: null,
+    email: 'info@comtow.ca',
+    emailStatus: 'best-guess',
+    note: 'Website comtow.ca exists but TLS expired. MTO contract is current. Find phone via 411.ca (Brampton).',
+    subject: 'COMTOW — Zone 2C partner opportunity (Hwy 410 Brampton)',
+    body: `Hi,
+
+COMTOW holds Zone 2C — Hwy 410 between the 401 and Hurontario. Brampton's one of the fastest-growing corridors in Ontario right now, and the 410 sees the volume to match.
+
+We built the RIN Partner Portal for MTO operators. Your driver pool is managed inside it — government rates and commercial rates stored separately. When you're at capacity, we dispatch overflow from our vetted network. 20% on those jobs, 0% on your own fleet. 7-day payment.
+
+Full audit trail on every dispatch. One billing dashboard.
+
+We're launching with 5 MTO partners in Southern Ontario.
+
+30 minutes to walk through the portal?
+
+${sig}`,
+  },
+  {
+    id: 'bobs',
+    company: "Bob's Towing",
+    zone: 'Zone 1B — Hwy 401 (404 to Morningside)',
+    day: 'Wed Apr 30',
+    phone: null,
+    email: null,
+    emailStatus: 'no-contact',
+    note: "No website or email found. Search 411.ca for \"Bob's Towing Scarborough\" to find phone before calling.",
+    subject: null,
+    body: null,
+  },
+];
+
+const confirmed = companies.filter(c => c.emailStatus === 'confirmed');
+const bestGuess = companies.filter(c => c.emailStatus === 'best-guess');
+const noContact = companies.filter(c => c.emailStatus === 'no-contact');
+
+function makeHref(c) {
+  if (!c.email || !c.subject || !c.body) return null;
+  return `mailto:${c.email}?subject=${encodeURIComponent(c.subject)}&body=${encodeURIComponent(c.body)}`;
+}
+
+function renderCard(c) {
+  const href = makeHref(c);
+  const isGuess = c.emailStatus === 'best-guess';
+  const isConfirmed = c.emailStatus === 'confirmed';
+
+  let btn = '';
+  if (href && isConfirmed) {
+    btn = `<a href="${href}" class="btn btn-send">Open Email ↗</a>`;
+  } else if (href && isGuess) {
+    btn = `<a href="${href}" class="btn btn-guess">Open Email ⚠</a>`;
+  } else {
+    btn = `<span class="btn btn-disabled">Research First</span>`;
+  }
+
+  const emailClass = isConfirmed ? 'green' : isGuess ? 'orange' : 'dim';
+  const emailDot = isConfirmed ? '●' : isGuess ? '●' : '○';
+  const emailLabel = c.email
+    ? `${emailDot} ${c.email}${isGuess ? ' (best guess)' : ''}`
+    : '○ No email found';
+
+  return `
+    <div class="card${c.priority ? ' priority' : ''}">
+      <div class="card-left">
+        <div class="company-name">
+          ${c.company}
+          ${c.priority ? '<span class="priority-tag">2 ZONES — HIGHEST VALUE</span>' : ''}
+        </div>
+        <div class="zone-line">${c.zone}</div>
+        <div class="day-line">📅 ${c.day}</div>
+        <div class="contact-row">
+          <span class="contact-item ${c.phone ? '' : 'dim'}">📞 ${c.phone || 'Phone unknown'}</span>
+          <span class="contact-item ${emailClass}">✉ ${emailLabel}</span>
+        </div>
+        ${c.note ? `<div class="note-line">${c.note}</div>` : ''}
+      </div>
+      <div class="card-right">${btn}</div>
+    </div>`;
+}
+
+function renderSection(icon, title, list) {
+  if (!list.length) return '';
+  return `
+    <div class="section">
+      <div class="section-header">
+        ${icon} ${title}
+        <span class="count-badge">${list.length}</span>
+      </div>
+      ${list.map(renderCard).join('')}
+    </div>`;
+}
+
+document.getElementById('root').innerHTML =
+  renderSection('✅', 'Confirmed Email — Open and Send', confirmed) +
+  renderSection('⚠', 'Best-Guess Email — Review Before Hitting Send', bestGuess) +
+  renderSection('🔍', 'No Contact Info — Research via 411.ca First', noContact);
+</script>
+</body>
+</html>
