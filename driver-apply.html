@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drive for RIN — More Jobs. Know Your Rate. Get Paid in 24 Hours.</title>
+  <meta name="description" content="Join the RIN tow driver network in Ontario. Pre-priced jobs sent to your phone. 90% payout. No motor clubs. Apply in 2 minutes.">
+  <meta property="og:title" content="Drive for RIN — More Jobs. Know Your Rate. Get Paid in 24 Hours.">
+  <meta property="og:description" content="Join the RIN tow driver network in Ontario. Pre-priced jobs sent to your phone. 90% payout. No motor clubs.">
+  <meta property="og:image" content="https://rin-marketing.netlify.app/assets/og-driver.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #070c1a;
+      --bg2:    #0f172a;
+      --bg3:    #1e293b;
+      --border: #1a2744;
+      --border2:#334155;
+      --text:   #f1f5f9;
+      --text2:  #94a3b8;
+      --text3:  #64748b;
+      --blue:   #3b82f6;
+      --blue-l: #60a5fa;
+      --blue-g: rgba(59,130,246,0.12);
+      --green:  #34d399;
+      --green-g:rgba(52,211,153,0.12);
+      --purple: #a78bfa;
+      --purple-g:rgba(167,139,250,0.15);
+      --gold:   #f59e0b;
+      --gold-g: rgba(245,158,11,0.12);
+      --red:    #f87171;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
+
+    /* ── NAV ── */
+    header{position:sticky;top:0;z-index:200;background:rgba(7,12,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;color:var(--blue-l);}
+    .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:blink 2s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .nav-r{display:flex;align-items:center;gap:20px;}
+    .nav-phone{font-size:14px;color:var(--text2);font-weight:500;}
+    .nav-phone strong{color:var(--purple);}
+    .nav-cta{background:var(--purple);color:white;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;transition:opacity 150ms;}
+    .nav-cta:hover{opacity:0.85;}
+
+    /* ── HERO ── */
+    .hero{padding:100px 40px 120px;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(167,139,250,0.08) 0%,transparent 70%);}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.3);border-radius:100px;padding:6px 20px;font-size:13px;font-weight:600;color:var(--green);margin-bottom:32px;}
+    .hero-badge::before{content:'●';font-size:8px;animation:blink 1.5s infinite;}
+    .hero h1{font-size:clamp(38px,6vw,72px);font-weight:900;line-height:1.04;letter-spacing:-2.5px;margin-bottom:22px;}
+    .hero h1 .hi{color:var(--purple);}
+    .hero-sub{font-size:18px;color:var(--text2);max-width:580px;margin:0 auto 48px;line-height:1.7;}
+    .hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:56px;}
+    .btn-primary{background:var(--purple);color:white;padding:18px 38px;border-radius:10px;font-size:17px;font-weight:800;letter-spacing:-0.3px;display:inline-block;transition:all 150ms;}
+    .btn-primary:hover{opacity:0.85;transform:translateY(-2px);}
+    .btn-outline{border:1.5px solid var(--border2);color:var(--text);padding:18px 38px;border-radius:10px;font-size:17px;font-weight:600;display:inline-block;transition:all 150ms;}
+    .btn-outline:hover{border-color:var(--purple);color:var(--purple);}
+    .hero-trust{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;}
+    .trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text3);}
+    .trust-item .chk{color:var(--green);font-weight:700;}
+
+    /* ── STATS ── */
+    .stats-strip{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:36px 40px;}
+    .stats-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:900px;margin:0 auto;}
+    .stat{text-align:center;padding:0 20px;border-right:1px solid var(--border2);}
+    .stat:last-child{border-right:none;}
+    .stat-num{font-size:42px;font-weight:900;letter-spacing:-2px;color:var(--purple);line-height:1;margin-bottom:4px;}
+    .stat-lbl{font-size:13px;color:var(--text2);}
+
+    /* ── SECTIONS ── */
+    .section{max-width:1020px;margin:0 auto;padding:80px 40px;}
+    .slabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--purple);margin-bottom:12px;}
+    .stitle{font-size:clamp(26px,4vw,44px);font-weight:800;letter-spacing:-1.2px;line-height:1.1;margin-bottom:16px;}
+    .ssub{font-size:17px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:48px;}
+
+    /* ── PAIN GRID ── */
+    .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .pain-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:32px;position:relative;overflow:hidden;}
+    .pain-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(248,113,113,0.05),transparent 60%);pointer-events:none;}
+    .pain-icon{font-size:36px;margin-bottom:16px;}
+    .pain-card h3{font-size:18px;font-weight:700;margin-bottom:10px;}
+    .pain-card p{font-size:14px;color:var(--text2);line-height:1.65;}
+    .pain-fix{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);font-size:13px;color:var(--purple);font-weight:600;}
+
+    /* ── BENEFIT GRID ── */
+    .benefit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+    .benefit-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:36px;position:relative;overflow:hidden;transition:border-color 200ms;}
+    .benefit-card:hover{border-color:rgba(167,139,250,0.4);}
+    .benefit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:18px 18px 0 0;}
+    .b-num{font-size:44px;font-weight:900;color:var(--purple);letter-spacing:-2px;line-height:1;margin-bottom:8px;}
+    .b-unit{font-size:16px;color:var(--text3);margin-bottom:16px;}
+    .benefit-card h3{font-size:20px;font-weight:700;margin-bottom:10px;}
+    .benefit-card p{font-size:14px;color:var(--text2);line-height:1.65;}
+
+    /* ── HOW IT WORKS ── */
+    .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+    .step-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;}
+    .step-num{width:40px;height:40px;border-radius:50%;background:var(--purple-g);border:1.5px solid rgba(167,139,250,0.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--purple);margin:0 auto 16px;}
+    .step-icon{font-size:32px;margin-bottom:12px;}
+    .step-card h3{font-size:15px;font-weight:700;margin-bottom:8px;}
+    .step-card p{font-size:13px;color:var(--text2);line-height:1.55;}
+
+    /* ── WHO WE WANT ── */
+    .who-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+    .who-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:40px;position:relative;overflow:hidden;}
+    .who-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;padding:4px 14px;border-radius:6px;margin-bottom:20px;}
+    .who-tag.co{background:rgba(59,130,246,0.12);color:var(--blue-l);}
+    .who-tag.ind{background:var(--purple-g);color:var(--purple);}
+    .who-card h3{font-size:22px;font-weight:800;margin-bottom:12px;}
+    .who-card p{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:20px;}
+    .who-list{display:flex;flex-direction:column;gap:10px;}
+    .who-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text2);}
+    .who-item .ck{color:var(--green);flex-shrink:0;margin-top:1px;}
+
+    /* ── WHATSAPP SECTION ── */
+    .wa-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:72px 0;}
+    .wa-inner{max-width:1020px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+    .wa-icon{font-size:72px;margin-bottom:8px;}
+    .wa-copy h2{font-size:32px;font-weight:800;letter-spacing:-0.8px;margin-bottom:14px;}
+    .wa-copy p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:6px;}
+    .wa-note{font-size:12px;color:var(--text3);margin-top:12px;border-top:1px solid var(--border);padding-top:12px;}
+    .wa-box{background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:32px;}
+    .wa-box h3{font-size:16px;font-weight:700;margin-bottom:16px;color:var(--green);}
+    .wa-q{font-size:14px;color:var(--text);margin-bottom:8px;font-weight:500;}
+    .wa-opts{display:flex;gap:10px;margin-bottom:20px;}
+    .wa-opt{flex:1;padding:10px;border-radius:8px;border:1.5px solid var(--border2);text-align:center;font-size:13px;font-weight:600;cursor:pointer;transition:all 150ms;color:var(--text2);}
+    .wa-opt.selected{border-color:var(--green);background:var(--green-g);color:var(--green);}
+    .wa-consent{display:none;flex-direction:column;gap:10px;}
+    .wa-consent.show{display:flex;}
+    .consent-check{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text2);line-height:1.5;}
+    .consent-check input[type=checkbox]{margin-top:2px;accent-color:var(--green);width:15px;height:15px;flex-shrink:0;}
+
+    /* ── APPLICATION FORM ── */
+    .form-section{background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(167,139,250,0.06) 0%,transparent 70%);}
+    .form-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:56px;max-width:760px;margin:0 auto;}
+    .form-wrap h2{font-size:32px;font-weight:800;letter-spacing:-0.8px;margin-bottom:8px;}
+    .form-wrap .sub{font-size:15px;color:var(--text2);margin-bottom:40px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+    .form-row.full{grid-template-columns:1fr;}
+    .form-group{display:flex;flex-direction:column;gap:6px;}
+    .form-group label{font-size:13px;font-weight:600;color:var(--text2);}
+    .form-group input,.form-group select,.form-group textarea{background:var(--bg3);border:1.5px solid var(--border2);border-radius:10px;padding:13px 16px;font-size:15px;color:var(--text);font-family:'Inter',sans-serif;transition:border-color 150ms;outline:none;width:100%;}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--purple);}
+    .form-group select option{background:var(--bg3);}
+    .form-group textarea{resize:vertical;min-height:80px;}
+    .form-group input::placeholder,.form-group textarea::placeholder{color:var(--text3);}
+
+    .check-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+    .check-group-label{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:4px;}
+    .check-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .check-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;cursor:pointer;transition:all 150ms;}
+    .check-item:hover{border-color:var(--purple);}
+    .check-item input{accent-color:var(--purple);}
+    .check-item.checked{border-color:rgba(167,139,250,0.5);background:var(--purple-g);color:var(--purple);}
+
+    .radio-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+    .radio-label{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:4px;}
+    .radio-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+    .radio-item{display:flex;align-items:center;gap:8px;font-size:13px;background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;padding:12px 14px;cursor:pointer;transition:all 150ms;}
+    .radio-item:hover{border-color:var(--purple);}
+    .radio-item input{accent-color:var(--purple);}
+    .radio-item.selected{border-color:rgba(167,139,250,0.5);background:var(--purple-g);}
+
+    .wa-form-section{background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:24px;margin-bottom:20px;}
+    .wa-form-section h4{font-size:15px;font-weight:700;color:var(--green);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .wa-yes-fields{display:none;}
+    .wa-yes-fields.show{display:block;}
+
+    .divider{height:1px;background:var(--border);margin:28px 0;}
+
+    .legal-checks{display:flex;flex-direction:column;gap:14px;margin-bottom:28px;}
+    .legal-check{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--text2);line-height:1.55;}
+    .legal-check input{margin-top:2px;accent-color:var(--purple);width:16px;height:16px;flex-shrink:0;}
+    .legal-check a{color:var(--purple);text-decoration:underline;cursor:pointer;}
+
+    .btn-submit{width:100%;background:var(--purple);color:white;padding:18px;border-radius:10px;font-size:17px;font-weight:800;border:none;cursor:pointer;transition:all 150ms;letter-spacing:-0.3px;}
+    .btn-submit:hover{opacity:0.85;}
+    .btn-submit:disabled{opacity:0.5;cursor:not-allowed;}
+
+    .form-success{display:none;text-align:center;padding:48px 24px;}
+    .form-success.show{display:block;}
+    .success-icon{font-size:64px;margin-bottom:20px;}
+    .form-success h3{font-size:26px;font-weight:800;margin-bottom:12px;}
+    .form-success p{font-size:16px;color:var(--text2);line-height:1.7;}
+
+    .form-error{display:none;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.3);border-radius:10px;padding:14px 16px;font-size:14px;color:var(--red);margin-bottom:16px;}
+    .form-error.show{display:block;}
+
+    /* ── MODAL ── */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;align-items:center;justify-content:center;padding:20px;}
+    .modal-bg.open{display:flex;}
+    .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;max-width:720px;width:100%;max-height:85vh;overflow-y:auto;padding:48px;}
+    .modal h2{font-size:26px;font-weight:800;margin-bottom:6px;}
+    .modal .modal-date{font-size:12px;color:var(--text3);margin-bottom:28px;}
+    .modal h3{font-size:16px;font-weight:700;margin:24px 0 8px;}
+    .modal p{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:12px;}
+    .modal ul{font-size:14px;color:var(--text2);line-height:1.7;padding-left:20px;margin-bottom:12px;}
+    .modal ul li{margin-bottom:6px;}
+    .modal-close{display:block;margin-top:28px;text-align:center;color:var(--purple);font-size:14px;font-weight:600;cursor:pointer;}
+
+    /* ── FOOTER ── */
+    footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 40px 32px;}
+    .footer-inner{max-width:1020px;margin:0 auto;}
+    .footer-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;flex-wrap:wrap;gap:24px;}
+    .footer-brand .logo{margin-bottom:8px;}
+    .footer-brand p{font-size:13px;color:var(--text3);max-width:280px;line-height:1.6;}
+    .footer-contact{text-align:right;}
+    .footer-contact p{font-size:13px;color:var(--text3);line-height:1.8;}
+    .footer-contact strong{color:var(--text2);}
+    .footer-bottom{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+    .footer-bottom p{font-size:12px;color:var(--text3);}
+    .footer-links{display:flex;gap:20px;}
+    .footer-links a{font-size:12px;color:var(--text3);transition:color 150ms;}
+    .footer-links a:hover{color:var(--purple);}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:768px){
+      header{padding:0 20px;}
+      .nav-phone{display:none;}
+      .hero{padding:72px 20px 96px;}
+      .stats-inner{grid-template-columns:repeat(2,1fr);gap:0;}
+      .stat{border-right:none;border-bottom:1px solid var(--border2);padding:20px;}
+      .stat:nth-child(2n){border-right:none;}
+      .stat:last-child,.stat:nth-last-child(2){border-bottom:none;}
+      .section{padding:60px 20px;}
+      .pain-grid,.benefit-grid,.who-grid,.steps-grid{grid-template-columns:1fr;}
+      .wa-inner{grid-template-columns:1fr;gap:32px;padding:0 20px;}
+      .form-wrap{padding:32px 20px;}
+      .form-row{grid-template-columns:1fr;}
+      .check-row{grid-template-columns:1fr 1fr;}
+      .radio-row{grid-template-columns:1fr;}
+      footer{padding:40px 20px 28px;}
+      .footer-top{flex-direction:column;}
+      .footer-contact{text-align:left;}
+      .modal{padding:28px 20px;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    RIN
+  </div>
+  <div class="nav-r">
+    <span class="nav-phone">Questions? Call <strong>647-473-1338</strong></span>
+    <a href="#apply" class="nav-cta">Apply to Drive</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Now recruiting tow drivers across Ontario</div>
+  <h1>Drive More.<br><span class="hi">Earn More.</span><br>Know Your Rate First.</h1>
+  <p class="hero-sub">RIN sends pre-priced roadside jobs directly to your phone. You see the rate before you move. 90% of every job goes to you. Paid within 24 hours.</p>
+  <div class="hero-ctas">
+    <a href="#apply" class="btn-primary">Apply to Join the Network</a>
+    <a href="#how-it-works" class="btn-outline">See How It Works</a>
+  </div>
+  <div class="hero-trust">
+    <span class="trust-item"><span class="chk">✓</span> No motor club fees</span>
+    <span class="trust-item"><span class="chk">✓</span> Independent contractor — your schedule</span>
+    <span class="trust-item"><span class="chk">✓</span> Province-wide Ontario coverage</span>
+    <span class="trust-item"><span class="chk">✓</span> Payment locked before you move</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">90%</div><div class="stat-lbl">Payout on every job</div></div>
+    <div class="stat"><div class="stat-num">24h</div><div class="stat-lbl">Payment after job completion</div></div>
+    <div class="stat"><div class="stat-num">$0</div><div class="stat-lbl">Monthly fees or subscriptions</div></div>
+    <div class="stat"><div class="stat-num">ON</div><div class="stat-lbl">Coverage — all of Ontario</div></div>
+  </div>
+</div>
+
+<!-- PAIN -->
+<section class="section">
+  <div class="slabel">The Current Problem</div>
+  <h2 class="stitle">You're leaving money on the table every week.</h2>
+  <p class="ssub">Motor clubs take 40-50%. Dispatchers give you jobs that were re-priced after you arrived. Invoice fights delay your pay by 30+ days. That changes with RIN.</p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-icon">📞</div>
+      <h3>3 calls to find one job</h3>
+      <p>Motor club calls, then a dispatcher, then a wait. By the time you get the address, someone else is already closer.</p>
+      <div class="pain-fix">✦ RIN: Job comes to your phone. Accept or pass. Done.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">💸</div>
+      <h3>You don't know what you'll make</h3>
+      <p>Price changes on scene. Motor club takes a cut you never see. You're guessing your income every single shift.</p>
+      <div class="pain-fix">✦ RIN: Rate is locked and confirmed before you move.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">📋</div>
+      <h3>Chasing invoices for weeks</h3>
+      <p>Job done on Monday, invoice submitted Tuesday, paid — maybe — on the 30th. Cash flow for independent operators is brutal.</p>
+      <div class="pain-fix">✦ RIN: Paid within 24 hours of job completion.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section" style="padding-top:0;">
+  <div class="slabel">Why RIN</div>
+  <h2 class="stitle">Built for drivers who run a real business.</h2>
+  <p class="ssub">Whether you work for a company or run your own truck, RIN gives you consistent volume, transparent rates, and fast payment.</p>
+  <div class="benefit-grid">
+    <div class="benefit-card">
+      <div class="b-num">90%</div>
+      <div class="b-unit">of every job, in your pocket</div>
+      <h3>Transparent Payout, Every Time</h3>
+      <p>The industry norm for motor clubs is 50-60% after their cuts. RIN takes a flat 10% platform fee and nothing else. You see the payout before you accept. No surprises at invoice time.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="b-num">24h</div>
+      <div class="b-unit">payment after job completion</div>
+      <h3>Same-Day Pay — Not 30-Day Net</h3>
+      <p>Payment is triggered the moment the customer confirms the job is complete. Your payment is processed and transferred within 24 hours. No chasing, no invoicing, no float.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="b-num">$0</div>
+      <div class="b-unit">monthly fees or subscriptions</div>
+      <h3>Only Pay When You Earn</h3>
+      <p>No setup fees. No monthly platform subscription. RIN earns only when you earn. Our 20% comes from completed jobs — nothing else. There is no cost to join the network.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="b-num">2</div>
+      <div class="b-unit">texts — that's the entire workflow</div>
+      <h3>Job to Your Phone, Reply to Accept</h3>
+      <p>Job details, location, vehicle type, and your locked rate arrive in one SMS. Reply YES to accept. Reply NO to pass. RIN tracks your position and routes to the best match automatically.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="section" style="padding-top:0;">
+  <div class="slabel">How It Works</div>
+  <h2 class="stitle">From dispatch to deposit in one shift.</h2>
+  <p class="ssub" style="margin-bottom:40px;">You keep driving. The platform handles the intake, pricing, customer confirmation, and payment.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-icon">📱</div>
+      <h3>Job arrives on your phone</h3>
+      <p>SMS with service type, vehicle, pickup location, distance, and your locked payout rate.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-icon">✅</div>
+      <h3>Reply YES or NO</h3>
+      <p>Accept the job in one text. Decline and the next available driver gets it. No pressure, no quotas.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-icon">🚛</div>
+      <h3>Complete the job</h3>
+      <p>Arrive at scene, complete the service, text DONE. Customer confirms on their end. Job closes.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-icon">💳</div>
+      <h3>Get paid within 24 hours</h3>
+      <p>Payment processed automatically. 90% transferred to your account. No invoicing, no calls.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE'RE LOOKING FOR -->
+<section class="section" style="padding-top:0;">
+  <div class="slabel">Who Can Join</div>
+  <h2 class="stitle">Company driver or freelance — both are welcome.</h2>
+  <p class="ssub">RIN works for drivers at different stages. We want experienced operators who take the job seriously.</p>
+  <div class="who-grid">
+    <div class="who-card">
+      <div class="who-tag co">Company Driver</div>
+      <h3>You drive for a towing company</h3>
+      <p>You're already employed by or contracted to a towing company, but you want access to overflow jobs and better dispatch volume — especially on your downtime.</p>
+      <div class="who-list">
+        <div class="who-item"><span class="ck">✓</span> Supplement income between company calls</div>
+        <div class="who-item"><span class="ck">✓</span> Access jobs that don't conflict with your employer</div>
+        <div class="who-item"><span class="ck">✓</span> Your company can join the RIN Partner Portal separately</div>
+        <div class="who-item"><span class="ck">✓</span> TSSEA compliance maintained on all dispatches</div>
+      </div>
+    </div>
+    <div class="who-card">
+      <div class="who-tag ind">Independent / Freelance</div>
+      <h3>You run your own truck</h3>
+      <p>You're a sole operator or small fleet owner. You want consistent job flow without the motor club dependency, and you want to know what you're making before you move.</p>
+      <div class="who-list">
+        <div class="who-item"><span class="ck">✓</span> Consistent dispatch volume across all of Ontario</div>
+        <div class="who-item"><span class="ck">✓</span> No motor club contracts required</div>
+        <div class="who-item"><span class="ck">✓</span> Set your own service area and availability</div>
+        <div class="who-item"><span class="ck">✓</span> MTO-contracted and commercial jobs province-wide</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHATSAPP SECTION -->
+<div class="wa-section">
+  <div class="wa-inner">
+    <div>
+      <div class="wa-icon">💬</div>
+      <h2 class="wa-copy">Already in a tow driver WhatsApp group?</h2>
+      <p class="wa-copy">Many tow drivers in Ontario use WhatsApp groups to share job availability, tips, and industry news. If you're in one, we'd love to share more about RIN with your group — with your permission.</p>
+      <p class="wa-copy" style="margin-top:8px;">This is 100% optional. We will only send one informational message, and only if you say yes and tell us it's okay with your group admin.</p>
+      <p class="wa-note">RIN complies with Canada's Anti-Spam Legislation (CASL). We never send unsolicited commercial messages to WhatsApp groups. Your consent is specific, recorded, and revocable at any time. See our Privacy Policy for full details.</p>
+    </div>
+    <div class="wa-box">
+      <h3>🔒 We'll ask in the application below</h3>
+      <p style="font-size:14px;color:var(--text2);line-height:1.6;">The application form includes a WhatsApp section. You'll tell us:</p>
+      <ul style="font-size:13px;color:var(--text2);padding-left:18px;margin-top:10px;line-height:1.8;">
+        <li>Whether you're in an active tow driver group</li>
+        <li>Whether you have permission from your group admin to share RIN info</li>
+        <li>Explicitly consent to us sending one introductory message</li>
+      </ul>
+      <p style="font-size:12px;color:var(--text3);margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">If you say no — or don't answer — nothing is sent. Your application is not affected in any way.</p>
+    </div>
+  </div>
+</div>
+
+<!-- APPLICATION FORM -->
+<section id="apply" class="section form-section">
+  <div class="slabel">Join the Network</div>
+  <h2 class="stitle" style="margin-bottom:8px;">Apply to drive for RIN.</h2>
+  <p class="ssub">Takes about 2 minutes. A member of our team will follow up within 24 hours.</p>
+
+  <div class="form-wrap">
+    <h2>Driver Application</h2>
+    <p class="sub">All fields marked with * are required. Your information is protected under PIPEDA.</p>
+
+    <div class="form-error" id="formError"></div>
+
+    <div id="formFields">
+
+      <!-- Personal Info -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="f_name" placeholder="Your full name" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label>Mobile Phone *</label>
+          <input type="tel" id="f_phone" placeholder="+1 (416) 555-0100" autocomplete="tel">
+        </div>
+      </div>
+      <div class="form-row full" style="margin-bottom:16px;">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="f_email" placeholder="your@email.com" autocomplete="email">
+        </div>
+      </div>
+
+      <!-- Driver Type -->
+      <div class="radio-group">
+        <div class="radio-label">I am a... *</div>
+        <div class="radio-row">
+          <label class="radio-item" id="rt_co" onclick="selectRadio('driver_type','company',this)">
+            <input type="radio" name="driver_type" value="company"> Company Driver
+          </label>
+          <label class="radio-item" id="rt_ind" onclick="selectRadio('driver_type','independent',this)">
+            <input type="radio" name="driver_type" value="independent"> Independent / Freelance
+          </label>
+          <label class="radio-item" id="rt_own" onclick="selectRadio('driver_type','owner_operator',this)">
+            <input type="radio" name="driver_type" value="owner_operator"> Owner-Operator
+          </label>
+        </div>
+      </div>
+
+      <!-- Company name (shown if company driver) -->
+      <div class="form-row full" id="companyNameRow" style="display:none;margin-bottom:16px;">
+        <div class="form-group">
+          <label>Company Name</label>
+          <input type="text" id="f_company" placeholder="Name of the towing company you work for">
+        </div>
+      </div>
+
+      <!-- Truck types -->
+      <div class="check-group">
+        <div class="check-group-label">Truck Type(s) You Operate *</div>
+        <div class="check-row">
+          <label class="check-item" id="ck_flat" onclick="toggleCheck(this)"><input type="checkbox" name="truck_type" value="flatbed"> Flatbed</label>
+          <label class="check-item" id="ck_whl" onclick="toggleCheck(this)"><input type="checkbox" name="truck_type" value="wheel_lift"> Wheel-Lift</label>
+          <label class="check-item" id="ck_hvy" onclick="toggleCheck(this)"><input type="checkbox" name="truck_type" value="heavy_duty"> Heavy Duty</label>
+          <label class="check-item" id="ck_roto" onclick="toggleCheck(this)"><input type="checkbox" name="truck_type" value="rotator"> Rotator</label>
+          <label class="check-item" id="ck_moto" onclick="toggleCheck(this)"><input type="checkbox" name="truck_type" value="motorcycle"> Motorcycle Carrier</label>
+          <label class="check-item" id="ck_svc" onclick="toggleCheck(this)"><input type="checkbox" name="truck_type" value="service"> Service Truck</label>
+        </div>
+      </div>
+
+      <!-- Service area and experience -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Primary Service Area *</label>
+          <select id="f_area">
+            <option value="">Select your main area</option>
+            <option>Toronto (416)</option>
+            <option>Mississauga / Brampton</option>
+            <option>North York / Scarborough</option>
+            <option>Highway 400 corridor</option>
+            <option>Highway 401 (west of Toronto)</option>
+            <option>Highway 401 (east of Toronto)</option>
+            <option>Highway 407 / 410</option>
+            <option>QEW / Gardiner</option>
+            <option>DVP / Don Valley</option>
+            <option>Hamilton / Burlington</option>
+            <option>Oshawa / Durham Region</option>
+            <option>Other Ontario region</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Years of Tow Driving Experience *</label>
+          <select id="f_exp">
+            <option value="">Select</option>
+            <option>Less than 1 year</option>
+            <option>1–3 years</option>
+            <option>3–5 years</option>
+            <option>5–10 years</option>
+            <option>10+ years</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>MTO Certification / Licence</label>
+          <select id="f_mto">
+            <option value="">Select (optional)</option>
+            <option>MTO Towing Certificate — Yes</option>
+            <option>MTO Towing Certificate — In Progress</option>
+            <option>No MTO certification</option>
+            <option>Not sure / Will confirm</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Available Shifts</label>
+          <select id="f_shifts">
+            <option value="">Select</option>
+            <option>Days (6am–6pm)</option>
+            <option>Nights (6pm–6am)</option>
+            <option>Flexible / Both</option>
+            <option>Weekends only</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- WhatsApp Section -->
+      <div class="wa-form-section">
+        <h4>💬 WhatsApp Group (Optional)</h4>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label>Are you currently in an active tow driver WhatsApp group?</label>
+          <select id="f_wa_group" onchange="toggleWaFields()">
+            <option value="">Select</option>
+            <option value="yes">Yes, I'm in an active group</option>
+            <option value="no">No, I'm not in one</option>
+            <option value="multiple">Yes, I'm in multiple groups</option>
+          </select>
+        </div>
+        <div class="wa-yes-fields" id="waYesFields">
+          <div class="form-group" style="margin-bottom:14px;">
+            <label>Approximately how many members are in the group?</label>
+            <select id="f_wa_size">
+              <option value="">Select (optional)</option>
+              <option>Under 20 members</option>
+              <option>20–50 members</option>
+              <option>50–100 members</option>
+              <option>100+ members</option>
+            </select>
+          </div>
+          <div style="background:rgba(52,211,153,0.05);border:1px solid rgba(52,211,153,0.2);border-radius:10px;padding:16px;margin-bottom:4px;">
+            <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:12px;"><strong style="color:var(--text);">Permission Request:</strong> May we send one informational message to your WhatsApp group about the RIN driver network? We will only contact the group if you give explicit permission below AND confirm your group admin is aware.</p>
+            <div class="consent-check" style="display:flex;margin-bottom:8px;">
+              <input type="checkbox" id="wa_consent1" name="wa_consent">
+              <label for="wa_consent1">I have permission from my group admin to share third-party driver opportunities in this group.</label>
+            </div>
+            <div class="consent-check" style="display:flex;">
+              <input type="checkbox" id="wa_consent2" name="wa_consent2">
+              <label for="wa_consent2">I expressly consent to RIN sending one introductory message to my group. I understand I can revoke this at any time by contacting RIN at 647-473-1338.</label>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--text3);margin-top:10px;">This consent is recorded and logged per CASL requirements. RIN will send a maximum of one message per group. No automated or repeated messaging will occur without further explicit consent.</p>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="form-row full" style="margin-bottom:20px;">
+        <div class="form-group">
+          <label>Anything else you'd like us to know? (Optional)</label>
+          <textarea id="f_notes" placeholder="Certifications, special equipment, languages spoken, questions about the network..."></textarea>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Legal checks -->
+      <div class="legal-checks">
+        <label class="legal-check">
+          <input type="checkbox" id="chk_tc" required>
+          <span>I have read and agree to the <a onclick="openModal('tcModal')">Terms &amp; Conditions</a> for participation in the RIN driver network. I understand I am agreeing to an independent contractor relationship, not employment. *</span>
+        </label>
+        <label class="legal-check">
+          <input type="checkbox" id="chk_pp" required>
+          <span>I have read and agree to the <a onclick="openModal('ppModal')">Privacy Policy</a>. I consent to RIN collecting, using, and storing my personal information for the purpose of driver network operations, in compliance with PIPEDA. *</span>
+        </label>
+        <label class="legal-check">
+          <input type="checkbox" id="chk_casl">
+          <span>I consent to receiving commercial electronic messages from RIN (SMS and/or email) about job opportunities, network updates, and platform changes. I can unsubscribe at any time. (Optional but recommended)</span>
+        </label>
+      </div>
+
+      <button class="btn-submit" id="submitBtn" onclick="submitApplication()">Submit Application →</button>
+      <p style="font-size:12px;color:var(--text3);text-align:center;margin-top:12px;">By submitting, you confirm all information is accurate. A member of our team will reach out within 24 hours to verify your details and complete your driver profile.</p>
+
+    </div><!-- end formFields -->
+
+    <div class="form-success" id="formSuccess">
+      <div class="success-icon">🚛</div>
+      <h3>Application received — we'll be in touch.</h3>
+      <p>Thank you for applying to the RIN driver network. A member of our team will call or text you at the number you provided within 24 hours to complete your driver profile and discuss next steps.</p>
+      <p style="margin-top:16px;">Questions in the meantime? Call or text <strong style="color:var(--purple);">647-473-1338</strong> or email <strong style="color:var(--purple);">rin-network@outlook.com</strong>.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo" style="margin-bottom:10px;">
+          <div class="logo-dot"></div>
+          RIN
+        </div>
+        <p>Roadside Intelligence Network — connecting Ontario's tow drivers with consistent, fairly priced dispatch.</p>
+      </div>
+      <div class="footer-contact">
+        <p><strong>Driver Inquiries</strong></p>
+        <p>Call or text: <strong>647-473-1338</strong></p>
+        <p>Email: <strong>rin-network@outlook.com</strong></p>
+        <p>Coverage area: All of Ontario</p>
+        <p style="margin-top:8px;font-size:12px;">Not hiring. Independent contractor network only.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Roadside Intelligence Network. Ontario, Canada. All rights reserved.</p>
+      <div class="footer-links">
+        <a onclick="openModal('tcModal')">Terms &amp; Conditions</a>
+        <a onclick="openModal('ppModal')">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── TERMS & CONDITIONS MODAL ── -->
+<div class="modal-bg" id="tcModal">
+  <div class="modal">
+    <h2>Terms &amp; Conditions</h2>
+    <p class="modal-date">Effective Date: May 1, 2026 | Jurisdiction: Ontario, Canada</p>
+
+    <h3>1. Independent Contractor Relationship</h3>
+    <p>Participation in the Roadside Intelligence Network ("RIN") driver network does not create an employment relationship. Drivers are independent contractors. RIN does not control your hours, routes, methods of work, or equipment. You are responsible for your own taxes, WSIB coverage (if applicable), and business licensing.</p>
+
+    <h3>2. Platform Fee and Payout</h3>
+    <p>RIN charges a platform fee of 10% on each completed job. Drivers receive 90% of the customer-confirmed job total. The payout amount is confirmed to the driver before job acceptance. No additional fees, deductions, or chargebacks are applied after the driver accepts a job, except in cases of driver-initiated cancellation on scene.</p>
+
+    <h3>3. Payment Terms</h3>
+    <p>Payments are processed within 24 hours of job completion and customer confirmation. Payment is made to the account or method on file in your driver profile. RIN is not liable for delays caused by incorrect banking information provided by the driver.</p>
+
+    <h3>4. Job Acceptance and Refusal</h3>
+    <p>You are under no obligation to accept any dispatched job. Accepting a job creates a binding commitment to complete the service unless a valid reason prevents completion. If you cannot complete an accepted job, you must notify RIN dispatch immediately. Repeated no-shows or late cancellations may result in suspension from the network.</p>
+
+    <h3>5. Driver-Cancelled Jobs</h3>
+    <p>If you cancel after arriving on scene, no compensation is paid. The customer will be notified and reassigned. RIN reserves the right to investigate repeated cancellations and suspend drivers who misuse this provision.</p>
+
+    <h3>6. Price Amendments</h3>
+    <p>If additional work is required on scene, you may request a price amendment through the RIN dispatch system. The amended price is subject to customer approval before work continues. You must wait for customer approval before proceeding with any work that differs from the original quoted scope.</p>
+
+    <h3>7. Equipment and Licensing</h3>
+    <p>You represent and warrant that you hold all required licences, certifications, and insurance to operate your vehicle and perform towing services in Ontario, including any applicable MTO/TSSEA requirements. RIN may request proof of certification at any time.</p>
+
+    <h3>8. TSSEA Compliance</h3>
+    <p>All jobs dispatched through RIN are conducted in accordance with Ontario's Towing and Storage Safety and Enforcement Act (TSSEA). Drivers are responsible for their own compliance with TSSEA operational requirements.</p>
+
+    <h3>9. WhatsApp and Electronic Communications</h3>
+    <p>By participating in the network, you agree to receive job dispatch notifications via SMS. WhatsApp communications are subject to separate, explicit consent as collected in your application. You may withdraw consent to any communication channel by contacting RIN at 647-473-1338.</p>
+
+    <h3>10. Network Suspension and Termination</h3>
+    <p>RIN reserves the right to suspend or remove any driver from the network for cause, including but not limited to: repeated cancellations, customer complaints, licence violations, TSSEA non-compliance, or misrepresentation of qualifications. Notice will be provided where reasonably possible.</p>
+
+    <h3>11. Limitation of Liability</h3>
+    <p>RIN is a dispatch platform and is not liable for accidents, property damage, personal injury, or losses arising from a driver's performance of towing services. Each driver maintains their own commercial auto insurance and general liability coverage.</p>
+
+    <h3>12. Governing Law</h3>
+    <p>These Terms are governed by the laws of the Province of Ontario and the federal laws of Canada applicable therein. Any disputes shall be resolved in the courts of Ontario.</p>
+
+    <h3>13. Amendments</h3>
+    <p>RIN may update these Terms from time to time. Continued participation in the network following notification of changes constitutes acceptance of the updated Terms.</p>
+
+    <span class="modal-close" onclick="closeModal('tcModal')">✕ Close</span>
+  </div>
+</div>
+
+<!-- ── PRIVACY POLICY MODAL ── -->
+<div class="modal-bg" id="ppModal">
+  <div class="modal">
+    <h2>Privacy Policy</h2>
+    <p class="modal-date">Effective Date: May 1, 2026 | Compliant with PIPEDA and CASL | Ontario, Canada</p>
+
+    <h3>1. Who We Are</h3>
+    <p>Roadside Intelligence Network ("RIN") operates a technology-enabled tow dispatch platform in Ontario, Canada. This Privacy Policy applies to information collected through the RIN driver application process, driver profile management, and dispatch operations.</p>
+
+    <h3>2. Information We Collect</h3>
+    <p>We collect the following categories of personal information:</p>
+    <ul>
+      <li><strong>Identity information:</strong> Full name, phone number, email address</li>
+      <li><strong>Professional information:</strong> Driver type, truck types, service area, years of experience, MTO certification status</li>
+      <li><strong>Operational data:</strong> Job acceptance/decline history, payout records, GPS data during active jobs (with your knowledge)</li>
+      <li><strong>Communication consent records:</strong> CASL consent timestamps, WhatsApp group consent records (if provided)</li>
+      <li><strong>Technical data:</strong> Device type, browser, page referrer (standard web analytics)</li>
+    </ul>
+
+    <h3>3. How We Use Your Information</h3>
+    <p>Your information is used for the following purposes:</p>
+    <ul>
+      <li>Processing your driver application and onboarding</li>
+      <li>Dispatching job opportunities to your phone</li>
+      <li>Processing payments and maintaining payment records</li>
+      <li>Communicating network updates, rate changes, and operational notices</li>
+      <li>Complying with MTO/TSSEA regulatory requirements</li>
+      <li>Improving dispatch accuracy and platform performance</li>
+    </ul>
+
+    <h3>4. WhatsApp Group Communications</h3>
+    <p>If you consented during application to allow RIN to share information with a WhatsApp group you are a member of, the following applies:</p>
+    <ul>
+      <li>Your consent is specific, time-stamped, and recorded in our system</li>
+      <li>A maximum of one introductory message will be sent to the group</li>
+      <li>No automated or repeated messages will be sent without renewed explicit consent</li>
+      <li>You may revoke this consent at any time by contacting us at 647-473-1338</li>
+      <li>RIN complies fully with Canada's Anti-Spam Legislation (CASL) for all electronic communications</li>
+    </ul>
+
+    <h3>5. SMS and Email Communications (CASL)</h3>
+    <p>If you provided express consent to commercial electronic messages, RIN may send SMS or email communications about job opportunities, platform updates, and network changes. Each message includes an unsubscribe mechanism. To withdraw consent, reply STOP to any SMS or contact us at 647-473-1338.</p>
+
+    <h3>6. Data Sharing</h3>
+    <p>We do not sell your personal information. We share your information only with:</p>
+    <ul>
+      <li>Technology service providers necessary to operate our platform (Supabase, Twilio) under data processing agreements</li>
+      <li>Customers: only your first name and ETA are shared during an active dispatch — never your contact information</li>
+      <li>Regulatory bodies when required by law (MTO, TSSEA enforcement)</li>
+    </ul>
+
+    <h3>7. Data Retention</h3>
+    <p>Driver application records are retained for a minimum of 7 years for regulatory compliance purposes. Active driver profiles are retained for the duration of the driver's participation in the network plus 2 years. You may request deletion of non-regulatory data at any time.</p>
+
+    <h3>8. Your Rights Under PIPEDA</h3>
+    <p>You have the right to:</p>
+    <ul>
+      <li>Access the personal information we hold about you</li>
+      <li>Correct inaccurate information</li>
+      <li>Withdraw consent to non-essential uses</li>
+      <li>Request deletion of personal data (subject to legal retention requirements)</li>
+      <li>Lodge a complaint with the Office of the Privacy Commissioner of Canada</li>
+    </ul>
+
+    <h3>9. Security</h3>
+    <p>Your personal information is stored in encrypted databases hosted in Canada. Access is restricted to authorized RIN personnel only. We apply industry-standard security practices including role-based access control and audit logging.</p>
+
+    <h3>10. Contact</h3>
+    <p>For any privacy inquiries, access requests, or consent withdrawals, contact RIN at 647-473-1338. We respond to all privacy requests within 30 days.</p>
+
+    <span class="modal-close" onclick="closeModal('ppModal')">✕ Close</span>
+  </div>
+</div>
+
+<script>
+  const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MDc2MjYsImV4cCI6MjA1OTI4MzYyNn0.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
+
+  function selectRadio(name, value, el) {
+    document.querySelectorAll(`.radio-item`).forEach(r => r.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('companyNameRow').style.display = (value === 'company') ? 'grid' : 'none';
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+  }
+
+  function toggleWaFields() {
+    const val = document.getElementById('f_wa_group').value;
+    const fields = document.getElementById('waYesFields');
+    fields.classList.toggle('show', val === 'yes' || val === 'multiple');
+  }
+
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.modal-bg').forEach(m => {
+    m.addEventListener('click', function(e) {
+      if (e.target === this) closeModal(this.id);
+    });
+  });
+
+  async function submitApplication() {
+    const btn = document.getElementById('submitBtn');
+    const errEl = document.getElementById('formError');
+    errEl.classList.remove('show');
+
+    const name  = document.getElementById('f_name').value.trim();
+    const phone = document.getElementById('f_phone').value.trim();
+    const email = document.getElementById('f_email').value.trim();
+    const area  = document.getElementById('f_area').value;
+    const exp   = document.getElementById('f_exp').value;
+
+    const driverType = document.querySelector('input[name="driver_type"]:checked')?.value || '';
+    const trucks = [...document.querySelectorAll('input[name="truck_type"]:checked')].map(c => c.value);
+
+    if (!name)         { showError('Please enter your full name.'); return; }
+    if (!phone)        { showError('Please enter your mobile phone number.'); return; }
+    if (!driverType)   { showError('Please select your driver type.'); return; }
+    if (!trucks.length){ showError('Please select at least one truck type you operate.'); return; }
+    if (!area)         { showError('Please select your primary service area.'); return; }
+    if (!exp)          { showError('Please select your years of experience.'); return; }
+    if (!document.getElementById('chk_tc').checked)  { showError('Please agree to the Terms & Conditions to continue.'); return; }
+    if (!document.getElementById('chk_pp').checked)  { showError('Please agree to the Privacy Policy to continue.'); return; }
+
+    const waGroup    = document.getElementById('f_wa_group').value;
+    const waSize     = document.getElementById('f_wa_size')?.value || '';
+    const waConsent  = document.getElementById('wa_consent1').checked && document.getElementById('wa_consent2').checked;
+    const caslConsent = document.getElementById('chk_casl').checked;
+
+    const message = [
+      `Driver Type: ${driverType}`,
+      driverType === 'company' ? `Company: ${document.getElementById('f_company').value.trim() || 'Not provided'}` : null,
+      `Trucks: ${trucks.join(', ')}`,
+      `Experience: ${exp}`,
+      `Service Area: ${area}`,
+      `Shifts: ${document.getElementById('f_shifts').value || 'Not specified'}`,
+      `MTO: ${document.getElementById('f_mto').value || 'Not provided'}`,
+      `WhatsApp Group: ${waGroup || 'Not answered'}`,
+      waGroup === 'yes' || waGroup === 'multiple' ? `WA Group Size: ${waSize || 'Not provided'}` : null,
+      waGroup === 'yes' || waGroup === 'multiple' ? `WA Consent Given: ${waConsent ? 'YES' : 'NO'}` : null,
+      `CASL Consent: ${caslConsent ? 'YES' : 'NO'}`,
+      `Notes: ${document.getElementById('f_notes').value.trim() || 'None'}`,
+    ].filter(Boolean).join(' | ');
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    try {
+      const res = await fetch(`${SB_URL}/rest/v1/marketing_leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SB_KEY,
+          'Authorization': `Bearer ${SB_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          contact_name:   name,
+          phone:          phone,
+          email:          email || null,
+          inquiry_type:   'driver_applicant',
+          page:           '/driver-apply',
+          referrer:       document.referrer || null,
+          message:        message,
+        })
+      });
+
+      if (!res.ok && res.status !== 201) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+
+      document.getElementById('formFields').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+    } catch(err) {
+      showError('Something went wrong submitting your application. Please call or text 647-473-1338 directly.');
+      btn.disabled = false;
+      btn.textContent = 'Submit Application →';
+    }
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('formError');
+    el.textContent = msg;
+    el.classList.add('show');
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+</body>
+</html>
